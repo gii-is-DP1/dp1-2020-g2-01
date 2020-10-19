@@ -255,8 +255,21 @@
         </license>
     </licenses>
 
-	
-	<developers>
+<developers>
+<developer>
+         <id>alemorgar4</id>
+         <name>Alejandro</name>
+        <email>alemorgar4@alum.us.es</email>
+         <url></url>
+         <roles>
+     <role>leader</role>
+     </roles>
+     <properties>
+     <picUrl>
+    </picUrl>
+ </properties>
+  </developer>
+
  <developer>
  <id>fraborcar</id>
  <name>Francisco</name>
