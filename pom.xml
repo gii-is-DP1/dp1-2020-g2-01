@@ -255,6 +255,19 @@
         </license>
     </licenses>
 
-
+<developers>
+ <developer>
+ <id>serarirud</id>
+ <name>Sergio</name>
+ <email>serarirud@alum.us.es</email>
+ <url></url>
+ <roles>
+ <role>leader</role>
+ </roles>
+ <properties>
+ <picUrl></picUrl>
+ </properties>
+ </developer>
+ </developers>
 
 </project>
