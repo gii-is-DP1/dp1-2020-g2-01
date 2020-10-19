@@ -255,6 +255,22 @@
         </license>
     </licenses>
 
+	
+	<developers>
+ <developer>
+ <id>fraborcar</id>
+ <name>Francisco</name>
+ <email>fraborcar@alum.us.es</email>
+ <url></url>
+ <roles>
+ <role>leader</role>
+ </roles>
+ <properties>
+ <picUrl></picUrl>
+ </properties>
+ </developer>
 
+ <!-- More developers ...-->
+</developers>
 
 </project>
