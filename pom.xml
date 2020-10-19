@@ -255,11 +255,13 @@
         </license>
     </licenses>
 
-<developers>
+
+	
+	<developers>
  <developer>
- <id>serarirud</id>
- <name>Sergio</name>
- <email>serarirud@alum.us.es</email>
+ <id>fraborcar</id>
+ <name>Francisco</name>
+ <email>fraborcar@alum.us.es</email>
  <url></url>
  <roles>
  <role>leader</role>
@@ -268,6 +270,23 @@
  <picUrl></picUrl>
  </properties>
  </developer>
- </developers>
+  
+  <developers>
+ <developer>
+ <id>serarirud</id>
+ <name>Sergio</name>
+ <email>serarirud@alum.us.es</email>
 
+ <url></url>
+ <roles>
+ <role>leader</role>
+ </roles>
+ <properties>
+ <picUrl></picUrl>
+ </properties>
+ </developer>
+  
+  </developers>
+  
+  
 </project>
