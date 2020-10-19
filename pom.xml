@@ -255,9 +255,21 @@
         </license>
     </licenses>
 
+<developers>
+<developer>
+         <id>alemorgar4</id>
+         <name>Alejandro</name>
+        <email>alemorgar4@alum.us.es</email>
+         <url></url>
+         <roles>
+     <role>leader</role>
+     </roles>
+     <properties>
+     <picUrl>
+    </picUrl>
+ </properties>
+  </developer>
 
-	
-	<developers>
  <developer>
  <id>fraborcar</id>
  <name>Francisco</name>
@@ -270,7 +282,6 @@
  <picUrl></picUrl>
  </properties>
  </developer>
-  
 
  <developer>
  <id>serarirud</id>
@@ -285,7 +296,34 @@
  <picUrl></picUrl>
  </properties>
  </developer>
-  
+ 
+ <developer>
+ <id>jesvarzam</id>
+ <name>Jesus</name>
+ <email>jesvarzam@alum.us.es</email>
+ <url></url>
+ <roles>
+ <role>leader</role>
+ </roles>
+ <properties>
+ <picUrl>
+
+</picUrl>
+ </properties>
+ </developer>
+  <developer>
+         <id>antfunmej</id>
+         <name>Antonio</name>
+        <email>antfunmej@alum.us.es</email>
+         <url></url>
+         <roles>
+     <role>leader</role>
+     </roles>
+     <properties>
+     <picUrl>
+    </picUrl>
+ </properties>
+ </developer>
   </developers>
   
   
