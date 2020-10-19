@@ -254,7 +254,20 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
-
-
+<developers>
+<developer>
+         <id>alemorgar4</id>
+         <name>Alejandro</name>
+        <email>alemorgar4@alum.us.es</email>
+         <url></url>
+         <roles>
+     <role>leader</role>
+     </roles>
+     <properties>
+     <picUrl>
+    </picUrl>
+ </properties>
+ </developer>
+ </developers>
 
 </project>
