@@ -255,24 +255,6 @@
         </license>
     </licenses>
 
-<developers>
- <developer>
- <id>jesvarzam</id>
- <name>Jesus</name>
- <email>jesvarzam@alum.us.es</email>
- <url></url>
- <roles>
- <role>leader</role>
- </roles>
- <properties>
- <picUrl>
-
-</picUrl>
- </properties>
- </developer>
- <!-- More developers ...-->
-</developers>
-
 	
 	<developers>
  <developer>
