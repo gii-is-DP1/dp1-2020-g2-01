@@ -31,22 +31,7 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-    <developers>
- 		<developer>
- 		<id>antfunmej</id>
- 		<name>Antonio</name>
-		<email>antfunmej@alum.us.es</email>
- 		<url></url>
- 		<roles>
- 	<role>leader</role>
- 	</roles>
- 	<properties>
-	 <picUrl>
-	</picUrl>
- </properties>
- </developer>
- <!-- More developers ...-->
-</developers>
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
@@ -269,10 +254,8 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
-    
 
-
-<developers>
+ <developers>
 <developer>
          <id>alemorgar4</id>
          <name>Alejandro</name>
@@ -285,7 +268,7 @@
      <picUrl>
     </picUrl>
  </properties>
-  </developer>
+</developer>
 
 
  <developer>
