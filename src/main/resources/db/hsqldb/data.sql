@@ -21,6 +21,10 @@ INSERT INTO authorities(id,username,authority) VALUES (6,'alemorgar4','owner');
 INSERT INTO users(username,password,enabled) VALUES ('antfunmej','prueba',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (7,'antfunmej','owner');
 
+INSERT INTO users(username,password,enabled) VALUES ('jesvarzam','prueba',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (8,'jesvarzam','owner');
+
+
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
 INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
@@ -60,6 +64,7 @@ INSERT INTO owners VALUES (11, 'Francisco', 'Borrego', '2335 Independence La.', 
 INSERT INTO owners VALUES (12, 'Sergio', 'Arias Ruda', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
 INSERT INTO owners VALUES (13, 'Alejandro', 'Morales', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
 INSERT INTO owners VALUES (14, 'Antonio', 'Funes', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
+INSERT INTO owners VALUES (15, 'Jesus', 'Vargas', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
@@ -79,6 +84,8 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Matias', '201
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (15, 'Mathew', '2012-07-08', 1, 12);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (16, 'Hallo', '2012-07-08', 1, 13);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (17, 'Guapo', '2012-06-08', 1, 14);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (18, 'EteSech', '2012-06-08', 1, 15);
+
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
