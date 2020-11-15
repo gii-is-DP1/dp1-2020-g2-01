@@ -26,7 +26,7 @@ class VehiculoServiceTest {
 		try {
 			this.vehiculoService.saveVehiculo(v);
 		}catch (Exception e) {
-			fail("No se ha creado el vehículo");
+			fail("No se ha creado el vehículo " + e.getMessage());
 		}
 	}
 
