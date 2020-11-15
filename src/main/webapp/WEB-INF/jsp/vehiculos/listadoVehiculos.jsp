@@ -26,7 +26,7 @@
                 
             
                 <td>
-                    <c:out value="${vehiculos.modelo}"/>
+                    <c:out value="${vehiculos.matricula}"/>
                 </td>
                 
                 <td>
@@ -34,7 +34,7 @@
                 </td>
                 
                 <td>
-                   <c:out value="${vehiculos.matricula}"/>
+                   <c:out value="${vehiculos.modelo}"/>
                 </td>
                 
                 <td>
