@@ -15,6 +15,9 @@
             <th>Matrícula</th>
             <th>Número de bastidor</th>
             <th>Modelo</th>
+            <th></th>
+            <th></th>
+            
         </tr>
         </thead>
         <tbody>
