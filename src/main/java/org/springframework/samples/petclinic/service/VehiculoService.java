@@ -41,6 +41,10 @@ public class VehiculoService {
 		vehiculoRepository.delete(vehiculo);
 	}
 	
-	
+	@Transactional(readOnly = true)
+	public Vehiculo findVehiculoByMatricula(String matricula) throws DataAccessException {
+		Vehiculo v = vehiculoRepository.findVehiculoMatricula(matricula);
+		return v;
+	}
 	
 }

@@ -1,6 +1,9 @@
 package org.springframework.samples.petclinic.service;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +25,19 @@ class VehiculoServiceTest {
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
 		v.setNumBastidor("1");
+		vehiculoService.saveVehiculo(v);
 		
-		try {
-			this.vehiculoService.saveVehiculo(v);
-		}catch (Exception e) {
-			fail("No se ha creado el vehículo " + e.getMessage());
-		}
+		assertEquals(v, vehiculoService.findVehiculoByMatricula("1111AAA"));
 	}
 
+	@Test
+	void shouldInsertVehiculoInvalido() {
+		Vehiculo v = new Vehiculo();
+		
+		v.setMatricula("");
+		v.setModelo("Seat Ibiza");
+		v.setNumBastidor("1");
+		
+		assertThrows(ConstraintViolationException.class, () -> this.vehiculoService.saveVehiculo(v));
+	}
 }
