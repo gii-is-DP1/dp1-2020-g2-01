@@ -93,3 +93,4 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo) VALUES (100, '1234-ABC', 'bastidordeprueba', 'Ford Kuga');
+INSERT INTO clientes(id, dni, nombre, apellidos, fechaNacimiento, telefono, username) VALUES (100, '77226618J', 'Nombredeprueba', 'Apellidos de prueba', '2012-06-08', '936184615', 'antfunmej');
