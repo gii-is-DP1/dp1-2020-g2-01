@@ -96,3 +96,5 @@ INSERT INTO vehiculos(id, matricula, num_bastidor, modelo) VALUES (100, '1234-AB
 
 INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersindo', '12345678A', '665112233', 'gumersindo@gmail.com');
 
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo) VALUES (100, '1234-ABC', 'bastidordeprueba', 'Ford Kuga');
+INSERT INTO clientes(id, dni, nombre, apellidos, fechaNacimiento, telefono, username) VALUES (100, '77226618J', 'Nombredeprueba', 'Apellidos de prueba', '2012-06-08', '936184615', 'antfunmej');
