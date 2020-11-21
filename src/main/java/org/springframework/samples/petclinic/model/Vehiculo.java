@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -38,7 +39,7 @@ public class Vehiculo extends BaseEntity {
 	private TipoVehiculo tipoVehiculo;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "vehiculo", fetch = FetchType.LAZY)
-	private Set<Cita> citas;
+	private List<Cita> citas;
 
 	
 	
