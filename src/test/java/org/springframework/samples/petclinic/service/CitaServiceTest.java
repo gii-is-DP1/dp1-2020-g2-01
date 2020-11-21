@@ -3,9 +3,7 @@ package org.springframework.samples.petclinic.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Date;
 
 import javax.validation.ConstraintViolationException;
 
