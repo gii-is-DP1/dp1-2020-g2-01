@@ -16,7 +16,9 @@
 
         <form:form action="/citas/save" modelAttribute="cita" class="form-horizontal">
             <div class="form-group has-feedback">
-            <!-- A la hora de añadir la cita al vehículo se pondrán aquí los datos -->
+            <!-- A la hora de añadir la cita al vehículo se pondrán aquí los datos del vehiculo (un desplegable) -->
+            
+            	<petclinic:inputField label="vehiculo" name="vehiculo.id"/>
                 <petclinic:inputField label="fecha" name="fecha"/> 
                	<petclinic:inputField label="hora" name="hora"/>
             </div>

@@ -28,7 +28,7 @@
                 
             
                 <td>
-                    <c:out value="${citas.vehiculo.id}"/>
+                    <c:out value="${citas.vehiculo.modelo}"/>
                 </td>
                 
                 <td>
