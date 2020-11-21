@@ -2,20 +2,19 @@ package org.springframework.samples.petclinic.model;
 
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -32,13 +31,14 @@ public class Cita extends BaseEntity{
 //	@JoinColumn(name ="empleados")
 //	private List<Empleado> empleados;
 	
-	@ManyToOne(optional=false, cascade = CascadeType.ALL)
+	@ManyToOne(/*optional=false, */cascade = CascadeType.ALL) // Lo he comentado para que no dé error en la vista a la hora de añadirlo
 	@JoinColumn(name = "vehiculo_id")
 	private Vehiculo vehiculo;
 	
 	@NotNull
 	@Future
 	@JoinColumn(name = "fecha")
+	@DateTimeFormat(pattern = "dd/MM/yyyy") // Hace falta
 	private LocalDate fecha;
 	
 	@NotNull
@@ -47,6 +47,5 @@ public class Cita extends BaseEntity{
 	private Integer hora;
 	
 	@JoinColumn(name="tipo")
-	@NotNull
 	private TipoCita tipoCita;
 }

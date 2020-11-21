@@ -15,38 +15,33 @@
             <th>Vehículo_id</th>
             <th>Fecha</th>
             <th>Hora</th>
-            <th>Tipo</th>
             <th></th>
             
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${cita}" var="citas">
+        <c:forEach items="${citas}" var="citas">
             <tr>
                <td>
-                    <c:out value="${cita.id}"/>
+                    <c:out value="${citas.id}"/>
                 </td>
                 
             
                 <td>
-                    <c:out value="${cita.vehiculo}"/>
+                    <c:out value="${citas.vehiculo.id}"/>
                 </td>
                 
                 <td>
-                   <c:out value="${cita.fecha}"/>
+                   <c:out value="${citas.fecha}"/>
                 </td>
                 
                 <td>
-                   <c:out value="${cita.hora}"/>
-                </td>
-                
-                <td>
-                   <c:out value="${cita.tipoCita}"/>
+                   <c:out value="${citas.hora}"/>
                 </td>
                 
                 <td>
                 	<spring:url value="/citas/delete/{citaId}" var="citaUrl">
-                        <spring:param name="citaId" value="${cita.id}"/>
+                        <spring:param name="citaId" value="${citas.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(citaUrl)}">Delete</a>
                 
@@ -55,7 +50,7 @@
                 
                  <td>
                 	<spring:url value="/citas/update/{citaId}" var="citaUrl">
-                        <spring:param name="citaId" value="${cita.id}"/>
+                        <spring:param name="citaId" value="${citas.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(citaUrl)}">Update</a>
                 

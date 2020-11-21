@@ -14,12 +14,11 @@
 
         
 
-        <form:form action="/cita/save" modelAttribute="cita" class="form-horizontal">
+        <form:form action="/citas/save" modelAttribute="cita" class="form-horizontal">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="vehiculo" name="vehiculo"/>
+            <!-- A la hora de añadir la cita al vehículo se pondrán aquí los datos -->
                 <petclinic:inputField label="fecha" name="fecha"/> 
                	<petclinic:inputField label="hora" name="hora"/>
-               	<petclinic:inputField label="tipoCita" name="tipoCita"/>
             </div>
 
             <div class="form-group">
