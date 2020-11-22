@@ -2,13 +2,11 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.UserService;
@@ -17,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,13 +76,17 @@ public class ClienteController {
 		return "clientes/findClientes";
 	}
 	
-	//Fallos, hay que corregir
-	@GetMapping(value="/")
+	@PostMapping(value="")
 	public String processFindForm(Cliente cliente, BindingResult result, Map<String, Object> model) {
 
+		if(result.hasErrors()) {
+			System.out.println("Hola Sergio");
+			return "/clientes/listadoClientes";
+		}
+		
 		// allow parameterless GET request for /clientes to return all records
-		if (cliente.getApellidos() == null) {
-			cliente.setApellidos(""); // empty string signifies broadest possible search
+		if (cliente.getApellidos() == null||cliente.getApellidos()=="") {
+			model.put("clientes", clienteService.findAll());
 			return "clientes/listadoClientes";
 		}
 
@@ -91,13 +94,13 @@ public class ClienteController {
 		Collection<Cliente> results = this.clienteService.findClientesByApellidos(cliente.getApellidos());
 		if (results.isEmpty()) {
 			// no clientes found
-			result.rejectValue("apellidos", "notFound", "not found");
+//			result.rejectValue("apellidos", "notFound", "not found");
 			return "clientes/findClientes";
 		}
 		
 		else {
 			// multiple clientes found
-			model.put("selections", results);
+			model.put("clientes", results);
 			return "clientes/listadoClientes";
 		}
 	}

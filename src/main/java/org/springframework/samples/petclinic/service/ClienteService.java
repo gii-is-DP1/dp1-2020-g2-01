@@ -52,7 +52,7 @@ public class ClienteService {
 
 	@Transactional(readOnly = true)
 	public Cliente findClienteById(int id) throws DataAccessException {
-		return clienteRepository.findById(id);
+		return clienteRepository.findById(id).get();
 	}
 
 }

@@ -15,9 +15,6 @@ public interface ClienteRepository extends CrudRepository<Cliente, Integer>{
 	
 	Iterable<Cliente> findAll() throws DataAccessException;
 	
-	@Query(value="SELECT * FROM clientes WHERE cliente.apellidos LIKE :apellidos", nativeQuery=true)
+	@Query("SELECT cliente FROM Cliente cliente WHERE cliente.apellidos LIKE '%'+:apellidos+'%'")
 	Collection<Cliente> findByApellidos (@Param("apellidos") String apellidos);
-	
-	@Query("SELECT cliente FROM Cliente cliente left join fetch cliente.vehiculos WHERE cliente.id =:id")
-	public Cliente findById(@Param("id") int id) ;
 }

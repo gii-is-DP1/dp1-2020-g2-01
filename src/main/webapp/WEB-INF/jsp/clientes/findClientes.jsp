@@ -13,7 +13,7 @@
     <h2>Buscar Clientes</h2>
 
     
-    <form:form modelAttribute="cliente" action="/clientes" method="get" class="form-horizontal"
+    <form:form modelAttribute="cliente" action="/clientes" class="form-horizontal"
                id="search-cliente-form">
         <div class="form-group">
             <div class="control-group" id="apellidos">

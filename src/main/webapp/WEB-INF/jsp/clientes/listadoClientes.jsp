@@ -26,7 +26,6 @@
                <td>
                     <c:out value="${clientes.nombre}"/>
                 </td>
-                
             
                 <td>
                     <c:out value="${clientes.apellidos}"/>
