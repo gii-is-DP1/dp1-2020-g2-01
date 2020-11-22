@@ -1,7 +1,11 @@
 package org.springframework.samples.petclinic.model;
 
-public enum TipoVehiculo {
-	
-	COCHE, MOTO, BARCO
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tipovehiculo")
+public class TipoVehiculo extends NamedEntity {
+
 
 }
