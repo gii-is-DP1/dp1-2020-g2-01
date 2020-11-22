@@ -5,55 +5,54 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="vehiculos">
-    <h2>Vehículos</h2>
+<petclinic:layout pageName="citas">
+    <h2>Citas</h2>
     
-    <table id="vehiculosTable" class="table table-striped">
+    <table id="citasTable" class="table table-striped">
         <thead>
         <tr>
         	<th>Id</th>
-            <th>Matrícula</th>
-            <th>Número de bastidor</th>
-            <th>Modelo</th>
-            <th></th>
+            <th>Vehículo_id</th>
+            <th>Fecha</th>
+            <th>Hora</th>
             <th></th>
             
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${vehiculos}" var="vehiculos">
+        <c:forEach items="${citas}" var="citas">
             <tr>
                <td>
-                    <c:out value="${vehiculos.id}"/>
+                    <c:out value="${citas.id}"/>
                 </td>
                 
             
                 <td>
-                    <c:out value="${vehiculos.matricula}"/>
+                    <c:out value="${citas.vehiculo.modelo}"/>
                 </td>
                 
                 <td>
-                   <c:out value="${vehiculos.numBastidor}"/>
+                   <c:out value="${citas.fecha}"/>
                 </td>
                 
                 <td>
-                   <c:out value="${vehiculos.modelo}"/>
+                   <c:out value="${citas.hora}"/>
                 </td>
                 
                 <td>
-                	<spring:url value="/vehiculos/delete/{vehiculoId}" var="vehiculoUrl">
-                        <spring:param name="vehiculoId" value="${vehiculos.id}"/>
+                	<spring:url value="/citas/delete/{citaId}" var="citaUrl">
+                        <spring:param name="citaId" value="${citas.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(vehiculoUrl)}">Delete</a>
+                    <a href="${fn:escapeXml(citaUrl)}">Delete</a>
                 
                 </td>
                 
                 
                  <td>
-                	<spring:url value="/vehiculos/update/{vehiculoId}" var="vehiculoUrl">
-                        <spring:param name="vehiculoId" value="${vehiculos.id}"/>
+                	<spring:url value="/citas/update/{citaId}" var="citaUrl">
+                        <spring:param name="citaId" value="${citas.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(vehiculoUrl)}">Update</a>
+                    <a href="${fn:escapeXml(citaUrl)}">Update</a>
                 
                 </td>
                 
