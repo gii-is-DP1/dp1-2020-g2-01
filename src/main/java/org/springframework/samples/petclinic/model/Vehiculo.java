@@ -39,6 +39,8 @@ public class Vehiculo extends BaseEntity {
 	@NotEmpty
 	private String modelo;
 	
+	@ManyToOne
+	@JoinColumn(name="tipo_vehiculo_id")
 	private TipoVehiculo tipoVehiculo;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "vehiculo", fetch = FetchType.LAZY)

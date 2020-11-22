@@ -19,6 +19,7 @@
                 <petclinic:inputField label="matricula" name="matricula"/>
                 <petclinic:inputField label="modelo" name="modelo"/> 
                	<petclinic:inputField label="numero de bastidor" name="numBastidor"/>
+               	<petclinic:selectField name="tipoVehiculo" label="tipo de vehículo" names="${types}" size="5"/>
             </div>
 
             <div class="form-group">
