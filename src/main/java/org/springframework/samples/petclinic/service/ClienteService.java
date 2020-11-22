@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -52,7 +51,7 @@ public class ClienteService {
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<Cliente> findClienteById(int id) throws DataAccessException {
+	public Cliente findClienteById(int id) throws DataAccessException {
 		return clienteRepository.findById(id);
 	}
 
