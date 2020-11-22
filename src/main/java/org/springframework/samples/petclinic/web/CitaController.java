@@ -35,12 +35,13 @@ public class CitaController {
 	@GetMapping(value = "/new")
 	public String crearCita(ModelMap model) {
 		String vista = "citas/editCita";
+		model.addAttribute("vehiculos", vehiculoService.findAll());
 		model.addAttribute("cita", new Cita());
 		return vista;
 	}
 	
 	@PostMapping(value="/save")
-	public String guardarCita(@Valid Cita cita, BindingResult result, ModelMap model) {
+	public String guardarCita(Cita cita, BindingResult result, ModelMap model) {
 		String vista;
 		if(result.hasErrors()) {
 			model.addAttribute("cita", cita);
