@@ -92,6 +92,10 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo) VALUES (100, '1234-ABC', 'bastidordeprueba', 'Ford Kuga');
+
+--INSERT INTO clientes VALUES (1, 'Vargas Ruda', '12345678L', '2019-03-18', 'Francisco José','647194727', 'serarirud');
+--INSERT INTO vehiculos(id, matricula, num_bastidor, modelo) VALUES (100, '1234-ABC', 'bastidordeprueba', 'Ford Kuga');
+
+
 
 INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersindo', '12345678A', '665112233', 'gumersindo@gmail.com');

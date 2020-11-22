@@ -4,7 +4,10 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,14 +26,15 @@ public class Persona extends BaseEntity{
 	@NotEmpty
 	protected String apellidos;
 	
+	@Past
 	@Column(name="fechaNacimiento")
-	@NotEmpty
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	protected LocalDate fechaNacimiento;
 	
 	@Column(name="telefono")
 	@NotEmpty
-	protected Integer telefono;
+	@Digits(fraction = 0, integer = 10)
+	private String telefono;
 
 	public String getDni() {
 		return dni;
@@ -64,11 +68,11 @@ public class Persona extends BaseEntity{
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public Integer getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
-	public void setTelefono(Integer telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 	

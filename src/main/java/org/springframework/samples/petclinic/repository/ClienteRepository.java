@@ -16,10 +16,10 @@ public interface ClienteRepository extends CrudRepository<Cliente, Integer>{
 	Iterable<Cliente> findAll() throws DataAccessException;
 	
 	//BUSCAR CÓDIGO CORRECTO SQL
-	@Query("SELECT DISTINCT cliente FROM Cliente cliente WHERE cliente.apellidos LIKE :apellidos")
+	@Query(value="SELECT * FROM clientes WHERE cliente.apellidos LIKE :apellidos", nativeQuery=true)
 	Collection<Cliente> findByApellidos (@Param("apellidos") String apellidos);
 	
 	//BUSCAR CÓDIGO CORRECTO SQL
-	//@Query("SELECT cliente FROM Cliente cliente left join fetch cliente WHERE cliente.id =:id")
-	public Optional<Cliente> findById(@Param("id") int id);
+//	@Query("SELECT DISTINC cliente FROM Cliente cliente WHERE cliente.id =:id")
+//	public Optional<Cliente> findById(@Param("id") int id);
 }

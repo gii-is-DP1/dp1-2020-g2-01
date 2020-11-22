@@ -11,9 +11,9 @@
     <table id="clientesTable" class="table table-striped">
         <thead>
         <tr>
-        	<th>DNI</th>
-            <th>Nombre</th>
+        	<th>Nombre</th>
             <th>Apellidos</th>
+            <th>DNI</th>
             <th>Fecha de Nacimiento</th>
             <th>Teléfono</th>
             <th>Vehículos</th>
@@ -24,29 +24,31 @@
         <c:forEach items="${clientes}" var="clientes">
             <tr>
                <td>
-                    <c:out value="${clientes.dni}"/>
+                    <c:out value="${clientes.nombre}"/>
                 </td>
                 
             
                 <td>
-                    <c:out value="${clientes.nombre}"/>
+                    <c:out value="${clientes.apellidos}"/>
                 </td>
                 
                 <td>
-                   <c:out value="${clientes.apellidos}"/>
+                   <c:out value="${clientes.dni}"/>
                 </td>
                 
                 <td>
-                   <c:out value="${clientes.fecha_nacimiento}"/>
+                   <c:out value="${clientes.fechaNacimiento}"/>
                 </td>
                 <td>
                    <c:out value="${clientes.telefono}"/>
                 </td>
                 <td>
-                   <p>Unir con vehículos</p>
+                    <c:forEach var="vehiculo" items="${clientes.vehiculos}">
+                        <c:out value="${vehiculo.modelo} "/>
+                    </c:forEach>
                 </td>
                 <td>
-                   <c:out value="${clientes.username}"/>
+                   <c:out value="${clientes.user.username}"/>
                 </td>
                 
                 <td>
