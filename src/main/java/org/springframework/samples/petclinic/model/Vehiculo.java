@@ -1,5 +1,8 @@
 package org.springframework.samples.petclinic.model;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +44,9 @@ public class Vehiculo extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "vehiculo", fetch = FetchType.LAZY)
 	private List<Cita> citas;
 
-	
+	@ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 	
 	
 }

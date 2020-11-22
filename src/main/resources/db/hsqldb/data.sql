@@ -93,6 +93,13 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo) VALUES (100, '1234-ABC', 'bastidordeprueba', 'Ford Kuga');
+
+INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, correo, fecha_fin_contrato, 
+					fecha_ini_contrato, num_seg_social, sueldo) VALUES (1, 'Sech', '11111111A', 
+					'2021-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2021-11-16', '11111111111', 700.50);
+
+INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (1, 'Taller Sevilla Customs', 'prueba@gmail.com', 
+					666666666, 'Calle Prueba, número 2');
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo) VALUES (101, '1234-FBC', 'bastidordeprueb', 'Ford Kugo');
 
 INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersindo', '12345678A', '665112233', 'gumersindo@gmail.com');
