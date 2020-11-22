@@ -83,5 +83,18 @@ public class TallerController {
 		}
 		return vista;
 	}
+	
+	@GetMapping(value="show/{tallerId}")
+	public String showTaller(@PathVariable("tallerId") int id, ModelMap model) {
+		String vista = "talleres/showTaller";
+		Optional<Taller> taller = tallerService.findById(id);
+		if(!taller.isPresent()) {
+			model.addAttribute("message", "Taller not found");
+			vista = listadoTalleres(model);
+		} else {
+			model.addAttribute("taller", taller.get());
+		}
+		return vista;
+	}
 
 }

@@ -59,6 +59,14 @@
                 
                 </td>
                 
+                <td>
+                	<spring:url value="/talleres/show/{tallerId}" var="tallerUrl">
+                        <spring:param name="tallerId" value="${taller.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(tallerUrl)}">Show</a>
+                
+                </td>
+                
             </tr>
         </c:forEach>
         </tbody>
