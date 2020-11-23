@@ -20,15 +20,15 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.service.AuthoritiesService;
-import org.springframework.samples.petclinic.service.OwnerService;
-import org.springframework.samples.petclinic.service.VetService;
-import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * @author Juergen Hoeller
@@ -39,13 +39,20 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class UserController {
 
-	private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
+//	private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
+	private static final String VIEWS_CLIENTE_CREATE_FORM = "users/createClienteForm";
 
-	private final OwnerService ownerService;
+//	private final OwnerService ownerService;
+	private final ClienteService clienteService;
 
+//	@Autowired
+//	public UserController(OwnerService clinicService) {
+//		this.ownerService = clinicService;
+//	}
+	
 	@Autowired
-	public UserController(OwnerService clinicService) {
-		this.ownerService = clinicService;
+	public UserController(ClienteService cService) {
+		this.clienteService = cService;
 	}
 
 	@InitBinder
@@ -55,19 +62,24 @@ public class UserController {
 
 	@GetMapping(value = "/users/new")
 	public String initCreationForm(Map<String, Object> model) {
-		Owner owner = new Owner();
-		model.put("owner", owner);
-		return VIEWS_OWNER_CREATE_FORM;
+//		Owner owner = new Owner();
+		Cliente cliente = new Cliente();
+//		model.put("owner", owner);
+		model.put("cliente", cliente);
+		return VIEWS_CLIENTE_CREATE_FORM;
 	}
 
 	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Owner owner, BindingResult result) {
+//	public String processCreationForm(@Valid Owner owner, BindingResult result) {
+	public String processCreationForm(@Valid Cliente cliente, BindingResult result) {
+		
 		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_FORM;
+			return VIEWS_CLIENTE_CREATE_FORM;
 		}
 		else {
 			//creating owner, user, and authority
-			this.ownerService.saveOwner(owner);
+//			this.ownerService.saveOwner(owner);
+			this.clienteService.saveCliente(cliente);
 			return "redirect:/";
 		}
 	}

@@ -4,10 +4,10 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,6 +16,7 @@ public class Persona extends BaseEntity{
 	
 	@Column(name="dni")
 	@NotEmpty
+	@Pattern(regexp = "/^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/i")
 	protected String dni;
 	
 	@Column(name="nombre")
