@@ -6,6 +6,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import lombok.Data;
 
@@ -21,13 +22,16 @@ public class Proveedor extends BaseEntity {
 	@NotNull
 	@NotEmpty
 	@Column(unique=true)
+	@Pattern(regexp="^[0-9]{8,8}[A-Z]$")
 	private String nif;
 	
 	@NotNull
-	private int telefono;
+	@Pattern(regexp="^[0-9]{9,9}$")
+	private String telefono;
 	
 	@Email
 	@NotEmpty
+	@Pattern(regexp="^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
 	private String email;
 	
 	
