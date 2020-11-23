@@ -24,6 +24,11 @@ public class CitaController {
 	@Autowired
 	private VehiculoService vehiculoService;
 	
+	@GetMapping(value="")
+	public String listado(ModelMap model) {
+		return listadoCitas(model);
+	}
+	
 	@GetMapping(value = { "/listadoCitas"})
 	public String listadoCitas(ModelMap model) {
 		String vista = "citas/listadoCitas";
