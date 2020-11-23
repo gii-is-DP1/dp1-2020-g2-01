@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.repository;
 
+import java.util.List;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -10,7 +12,7 @@ public interface VehiculoRepository extends CrudRepository<Vehiculo, Integer>  {
 	
 	Vehiculo save(Vehiculo vehiculo) throws DataAccessException;
 	
-	Iterable<Vehiculo> findAll() throws DataAccessException;
+	List<Vehiculo> findAll() throws DataAccessException;
 
 	@Query("SELECT DISTINCT vehiculo FROM Vehiculo vehiculo WHERE vehiculo.matricula LIKE :matricula")
 	Vehiculo findVehiculoMatricula(@Param("matricula") String matricula) throws DataAccessException;
