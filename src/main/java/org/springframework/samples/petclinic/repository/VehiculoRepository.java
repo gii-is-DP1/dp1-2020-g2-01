@@ -14,7 +14,7 @@ public interface VehiculoRepository extends CrudRepository<Vehiculo, Integer>  {
 	
 	Vehiculo save(Vehiculo vehiculo) throws DataAccessException;
 	
-	Iterable<Vehiculo> findAll() throws DataAccessException;
+	List<Vehiculo> findAll() throws DataAccessException;
 
 	@Query("SELECT DISTINCT vehiculo FROM Vehiculo vehiculo WHERE vehiculo.matricula LIKE :matricula")
 	Vehiculo findVehiculoMatricula(@Param("matricula") String matricula) throws DataAccessException;
