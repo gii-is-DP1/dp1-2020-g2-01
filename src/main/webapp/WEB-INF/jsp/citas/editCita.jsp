@@ -6,7 +6,13 @@
 
 
 <petclinic:layout pageName="vehiculos">
-    
+    <jsp:attribute name="customScript">
+        <script>
+            $(function () {
+                $("#fecha").datepicker({dateFormat: 'dd/mm/yy'});
+            });
+        </script>
+    </jsp:attribute>
     
     
     <jsp:body>
@@ -16,11 +22,11 @@
 
         <form:form action="/citas/save" modelAttribute="cita" class="form-horizontal">
             <div class="form-group has-feedback">
-            <!-- A la hora de añadir la cita al vehículo se pondrán aquí los datos del vehiculo (un desplegable) -->
-            
-            	<petclinic:inputField label="vehiculo" name="vehiculo.id"/>
-                <petclinic:inputField label="fecha" name="fecha"/> 
-               	<petclinic:inputField label="hora" name="hora"/>
+              
+            	<petclinic:selectVehiculo label="Vehículos" name="vehiculo" items="${vehiculos}"/>
+            	
+                <petclinic:inputField label="Fecha" name="fecha"/> 
+               	<petclinic:inputField label="Hora" name="hora"/>
             </div>
 
             <div class="form-group">
