@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -14,8 +15,6 @@ public class ClienteService {
 	
 	private ClienteRepository clienteRepository;	
 	
-	@Autowired
-	private UserService userService;
 	
 	@Autowired
 	private AuthoritiesService authoritiesService;
@@ -45,14 +44,19 @@ public class ClienteService {
 		//creating cliente
 		clienteRepository.save(cliente);		
 		//creating user
-		userService.saveUser(cliente.getUser());
+//		userService.saveUser(cliente.getUser());
 		//creating authorities
-		authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
+		authoritiesService.saveAuthorities(cliente, "cliente");
 	}
 
 	@Transactional(readOnly = true)
 	public Cliente findClienteById(int id) throws DataAccessException {
 		return clienteRepository.findById(id).get();
+	}
+	
+	@Transactional(readOnly = true)
+	public Optional<Cliente> findClientesByUsername(String username) throws DataAccessException {
+		return clienteRepository.findByUsername(username);
 	}
 
 }

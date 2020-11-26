@@ -16,7 +16,8 @@ public class Persona extends BaseEntity{
 	
 	@Column(name="dni")
 	@NotEmpty
-	@Pattern(regexp = "/^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/i")
+	@Pattern(regexp = "^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]", 
+	message = "El DNI debe seguir tener 8 números y una letra. Patrón: 12345678K")
 	protected String dni;
 	
 	@Column(name="nombre")

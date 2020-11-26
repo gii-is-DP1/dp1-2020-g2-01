@@ -47,14 +47,14 @@
                     </c:forEach>
                 </td>
                 <td>
-                   <c:out value="${clientes.user.username}"/>
+                   <c:out value="${clientes.username}"/>
                 </td>
                 
                 <td>
                 	<spring:url value="/clientes/delete/{clienteId}" var="clienteUrl">
                         <spring:param name="clienteId" value="${clientes.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(clienteUrl)}">Delete</a>
+                    <a href="${fn:escapeXml(clienteUrl)}">Borrar</a>
                 
                 </td>
                 
@@ -63,7 +63,7 @@
                 	<spring:url value="/clientes/update/{clienteId}" var="clienteUrl">
                         <spring:param name="clienteId" value="${clientes.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(clienteUrl)}">Update</a>
+                    <a href="${fn:escapeXml(clienteUrl)}">Editar</a>
                 
                 </td>
                 

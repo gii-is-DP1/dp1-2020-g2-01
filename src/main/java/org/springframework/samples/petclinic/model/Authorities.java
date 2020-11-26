@@ -15,7 +15,7 @@ public class Authorities extends BaseEntity{
 	
 	@ManyToOne
 	@JoinColumn(name = "username")
-	User user;
+	Cliente cliente;
 	
 	@Size(min = 3, max = 50)
 	String authority;
