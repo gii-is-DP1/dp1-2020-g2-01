@@ -105,8 +105,8 @@ public class ClienteController {
 	
 	@GetMapping(value = "/update/{clienteId}")
 	public String initUpdateClienteForm(@PathVariable("clienteId") int clienteId, Model model) {
-		Cliente cliente = this.clienteService.findClienteById(clienteId);
-		model.addAttribute(cliente);
+		Cliente cliente = this.clienteService.findClienteById(clienteId).get();
+		model.addAttribute("cliente", cliente);
 		return FORMULARIO_ADD_UPDATE_CLIENTES;
 	}
 
@@ -125,7 +125,7 @@ public class ClienteController {
 	
 	@GetMapping(value = "/delete/{clienteId}")
 	public String deleteCliente(@PathVariable("clienteId") int id, ModelMap model) {
-		Cliente c = clienteService.findClienteById(id);
+		Cliente c = clienteService.findClienteById(id).get();
 		clienteService.delete(c);
 		model.addAttribute("message", "Cliente deleted succesfully");
 		return "clientes/listadoClientes";

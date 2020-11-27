@@ -29,7 +29,7 @@ public class Cliente extends Persona{
 	private String password;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
-	private Set<Authorities> authorities;
+	private List<Authorities> authorities;
 	
 	
 	

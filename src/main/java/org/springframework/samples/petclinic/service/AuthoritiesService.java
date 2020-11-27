@@ -16,7 +16,7 @@
 package org.springframework.samples.petclinic.service;
 
 
-import java.util.Optional;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -54,7 +54,7 @@ public class AuthoritiesService {
 //		if(cliente.isPresent()) {
 			authority.setCliente(cliente);
 			authority.setAuthority(role);
-			//user.get().getAuthorities().add(authority);
+			cliente.getAuthorities().add(authority);
 			authoritiesRepository.save(authority);
 //		}else
 //			throw new DataAccessException("User '"+username+"' not found!") {};

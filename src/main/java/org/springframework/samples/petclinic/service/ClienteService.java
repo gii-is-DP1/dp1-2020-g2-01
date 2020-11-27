@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -41,17 +42,19 @@ public class ClienteService {
 	
 	@Transactional
 	public void saveCliente(Cliente cliente) throws DataAccessException {
-		//creating cliente
-		clienteRepository.save(cliente);		
+		//creating cliente		
 		//creating user
 //		userService.saveUser(cliente.getUser());
 		//creating authorities
+
+		cliente.setAuthorities(new ArrayList<>());
 		authoritiesService.saveAuthorities(cliente, "cliente");
+		clienteRepository.save(cliente);
 	}
 
 	@Transactional(readOnly = true)
-	public Cliente findClienteById(int id) throws DataAccessException {
-		return clienteRepository.findById(id).get();
+	public Optional<Cliente> findClienteById(int id) throws DataAccessException {
+		return clienteRepository.findById(id);
 	}
 	
 	@Transactional(readOnly = true)

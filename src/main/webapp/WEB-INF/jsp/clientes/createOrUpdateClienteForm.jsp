@@ -31,6 +31,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
+            	<input type="hidden" name="id" value="${cliente.id }">
                 <c:choose>
                     <c:when test="${cliente['new']}">
                         <button class="btn btn-default" type="submit">Añadir cliente</button>
