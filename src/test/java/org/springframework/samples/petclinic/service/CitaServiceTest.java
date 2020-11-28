@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -17,8 +16,7 @@ import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.stereotype.Service;
-
-import junit.framework.AssertionFailedError;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class CitaServiceTest {
@@ -75,6 +73,7 @@ class CitaServiceTest {
 	
 	
 	@Test
+	@Transactional
 	void shouldUpdateCita() {
 		Cita c = new Cita();
 		
@@ -100,7 +99,8 @@ class CitaServiceTest {
 	}
 	
 	@Test
-	void shouldUpdateInvalidCita() {
+	@Transactional
+	void shouldNotUpdateInvalidCita() {
 		Cita c = new Cita();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
@@ -117,7 +117,15 @@ class CitaServiceTest {
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
 		citaService.saveCita(c);
 		
-		assertFalse(this.citaService.findCitaById(2).isPresent());
+		Cita c1 = new Cita();
+//		c1.setId(c.getId());
+
+		c1.setHora(10);
+		c1.setTipoCita(TipoCita.AIRE_ACONDICIONADO);
+		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+
+		c1.setFecha(LocalDate.now());
+		assertThrows(ConstraintViolationException.class, () ->this.citaService.saveCita(c1));	
 	}
 	
 	@Test
