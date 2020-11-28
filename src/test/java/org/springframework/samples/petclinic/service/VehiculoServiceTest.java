@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import javax.validation.ConstraintViolationException;
@@ -39,5 +40,21 @@ class VehiculoServiceTest {
 		v.setNumBastidor("1");
 		
 		assertThrows(ConstraintViolationException.class, () -> this.vehiculoService.saveVehiculo(v));
+	}
+	
+	@Test
+	void shoulDeleteVehiculo() {
+		Vehiculo v = new Vehiculo();
+		
+		v.setMatricula("1111AAA");
+		v.setModelo("Seat Ibiza");
+		v.setNumBastidor("1");
+		vehiculoService.saveVehiculo(v);
+		
+		assertEquals(v, vehiculoService.findVehiculoByMatricula("1111AAA"));
+		
+		vehiculoService.delete(v);
+		
+		assertNull(vehiculoService.findVehiculoByMatricula("1111AAA"));
 	}
 }
