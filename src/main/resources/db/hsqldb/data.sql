@@ -106,7 +106,9 @@ INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, co
 					'2021-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2021-11-16', '11111111111', 700.50);
 
 INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (1, 'Taller Sevilla Customs', 'prueba@gmail.com', 
-					666666666, 'Calle Prueba, número 2');
+					'666666666', 'Calle Prueba, número 2');
+INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (2, 'Taller Sevilla Customs 2', 'prueba2@gmail.com', 
+					'666666677', 'Calle Prueba, número 3');
 
 INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersindo', '12345678A', '665112233', 'gumersindo@gmail.com');
 INSERT INTO citas(id, vehiculo_id, fecha, hora) VALUES (101, 100, '2021-10-22', 20)

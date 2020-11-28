@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import lombok.Data;
 
 @Data
@@ -12,10 +14,16 @@ import lombok.Data;
 public class Taller extends NamedEntity {
 	
 	@NotNull
-	private Integer telefono;
+	@Pattern(regexp="^[0-9]{9,9}$")
+	private String telefono;
 	
 	@NotNull
 	@NotEmpty
-	private String correo, ubicacion;
+	@Pattern(regexp="^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
+	private String correo;
+	
+	@NotNull
+	@NotEmpty
+	private String ubicacion;
 
 }
