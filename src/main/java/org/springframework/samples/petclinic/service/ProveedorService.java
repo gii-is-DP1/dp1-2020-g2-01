@@ -24,7 +24,10 @@ public class ProveedorService {
 	@Transactional(rollbackFor = DuplicatedProveedorNifException.class)
 	public void saveProveedor(Proveedor proveedor) throws DataAccessException, DuplicatedProveedorNifException  {
 		Proveedor p = proveedorRepository.findByNif(proveedor.getNif());
-		if(p!=null) {
+		/* Salta excepción si encuentra otro proveedor con mismo nif y el proveedor que ha encontrado no es el mismo
+		 * La segunda condición de if se da al hacer update de un proveedor y no cambiar el nif
+		 */
+		if(p!=null && !p.getId().equals(proveedor.getId())) {   
 			throw new DuplicatedProveedorNifException();
 		} else {
 			proveedorRepository.save(proveedor);
