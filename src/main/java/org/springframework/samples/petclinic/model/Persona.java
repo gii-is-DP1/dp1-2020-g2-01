@@ -2,19 +2,12 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
-import javax.websocket.OnMessage;
-
 
 import org.springframework.format.annotation.DateTimeFormat;
 

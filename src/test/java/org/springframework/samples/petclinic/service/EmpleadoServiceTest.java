@@ -35,7 +35,7 @@ public class EmpleadoServiceTest {
 		e.setNombre("Laura");
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
-		e.setTelefono(678456736);
+		e.setTelefono("678456736");
 		
 		empleadoService.saveEmpleado(e);
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R"));
@@ -54,7 +54,7 @@ public class EmpleadoServiceTest {
 		e.setNombre("Laura");
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
-		e.setTelefono(678456736);
+		e.setTelefono("678456736");
 		
 		assertThrows(ConstraintViolationException.class, () -> empleadoService.saveEmpleado(e));
 	}
@@ -72,7 +72,7 @@ public class EmpleadoServiceTest {
 		e.setNombre("Laura");
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
-		e.setTelefono(678456736);
+		e.setTelefono("678456736");
 		
 		empleadoService.saveEmpleado(e);
 		
@@ -97,7 +97,7 @@ public class EmpleadoServiceTest {
 		e.setNombre("Laura");
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
-		e.setTelefono(678456736);
+		e.setTelefono("678456736");
 		
 		empleadoService.saveEmpleado(e);
 		
@@ -122,7 +122,7 @@ public class EmpleadoServiceTest {
 		e.setNombre("Laura");
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
-		e.setTelefono(678456736);
+		e.setTelefono("678456736");
 		
 		empleadoService.saveEmpleado(e);
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R"));
