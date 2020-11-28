@@ -123,7 +123,6 @@ class CitaServiceTest {
 		c1.setHora(10);
 		c1.setTipoCita(TipoCita.AIRE_ACONDICIONADO);
 		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
-
 		c1.setFecha(LocalDate.now());
 		assertThrows(ConstraintViolationException.class, () ->this.citaService.saveCita(c1));	
 	}
