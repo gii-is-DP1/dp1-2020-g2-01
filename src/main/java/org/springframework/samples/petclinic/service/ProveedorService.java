@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.repository.ProveedorRepository;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedProveedorNifException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +21,14 @@ public class ProveedorService {
 		this.proveedorRepository = proveedorRepository;
 	}
 	
-	@Transactional
-	public void saveProveedor(Proveedor proveedor) throws DataAccessException {
-		proveedorRepository.save(proveedor);
+	@Transactional(rollbackFor = DuplicatedProveedorNifException.class)
+	public void saveProveedor(Proveedor proveedor) throws DataAccessException, DuplicatedProveedorNifException  {
+		Proveedor p = proveedorRepository.findByNif(proveedor.getNif());
+		if(p!=null) {
+			throw new DuplicatedProveedorNifException();
+		} else {
+			proveedorRepository.save(proveedor);
+		}	
 	}
 	
 	@Transactional(readOnly = true)

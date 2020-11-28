@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.websocket.OnMessage;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -43,6 +45,7 @@ public class Persona extends BaseEntity{
 	@Column(name="telefono")
 	@NotEmpty
 	private String telefono;
+
 
 	public String getDni() {
 		return dni;
@@ -75,6 +78,7 @@ public class Persona extends BaseEntity{
 	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
+
 
 	public String getTelefono() {
 		return telefono;

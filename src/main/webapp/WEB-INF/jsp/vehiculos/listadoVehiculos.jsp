@@ -15,6 +15,7 @@
             <th>Matrícula</th>
             <th>Número de bastidor</th>
             <th>Modelo</th>
+            <th>Tipo de vehículo</th>
             <th></th>
             <th></th>
             
@@ -40,6 +41,11 @@
                    <c:out value="${vehiculos.modelo}"/>
                 </td>
                 
+                
+                <td>
+                   <c:out value="${vehiculos.tipoVehiculo.name}"/>
+                </td>
+                
                 <td>
                 	<spring:url value="/vehiculos/delete/{vehiculoId}" var="vehiculoUrl">
                         <spring:param name="vehiculoId" value="${vehiculos.id}"/>
@@ -62,5 +68,6 @@
         </tbody>
     </table>
 
+	<a href="/vehiculos/new">Crear un nuevo vehículo</a>
 
 </petclinic:layout>

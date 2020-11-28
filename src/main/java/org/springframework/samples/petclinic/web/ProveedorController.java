@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.service.ProveedorService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedProveedorNifException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -50,7 +51,12 @@ public class ProveedorController {
 			model.addAttribute("proveedor", proveedor);
 			vista = "proveedores/editProveedor";
 		} else {
-			proveedorService.saveProveedor(proveedor);
+			try {
+				proveedorService.saveProveedor(proveedor);
+			} catch(DuplicatedProveedorNifException ex) {
+				result.rejectValue("nif", "duplicate", "Ya existe un proveedor con el mismo nif");
+				return "proveedores/editProveedor";
+			}
 			model.addAttribute("message", "Proveedor created successfully");
 			vista = listadoProveedores(model);
 		}
