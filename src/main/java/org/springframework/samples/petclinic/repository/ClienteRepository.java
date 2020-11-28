@@ -18,6 +18,9 @@ public interface ClienteRepository extends CrudRepository<Cliente, Integer>{
 	@Query("SELECT cliente FROM Cliente cliente WHERE cliente.apellidos LIKE %:apellidos%")
 	Collection<Cliente> findByApellidos (@Param("apellidos") String apellidos);
 
-	@Query("SELECT cliente FROM Cliente cliente WHERE cliente.username LIKE :username")
+	@Query("SELECT cliente FROM Cliente cliente WHERE cliente.user.username LIKE :username")
 	Optional<Cliente> findByUsername(@Param("username") String username);
+
+	@Query("SELECT cliente FROM Cliente cliente WHERE cliente.dni LIKE :dni")
+	Optional<Cliente> findByDNI(@Param("dni") String dni);
 }

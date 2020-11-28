@@ -2,11 +2,13 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.UserService;
@@ -29,6 +31,9 @@ public class ClienteController {
 	
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private UserService userService;
 	
 
 	@Autowired
@@ -119,6 +124,8 @@ public class ClienteController {
 		else {
 			cliente.setId(clienteId);
 			this.clienteService.saveCliente(cliente);
+//			Optional<User> u=userService.findUser(cliente.getUser().getUsername());
+			
 			return "redirect:/";
 		}
 	}
@@ -127,7 +134,7 @@ public class ClienteController {
 	public String deleteCliente(@PathVariable("clienteId") int id, ModelMap model) {
 		Cliente c = clienteService.findClienteById(id).get();
 		clienteService.delete(c);
-		model.addAttribute("message", "Cliente deleted succesfully");
+		model.addAttribute("message", "El cliente se ha borrado con éxito");
 		return "clientes/listadoClientes";
 	}
 

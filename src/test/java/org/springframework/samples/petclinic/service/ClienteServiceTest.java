@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -26,13 +27,16 @@ public class ClienteServiceTest {
 		cliente.setApellidos("Vargas Ruda");
 		cliente.setDni("11223344M");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
-		cliente.setPassword("pass");
-		cliente.setUsername("antvarrud");
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
+		cliente.setUser(userP);
 		cliente.setTelefono("111223344");
 		
 		clienteService.saveCliente(cliente);
 		
-		assertEquals(cliente, clienteService.findClientesByUsername("antvarrud").get());
+		assertEquals(cliente, clienteService.findClientesByUsername("nombreusuario").get());
 	
 	}
 	
@@ -44,20 +48,23 @@ public class ClienteServiceTest {
 		cliente.setApellidos("Vargas Ruda");
 		cliente.setDni("11223344M");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
-		cliente.setPassword("pass");
-		cliente.setUsername("antvarrud");
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
+		cliente.setUser(userP);
 		cliente.setTelefono("111223344");
 		
 		clienteService.saveCliente(cliente);
 		
-		Cliente cliente1 = clienteService.findClientesByUsername("antvarrud").get();
-		cliente1.setUsername("antvarrud1");
+		Cliente cliente1 = clienteService.findClienteByDNI("11223344M").get();
+		cliente1.setDni("34567890K");
 		
 		clienteService.saveCliente(cliente1);
 		
-		System.out.println(cliente1.getAuthorities().get(0));
-		assertFalse(clienteService.findClientesByUsername("antvarrud").isPresent());
-		assertEquals(cliente1, clienteService.findClientesByUsername("antvarrud1").get());
+		System.out.println(cliente1.getUser().getAuthorities().get(0));
+		assertFalse(clienteService.findClienteByDNI("11223344M").isPresent());
+		assertEquals(cliente1, clienteService.findClienteByDNI("34567890K").get());
 		
 	
 	}

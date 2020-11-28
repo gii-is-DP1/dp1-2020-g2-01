@@ -16,12 +16,12 @@
 package org.springframework.samples.petclinic.service;
 
 
-import java.util.TreeSet;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Authorities;
-import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.AuthoritiesRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,10 +36,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthoritiesService {
 
 	private AuthoritiesRepository authoritiesRepository;
+	private UserService userService;
 
 	@Autowired
-	public AuthoritiesService(AuthoritiesRepository authoritiesRepository) {
+	public AuthoritiesService(AuthoritiesRepository authoritiesRepository, UserService userService) {
 		this.authoritiesRepository = authoritiesRepository;
+		this.userService=userService;
 	}
 
 	@Transactional
@@ -48,17 +50,17 @@ public class AuthoritiesService {
 	}
 	
 	@Transactional
-	public void saveAuthorities(Cliente cliente, String role) throws DataAccessException {
+	public void saveAuthorities(String username, String role) throws DataAccessException {
 		Authorities authority = new Authorities();
-//		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
-//		if(cliente.isPresent()) {
-			authority.setCliente(cliente);
+		Optional<User> user = userService.findUser(username);
+		if(user.isPresent()) {
+			authority.setUser(user.get());
 			authority.setAuthority(role);
-			cliente.getAuthorities().add(authority);
+			user.get().getAuthorities().add(authority);
 			authoritiesRepository.save(authority);
 //		}else
 //			throw new DataAccessException("User '"+username+"' not found!") {};
+//	
 	}
-
-
+	}
 }

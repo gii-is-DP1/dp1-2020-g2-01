@@ -21,6 +21,9 @@ public class ClienteService {
 	private AuthoritiesService authoritiesService;
 	
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	public ClienteService(ClienteRepository clienteRepository) {
 		this.clienteRepository = clienteRepository;
 	}
@@ -40,16 +43,22 @@ public class ClienteService {
 		return clienteRepository.findByApellidos(apellidos);
 	}
 	
+	@Transactional(readOnly=true)
+	public Optional<Cliente> findClienteByDNI(String dni) throws DataAccessException{
+		return clienteRepository.findByDNI(dni);
+	}
+	
 	@Transactional
 	public void saveCliente(Cliente cliente) throws DataAccessException {
-		//creating cliente		
-		//creating user
-//		userService.saveUser(cliente.getUser());
+		cliente.getUser().setAuthorities(new ArrayList<>());
+		clienteRepository.save(cliente);
+		userService.saveUser(cliente.getUser());
 		//creating authorities
 
-		cliente.setAuthorities(new ArrayList<>());
-		authoritiesService.saveAuthorities(cliente, "cliente");
-		clienteRepository.save(cliente);
+		
+		authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
+		
+		
 	}
 
 	@Transactional(readOnly = true)

@@ -25,9 +25,9 @@
             <petclinic:inputField label="DNI" name="dni"/>
             <petclinic:inputField label="Fecha de nacimiento" name="fechaNacimiento"/>
             <petclinic:inputField label="Teléfono" name="telefono"/>
-            <petclinic:inputField label="Usuario" name="username"/>
+            <petclinic:inputField label="Usuario" name="user.username"/>
             <label class="col-sm-2 control-label">Contraseña</label>
-            <div class="col-sm-10"><input class="form-control" type="password"  name="password"/></div>
+            <div class="col-sm-10"><input class="form-control" type="password"  name="user.password"/></div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

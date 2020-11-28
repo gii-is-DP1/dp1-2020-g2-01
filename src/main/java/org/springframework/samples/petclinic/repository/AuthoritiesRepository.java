@@ -11,6 +11,6 @@ import org.springframework.samples.petclinic.model.Cliente;
 
 public interface AuthoritiesRepository extends  CrudRepository<Authorities, String>{
 
-	Optional<Cliente> findByCliente(Cliente cliente) throws DataAccessException;
+	//Optional<Cliente> findByCliente(Cliente cliente) throws DataAccessException;
 	
 }

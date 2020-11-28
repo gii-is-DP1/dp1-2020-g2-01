@@ -47,7 +47,7 @@
                     </c:forEach>
                 </td>
                 <td>
-                   <c:out value="${clientes.username}"/>
+                   <c:out value="${clientes.user.username}"/>
                 </td>
                 
                 <td>
