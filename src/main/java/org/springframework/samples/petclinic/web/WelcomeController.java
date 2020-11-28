@@ -4,12 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.repository.UserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.samples.petclinic.model.Person;
-import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.model.Persona;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -22,30 +17,30 @@ public class WelcomeController {
 	  @GetMapping({"/","/welcome"})
 	  public String welcome(Map<String, Object> model) {	    
 
-			List<Person> persons = new ArrayList<>();
-			Person person1 = new Person();
-			person1.setFirstName("Francisco José ");
-			person1.setLastName("Borrego Caro");
+			List<Persona> persons = new ArrayList<>();
+			Persona person1 = new Persona();
+			person1.setNombre("Francisco José ");
+			person1.setApellidos("Borrego Caro");
 			persons.add(person1);
 			
-			Person person2 = new Person();
-			person2.setFirstName("Sergio ");
-			person2.setLastName("Arias Ruda");
+			Persona person2 = new Persona();
+			person2.setNombre("Sergio ");
+			person2.setApellidos("Arias Ruda");
 			persons.add(person2);
 
-			Person person3 = new Person();
-			person3.setFirstName("Antonio ");
-			person3.setLastName("Funes Mejías");
+			Persona person3 = new Persona();
+			person3.setNombre("Antonio ");
+			person3.setApellidos("Funes Mejías");
 			persons.add(person3);
 
-			Person person4 = new Person();
-			person4.setFirstName("Alejandro ");
-			person4.setLastName("Morales García");
+			Persona person4 = new Persona();
+			person4.setNombre("Alejandro ");
+			person4.setApellidos("Morales García");
 			persons.add(person4);
 			
-			Person person5 = new Person();
-			person5.setFirstName("Jesús ");
-			person5.setLastName("Vargas Zambrana");
+			Persona person5 = new Persona();
+			person5.setNombre("Jesús ");
+			person5.setApellidos("Vargas Zambrana");
 			persons.add(person5);
 			
 			model.put("persons", persons);
