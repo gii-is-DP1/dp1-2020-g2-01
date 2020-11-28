@@ -6,6 +6,3 @@ services:
 before_install:
   - mysql -e 'CREATE DATABASE petclinic;'
 script: mvn test -Dspring-boot.run.profiles=mysql-travis
-branches:
-  only:
-  - master
