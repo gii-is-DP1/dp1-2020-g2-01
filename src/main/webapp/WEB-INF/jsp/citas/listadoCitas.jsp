@@ -15,7 +15,7 @@
             <th>Vehículo_id</th>
             <th>Fecha</th>
             <th>Hora</th>
-            <th></th>
+            <th>Tipo de cita</th>
             
         </tr>
         </thead>
@@ -37,6 +37,10 @@
                 
                 <td>
                    <c:out value="${citas.hora}"/>
+                </td>
+                
+                <td>
+                   <c:out value="${citas.tipoCita.tipo}"/>
                 </td>
                 
                 <td>

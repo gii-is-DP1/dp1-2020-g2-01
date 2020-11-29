@@ -31,10 +31,12 @@ class CitaServiceTest {
 	@Test
 	void shouldInsertCita() {
 		Cita c = new Cita();
+		TipoCita tipo = new TipoCita();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
-		c.setTipoCita(TipoCita.AIRE_ACONDICIONADO);
+		//c.setTipoCita("AIRE ACONDICIONADO");
+		c.setTipoCita(tipo);
 		
 		Vehiculo v = new Vehiculo();
 		
@@ -53,10 +55,11 @@ class CitaServiceTest {
 	@Test
 	void shouldInsertCitaInvalida() {
 		Cita c = new Cita();
+		TipoCita tipo = new TipoCita();
 		
 		c.setFecha(LocalDate.now());
 		c.setHora(10);
-		c.setTipoCita(TipoCita.NEUMATICOS);
+		c.setTipoCita(tipo);
 		
 		Vehiculo v = new Vehiculo();
 		

@@ -27,6 +27,8 @@
             	
                 <petclinic:inputField label="Fecha" name="fecha"/> 
                	<petclinic:inputField label="Hora" name="hora"/>
+               	
+               	<petclinic:selectTipoCita label="Tipo de cita" name="tipoCita" items="${tipos}"/>
             </div>
 
             <div class="form-group">
