@@ -52,10 +52,7 @@ public class ClienteService {
 	public void saveCliente(Cliente cliente) throws DataAccessException {
 		cliente.getUser().setAuthorities(new ArrayList<>());
 		clienteRepository.save(cliente);
-		userService.saveUser(cliente.getUser());
-		//creating authorities
-
-		
+		userService.saveUser(cliente.getUser());		
 		authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
 		
 		
