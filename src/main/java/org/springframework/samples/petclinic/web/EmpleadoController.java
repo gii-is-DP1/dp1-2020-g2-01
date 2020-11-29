@@ -51,7 +51,6 @@ public class EmpleadoController {
 			model.addAttribute("message", "Empleado created successfully");
 			vista = listadoEmpleados(model);
 		}
-		
 		return vista;
 	}
 	
