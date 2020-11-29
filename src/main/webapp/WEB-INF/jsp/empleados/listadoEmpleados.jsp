@@ -18,9 +18,9 @@
     <table id="empleadosTable" class="table table-striped">
         <thead>
         <tr>
-        	<th>Id</th>
             <th>Nombre</th>
             <th>Apellidos</th>
+            <th>Usuario</th>
             <th>DNI</th>
             <th>Fecha de nacimiento</th>
             <th>Correo</th>
@@ -28,16 +28,12 @@
             <th>Fecha del inicio del contrato</th>
             <th>Fecha del fin del contrato</th>
             <th>Número seguridad social</th>
-            <th>Sueldo</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${empleado}" var="empleado">
             <tr>
-               <td>
-                    <c:out value="${empleado.id}"/>
-                </td>
-                
+          
             
                 <td>
                     <c:out value="${empleado.nombre}"/>
@@ -45,6 +41,10 @@
                 
                   <td>
                     <c:out value="${empleado.apellidos}"/>
+                </td>
+                
+                 <td>
+                    <c:out value="${empleado.usuario.username}"/>
                 </td>
                 
                   <td>
@@ -74,11 +74,7 @@
                   <td>
                     <c:out value="${empleado.num_seg_social}"/>
                 </td>
-                
-                  <td>
-                    <c:out value="${empleado.sueldo}"/>
-                </td>
-                
+           
                 <td>
                 	<spring:url value="/empleados/delete/{empleadoId}" var="empleadoUrl">
                         <spring:param name="empleadoId" value="${empleado.id}"/>

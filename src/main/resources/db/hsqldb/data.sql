@@ -111,9 +111,9 @@ INSERT INTO tipoCita(id,tipo) VALUES (8, 'OTROS');
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id) VALUES (100, '1234-ABC', 'bastidordeprueba', 'Ford Kuga', 1);
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id) VALUES (101, '1234-FBC', 'bastidordeprueb', 'Kawasaki Ninja ZX-6R', 2);
 
-INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, correo, fecha_fin_contrato, 
-					fecha_ini_contrato, num_seg_social, sueldo) VALUES (1, 'Sech', '11111111A', 
-					'2021-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2021-11-16', '11111111111', 700.50);
+--INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, correo, fecha_fin_contrato, 
+				--	fecha_ini_contrato, num_seg_social, sueldo, username) VALUES (1, 'Sech', '11111111A', 
+					--'2021-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2021-11-16', '11111111111', 700.50, 1);
 
 INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (1, 'Taller Sevilla Customs', 'prueba@gmail.com', 
 					'666666666', 'Calle Prueba, número 2');
