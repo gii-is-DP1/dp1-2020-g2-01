@@ -30,6 +30,10 @@ public class Empleado extends Persona {
 	@NotNull
 	@NotEmpty
 	private String num_seg_social;
+	
+	@JoinColumn(name="username", referencedColumnName="username")
+	@OneToOne(cascade=CascadeType.ALL)
+	private User usuario;
 
 
 	
