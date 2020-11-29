@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
@@ -40,7 +41,7 @@ public class ClienteServiceTest {
 	
 	}
 	
-//	@Test
+	@Test
 	public void shouldUpdateCliente() {
 		Cliente cliente = new Cliente();
 		
@@ -62,9 +63,32 @@ public class ClienteServiceTest {
 		
 		clienteService.saveCliente(cliente1);
 		
-		System.out.println(cliente1.getUser().getAuthorities().get(0));
 		assertFalse(clienteService.findClienteByDNI("11223344M").isPresent());
-		assertEquals(cliente1, clienteService.findClienteByDNI("34567890K").get());
+		assertTrue(clienteService.findClienteByDNI("34567890K").isPresent());
+		
+	
+	}
+	
+	@Test
+	public void shouldDeleteCliente() {
+		Cliente cliente = new Cliente();
+		
+		cliente.setNombre("Antonio");
+		cliente.setApellidos("Vargas Ruda");
+		cliente.setDni("11223344M");
+		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
+		cliente.setUser(userP);
+		cliente.setTelefono("111223344");
+		
+		clienteService.saveCliente(cliente);
+		
+		clienteService.delete(cliente);
+		
+		assertFalse(clienteService.findClienteByDNI("11223344M").isPresent());
 		
 	
 	}
