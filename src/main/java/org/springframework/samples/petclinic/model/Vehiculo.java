@@ -23,10 +23,6 @@ import lombok.Data;
 @Table(name = "vehiculos")
 public class Vehiculo extends BaseEntity {
 	
-//	@ManyToOne
-//	@JoinColumn(name = "cliente_id")
-//	private Cliente cliente;
-	
 	@NotNull
 	@NotEmpty
 	private String matricula;

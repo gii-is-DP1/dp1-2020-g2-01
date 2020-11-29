@@ -1,17 +1,18 @@
 package org.springframework.samples.petclinic.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.Collection;
+import java.util.NoSuchElementException;
 
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.orm.ObjectRetrievalFailureException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Taller;
-import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -21,23 +22,80 @@ public class TallerServiceTests {
 	protected TallerService tallerService;
 	
 	
+	
+	/* Caso positivo: encuentra un taller que existe en la base de datos
+	 * Caso negativo: aunque no hay en la documentación, es probar que no encuentra un taller que no existe 
+	 */
+	
+	
+	//Taller que se inserta antes de cada test
+	public Taller t;
+	
+	
+	@BeforeEach
+	void insertTaller() {
+		Taller t = new Taller();
+		t.setName("Taller de prueba");
+		t.setCorreo("prueba@gmail.com");
+		t.setTelefono("666666666");
+		t.setUbicacion("Calle Prueba, número 2");
+		tallerService.saveTaller(t);
+		this.t = t;
+	}
+	
+	
+	
 	@Test
-	void shouldFindTalleres() {
-		Collection<Taller> talleres = (Collection<Taller>) tallerService.findAll();
-		
-		Taller taller = EntityUtils.getById(talleres, Taller.class, 1);
-		
-		assertThat(taller.getName()).isEqualTo("Taller Sevilla Customs");
-		assertThat(taller.getCorreo()).isEqualTo("prueba@gmail.com");
-		assertThat(taller.getTelefono()).isEqualTo(666666666);
-		assertThat(taller.getUbicacion()).isEqualTo("Calle Prueba, número 2");
+	void shouldFindTaller() {
+		assertEquals(t, tallerService.findById(t.getId()).get());
 		
 	}
 	
 	@Test
-	void shouldNotFindSpecificTaller() {
-		Collection<Taller> talleres = (Collection<Taller>) tallerService.findAll();
-		assertThrows(ObjectRetrievalFailureException.class, ()->EntityUtils.getById(talleres, Taller.class, 10000000));
+	void shouldNotFindTaller() {
+		tallerService.delete(t);
+		assertThrows(NoSuchElementException.class, () -> tallerService.findById(t.getId()).get());
+		
+	}
+	
+	
+	@Test 
+	void shouldUpdateTaller() {
+		Taller t2 = new Taller();
+		t2.setName("Taller de prueba diferente");
+		t2.setCorreo("pruebadiferente@gmail.com");
+		t2.setTelefono("666666667");
+		t2.setUbicacion("Calle Prueba diferente, número 2");
+		t2.setId(t.getId());
+		
+		tallerService.saveTaller(t2);
+		
+		assertEquals(t2, tallerService.findById(t.getId()).get());
+		
+	}
+	
+	//NO FUNCIONA
+//	@Test 
+//	void shouldNotUpdateTaller() {
+//		Taller t2 = new Taller();
+//		t2.setName("");
+//		t2.setCorreo("pruebadiferente@gmail.com");
+//		t2.setTelefono(666666667);
+//		t2.setUbicacion("Calle Prueba diferente, número 2");
+//		t2.setId(t.getId());
+//		
+//		tallerService.saveTaller(t2);
+//		
+//		assertThrows(ConstraintViolationException.class, ()->tallerService.saveTaller(t2));
+//		
+//	}
+//	
+	
+	
+	@Test
+	void shouldDeleteTaller() throws DataAccessException {
+		tallerService.delete(t);
+		assertThrows(NoSuchElementException.class, () -> tallerService.findById(t.getId()).get());
 	}
 	
 	

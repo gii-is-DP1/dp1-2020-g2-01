@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class CitaServiceTest {
@@ -70,6 +72,87 @@ class CitaServiceTest {
 	
 		
 		assertThrows(ConstraintViolationException.class, () -> this.citaService.saveCita(c));
+	}
+	
+	
+	@Test
+	@Transactional
+	void shouldUpdateCita() {
+		Cita c = new Cita();
+		
+		c.setFecha(LocalDate.now().plusDays(1));
+		c.setHora(10);
+		c.setTipoCita(TipoCita.AIRE_ACONDICIONADO);
+		
+		Vehiculo v = new Vehiculo();
+		
+		v.setMatricula("1111AAA");
+		v.setModelo("Seat Ibiza");
+		v.setNumBastidor("1");
+		vehiculoService.saveVehiculo(v);
+		
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+		
+		citaService.saveCita(c);
+		Cita c1 = citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10);
+		
+		c1.setFecha(LocalDate.now().plusDays(3));
+		citaService.saveCita(c1);
+		assertEquals(c1, citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(3), 10));
+	}
+	
+	@Test
+	@Transactional
+	void shouldNotUpdateInvalidCita() {
+		Cita c = new Cita();
+		
+		c.setFecha(LocalDate.now().plusDays(1));
+		c.setHora(10);
+		c.setTipoCita(TipoCita.AIRE_ACONDICIONADO);
+		
+		Vehiculo v = new Vehiculo();
+		
+		v.setMatricula("1111AAA");
+		v.setModelo("Seat Ibiza");
+		v.setNumBastidor("1");
+		vehiculoService.saveVehiculo(v);
+		
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+		citaService.saveCita(c);
+		
+		Cita c1 = new Cita();
+//		c1.setId(c.getId());
+
+		c1.setHora(10);
+		c1.setTipoCita(TipoCita.AIRE_ACONDICIONADO);
+		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+		c1.setFecha(LocalDate.now());
+		assertThrows(ConstraintViolationException.class, () ->this.citaService.saveCita(c1));	
+	}
+	
+	@Test
+	void shouldDeleteCita() {
+		Cita c = new Cita();
+		
+		c.setFecha(LocalDate.now().plusDays(1));
+		c.setHora(10);
+		c.setTipoCita(TipoCita.AIRE_ACONDICIONADO);
+		
+		Vehiculo v = new Vehiculo();
+		
+		v.setMatricula("1111AAA");
+		v.setModelo("Seat Ibiza");
+		v.setNumBastidor("1");
+		vehiculoService.saveVehiculo(v);
+		
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+		citaService.saveCita(c);
+		
+		assertEquals(c, citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10));
+		
+		citaService.delete(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10));
+		
+		assertNull(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10));
 	}
 
 }
