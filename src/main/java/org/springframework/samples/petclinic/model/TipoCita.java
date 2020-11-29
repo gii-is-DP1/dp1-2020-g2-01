@@ -1,6 +1,19 @@
 package org.springframework.samples.petclinic.model;
 
-public enum TipoCita {
-	CHAPA, ITV, FRENOS, INSPECCION_ANUAL, AIRE_ACONDICIONADO, NEUMATICOS,
-	CAMBIO_LUCES, OTROS
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name="tipocita")
+public class TipoCita extends BaseEntity {
+	
+	@NotNull
+	@NotEmpty
+	private String tipo;
+
 }

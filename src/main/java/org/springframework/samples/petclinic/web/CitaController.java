@@ -1,13 +1,14 @@
 package org.springframework.samples.petclinic.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cita;
+import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.CitaService;
+import org.springframework.samples.petclinic.service.TipoCitaService;
 import org.springframework.samples.petclinic.service.VehiculoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,6 +28,9 @@ public class CitaController {
 	@Autowired
 	private VehiculoService vehiculoService;
 	
+	@Autowired
+	private TipoCitaService tipoCitaService;
+	
 	@GetMapping(value="")
 	public String listado(ModelMap model) {
 		return listadoCitas(model);
@@ -44,6 +48,7 @@ public class CitaController {
 	public String crearCita(ModelMap model) {
 		String vista = "citas/editCita";
 		model.addAttribute("vehiculos", vehiculoService.findAll());
+		model.addAttribute("tipos", tipoCitaService.findAll());
 		model.addAttribute("cita", new Cita());
 		return vista;
 	}
@@ -58,6 +63,9 @@ public class CitaController {
 			Integer vehiculoId = cita.getVehiculo().getId();
 			Vehiculo vehiculo = vehiculoService.findVehiculoById(vehiculoId).get();
 			cita.setVehiculo(vehiculo);
+			Integer tipoCitaId = cita.getTipoCita().getId();
+			TipoCita tipoCita = tipoCitaService.findById(tipoCitaId).get();
+			cita.setTipoCita(tipoCita);
 			citaService.saveCita(cita);
 			model.addAttribute("message", "Cita created successfully");
 			vista = listadoCitas(model);
@@ -75,11 +83,16 @@ public class CitaController {
 		}else {
 			Cita cita = c.get();
 			Vehiculo vehiculo = cita.getVehiculo();
+			TipoCita tipo = cita.getTipoCita();
 			List<Vehiculo> vehiculos = vehiculoService.findAll();
+			List<TipoCita> tipos = tipoCitaService.findAll();
 			vehiculos.remove(vehiculo); // Con esto el vehículo de la cita aparece el primero en el desplegable
 			vehiculos.add(0, vehiculo); // para que esté seleccionado por defecto
+			tipos.remove(tipo);
+			tipos.add(0, tipo);
 			cita.getVehiculo().setCitas(null); // Evita stackOverflowError
 			model.addAttribute("vehiculos", vehiculos);
+			model.addAttribute("tipos", tipos);
 			model.addAttribute("cita", cita);
 			vista = "citas/editCita";
 		}

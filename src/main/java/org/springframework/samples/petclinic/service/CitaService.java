@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class CitaService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Iterable<Cita> findAll() throws DataAccessException {
+	public List<Cita> findAll() throws DataAccessException {
 		return citaRepository.findAll();
 	}
 	

@@ -47,5 +47,6 @@ public class Cita extends BaseEntity{
 	private Integer hora;
 	
 	@JoinColumn(name="tipo")
+	@ManyToOne
 	private TipoCita tipoCita;
 }
