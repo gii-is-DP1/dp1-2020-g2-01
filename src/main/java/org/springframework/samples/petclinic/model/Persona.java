@@ -32,7 +32,7 @@ public class Persona extends BaseEntity{
 	
 	@Past
 	@Column(name="fechaNacimiento")
-	@DateTimeFormat(pattern="yyyy/MM/dd")
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	protected LocalDate fechaNacimiento;
 	
 	@Column(name="telefono")

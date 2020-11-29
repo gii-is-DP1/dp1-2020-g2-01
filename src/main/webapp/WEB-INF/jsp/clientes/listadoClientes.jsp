@@ -8,6 +8,13 @@
 <petclinic:layout pageName="clientes">
     <h2>Clientes</h2>
     
+    <td>
+    	<spring:url value="/clientes/new" var="clienteUrl">
+        </spring:url>
+       	<a href="${fn:escapeXml(clienteUrl)}">Añadir cliente</a>
+                
+    </td>
+    
     <table id="clientesTable" class="table table-striped">
         <thead>
         <tr>

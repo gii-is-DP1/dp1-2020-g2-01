@@ -8,6 +8,13 @@
 <petclinic:layout pageName="citas">
     <h2>Citas</h2>
     
+    <td>
+    	<spring:url value="/citas/new" var="citaUrl">
+        </spring:url>
+       	<a href="${fn:escapeXml(citaUrl)}">Añadir cita</a>
+                
+    </td>
+    
     <table id="citasTable" class="table table-striped">
         <thead>
         <tr>
