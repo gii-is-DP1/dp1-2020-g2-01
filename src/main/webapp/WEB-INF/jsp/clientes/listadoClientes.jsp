@@ -17,7 +17,7 @@
             <th>Fecha de Nacimiento</th>
             <th>Teléfono</th>
             <th>Vehículos</th>
-            <th>Usuario</th>
+            <th>Nombre de usuario</th>
         </tr>
         </thead>
         <tbody>
