@@ -27,11 +27,14 @@ class CitaServiceTest {
 	@Autowired
 	protected CitaService citaService;
 	
+	@Autowired
+	protected TipoCitaService tipoCitaService;
+	
 
 	@Test
 	void shouldInsertCita() {
 		Cita c = new Cita();
-		TipoCita tipo = new TipoCita();
+		TipoCita tipo = tipoCitaService.findById(1).get();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
@@ -55,7 +58,7 @@ class CitaServiceTest {
 	@Test
 	void shouldInsertCitaInvalida() {
 		Cita c = new Cita();
-		TipoCita tipo = new TipoCita();
+		TipoCita tipo = tipoCitaService.findById(1).get();
 		
 		c.setFecha(LocalDate.now());
 		c.setHora(10);
@@ -79,10 +82,11 @@ class CitaServiceTest {
 	@Transactional
 	void shouldUpdateCita() {
 		Cita c = new Cita();
+		TipoCita tipo = tipoCitaService.findById(1).get();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
-		c.setTipoCita(TipoCita.AIRE_ACONDICIONADO);
+		c.setTipoCita(tipo);
 		
 		Vehiculo v = new Vehiculo();
 		
@@ -105,10 +109,10 @@ class CitaServiceTest {
 	@Transactional
 	void shouldNotUpdateInvalidCita() {
 		Cita c = new Cita();
-		
+		TipoCita tipo = tipoCitaService.findById(1).get();
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
-		c.setTipoCita(TipoCita.AIRE_ACONDICIONADO);
+		c.setTipoCita(tipo);
 		
 		Vehiculo v = new Vehiculo();
 		
@@ -124,7 +128,7 @@ class CitaServiceTest {
 //		c1.setId(c.getId());
 
 		c1.setHora(10);
-		c1.setTipoCita(TipoCita.AIRE_ACONDICIONADO);
+		c1.setTipoCita(tipo);
 		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
 		c1.setFecha(LocalDate.now());
 		assertThrows(ConstraintViolationException.class, () ->this.citaService.saveCita(c1));	
@@ -133,10 +137,11 @@ class CitaServiceTest {
 	@Test
 	void shouldDeleteCita() {
 		Cita c = new Cita();
+		TipoCita tipo = tipoCitaService.findById(1).get();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
-		c.setTipoCita(TipoCita.AIRE_ACONDICIONADO);
+		c.setTipoCita(tipo);
 		
 		Vehiculo v = new Vehiculo();
 		

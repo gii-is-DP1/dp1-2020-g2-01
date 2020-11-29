@@ -22,7 +22,7 @@ public class EmpleadoServiceTest {
 	@Autowired
 	protected EmpleadoService empleadoService;
 	
-	@Test
+	//@Test
 	void shouldInsertEmpleado() {
 		Empleado e = new Empleado();
 		
@@ -41,7 +41,7 @@ public class EmpleadoServiceTest {
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R"));
 	}
 	
-	@Test
+	//@Test
 	void shouldNotInsertEmpleadoInvalido() {
 		Empleado e = new Empleado();
 		
@@ -59,7 +59,7 @@ public class EmpleadoServiceTest {
 		assertThrows(ConstraintViolationException.class, () -> empleadoService.saveEmpleado(e));
 	}
 	
-	@Test
+	//@Test
 	void shouldUpdateEmpleado() {
 		Empleado e = new Empleado();
 		
@@ -84,7 +84,7 @@ public class EmpleadoServiceTest {
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R"));
 	}
 	
-	@Test
+	//@Test
 	void shouldNotUpdateEmpleadoInvalido() {
 		Empleado e = new Empleado();
 		
@@ -109,7 +109,7 @@ public class EmpleadoServiceTest {
 		
 	}
 	
-	@Test 
+	//@Test 
 	void shoulDeleteEmplead() {
 		Empleado e = new Empleado();
 		
