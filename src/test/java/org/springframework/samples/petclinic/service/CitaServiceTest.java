@@ -125,7 +125,7 @@ class CitaServiceTest {
 		citaService.saveCita(c);
 		
 		Cita c1 = new Cita();
-//		c1.setId(c.getId());
+		c1.setId(c.getId());
 
 		c1.setHora(10);
 		c1.setTipoCita(tipo);
