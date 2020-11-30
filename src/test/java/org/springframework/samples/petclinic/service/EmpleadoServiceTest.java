@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -22,8 +23,13 @@ public class EmpleadoServiceTest {
 	@Autowired
 	protected EmpleadoService empleadoService;
 	
-	//@Test
+	@Test
 	void shouldInsertEmpleado() {
+		
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
@@ -36,13 +42,19 @@ public class EmpleadoServiceTest {
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
 		e.setTelefono("678456736");
+		e.setUsuario(userP);
 		
 		empleadoService.saveEmpleado(e);
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R"));
 	}
 	
-	//@Test
+	@Test
 	void shouldNotInsertEmpleadoInvalido() {
+		
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
@@ -55,12 +67,17 @@ public class EmpleadoServiceTest {
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
 		e.setTelefono("678456736");
+		e.setUsuario(userP);
 		
 		assertThrows(ConstraintViolationException.class, () -> empleadoService.saveEmpleado(e));
 	}
 	
-	//@Test
+	@Test
 	void shouldUpdateEmpleado() {
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
@@ -73,6 +90,7 @@ public class EmpleadoServiceTest {
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
 		e.setTelefono("678456736");
+		e.setUsuario(userP);
 		
 		empleadoService.saveEmpleado(e);
 		
@@ -84,8 +102,13 @@ public class EmpleadoServiceTest {
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R"));
 	}
 	
-	//@Test
+	@Test
 	void shouldNotUpdateEmpleadoInvalido() {
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
+		
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
@@ -98,6 +121,7 @@ public class EmpleadoServiceTest {
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
 		e.setTelefono("678456736");
+		e.setUsuario(userP);
 		
 		empleadoService.saveEmpleado(e);
 		
@@ -109,8 +133,12 @@ public class EmpleadoServiceTest {
 		
 	}
 	
-	//@Test 
+	@Test 
 	void shoulDeleteEmplead() {
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
@@ -123,6 +151,7 @@ public class EmpleadoServiceTest {
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
 		e.setTelefono("678456736");
+		e.setUsuario(userP);
 		
 		empleadoService.saveEmpleado(e);
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R"));
