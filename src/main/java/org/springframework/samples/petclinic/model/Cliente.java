@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -19,8 +20,11 @@ public class Cliente extends Persona{
 	private List<Vehiculo> vehiculos;	
 	
 	@OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "username", referencedColumnName = "username")
+	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+	private List<Factura> facturas;
 
 
 }
