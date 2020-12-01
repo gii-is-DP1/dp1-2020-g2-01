@@ -27,10 +27,14 @@ public class EmpleadoServiceTest {
 	
 	@Autowired
 	protected EntityManager em;
-	
+  
 	@Test
-	@Transactional
 	void shouldInsertEmpleado() {
+		
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
@@ -43,6 +47,7 @@ public class EmpleadoServiceTest {
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
 		e.setTelefono("678456736");
+		e.setUsuario(userP);
 		
 		User u = new User();
 		u.setUsername("Laurita");
@@ -57,6 +62,11 @@ public class EmpleadoServiceTest {
 	@Test
 	@Transactional
 	void shouldNotInsertEmpleadoInvalido() {
+		
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
@@ -69,6 +79,7 @@ public class EmpleadoServiceTest {
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
 		e.setTelefono("678456736");
+		e.setUsuario(userP);
 		
 		User u = new User();
 		u.setUsername("Laurita");
@@ -82,6 +93,10 @@ public class EmpleadoServiceTest {
 	@Test
 	@Transactional
 	void shouldUpdateEmpleado() {
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
@@ -94,6 +109,7 @@ public class EmpleadoServiceTest {
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
 		e.setTelefono("678456736");
+		e.setUsuario(userP);
 		
 		User u = new User();
 		u.setUsername("Laurita");
@@ -115,6 +131,11 @@ public class EmpleadoServiceTest {
 	@Test
 	@Transactional
 	void shouldNotUpdateEmpleadoInvalido() {
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
+		
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
@@ -127,6 +148,7 @@ public class EmpleadoServiceTest {
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
 		e.setTelefono("678456736");
+		e.setUsuario(userP);
 		
 		User u = new User();
 		u.setUsername("Laurita");
@@ -148,6 +170,10 @@ public class EmpleadoServiceTest {
 	@Test 
 	@Transactional
 	void shoulDeleteEmplead() {
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
@@ -160,6 +186,7 @@ public class EmpleadoServiceTest {
 		e.setNum_seg_social("82938103-23183-21");
 		e.setSueldo(1098L);
 		e.setTelefono("678456736");
+		e.setUsuario(userP);
 		
 		User u = new User();
 		u.setUsername("Laurita");
