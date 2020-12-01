@@ -25,7 +25,7 @@ public class EmpleadoService {
 	private AuthoritiesService authService;
 	
 	@Transactional
-	public void saveEmpleado(Empleado empleado) {
+	public void saveEmpleado(Empleado empleado) throws DataAccessException {
 		
 		empleado.getUsuario().setAuthorities(new ArrayList<>());
 		empleadoRepository.save(empleado);
@@ -50,9 +50,8 @@ public class EmpleadoService {
 	
 	
 	@Transactional(readOnly = true)
-	public Empleado findEmpleadoDni(String dni) throws DataAccessException {
-		Empleado v = empleadoRepository.findEmpleadoDNI(dni);
-		return v;
+	public Optional<Empleado> findEmpleadoDni(String dni) throws DataAccessException {
+		return empleadoRepository.findEmpleadoDNI(dni);
 	}
 
 }

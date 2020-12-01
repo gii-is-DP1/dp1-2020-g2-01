@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.NoSuchElementException;
 
+import javax.persistence.EntityManager;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +23,8 @@ public class TallerServiceTests {
 	@Autowired
 	protected TallerService tallerService;
 	
-	
+	@Autowired
+	protected EntityManager em;
 	
 	/* Caso positivo: encuentra un taller que existe en la base de datos
 	 * Caso negativo: aunque no hay en la documentación, es probar que no encuentra un taller que no existe 
@@ -74,22 +77,24 @@ public class TallerServiceTests {
 		
 	}
 	
-	//NO FUNCIONA
-//	@Test 
-//	void shouldNotUpdateTaller() {
-//		Taller t2 = new Taller();
-//		t2.setName("");
-//		t2.setCorreo("pruebadiferente@gmail.com");
-//		t2.setTelefono(666666667);
-//		t2.setUbicacion("Calle Prueba diferente, número 2");
-//		t2.setId(t.getId());
-//		
-//		tallerService.saveTaller(t2);
-//		
-//		assertThrows(ConstraintViolationException.class, ()->tallerService.saveTaller(t2));
-//		
-//	}
-//	
+	@Test 
+	void shouldNotUpdateTaller() {
+		Taller t2 = new Taller();
+		t2.setName("");
+		t2.setCorreo("pruebadiferente@gmail.com");
+		t2.setTelefono("666666667");
+		t2.setUbicacion("Calle Prueba diferente, número 2");
+		t2.setId(t.getId());
+		
+		tallerService.saveTaller(t2);
+		
+		assertThrows(ConstraintViolationException.class, () ->{
+			tallerService.saveTaller(t2);
+			em.flush();
+		});
+		
+	}
+	
 	
 	
 	@Test

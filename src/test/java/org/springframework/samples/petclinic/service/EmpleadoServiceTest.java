@@ -1,12 +1,13 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 
+import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class EmpleadoServiceTest {
@@ -23,6 +25,9 @@ public class EmpleadoServiceTest {
 	@Autowired
 	protected EmpleadoService empleadoService;
 	
+	@Autowired
+	protected EntityManager em;
+  
 	@Test
 	void shouldInsertEmpleado() {
 		
@@ -44,11 +49,18 @@ public class EmpleadoServiceTest {
 		e.setTelefono("678456736");
 		e.setUsuario(userP);
 		
+		User u = new User();
+		u.setUsername("Laurita");
+		u.setPassword("laura123");
+		
+		e.setUsuario(u);
+		
 		empleadoService.saveEmpleado(e);
-		assertEquals(e, empleadoService.findEmpleadoDni("36283951R"));
+		assertEquals(e, empleadoService.findEmpleadoDni("36283951R").get());
 	}
 	
 	@Test
+	@Transactional
 	void shouldNotInsertEmpleadoInvalido() {
 		
 		User userP = new User();
@@ -69,10 +81,17 @@ public class EmpleadoServiceTest {
 		e.setTelefono("678456736");
 		e.setUsuario(userP);
 		
+		User u = new User();
+		u.setUsername("Laurita");
+		u.setPassword("laura123");
+		
+		e.setUsuario(u);
+		
 		assertThrows(ConstraintViolationException.class, () -> empleadoService.saveEmpleado(e));
 	}
 	
 	@Test
+	@Transactional
 	void shouldUpdateEmpleado() {
 		User userP = new User();
 		userP.setUsername("nombreusuario");
@@ -92,17 +111,25 @@ public class EmpleadoServiceTest {
 		e.setTelefono("678456736");
 		e.setUsuario(userP);
 		
+		User u = new User();
+		u.setUsername("Laurita");
+		u.setPassword("laura123");
+		
+		e.setUsuario(u);
+		
 		empleadoService.saveEmpleado(e);
 		
-		Empleado e1 = empleadoService.findEmpleadoDni("36283951R");
-		e1.setSueldo(1180L);
+		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
+		e1.setDni("36283951M");
 		
 		empleadoService.saveEmpleado(e1);
 		
-		assertEquals(e, empleadoService.findEmpleadoDni("36283951R"));
+		assertTrue(empleadoService.findEmpleadoDni("36283951M").isPresent());
+		assertFalse(empleadoService.findEmpleadoDni("36283951R").isPresent());
 	}
 	
 	@Test
+	@Transactional
 	void shouldNotUpdateEmpleadoInvalido() {
 		User userP = new User();
 		userP.setUsername("nombreusuario");
@@ -123,17 +150,25 @@ public class EmpleadoServiceTest {
 		e.setTelefono("678456736");
 		e.setUsuario(userP);
 		
+		User u = new User();
+		u.setUsername("Laurita");
+		u.setPassword("laura123");
+		
+		e.setUsuario(u);
+		
 		empleadoService.saveEmpleado(e);
 		
-		Empleado e1 = empleadoService.findEmpleadoDni("36283951R");
+		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
 		e1.setDni("");
-		empleadoService.saveEmpleado(e1);
-		
-		assertFalse(this.empleadoService.findById(e1.getId()).isPresent());
+		assertThrows(ConstraintViolationException.class, () ->{
+			empleadoService.saveEmpleado(e1);
+			em.flush();
+		});
 		
 	}
 	
 	@Test 
+	@Transactional
 	void shoulDeleteEmplead() {
 		User userP = new User();
 		userP.setUsername("nombreusuario");
@@ -153,12 +188,18 @@ public class EmpleadoServiceTest {
 		e.setTelefono("678456736");
 		e.setUsuario(userP);
 		
+		User u = new User();
+		u.setUsername("Laurita");
+		u.setPassword("laura123");
+		
+		e.setUsuario(u);
+		
 		empleadoService.saveEmpleado(e);
-		assertEquals(e, empleadoService.findEmpleadoDni("36283951R"));
+		assertEquals(e, empleadoService.findEmpleadoDni("36283951R").get());
 		
 		empleadoService.delete(e);
 		
-		assertNull(empleadoService.findEmpleadoDni("36283951R"));
+		assertFalse(empleadoService.findEmpleadoDni("36283951R").isPresent());
 
 	}
 }

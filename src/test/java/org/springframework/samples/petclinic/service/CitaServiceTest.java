@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 
+import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.Test;
@@ -30,8 +31,12 @@ class CitaServiceTest {
 	@Autowired
 	protected TipoCitaService tipoCitaService;
 	
+	@Autowired
+	protected EntityManager em;
+	
 
 	@Test
+	@Transactional
 	void shouldInsertCita() {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
@@ -56,6 +61,7 @@ class CitaServiceTest {
 	}
 	
 	@Test
+	@Transactional
 	void shouldInsertCitaInvalida() {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
@@ -131,7 +137,10 @@ class CitaServiceTest {
 		c1.setTipoCita(tipo);
 		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
 		c1.setFecha(LocalDate.now());
-		assertThrows(ConstraintViolationException.class, () ->this.citaService.saveCita(c1));	
+		assertThrows(ConstraintViolationException.class, () ->{
+			this.citaService.saveCita(c1);
+			em.flush();
+		});	
 	}
 	
 	@Test
