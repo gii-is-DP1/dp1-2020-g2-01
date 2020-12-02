@@ -21,6 +21,7 @@
         	<th>Nombre</th>
             <th>Apellidos</th>
             <th>DNI</th>
+            <th>E-mail</th>
             <th>Fecha de Nacimiento</th>
             <th>Teléfono</th>
             <th>Vehículos</th>
@@ -40,6 +41,9 @@
                 
                 <td>
                    <c:out value="${clientes.dni}"/>
+                </td>
+                <td>
+                   <c:out value="${clientes.email}"/>
                 </td>
                 
                 <td>

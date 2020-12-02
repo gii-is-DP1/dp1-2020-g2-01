@@ -31,7 +31,7 @@
                 <petclinic:inputField label="Apellidos" name="apellidos"/> 
                	<petclinic:inputField label="DNI" name="dni"/>
                	<petclinic:inputField label="Fecha de nacimiento" name="fechaNacimiento"/>
-               	<petclinic:inputField label="Correo" name="correo"/>
+               	<petclinic:inputField label="E-mail" name="email"/>
                	<petclinic:inputField label="Teléfono" name="telefono"/>
                	<petclinic:inputField label="Fecha inicio contrato" name="fecha_ini_contrato"/>
                	<petclinic:inputField label="Fecha fin contrato" name="fecha_fin_contrato"/>

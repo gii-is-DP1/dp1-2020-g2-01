@@ -27,6 +27,7 @@ public class ClienteServiceTest {
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Vargas Ruda");
 		cliente.setDni("11223344M");
+		cliente.setEmail("añoño@gmail.com");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
@@ -48,6 +49,7 @@ public class ClienteServiceTest {
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Vargas Ruda");
 		cliente.setDni("11223344M");
+		cliente.setEmail("añoño@gmail.com");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
@@ -76,6 +78,7 @@ public class ClienteServiceTest {
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Vargas Ruda");
 		cliente.setDni("11223344M");
+		cliente.setEmail("añoño@gmail.com");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");

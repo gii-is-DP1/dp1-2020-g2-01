@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,14 +18,11 @@ import lombok.Data;
 public class Empleado extends Persona {
 	
 	@NotNull
-	@NotEmpty
-	private String correo;
-	
-	@NotNull
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate fecha_ini_contrato, fecha_fin_contrato;
 	
 	@NotNull
+	@DecimalMin(value="950")
 	private Long sueldo;
 	
 	@NotNull
