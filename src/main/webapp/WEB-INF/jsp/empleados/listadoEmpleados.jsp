@@ -11,7 +11,7 @@
     <td>
     	<spring:url value="/empleados/new" var="empleadoUrl">
         </spring:url>
-       	<a href="${fn:escapeXml(empleadoUrl)}">Add</a>
+       	<a href="${fn:escapeXml(empleadoUrl)}">Añadir empleado</a>
                 
     </td>
     
