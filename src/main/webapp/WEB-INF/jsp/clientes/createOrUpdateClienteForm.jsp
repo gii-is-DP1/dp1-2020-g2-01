@@ -23,6 +23,7 @@
             <petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:inputField label="Apellidos" name="apellidos"/>
             <petclinic:inputField label="DNI" name="dni"/>
+            <petclinic:inputField label="E-mail" name="email"/>
             <petclinic:inputField label="Fecha de nacimiento" name="fechaNacimiento"/>
             <petclinic:inputField label="Teléfono" name="telefono"/>
             <br>

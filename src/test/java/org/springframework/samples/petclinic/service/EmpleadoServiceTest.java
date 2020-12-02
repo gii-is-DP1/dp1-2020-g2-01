@@ -38,7 +38,7 @@ public class EmpleadoServiceTest {
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
-		e.setCorreo("laurita@gmail.com");
+		e.setEmail("laurita@gmail.com");
 		e.setDni("36283951R");
 		e.setFecha_fin_contrato(LocalDate.now().plusYears(10));
 		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
@@ -70,7 +70,7 @@ public class EmpleadoServiceTest {
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
-		e.setCorreo("laurita@gmail.com");
+		e.setEmail("laurita@gmail.com");
 		e.setDni("");
 		e.setFecha_fin_contrato(LocalDate.now().plusYears(10));
 		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
@@ -100,7 +100,7 @@ public class EmpleadoServiceTest {
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
-		e.setCorreo("laurita@gmail.com");
+		e.setEmail("laurita@gmail.com");
 		e.setDni("36283951R");
 		e.setFecha_fin_contrato(LocalDate.now().plusYears(10));
 		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
@@ -139,7 +139,7 @@ public class EmpleadoServiceTest {
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
-		e.setCorreo("laurita@gmail.com");
+		e.setEmail("laurita@gmail.com");
 		e.setDni("36283951R");
 		e.setFecha_fin_contrato(LocalDate.now().plusYears(10));
 		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
@@ -177,7 +177,7 @@ public class EmpleadoServiceTest {
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
-		e.setCorreo("laurita@gmail.com");
+		e.setEmail("laurita@gmail.com");
 		e.setDni("36283951R");
 		e.setFecha_fin_contrato(LocalDate.now().plusYears(10));
 		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));

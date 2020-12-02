@@ -23,7 +23,7 @@
             <th>Usuario</th>
             <th>DNI</th>
             <th>Fecha de nacimiento</th>
-            <th>Correo</th>
+            <th>E-mail</th>
             <th>Teléfono</th>
             <th>Fecha del inicio del contrato</th>
             <th>Fecha del fin del contrato</th>
@@ -56,7 +56,7 @@
                 </td>
                 
                   <td>
-                    <c:out value="${empleado.correo}"/>
+                    <c:out value="${empleado.email}"/>
                 </td>
                 
                   <td>

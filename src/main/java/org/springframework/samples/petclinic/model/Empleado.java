@@ -17,10 +17,6 @@ import lombok.Data;
 public class Empleado extends Persona {
 	
 	@NotNull
-	@NotEmpty
-	private String correo;
-	
-	@NotNull
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate fecha_ini_contrato, fecha_fin_contrato;
 	

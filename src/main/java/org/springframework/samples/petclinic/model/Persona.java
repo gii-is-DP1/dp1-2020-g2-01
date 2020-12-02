@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -38,6 +39,11 @@ public class Persona extends BaseEntity{
 	@Column(name="telefono")
 	@NotEmpty
 	private String telefono;
+	
+	@Column(name="email")
+	@Email
+	@NotEmpty
+	private String email;
 
 
 	public String getDni() {
@@ -79,6 +85,14 @@ public class Persona extends BaseEntity{
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email=email;
 	}
 	
 }
