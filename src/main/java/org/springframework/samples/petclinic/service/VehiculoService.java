@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.repository.VehiculoRepository;
@@ -36,6 +37,10 @@ public class VehiculoService {
 		return vehiculoRepository.findById(id);
 	}
 	
+	@Transactional
+	public List<Vehiculo> findVehiculosCliente(Cliente cliente) throws DataAccessException {
+		return vehiculoRepository.findVehiculosCliente(cliente);
+	}
 	
 	@Transactional
 	public void delete(Vehiculo vehiculo) {

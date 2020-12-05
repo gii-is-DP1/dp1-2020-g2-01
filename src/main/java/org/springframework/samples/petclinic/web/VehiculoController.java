@@ -2,24 +2,21 @@ package org.springframework.samples.petclinic.web;
 
 
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.Vehiculo;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.VehiculoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +28,9 @@ public class VehiculoController {
 	
 	@Autowired
 	private VehiculoService vehiculoService;
+	
+	@Autowired
+	private ClienteService clienteService;
 	
 	//En las vistas se puede usar ${types} para mostrar todos los tipos de vehiculo disponibles
 	@ModelAttribute("types")
@@ -45,6 +45,21 @@ public class VehiculoController {
 		Iterable<Vehiculo> vehiculos = vehiculoService.findAll();
 		model.put("vehiculos", vehiculos);
 		return vista;
+		
+	}
+	
+	@GetMapping(value = { "/listadoVehiculos/{username}" })
+	public String listadoVehiculosCliente(@PathVariable(value="username") String username, ModelMap model) {
+		String vista = "vehiculos/listadoVehiculos";
+		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
+		if(cliente.isPresent()) {
+			List<Vehiculo> vehiculos = vehiculoService.findVehiculosCliente(cliente.get());
+			model.put("vehiculos", vehiculos);
+			return vista;
+		}else {
+			return "";
+		}
+		
 		
 	}
 	
