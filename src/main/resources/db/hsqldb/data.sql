@@ -124,3 +124,9 @@ INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersin
 INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (100,'2021-10-22', 21, 1, 101);
 INSERT INTO citas(id, vehiculo_id, fecha, hora) VALUES (101, 100, '2021-10-22', 20);
 
+INSERT INTO users(username, password, enabled) VALUES ('jesfunrud', 'pass', TRUE);
+INSERT INTO authorities(username, authority) VALUES ('jesfunrud', 'cliente');
+INSERT INTO clientes(id, dni, nombre, apellidos, fecha_nacimiento, telefono, email, username) VALUES (1, '11223344M', 'Jesus', 'Funes Ruda', '2000-02-20', '666339933', 'jesusfunesruda@gmail.com', 'jesfunrud');
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (102, '5678-ABC', 'bastidordeprue', 'Citroen C3', 1, 1);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (103, '5679-ABC', 'bastidordepru', 'Citroen C4', 1, 1);
+

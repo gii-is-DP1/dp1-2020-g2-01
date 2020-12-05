@@ -3,11 +3,9 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Future;
@@ -31,19 +29,19 @@ public class Cita extends BaseEntity{
 //	@JoinColumn(name ="empleados")
 //	private List<Empleado> empleados;
 	
-	@ManyToOne(/*optional=false, */cascade = CascadeType.ALL) // Lo he comentado para que no dé error en la vista a la hora de añadirlo
+	@ManyToOne//(/*optional=false, */cascade = CascadeType.ALL)
 	@JoinColumn(name = "vehiculo_id")
 	private Vehiculo vehiculo;
 	
 	@NotNull
 	@Future
 	@JoinColumn(name = "fecha")
-	@DateTimeFormat(pattern = "dd/MM/yyyy") // Hace falta
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate fecha;
 	
 	@NotNull
 	@JoinColumn(name="hora")
-	@Range(min = 0, max = 23)
+	@Range(min = 9, max = 21)
 	private Integer hora;
 	
 	@JoinColumn(name="tipo")
