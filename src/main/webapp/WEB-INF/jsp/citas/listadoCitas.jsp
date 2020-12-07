@@ -8,13 +8,6 @@
 <petclinic:layout pageName="citas">
     <h2>Citas</h2>
     
-    <td>
-    	<spring:url value="/citas/new" var="citaUrl">
-        </spring:url>
-       	<a href="${fn:escapeXml(citaUrl)}">Añadir cita</a>
-                
-    </td>
-    
     <table id="citasTable" class="table table-striped">
         <thead>
         <tr>
@@ -23,6 +16,8 @@
             <th>Fecha</th>
             <th>Hora</th>
             <th>Tipo de cita</th>
+            <th></th>
+            <th></th>
             
         </tr>
         </thead>
@@ -51,19 +46,23 @@
                 </td>
                 
                 <td>
-                	<spring:url value="/citas/delete/{citaId}" var="citaUrl">
+                	<spring:url value="/citas/update/{citaId}" var="citaUrl">
                         <spring:param name="citaId" value="${citas.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(citaUrl)}">Delete</a>
+                    <a href="${fn:escapeXml(citaUrl)}">
+                    	<span class="glyphicon glyphicon-pencil"></span>
+                    </a>
                 
                 </td>
                 
                 
                  <td>
-                	<spring:url value="/citas/update/{citaId}" var="citaUrl">
+                	<spring:url value="/citas/delete/{citaId}" var="citaUrl">
                         <spring:param name="citaId" value="${citas.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(citaUrl)}">Update</a>
+                    <a href="${fn:escapeXml(citaUrl)}">
+						<span class="glyphicon glyphicon-trash"></span>
+					</a>
                 
                 </td>
                 
@@ -71,6 +70,9 @@
         </c:forEach>
         </tbody>
     </table>
+    <spring:url value="/citas/new" var="citaUrl">
+    </spring:url>
+    <a class="btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cita</a>
 
 
 </petclinic:layout>

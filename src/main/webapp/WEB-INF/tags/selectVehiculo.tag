@@ -20,9 +20,6 @@
             		<option value="${item.id }">${item.modelo} - ${item.matricula}</option>
             	</c:forEach>
             	</select>
-            <c:if test="${valid}">
-                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-            </c:if>
             <c:if test="${status.error}">
                 <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 <span class="help-inline">${status.errorMessage}</span>
