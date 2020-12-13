@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,9 @@ public class CitaController {
 	@Autowired
 	private TipoCitaService tipoCitaService;
 	
+	@Autowired
+	protected EntityManager em;
+	
 	@GetMapping(value="")
 	public String listado(ModelMap model) {
 		return listadoCitas(model);
@@ -54,23 +58,13 @@ public class CitaController {
 		return vista;
 	}
 	
-	@GetMapping(value = "/new")
-	public String crearCita(ModelMap model) {
-		String vista = "citas/editCita";
-		model.addAttribute("vehiculos", vehiculoService.findAll());
-		model.addAttribute("tipos", tipoCitaService.findAll());
-		model.addAttribute("cita", new Cita());
-		return vista;
-	}
-	
-	@PostMapping(value="/new")
-	public String guardarCita(@Valid Cita cita, BindingResult result, ModelMap model) {
+	private String saveCita(Cita cita, BindingResult result, ModelMap model) {
 		String vista;
 		if(result.hasErrors()) {
 			cita.getVehiculo().setCitas(null); // Evita stackOverflowError
 			cita.getVehiculo().setCliente(null);
-			model.addAttribute("vehiculos", citaService.getVehiculosSeleccionadoPrimero(cita));
-			model.addAttribute("tipos", citaService.geTiposCitaSeleccionadoPrimero(cita));
+			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
+			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
 			vista = CREATE_OR_UPDATE_FORM;
 		}else {
 			Integer vehiculoId = cita.getVehiculo().getId();
@@ -88,6 +82,20 @@ public class CitaController {
 		return vista;
 	}
 	
+	@GetMapping(value = "/new")
+	public String crearCita(ModelMap model) {
+		String vista = "citas/editCita";
+		model.addAttribute("vehiculos", vehiculoService.findAll());
+		model.addAttribute("tipos", tipoCitaService.findAll());
+		model.addAttribute("cita", new Cita());
+		return vista;
+	}
+	
+	@PostMapping(value="/new")
+	public String guardarCita(@Valid Cita cita, BindingResult result, ModelMap model) {
+		return saveCita(cita, result, model);
+	}
+	
 	@GetMapping(value="/update/{citaId}")
 	public String updateCita(@PathVariable("citaId") int id, ModelMap model) {
 		String vista = "";
@@ -100,8 +108,8 @@ public class CitaController {
 			Cita cita = c.get();
 			cita.getVehiculo().setCitas(null); // Evita stackOverflowError
 			cita.getVehiculo().setCliente(null);
-			model.addAttribute("vehiculos", citaService.getVehiculosSeleccionadoPrimero(cita));
-			model.addAttribute("tipos", citaService.geTiposCitaSeleccionadoPrimero(cita));
+			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
+			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
 			model.addAttribute("cita", cita);
 			vista = "citas/editCita";
 		}
@@ -111,9 +119,9 @@ public class CitaController {
 	@PostMapping(value="/update/{citaId}")
 	public String updateCitaPost(@Valid Cita cita, @PathVariable("citaId") int id, BindingResult result, ModelMap model) {
 		cita.setId(id);  // #### A la hora de hacer un update con un error no pasa por aquí y salta el fallo directamente
-		return guardarCita(cita, result, model);
+		return saveCita(cita, result, model);
 	}
-	
+
 	@GetMapping(value="/delete/{citaId}")
 	public String deleteCita(@PathVariable("citaId") int id, ModelMap model) {
 		String vista = "";

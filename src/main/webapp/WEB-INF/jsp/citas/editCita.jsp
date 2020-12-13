@@ -10,9 +10,10 @@
         <script>
             $(function () {
                 $("#fecha").datepicker({dateFormat: 'dd/mm/yy'});
+                
             });
         </script>
-    </jsp:attribute>
+    </jsp:attribute>      
     
     
     <jsp:body>
@@ -27,8 +28,10 @@
               
             	<petclinic:selectVehiculo label="Vehículos" name="vehiculo" items="${vehiculos}"/>
             	
-                <petclinic:inputField label="Fecha" name="fecha"/> 
-               	<petclinic:inputField label="Hora" name="hora"/>
+                <!-- <petclinic:inputField label="Fecha" name="fecha"/> 
+               	<petclinic:inputField label="Hora" name="hora"/> -->
+               	
+               	<petclinic:selectFecha label="Fecha" items="${vehiculos}"/>
                	
                	<petclinic:selectTipoCita label="Tipo de cita" name="tipoCita" items="${tipos}"/>
                 <input type="hidden" name="id" value="${cita.id}"/>

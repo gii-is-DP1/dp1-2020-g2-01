@@ -3,8 +3,11 @@ package org.springframework.samples.petclinic.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.Vehiculo;
@@ -16,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class VehiculoService {
 
 	private VehiculoRepository vehiculoRepository;
+
+	@Autowired
+	protected EntityManager em;
 	
 	@Autowired
 	public VehiculoService(VehiculoRepository vehiculoRepository) {
@@ -55,6 +61,17 @@ public class VehiculoService {
 
 	public List<TipoVehiculo> findVehiculoTypes() {
 		return vehiculoRepository.findVehiculoTypes();
+	}
+
+	@Transactional
+	public List<Vehiculo> getVehiculosSeleccionadoPrimero(Cita cita) {
+		Integer vehiculoId = cita.getVehiculo().getId();
+		em.clear(); // Con esto evito que el cliente y las citas sean null por lo que pongo para evitar el stackoverflow
+		Vehiculo vehiculo = vehiculoRepository.findById(vehiculoId).get();
+		List<Vehiculo> vehiculos = vehiculoRepository.findAll();
+		vehiculos.remove(vehiculo); 
+		vehiculos.add(0, vehiculo); 
+		return vehiculos;
 	}
 
 }

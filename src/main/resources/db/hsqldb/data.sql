@@ -122,7 +122,7 @@ INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (2, 'Taller S
 
 INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersindo', '12345678A', '665112233', 'gumersindo@gmail.com');
 INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (100,'2021-10-22', 21, 1, 101);
-INSERT INTO citas(id, vehiculo_id, fecha, hora) VALUES (101, 100, '2021-10-22', 20);
+INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (101, 100, '2021-10-22', 20, 3);
 
 INSERT INTO users(username, password, enabled) VALUES ('jesfunrud', 'pass', TRUE);
 INSERT INTO authorities(username, authority) VALUES ('jesfunrud', 'cliente');
