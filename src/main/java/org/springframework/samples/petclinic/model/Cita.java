@@ -3,11 +3,9 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Future;
@@ -30,7 +28,7 @@ public class Cita extends BaseEntity{
 //	@ManyToMany
 //	@JoinColumn(name ="empleados")
 //	private List<Empleado> empleados;
-	
+  
 	@ManyToOne
 	@JoinColumn(name = "vehiculo_id")
 	private Vehiculo vehiculo;
@@ -38,12 +36,12 @@ public class Cita extends BaseEntity{
 	@NotNull
 	@Future
 	@JoinColumn(name = "fecha")
-	@DateTimeFormat(pattern = "dd/MM/yyyy") // Hace falta
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate fecha;
 	
 	@NotNull
 	@JoinColumn(name="hora")
-	@Range(min = 0, max = 23)
+	@Range(min = 9, max = 21)
 	private Integer hora;
 	
 	@JoinColumn(name="tipo")

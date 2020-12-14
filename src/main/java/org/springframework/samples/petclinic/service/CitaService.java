@@ -14,12 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CitaService {
-	private CitaRepository citaRepository;
 	
 	@Autowired
-	public CitaService(CitaRepository citaRepository) {
-		this.citaRepository = citaRepository;
-	}
+	private CitaRepository citaRepository;
 	
 	@Transactional
 	public void saveCita(Cita cita) throws DataAccessException {
@@ -59,5 +56,11 @@ public class CitaService {
 	public Cita findCitaByFechaAndHora(LocalDate fecha, Integer hora) throws DataAccessException {
 		Cita c = citaRepository.findCitaByFechaAndHora(fecha, hora);
 		return c;
+	}
+	
+	@Transactional
+	public Boolean hayCitaParaElDia(LocalDate fecha) {
+		List<Cita> cita = citaRepository.findCitaByFecha(fecha);
+		return cita.size() < 21 - 9; // El taller admite citas desde las 9 hasta las 21
 	}
 }

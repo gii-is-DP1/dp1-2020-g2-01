@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.TipoCita;
@@ -15,7 +18,9 @@ import org.springframework.samples.petclinic.service.VehiculoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +29,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/citas")
 public class CitaController {
 	
-	private static final String FORMULARIO_CITA_COVID = "citas/covid_confirmation";
+
+	public static final String CREATE_OR_UPDATE_FORM = "citas/editCita";
+  private static final String FORMULARIO_CITA_COVID = "citas/covid_confirmation";
+	
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id");
+	}
+	
 	
 	@Autowired
 	private CitaService citaService;
@@ -34,6 +47,9 @@ public class CitaController {
 	
 	@Autowired
 	private TipoCitaService tipoCitaService;
+	
+	@Autowired
+	protected EntityManager em;
 	
 	@GetMapping(value="")
 	public String listado(ModelMap model) {
@@ -48,6 +64,30 @@ public class CitaController {
 		return vista;
 	}
 	
+	private String saveCita(Cita cita, BindingResult result, ModelMap model) {
+		String vista;
+		if(result.hasErrors()) {
+			cita.getVehiculo().setCitas(null); // Evita stackOverflowError
+			cita.getVehiculo().setCliente(null);
+			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
+			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
+			vista = CREATE_OR_UPDATE_FORM;
+		}else {
+			Integer vehiculoId = cita.getVehiculo().getId();
+			Vehiculo vehiculo = vehiculoService.findVehiculoById(vehiculoId).get();
+			cita.setVehiculo(vehiculo);
+			
+			Integer tipoCitaId = cita.getTipoCita().getId();
+			TipoCita tipoCita = tipoCitaService.findById(tipoCitaId).get();
+			cita.setTipoCita(tipoCita);
+			
+			citaService.saveCita(cita);
+			model.addAttribute("message", "Cita created successfully");
+			vista = listadoCitas(model);
+		}
+		return vista;
+	}
+	
 	@GetMapping(value = "/new")
 	public String crearCita(ModelMap model) {
 		String vista = "citas/editCita";
@@ -57,24 +97,9 @@ public class CitaController {
 		return vista;
 	}
 	
-	@PostMapping(value="/save")
-	public String guardarCita(Cita cita, BindingResult result, ModelMap model) {
-		String vista;
-		if(result.hasErrors()) {
-			model.addAttribute("cita", cita);
-			vista = "citas/editCita";
-		}else {
-			Integer vehiculoId = cita.getVehiculo().getId();
-			Vehiculo vehiculo = vehiculoService.findVehiculoById(vehiculoId).get();
-			cita.setVehiculo(vehiculo);
-			Integer tipoCitaId = cita.getTipoCita().getId();
-			TipoCita tipoCita = tipoCitaService.findById(tipoCitaId).get();
-			cita.setTipoCita(tipoCita);
-			citaService.saveCita(cita);
-			model.addAttribute("message", "Cita created successfully");
-			vista = listadoCitas(model);
-		}
-		return "redirect:/" + vista;
+	@PostMapping(value="/new")
+	public String guardarCita(@Valid Cita cita, BindingResult result, ModelMap model) {
+		return saveCita(cita, result, model);
 	}
 	
 	@GetMapping(value="/update/{citaId}")
@@ -83,28 +108,26 @@ public class CitaController {
 		Optional<Cita> c = citaService.findCitaById(id);
 		if(!c.isPresent()) {
 			model.addAttribute("message", "Cita not found");
+			model.addAttribute("messageType", "warning");
 			vista = listadoCitas(model);
 		}else {
 			Cita cita = c.get();
-			Vehiculo vehiculo = cita.getVehiculo();
-			TipoCita tipo = cita.getTipoCita();
-			List<Vehiculo> vehiculos = vehiculoService.findAll();
-			List<TipoCita> tipos = tipoCitaService.findAll();
-			vehiculos.remove(vehiculo); // Con esto el vehículo de la cita aparece el primero en el desplegable
-			vehiculos.add(0, vehiculo); // para que esté seleccionado por defecto
-			tipos.remove(tipo);
-			tipos.add(0, tipo);
 			cita.getVehiculo().setCitas(null); // Evita stackOverflowError
-			model.addAttribute("vehiculos", vehiculos);
-			model.addAttribute("tipos", tipos);
+			cita.getVehiculo().setCliente(null);
+			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
+			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
 			model.addAttribute("cita", cita);
 			vista = "citas/editCita";
 		}
 		return vista;
 	}
-	
-	
-	
+  
+	@PostMapping(value="/update/{citaId}")
+	public String updateCitaPost(@Valid Cita cita, @PathVariable("citaId") int id, BindingResult result, ModelMap model) {
+		cita.setId(id);  // #### A la hora de hacer un update con un error no pasa por aquí y salta el fallo directamente
+		return saveCita(cita, result, model);
+	}
+  
 	@GetMapping(value="/delete/{citaId}")
 	public String deleteCita(@PathVariable("citaId") int id, ModelMap model) {
 		String vista = "";

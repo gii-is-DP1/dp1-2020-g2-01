@@ -33,12 +33,23 @@
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Buscar Clientes</span>
 				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'vehiculos'}" url="/vehiculos/listadoVehiculos"
-					title="vehiculos">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Vehículos</span>
-				</petclinic:menuItem>
+				
+				<!-- Vehiculos -->
+				<sec:authorize access="!isAuthenticated()">
+					<petclinic:menuItem active="${name eq 'vehiculos'}" url="/vehiculos/listadoVehiculos"
+						title="vehiculos">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>Vehículos</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+				<sec:authentication property="name" var="username"/>
+					<petclinic:menuItem active="${name eq 'vehiculos'}" url="/vehiculos/listadoVehiculos/${username}"
+						title="vehiculos">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>Vehículos</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 				
 				<petclinic:menuItem active="${name eq 'proveedores'}" url="/proveedores/listadoProveedores"
 					title="proveedores">
