@@ -14,12 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CitaService {
-	private CitaRepository citaRepository;
 	
 	@Autowired
-	public CitaService(CitaRepository citaRepository) {
-		this.citaRepository = citaRepository;
-	}
+	private CitaRepository citaRepository;
 	
 	@Transactional
 	public void saveCita(Cita cita) throws DataAccessException {
@@ -41,9 +38,29 @@ public class CitaService {
 		citaRepository.delete(cita);
 	}
 	
+	@Transactional
+	public void deleteCOVID() throws DataAccessException{
+		LocalDate inicioCuarentena = LocalDate.now().minusDays(1);
+		LocalDate finCuarentena = LocalDate.now().plusDays(15);
+		List<Cita> citas = this.findAll();
+			for(int i=0;i<citas.size();i++) {
+				Cita cita = citas.get(i);
+				LocalDate fecha = cita.getFecha();
+				if(fecha.isAfter(inicioCuarentena) && fecha.isBefore(finCuarentena)) {
+					this.delete(cita);
+				}
+			}
+	}
+	
 	@Transactional(readOnly = true)
 	public Cita findCitaByFechaAndHora(LocalDate fecha, Integer hora) throws DataAccessException {
 		Cita c = citaRepository.findCitaByFechaAndHora(fecha, hora);
 		return c;
+	}
+	
+	@Transactional
+	public Boolean hayCitaParaElDia(LocalDate fecha) {
+		List<Cita> cita = citaRepository.findCitaByFecha(fecha);
+		return cita.size() < 21 - 9; // El taller admite citas desde las 9 hasta las 21
 	}
 }

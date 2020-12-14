@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.ClienteService;
@@ -46,6 +47,21 @@ public class VehiculoController {
 		Iterable<Vehiculo> vehiculos = vehiculoService.findAll();
 		model.put("vehiculos", vehiculos);
 		return vista;
+		
+	}
+	
+	@GetMapping(value = { "/listadoVehiculos/{username}" })
+	public String listadoVehiculosCliente(@PathVariable(value="username") String username, ModelMap model) {
+		String vista = "vehiculos/listadoVehiculos";
+		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
+		if(cliente.isPresent()) {
+			List<Vehiculo> vehiculos = vehiculoService.findVehiculosCliente(cliente.get());
+			model.put("vehiculos", vehiculos);
+			return vista;
+		}else {
+			return "";
+		}
+		
 		
 	}
 	

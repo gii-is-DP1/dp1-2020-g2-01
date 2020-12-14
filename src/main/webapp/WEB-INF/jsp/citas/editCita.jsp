@@ -10,17 +10,20 @@
         <script>
             $(function () {
                 $("#fecha").datepicker({dateFormat: 'dd/mm/yy'});
+                
             });
         </script>
-    </jsp:attribute>
+    </jsp:attribute>      
     
     
     <jsp:body>
-        <h2>Cita</h2>
+        <h2>
+        <c:if test="${cita['new']}">Añadir </c:if> <c:if test="${ not cita['new']}">Editar </c:if> cita
+    	</h2>
 
         
 
-        <form:form action="/citas/save" modelAttribute="cita" class="form-horizontal">
+        <form:form modelAttribute="cita" class="form-horizontal">
             <div class="form-group has-feedback">
               
             	<petclinic:selectVehiculo label="Vehículos" name="vehiculo" items="${vehiculos}"/>
@@ -29,12 +32,19 @@
                	<petclinic:inputField label="Hora" name="hora"/>
                	
                	<petclinic:selectTipoCita label="Tipo de cita" name="tipoCita" items="${tipos}"/>
+                <input type="hidden" name="id" value="${cita.id}"/>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input type="hidden" name="id" value="${cita.id}"/>
-                    <button class="btn btn-default" type="submit">Guardar cita</button>
+                    <c:choose>
+                    <c:when test="${cita['new']}">
+                        <button class="btn btn-default" type="submit">Añadir cita</button>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn btn-default" type="submit">Editar cita</button>
+                    </c:otherwise>
+                </c:choose>
                 </div>
             </div>
         </form:form>
