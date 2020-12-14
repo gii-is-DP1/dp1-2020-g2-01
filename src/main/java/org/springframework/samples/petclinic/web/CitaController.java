@@ -1,9 +1,9 @@
 package org.springframework.samples.petclinic.web;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
@@ -57,14 +57,16 @@ public class CitaController {
 	}
 	
 	@GetMapping(value = { "/listadoCitas"})
-	public String listadoCitas(ModelMap model) {
+	public String listadoCitas(ModelMap model) { // Tiene que mostrar solo las citas del cliente
 		String vista = "citas/listadoCitas";
-		Iterable<Cita> citas = citaService.findAll();
-		model.put("citas", citas);
+		List<Cita> citas = citaService.findAll();
+		Comparator<Cita> ordenarPorFechaYHora = Comparator.comparing(Cita::getFecha)
+				.thenComparing(Comparator.comparing(Cita::getHora));
+		model.put("citas", citas.stream().sorted(ordenarPorFechaYHora).collect(Collectors.toList()));
 		return vista;
 	}
 	
-	private String saveCita(Cita cita, BindingResult result, ModelMap model) {
+	private String saveCita(Cita cita, BindingResult result, ModelMap model, String mensaje) {
 		String vista;
 		if(result.hasErrors()) {
 			cita.getVehiculo().setCitas(null); // Evita stackOverflowError
@@ -82,7 +84,7 @@ public class CitaController {
 			cita.setTipoCita(tipoCita);
 			
 			citaService.saveCita(cita);
-			model.addAttribute("message", "Cita created successfully");
+			model.addAttribute("message", "Cita " + mensaje + " successfully");
 			vista = listadoCitas(model);
 		}
 		return vista;
@@ -99,7 +101,7 @@ public class CitaController {
 	
 	@PostMapping(value="/new")
 	public String guardarCita(@Valid Cita cita, BindingResult result, ModelMap model) {
-		return saveCita(cita, result, model);
+		return saveCita(cita, result, model, "created");
 	}
 	
 	@GetMapping(value="/update/{citaId}")
@@ -125,7 +127,7 @@ public class CitaController {
 	@PostMapping(value="/update/{citaId}")
 	public String updateCitaPost(@Valid Cita cita, @PathVariable("citaId") int id, BindingResult result, ModelMap model) {
 		cita.setId(id);  // #### A la hora de hacer un update con un error no pasa por aquí y salta el fallo directamente
-		return saveCita(cita, result, model);
+		return saveCita(cita, result, model, "updated");
 	}
   
 	@GetMapping(value="/delete/{citaId}")

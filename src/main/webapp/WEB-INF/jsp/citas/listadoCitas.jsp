@@ -9,18 +9,16 @@
     <h2>Citas</h2>
     
 
-    <td>
-    	<spring:url value="/citas/new" var="citaUrl">
-        </spring:url>
-       	<a href="${fn:escapeXml(citaUrl)}">Añadir cita</a>     
-    </td>
-   <br> 
-    <th>
-        <spring:url value="/citas/covid" var="citaUrl">
-        </spring:url>
-       	<a href="${fn:escapeXml(citaUrl)}">Cancelar citas por COVID</a>
-    </th>
 
+    <spring:url value="/citas/new" var="citaUrl">
+    </spring:url>
+    <a class="btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-plus"></span> A�adir cita</a>
+    
+    <div style="float:right">
+    <spring:url value="/citas/covid" var="citaUrl">
+    </spring:url>
+    <a class="btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-asterisk"></span> Cancelar citas por COVID</a>
+	</div>
     <table id="citasTable" class="table table-striped">
         <thead>
         <tr>
@@ -82,9 +80,6 @@
         </c:forEach>
         </tbody>
     </table>
-    <spring:url value="/citas/new" var="citaUrl">
-    </spring:url>
-    <a class="btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cita</a>
 
 
 
