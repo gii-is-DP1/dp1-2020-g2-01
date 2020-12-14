@@ -52,4 +52,9 @@ public class VehiculoService {
 		return vehiculoRepository.findVehiculoTypes();
 	}
 
+	@Transactional
+	public List<Vehiculo> findByClienteId(Integer id) {
+		return vehiculoRepository.findByClienteId(id);
+	}
+
 }

@@ -16,6 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class TallerServiceTests {
@@ -63,6 +64,7 @@ public class TallerServiceTests {
 	
 	
 	@Test 
+	@Transactional
 	void shouldUpdateTaller() {
 		Taller t2 = new Taller();
 		t2.setName("Taller de prueba diferente");
@@ -77,7 +79,8 @@ public class TallerServiceTests {
 		
 	}
 	
-	@Test 
+	@Test
+	@Transactional
 	void shouldNotUpdateTaller() {
 		Taller t2 = new Taller();
 		t2.setName("");
@@ -98,6 +101,7 @@ public class TallerServiceTests {
 	
 	
 	@Test
+	@Transactional
 	void shouldDeleteTaller() throws DataAccessException {
 		tallerService.delete(t);
 		assertThrows(NoSuchElementException.class, () -> tallerService.findById(t.getId()).get());
