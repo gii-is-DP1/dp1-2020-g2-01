@@ -12,8 +12,8 @@
     <div class="covid" align="center">
     	<h4><strong>¿Está seguro de que desea cancelar todas las citas previstas para las próximas dos semanas?</strong></h4>
     	<br>
-    	<a href="/citas/eliminarCitasCovid" class="btn btn-success btn-lg active" role="button">Sí, estoy seguro</a>
-		<a href="/citas/listadoCitas" class="btn btn-default btn-lg active" role="button">No, volver al listado</a>
+    	<a href="/citas/eliminarCitasCovid" class="btn btn-success btn-lg" role="button">Sí, estoy seguro</a>
+		<a href="/citas/listadoCitas" class="btn btn-default btn-lg" role="button" style="border-width: 1px">No, volver al listado</a>
 		<br><br>
 		<h5>Se enviará un correo electrónico anunciado la cancelación a todos los clientes afectados de forma automática</h5>
     	<h5>Esta acción no se puede deshacer.</h5>
