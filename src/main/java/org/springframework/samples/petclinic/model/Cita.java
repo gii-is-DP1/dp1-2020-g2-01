@@ -31,7 +31,7 @@ public class Cita extends BaseEntity{
 //	@JoinColumn(name ="empleados")
 //	private List<Empleado> empleados;
 	
-	@ManyToOne(/*optional=false, */cascade = CascadeType.ALL) // Lo he comentado para que no dé error en la vista a la hora de añadirlo
+	@ManyToOne
 	@JoinColumn(name = "vehiculo_id")
 	private Vehiculo vehiculo;
 	

@@ -44,12 +44,12 @@ public class CitaService {
 	@Transactional
 	public void deleteCOVID() throws DataAccessException{
 		LocalDate inicioCuarentena = LocalDate.now().minusDays(1);
-		LocalDate finCuarentena = inicioCuarentena.plusDays(14L).plusDays(1);
+		LocalDate finCuarentena = LocalDate.now().plusDays(15);
 		List<Cita> citas = this.findAll();
 			for(int i=0;i<citas.size();i++) {
 				Cita cita = citas.get(i);
 				LocalDate fecha = cita.getFecha();
-				if(fecha.isAfter(inicioCuarentena)&&fecha.isBefore(finCuarentena)) {
+				if(fecha.isAfter(inicioCuarentena) && fecha.isBefore(finCuarentena)) {
 					this.delete(cita);
 				}
 			}
