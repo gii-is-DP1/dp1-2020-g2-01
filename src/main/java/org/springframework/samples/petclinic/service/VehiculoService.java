@@ -63,7 +63,12 @@ public class VehiculoService {
 		return vehiculoRepository.findVehiculoTypes();
 	}
 
-	@Transactional
+	@Transactional(readOnly=true)
+	public List<Vehiculo> findByClienteId(Integer id) {
+		return vehiculoRepository.findByClienteId(id);
+  }
+  
+  @Transactional
 	public List<Vehiculo> getVehiculosSeleccionadoPrimero(Cita cita) {
 		Integer vehiculoId = cita.getVehiculo().getId();
 		em.clear(); // Con esto evito que el cliente y las citas sean null por lo que pongo para evitar el stackoverflow

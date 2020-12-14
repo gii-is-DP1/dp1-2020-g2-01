@@ -29,8 +29,10 @@ public class VehiculoController {
 	@Autowired
 	private VehiculoService vehiculoService;
 	
+	
 	@Autowired
 	private ClienteService clienteService;
+	
 	
 	//En las vistas se puede usar ${types} para mostrar todos los tipos de vehiculo disponibles
 	@ModelAttribute("types")
@@ -116,5 +118,80 @@ public class VehiculoController {
 		}
 		return vista;
 	}
+	
+	
+	
+	@GetMapping(value = {"/listadoVehiculos/{clienteId}"})
+	public String listadoVehiculosParaCliente(@PathVariable("clienteId") int id, ModelMap model) {
+		String vista = "vehiculos/listadoVehiculosCliente";
+		Iterable<Vehiculo> vehiculos = vehiculoService.findByClienteId(id);
+		model.put("clienteId", id);
+		model.put("vehiculos", vehiculos);
+		return vista;
+		
+	}
+	
+	
+	
+	
+	@GetMapping(value = "/new/{clienteId}")
+	public String crearVehiculoParaCliente(ModelMap model, @PathVariable("clienteId") int id) {
+		String vista = "vehiculos/editVehiculoCliente";
+		model.addAttribute("vehiculo", new Vehiculo());
+		model.addAttribute("clienteId", id);
+		return vista;
+	}
+	
+	
+	
+	@PostMapping(value = "/save/{clienteId}")
+	public String guardarVehiculoParaCliente(@Valid Vehiculo vehiculo, BindingResult result, ModelMap model, @PathVariable("clienteId") int id) {
+		String vista;
+		
+		if(result.hasErrors()) {
+			model.addAttribute("vehiculo", vehiculo);
+			vista = "vehiculos/editVehiculoCliente";
+		} else {
+			vehiculo.setCliente(clienteService.findClienteById(id).get());
+			vehiculoService.saveVehiculo(vehiculo);
+			model.addAttribute("message", "Vehiculo created successfully");
+			vista = listadoVehiculosParaCliente(id, model);
+		}
+		
+		return vista;
+	}
+	
+	@GetMapping(value = "/update/{clienteId}/{vehiculoId}")
+	public String editarVehiculoParaCliente(@PathVariable("clienteId") int clienteId, @PathVariable("vehiculoId") int vehiculoId, ModelMap model) {
+		String vista = "vehiculos/editVehiculoCliente";
+		Optional<Vehiculo> vehiculo = vehiculoService.findVehiculoById(vehiculoId);
+		if(!vehiculo.isPresent()) {
+			model.addAttribute("message", "Vehiculo not found");
+			vista = listadoVehiculosParaCliente(clienteId, model);
+		} else {
+			model.addAttribute("clienteId", clienteId);
+			model.addAttribute("vehiculo", vehiculo.get());
+		}
+		return vista;
+	}
+	
+	
+	@GetMapping(value = "/delete/{clienteId}/{vehiculoId}")
+	public String borrarVehiculoParaCliente(@PathVariable("clienteId") int clienteId, @PathVariable("vehiculoId") int vehiculoId, ModelMap model) {
+		String vista;
+		Optional<Vehiculo> op = vehiculoService.findVehiculoById(vehiculoId);
+		if(op.isPresent()) {
+			vehiculoService.delete(op.get());
+			model.addAttribute("message", "Vehiculo deleted successfully");
+		} else {
+			model.addAttribute("message", "Vehiculo not found");
+		}
+		vista = listadoVehiculosParaCliente(clienteId, model);
+		return vista;
+	}
+	
+	
+	
+	
 	
 }
