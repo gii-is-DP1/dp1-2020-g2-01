@@ -140,11 +140,11 @@ INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (103, 100, DATEADD(
 
 INSERT INTO clientes(dni, nombre, apellidos, telefono, email) VALUES ('12345678A','Francisco', 'Borrego', '646123456', 'prueba@gmail.com');
 INSERT INTO users(username,password,enabled) VALUES ('fraborcar','prueba',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (1,'fraborcar','admin');
+INSERT INTO authorities(username,authority) VALUES ('fraborcar','admin');
 
 
 
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (102, '1234-ABC', 'bastidordeprueba', 'Opel Corsa', 1, 1);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1234-ABC', 'bastidordeprueba', 'Opel Corsa', 1, 1);
 
 
 
