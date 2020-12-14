@@ -1,5 +1,8 @@
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -26,12 +29,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/citas")
 public class CitaController {
 	
+
 	public static final String CREATE_OR_UPDATE_FORM = "citas/editCita";
+  private static final String FORMULARIO_CITA_COVID = "citas/covid_confirmation";
 	
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
+	
 	
 	@Autowired
 	private CitaService citaService;
@@ -115,13 +121,13 @@ public class CitaController {
 		}
 		return vista;
 	}
-	
+  
 	@PostMapping(value="/update/{citaId}")
 	public String updateCitaPost(@Valid Cita cita, @PathVariable("citaId") int id, BindingResult result, ModelMap model) {
 		cita.setId(id);  // #### A la hora de hacer un update con un error no pasa por aquí y salta el fallo directamente
 		return saveCita(cita, result, model);
 	}
-
+  
 	@GetMapping(value="/delete/{citaId}")
 	public String deleteCita(@PathVariable("citaId") int id, ModelMap model) {
 		String vista = "";
@@ -135,6 +141,28 @@ public class CitaController {
 			model.addAttribute("message", "Cita borrado con éxito.");
 			vista = listadoCitas(model);
 		}
+		return vista;
+	}
+	
+	@GetMapping(value="/covid")
+	public String initDeleteCitasCOVID(ModelMap model) {
+		return FORMULARIO_CITA_COVID;
+	}
+	
+	@GetMapping(value="/eliminarCitasCovid")
+	public String processDeleteCitasCovid(ModelMap model) {
+		String vista = "";
+		try {
+			citaService.deleteCOVID();
+			model.addAttribute("message", "Citas canceladas correctamente");
+			//FALTA AÑADIR EL ENVÍO DEL CORREO
+		}catch(Exception e){
+			model.addAttribute("message", "Error inesperado al cancelar las citas");
+			model.addAttribute("messageType", "danger");
+		}
+		
+		vista=listadoCitas(model);
+	
 		return vista;
 	}
 }

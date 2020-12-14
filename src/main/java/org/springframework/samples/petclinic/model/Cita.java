@@ -28,8 +28,8 @@ public class Cita extends BaseEntity{
 //	@ManyToMany
 //	@JoinColumn(name ="empleados")
 //	private List<Empleado> empleados;
-	
-	@ManyToOne//(/*optional=false, */cascade = CascadeType.ALL)
+  
+	@ManyToOne
 	@JoinColumn(name = "vehiculo_id")
 	private Vehiculo vehiculo;
 	
