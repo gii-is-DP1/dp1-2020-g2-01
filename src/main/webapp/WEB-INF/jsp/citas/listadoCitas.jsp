@@ -11,15 +11,21 @@
     <td>
     	<spring:url value="/citas/new" var="citaUrl">
         </spring:url>
-       	<a href="${fn:escapeXml(citaUrl)}">Añadir cita</a>
-                
+       	<a href="${fn:escapeXml(citaUrl)}">Añadir cita</a>     
     </td>
+   <br> 
+    <th>
+        <spring:url value="/citas/covid" var="citaUrl">
+        </spring:url>
+       	<a href="${fn:escapeXml(citaUrl)}">Cancelar citas por COVID</a>
+    </th>
+
     
     <table id="citasTable" class="table table-striped">
         <thead>
         <tr>
         	<th>Id</th>
-            <th>Vehículo_id</th>
+            <th>Modelo</th>
             <th>Fecha</th>
             <th>Hora</th>
             <th>Tipo de cita</th>
@@ -32,7 +38,6 @@
                <td>
                     <c:out value="${citas.id}"/>
                 </td>
-                
             
                 <td>
                     <c:out value="${citas.vehiculo.modelo}"/>
@@ -71,6 +76,9 @@
         </c:forEach>
         </tbody>
     </table>
+        
+
+
 
 
 </petclinic:layout>

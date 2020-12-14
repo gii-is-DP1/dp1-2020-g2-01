@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/citas")
 public class CitaController {
+	
+	private static final String FORMULARIO_CITA_COVID = "citas/covid_confirmation";
 	
 	@Autowired
 	private CitaService citaService;
@@ -99,6 +103,8 @@ public class CitaController {
 		return vista;
 	}
 	
+	
+	
 	@GetMapping(value="/delete/{citaId}")
 	public String deleteCita(@PathVariable("citaId") int id, ModelMap model) {
 		String vista = "";
@@ -112,6 +118,28 @@ public class CitaController {
 			model.addAttribute("message", "Cita borrado con éxito.");
 			vista = listadoCitas(model);
 		}
+		return vista;
+	}
+	
+	@GetMapping(value="/covid")
+	public String initDeleteCitasCOVID(ModelMap model) {
+		return FORMULARIO_CITA_COVID;
+	}
+	
+	@GetMapping(value="/eliminarCitasCovid")
+	public String processDeleteCitasCovid(ModelMap model) {
+		String vista = "";
+		try {
+			citaService.deleteCOVID();
+			model.addAttribute("message", "Citas canceladas correctamente");
+			//FALTA AÑADIR EL ENVÍO DEL CORREO
+		}catch(Exception e){
+			model.addAttribute("message", "Error inesperado al cancelar las citas");
+			model.addAttribute("messageType", "danger");
+		}
+		
+		vista=listadoCitas(model);
+	
 		return vista;
 	}
 }

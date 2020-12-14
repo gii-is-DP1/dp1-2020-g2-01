@@ -102,10 +102,10 @@ INSERT INTO tipovehiculo(id,name) VALUES (3, 'BARCO');
 INSERT INTO tipocita(id,tipo) VALUES (1, 'CHAPA');
 INSERT INTO tipocita(id,tipo) VALUES (2, 'ITV');
 INSERT INTO tipoCita(id,tipo) VALUES (3, 'FRENOS');
-INSERT INTO tipoCita(id,tipo) VALUES (4, 'INSPECCIÓN_ANUAL');
-INSERT INTO tipoCita(id,tipo) VALUES (5, 'AIRE_ACONDICIONADO');
+INSERT INTO tipoCita(id,tipo) VALUES (4, 'INSPECCIÓN ANUAL');
+INSERT INTO tipoCita(id,tipo) VALUES (5, 'AIRE ACONDICIONADO');
 INSERT INTO tipoCita(id,tipo) VALUES (6, 'NEUMÁTICOS');
-INSERT INTO tipoCita(id,tipo) VALUES (7, 'CAMBIO_DE_LUCES');
+INSERT INTO tipoCita(id,tipo) VALUES (7, 'CAMBIO DE LUCES');
 INSERT INTO tipoCita(id,tipo) VALUES (8, 'OTROS');
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id) VALUES (100, '1234-ABC', 'bastidordeprueba', 'Ford Kuga', 1);
@@ -122,5 +122,8 @@ INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (2, 'Taller S
 
 INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersindo', '12345678A', '665112233', 'gumersindo@gmail.com');
 INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (100,'2021-10-22', 21, 1, 101);
-INSERT INTO citas(id, vehiculo_id, fecha, hora) VALUES (101, 100, '2021-10-22', 20);
+INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (101, 100, '2021-10-22', 20, 3);
+INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (102, 100, CURDATE(), 20, 1);
+INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (103, 100, DATEADD(day, 14, CURDATE()), 20, 1);
+
 
