@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -14,6 +16,7 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "reparaciones")
 public class Reparacion extends NamedEntity {
 	
 	@NotNull
@@ -39,14 +42,17 @@ public class Reparacion extends NamedEntity {
 	
 	@NotEmpty
 	@NotNull
-	private String descripción;
+	private String descripcion;
 	
-	
+	//¿Bidireccional?
 	//private Cita cita;
 	
-	//private Collection<Empleado> empleados;
+	//Reparacioon->Empleado, OneToMany
+	@OneToMany
+	private Collection<Empleado> empleados;
 	
 	
+	//Reparacion->Factura, OneToOne(optional)
 	//private Factura factura;
 
 }
