@@ -26,6 +26,10 @@ class VehiculoServiceTest {
 	@Autowired
 	protected ClienteService clienteService;
 	
+	
+	
+	
+	
 	@Test
 	void shouldInsertVehiculo() {
 		Vehiculo v = new Vehiculo();
@@ -101,5 +105,6 @@ class VehiculoServiceTest {
 //		
 //	}
 //	
+
 	
 }

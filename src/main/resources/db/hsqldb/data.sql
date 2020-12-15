@@ -147,6 +147,7 @@ INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cli
 
 
 
+
 INSERT INTO reparaciones(name, descripcion, esta_finalizada, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida) 
 		VALUES ('Reparación de prueba','Descripción', TRUE, '2021-10-22', '2021-10-22', '2021-10-22', '2021-10-22');
 
