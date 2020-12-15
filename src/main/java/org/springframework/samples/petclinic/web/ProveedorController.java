@@ -44,7 +44,7 @@ public class ProveedorController {
 	}
 
 	@PostMapping(value = "/save")
-	public String guardarVehiculo(@Valid Proveedor proveedor, BindingResult result, ModelMap model) {
+	public String guardarProveedor(@Valid Proveedor proveedor, BindingResult result, ModelMap model) {
 		String vista;
 		
 		if(result.hasErrors()) {
@@ -66,7 +66,7 @@ public class ProveedorController {
 	
 	
 	@GetMapping(value = "/delete/{proveedorId}")
-	public String borrarVehiculo(@PathVariable("proveedorId") int id, ModelMap model) {
+	public String borrarProveedor(@PathVariable("proveedorId") int id, ModelMap model) {
 		String vista;
 		Optional<Proveedor> op = proveedorService.findProveedorById(id);
 		if(op.isPresent()) {

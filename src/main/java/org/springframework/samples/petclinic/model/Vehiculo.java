@@ -31,6 +31,7 @@ public class Vehiculo extends BaseEntity {
 	@NotEmpty
 	private String modelo;
 	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="tipo_vehiculo_id")
 	private TipoVehiculo tipoVehiculo;
