@@ -63,14 +63,12 @@ public class VehiculoService {
 		return vehiculoRepository.findVehiculoTypes();
 	}
 
-<<<<<<< Upstream, based on origin/master
-=======
-	@Transactional(readOnly=true)
-	public List<Vehiculo> findByClienteId(Integer id) {
-		return vehiculoRepository.findByClienteId(id);
-	}
+
+//	@Transactional(readOnly=true)
+//	public List<Vehiculo> findByClienteId(Integer id) {
+//		return vehiculoRepository.findByClienteId(id);
+//	}
   
->>>>>>> fa41054 Trabajando en H03
 	@Transactional
 	public List<Vehiculo> getVehiculosSeleccionadoPrimero(Cita cita) {
 		Integer vehiculoId = cita.getVehiculo().getId();

@@ -36,13 +36,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
-<<<<<<< Upstream, based on origin/master
-				.antMatchers("/vehiculos/listadoVehiculos").permitAll()
-				.antMatchers("/vehiculos/**").permitAll()
-=======
 				.antMatchers("/reparaciones/**").permitAll()
-				.antMatchers("/vehiculos/**").hasAnyAuthority("admin")
->>>>>>> fa41054 Trabajando en H03
+				.antMatchers("/vehiculos/**").permitAll()
 				.antMatchers("/empleados/listadoEmpleados").permitAll()
 				.antMatchers("/empleados/**").permitAll()
 				.antMatchers("/talleres/listadoTalleres").permitAll()

@@ -4,9 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
-
 
 <petclinic:layout pageName="vehiculos">
     <h2>Vehículos</h2>
@@ -21,7 +18,6 @@
             <th>Tipo de vehículo</th>
             <th></th>
             <th></th>
-            
         </tr>
         </thead>
         <tbody>
@@ -49,20 +45,19 @@
                    <c:out value="${vehiculos.tipoVehiculo.name}"/>
                 </td>
                 
-                
-                <sec:authentication property="name" var="username"/>
-                
                 <td>
-                	<spring:url value="/vehiculos/delete/${username}/{vehiculoId}" var="vehiculoUrl">
+                	<spring:url value="/vehiculos/delete/{clienteId}/{vehiculoId}" var="vehiculoUrl">
+                		<spring:param name="clienteId" value="${clienteId}"/>
                         <spring:param name="vehiculoId" value="${vehiculos.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(vehiculoUrl)}">Delete</a>
                 
                 </td>
-                                
                 
-              	<td>
-                	<spring:url value="/vehiculos/update/{vehiculoId}" var="vehiculoUrl">
+                
+                 <td>
+                	<spring:url value="/vehiculos/update/{clienteId}/{vehiculoId}" var="vehiculoUrl">
+                		<spring:param name="clienteId" value="${clienteId}"/>
                         <spring:param name="vehiculoId" value="${vehiculos.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(vehiculoUrl)}">Update</a>
@@ -74,6 +69,9 @@
         </tbody>
     </table>
 
-	<a href="/vehiculos/new">Crear un nuevo vehículo</a>
+	<spring:url value="/vehiculos/new/{clienteId}" var="vehiculoUrl">
+    	<spring:param name="clienteId" value="${clienteId}"/>
+   	</spring:url>
+   	<a href="${fn:escapeXml(vehiculoUrl)}">Añadir nuevo vehículo</a>
 
 </petclinic:layout>

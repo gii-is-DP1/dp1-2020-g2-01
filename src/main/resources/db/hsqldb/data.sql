@@ -135,17 +135,15 @@ INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (103, 100, DATEADD(
 
 
 
-<<<<<<< Upstream, based on origin/master
-=======
 
-
-
-INSERT INTO clientes(dni, nombre, apellidos, telefono, email) VALUES ('12345678A','Francisco', 'Borrego', '646123456', 'prueba@gmail.com');
+--
 INSERT INTO users(username,password,enabled) VALUES ('fraborcar','prueba',TRUE);
 INSERT INTO authorities(username,authority) VALUES ('fraborcar','admin');
+INSERT INTO clientes(id, dni, nombre, apellidos, telefono, email, username) VALUES (100, '12345678A','Francisco', 'Borrego', '646123456', 'prueba@gmail.com', 'fraborcar');
 
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1234-ABC', 'bastidordeprueba', 'Opel Corsa', 1, 1);
 
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1234-ABC', 'bastidordeprueba', 'Opel Corsa', 1, 100);
+--
 
 
 
@@ -156,4 +154,3 @@ INSERT INTO reparaciones(name, descripcion, esta_finalizada, tiempo_estimado, fe
 
 
 
->>>>>>> fa41054 Trabajando en H03
