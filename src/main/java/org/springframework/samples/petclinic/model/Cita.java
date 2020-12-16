@@ -14,6 +14,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -47,4 +49,8 @@ public class Cita extends BaseEntity{
 	@JoinColumn(name="tipo")
 	@ManyToOne
 	private TipoCita tipoCita;
+	
+	
+	
+	
 }

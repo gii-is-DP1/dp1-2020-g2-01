@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,4 +64,16 @@ public class CitaService {
 		List<Cita> cita = citaRepository.findCitaByFecha(fecha);
 		return cita.size() < 21 - 9; // El taller admite citas desde las 9 hasta las 21
 	}
+	
+	@Transactional(readOnly=true)
+	public List<Cita> findCitaSinReparacion() {
+		List<Cita> citasPosibles = new ArrayList<>();
+		List<Integer> ids = citaRepository.findCitaIdSinReparacion();
+		for(Integer id: ids) {
+			citasPosibles.add(citaRepository.findById(id).get());
+		}
+		return citasPosibles;
+	}
+	
+	
 }

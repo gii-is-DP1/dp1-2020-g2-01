@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 
 <petclinic:layout pageName="vehiculos">
@@ -12,9 +14,9 @@
     <jsp:body>
         <h2>Vehiculo</h2>
 
-        
+        <sec:authentication property="name" var="username"/>
 
-        <form:form action="/vehiculos/save" modelAttribute="vehiculo" class="form-horizontal">
+        <form:form action="/vehiculos/save/${username}" modelAttribute="vehiculo" class="form-horizontal">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="matricula" name="matricula"/>
                 <petclinic:inputField label="modelo" name="modelo"/> 

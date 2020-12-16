@@ -4,6 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+
 
 <petclinic:layout pageName="vehiculos">
     <h2>Vehículos</h2>
@@ -46,16 +49,19 @@
                    <c:out value="${vehiculos.tipoVehiculo.name}"/>
                 </td>
                 
+                
+                <sec:authentication property="name" var="username"/>
+                
                 <td>
-                	<spring:url value="/vehiculos/delete/{vehiculoId}" var="vehiculoUrl">
+                	<spring:url value="/vehiculos/delete/${username}/{vehiculoId}" var="vehiculoUrl">
                         <spring:param name="vehiculoId" value="${vehiculos.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(vehiculoUrl)}">Delete</a>
                 
                 </td>
+                                
                 
-                
-                 <td>
+              	<td>
                 	<spring:url value="/vehiculos/update/{vehiculoId}" var="vehiculoUrl">
                         <spring:param name="vehiculoId" value="${vehiculos.id}"/>
                     </spring:url>

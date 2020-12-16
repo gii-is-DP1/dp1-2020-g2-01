@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -21,7 +21,6 @@ public class Proveedor extends BaseEntity {
 	
 	@NotNull
 	@NotEmpty
-	@Column(unique=true)
 	@Pattern(regexp="^[0-9]{8,8}[A-Z]$")
 	private String nif;
 	
