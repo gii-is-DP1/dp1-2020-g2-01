@@ -143,14 +143,24 @@ INSERT INTO clientes(id, dni, nombre, apellidos, telefono, email, username) VALU
 
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1234-ABC', 'bastidordeprueba', 'Opel Corsa', 1, 100);
+
+
+INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
+				fecha_ini_contrato, num_seg_social, sueldo) VALUES (100, 'Sech', '11111111A', 
+					'2021-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2021-11-16', '11111111111', 700.50);
+					
+INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
+				fecha_ini_contrato, num_seg_social, sueldo) VALUES (101, 'Aguayo', '11111111A', 
+					'2021-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2021-11-16', '11111111111', 700.50);
+
+INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (200,'2021-10-23', 21, 1, 200);
+INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (201,'2021-10-24', 21, 1, 200);
+INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
+		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-22', '2021-10-22', '2021-10-22', '2021-10-22', 200);
+INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
+INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
+		
 --
-
-
-
-
-INSERT INTO reparaciones(name, descripcion, esta_finalizada, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida) 
-		VALUES ('Reparación de prueba','Descripción', TRUE, '2021-10-22', '2021-10-22', '2021-10-22', '2021-10-22');
-
 
 
 

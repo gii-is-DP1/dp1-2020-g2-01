@@ -22,4 +22,7 @@ public interface CitaRepository extends CrudRepository<Cita, Integer> {
 	
 	@Query("SELECT cita FROM Cita cita WHERE cita.fecha LIKE :fecha")
 	List<Cita> findCitaByFecha(@Param("fecha") LocalDate fecha) throws DataAccessException;
+	
+	@Query(value = "SELECT id FROM CITAS EXCEPT (SELECT CITA_ID FROM REPARACIONES)", nativeQuery = true)
+	List<Integer> findCitaIdSinReparacion();
 }

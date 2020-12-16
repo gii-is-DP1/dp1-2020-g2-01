@@ -1,11 +1,13 @@
 package org.springframework.samples.petclinic.service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.repository.ReparacionRepository;
+import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +22,23 @@ public class ReparacionService {
 	}
 	
 	@Transactional
-	public void saveReparacion(Reparacion reparacion) throws DataAccessException  {
+	public void saveReparacion(Reparacion reparacion) throws DataAccessException, FechasReparacionException {
+		LocalDate fechaEntrega = reparacion.getFechaEntrega();
+		LocalDate fechaRecogida = reparacion.getFechaRecogida();
+		LocalDate fechaFinalizacion = reparacion.getFechaFinalizacion();
+		
+		if(fechaEntrega != null && fechaRecogida != null && fechaEntrega.isAfter(fechaRecogida)) {
+			throw new FechasReparacionException();
+		}
+		
+		if(fechaEntrega != null && fechaFinalizacion != null && fechaEntrega.isAfter(fechaFinalizacion)) {
+			throw new FechasReparacionException();
+		}
+		
+		if(fechaFinalizacion != null && fechaRecogida != null && fechaFinalizacion.isAfter(fechaRecogida)) {
+			throw new FechasReparacionException();
+		}
+		
 		reparacionRepository.save(reparacion);
 	}
 	

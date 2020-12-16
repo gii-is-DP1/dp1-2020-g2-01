@@ -14,12 +14,15 @@
         	<th>Id</th>
             <th>Nombre</th>
             <th>Descripción</th>
-            <th>Finalizada</th>
             <th>Tiempo estimado</th>
             <th>Fecha de finalización</th>
             <th>Fecha de entrega</th>
             <th>Fecha de recogida</th>
             <th>Empleados</th>
+            <th>Cliente</th>
+            <th>Vehiculo</th>
+            <th></th>
+            <th></th>
             
         </tr>
         </thead>
@@ -38,9 +41,6 @@
                    <c:out value="${reparacion.descripcion}"/>
                 </td>
                 
-                <td>
-                   <c:out value="${reparacion.estaFinalizada}"/>
-                </td>
                 
                 <td>
                    <c:out value="${reparacion.tiempoEstimado}"/>
@@ -61,8 +61,23 @@
                 <td>
                   <c:forEach items="${reparacion.empleados}" var="empleado">
                   	<c:out value="${empleado.nombre}"/>
+                  	<c:out value=" "/>
+                  	<c:out value="${empleado.apellidos}"/>
+                  	<br/>
                   </c:forEach>
                 </td>
+                
+               	<td>
+                  <c:out value="${reparacion.cita.vehiculo.cliente.nombre}"/>
+                  <c:out value=" "/>
+                  <c:out value="${reparacion.cita.vehiculo.cliente.apellidos}"/>
+                </td>
+               
+                <td>
+                  <c:out value="${reparacion.cita.vehiculo.modelo}"/>
+                </td>
+               
+                
                 
                 <td>
                 	<spring:url value="/reparaciones/delete/{reparacionId}" var="reparacionUrl">

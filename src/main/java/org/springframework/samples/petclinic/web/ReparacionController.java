@@ -1,16 +1,27 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.List;
+
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Cita;
+import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Reparacion;
+import org.springframework.samples.petclinic.service.CitaService;
+import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.ReparacionService;
+import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +30,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/reparaciones")
 public class ReparacionController {
 	
+	
+	
+//	@InitBinder("reparacion")
+//	public void initReparacionBinder(WebDataBinder dataBinder) {
+//		dataBinder.setValidator(new ReparacionValidator());
+//	}
+	
+	
 	@Autowired
 	private ReparacionService reparacionService;
+	
+	@Autowired
+	private CitaService citaService;
+	
+	@Autowired
+	private EmpleadoService empleadoService;
+	
+	
+	
+	@ModelAttribute("empleados")
+	public List<Empleado> empleados() {
+		return (List<Empleado>) this.empleadoService.findAll();
+	}
+	
 	
 	
 	@GetMapping(value = { "/listadoReparaciones" })
@@ -36,6 +69,8 @@ public class ReparacionController {
 	@GetMapping(value = "/new")
 	public String crearReparacion(ModelMap model) {
 		String vista = "reparaciones/editReparacion";
+		List<Cita> citas = citaService.findCitaSinReparacion();
+		model.addAttribute("citas", citas);
 		model.addAttribute("reparacion", new Reparacion());
 		return vista;
 	}
@@ -43,12 +78,18 @@ public class ReparacionController {
 	@PostMapping(value = "/save")
 	public String guardarReparacion(@Valid Reparacion reparacion, BindingResult result, ModelMap model) {
 		String vista;
-		
 		if(result.hasErrors()) {
 			model.addAttribute("reparacion", reparacion);
 			vista = "reparaciones/editReparacion";
 		} else {
-			reparacionService.saveReparacion(reparacion);
+			try {
+				reparacionService.saveReparacion(reparacion);
+			
+			} catch (FechasReparacionException e) {
+				result.rejectValue("fechaEntrega", "Fechas incongruentes: la fecha de entrega debe ser anterior a la fecha de finalización y de recogida, y la fecha de finalización debe ser anterior a la de recogida ", 
+						"Fechas incongruentes: la fecha de entrega debe ser anterior a la fecha de finalización y de recogida, y la fecha de finalización debe ser anterior a la de recogida");
+				return "reparaciones/editReparacion";
+			}
 			model.addAttribute("message", "Reparacion created successfully");
 			vista = listadoReparaciones(model);
 		}
@@ -81,6 +122,11 @@ public class ReparacionController {
 			model.addAttribute("message", "Reparacion not found");
 			vista = listadoReparaciones(model);
 		} else {
+			List<Cita> citas = citaService.findCitaSinReparacion();
+			Cita c = reparacion.get().getCita();
+			c.setVehiculo(null);
+			citas.add(c);
+			model.addAttribute("citas", citas);
 			model.addAttribute("reparacion", reparacion.get());
 		}
 		return vista;
