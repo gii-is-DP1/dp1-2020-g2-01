@@ -157,7 +157,7 @@ public class CitaController {
 		try {
 			citaService.deleteCOVID();
 			model.addAttribute("message", "Citas canceladas correctamente");
-			//FALTA AÑADIR EL ENVÍO DEL CORREO
+
 		}catch(Exception e){
 			model.addAttribute("message", "Error inesperado al cancelar las citas");
 			model.addAttribute("messageType", "danger");

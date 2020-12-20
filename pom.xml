@@ -54,6 +54,7 @@
             <groupId>org.springframework.security</groupId>  
             <artifactId>spring-security-taglibs</artifactId>  
         </dependency>
+      
         <!-- Databases - Uses H2 by default -->
         <!-- dependency>
                 <groupId>org.hsqldb</groupId>
@@ -113,6 +114,10 @@
             <artifactId>bootstrap</artifactId>
             <version>${webjars-bootstrap.version}</version>
         </dependency>
+		<dependency>
+		   <groupId>org.springframework.boot</groupId>
+		   <artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 
         <!-- Testing -->
         <dependency>

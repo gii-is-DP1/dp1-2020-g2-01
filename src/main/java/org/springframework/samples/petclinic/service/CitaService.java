@@ -19,6 +19,9 @@ public class CitaService {
 	@Autowired
 	private CitaRepository citaRepository;
 	
+	@Autowired
+	private SendEmailService sendEmailService;
+	
 	@Transactional
 	public void saveCita(Cita cita) throws DataAccessException {
 		citaRepository.save(cita);
@@ -43,12 +46,17 @@ public class CitaService {
 	public void deleteCOVID() throws DataAccessException{
 		LocalDate inicioCuarentena = LocalDate.now().minusDays(1);
 		LocalDate finCuarentena = LocalDate.now().plusDays(15);
+		String subject="Pruebesita de la buena";
+		String content="Aquí va el cuerpo del mensaje.";
 		List<Cita> citas = this.findAll();
 			for(int i=0;i<citas.size();i++) {
 				Cita cita = citas.get(i);
 				LocalDate fecha = cita.getFecha();
 				if(fecha.isAfter(inicioCuarentena) && fecha.isBefore(finCuarentena)) {
+					String to = "morito6969@gmail.com";
+					sendEmailService.sendEmail(to, subject, content);
 					this.delete(cita);
+					
 				}
 			}
 	}
