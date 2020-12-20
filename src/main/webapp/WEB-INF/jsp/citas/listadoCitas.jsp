@@ -23,6 +23,15 @@
         <thead>
         <tr>
         	<th>Id</th>
+        	
+        	
+        	<!-- HAY QUE BUSCAR LA FORMA DE QUE SOLO SE MUESTRE NOMBRE Y APELLIDOS CUANDO ES ADMIN -->
+        	<sec:authorize access="hasAuthority('admin')">
+                <th>Nombre</th>
+			</sec:authorize>
+        	<sec:authorize access="hasAuthority('admin')">
+                <th>Apellidos</th>
+			</sec:authorize>
             <th>Modelo</th>
             <th>Fecha</th>
             <th>Hora</th>
@@ -38,6 +47,16 @@
                <td>
                     <c:out value="${citas.id}"/>
                 </td>
+                <sec:authorize access="hasAuthority('admin')">
+                <td>
+                    <c:out value="${citas.vehiculo.cliente.nombre}"/>
+                </td>
+				</sec:authorize>
+                <sec:authorize access="hasAuthority('admin')">
+                <td>
+                    <c:out value="${citas.vehiculo.cliente.apellidos}"/>
+                </td>
+				</sec:authorize>
             
                 <td>
                     <c:out value="${citas.vehiculo.modelo}"/>

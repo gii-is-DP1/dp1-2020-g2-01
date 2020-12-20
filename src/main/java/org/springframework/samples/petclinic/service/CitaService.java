@@ -19,6 +19,9 @@ public class CitaService {
 	@Autowired
 	private CitaRepository citaRepository;
 	
+	@Autowired
+	private SendEmailService sendEmailService;
+	
 	@Transactional
 	public void saveCita(Cita cita) throws DataAccessException {
 		citaRepository.save(cita);
@@ -43,12 +46,24 @@ public class CitaService {
 	public void deleteCOVID() throws DataAccessException{
 		LocalDate inicioCuarentena = LocalDate.now().minusDays(1);
 		LocalDate finCuarentena = LocalDate.now().plusDays(15);
+		String subject="Cancelación de su cita a causa del COVID-19";
+		String content="Estimado cliente,\nSirva este correo para comunicarle que en nuestro taller se ha dado un"
+				+ " caso confirmado de COVID-19, y por tanto, siguiendo las directrices del Ministerio de Sanidad "
+				+ "todos los integrantes del taller deben guardar cuarentena durante los próximos 14 días. "
+				+ "Es por ello que nos vemos obligados a cancelar su cita que estaba prevista dentro de las "
+				+ "próximas dos semanas.\nSi lo desea, puede solicitar una nueva cita para un día a partir de "
+				+ finCuarentena.toString()+".\n\n"
+				+ "Sentimos todas las molestias que esto pudiera ocasionar,\nEl jefe del taller.";
+		
 		List<Cita> citas = this.findAll();
 			for(int i=0;i<citas.size();i++) {
 				Cita cita = citas.get(i);
+				String to = cita.getVehiculo().getCliente().getEmail();
 				LocalDate fecha = cita.getFecha();
 				if(fecha.isAfter(inicioCuarentena) && fecha.isBefore(finCuarentena)) {
+					sendEmailService.sendEmail(to, subject, content);
 					this.delete(cita);
+					
 				}
 			}
 	}

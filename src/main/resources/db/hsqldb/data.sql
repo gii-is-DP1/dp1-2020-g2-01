@@ -108,23 +108,24 @@ INSERT INTO tipoCita(id,tipo) VALUES (6, 'NEUMÁTICOS');
 INSERT INTO tipoCita(id,tipo) VALUES (7, 'CAMBIO DE LUCES');
 INSERT INTO tipoCita(id,tipo) VALUES (8, 'OTROS');
 
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id) VALUES (100, '1234-ABC', 'bastidordeprueba', 'Ford Kuga', 1);
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id) VALUES (101, '1234-FBC', 'bastidordeprueb', 'Kawasaki Ninja ZX-6R', 2);
 
 --INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, correo, fecha_fin_contrato, 
 				--	fecha_ini_contrato, num_seg_social, sueldo, username) VALUES (1, 'Sech', '11111111A', 
 					--'2021-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2021-11-16', '11111111111', 700.50, 1);
 
 INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (1, 'Taller Sevilla Customs', 'prueba@gmail.com', 
-					'666666666', 'Calle Prueba, número 2');
+					'666655555', 'Calle Prueba, número 2');
 INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (2, 'Taller Sevilla Customs 2', 'prueba2@gmail.com', 
 					'666666677', 'Calle Prueba, número 3');
 
 INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersindo', '12345678A', '665112233', 'gumersindo@gmail.com');
 
-INSERT INTO users(username, password, enabled) VALUES ('jesfunrud', 'pass', TRUE);
+INSERT INTO users(username, password, enabled) VALUES ('jesfunrud', 'Prueba123', TRUE);
 INSERT INTO authorities(username, authority) VALUES ('jesfunrud', 'cliente');
-INSERT INTO clientes(id, dni, nombre, apellidos, fecha_nacimiento, telefono, email, username) VALUES (1, '11223344M', 'Jesus', 'Funes Ruda', '2000-02-20', '666339933', 'jesusfunesruda@gmail.com', 'jesfunrud');
+INSERT INTO clientes(id, dni, nombre, apellidos, fecha_nacimiento, telefono, email, username) VALUES (1, '11223344M', 'Jesus', 'Funes Ruda', '2000-02-20', '666339933', 'sergiariasruda@gmail.com', 'jesfunrud');
+
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (100, '1234-ABC', 'bastidordeprueba', 'Ford Kuga', 1,1);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (101, '1234-FBC', 'bastidordeprueb', 'Kawasaki Ninja ZX-6R', 2,1);
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (102, '5678-ABC', 'bastidordeprue', 'Citroen C3', 1, 1);
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (103, '5679-ABC', 'bastidordepru', 'Citroen C4', 1, 1);
 
@@ -137,9 +138,9 @@ INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (103, 100, DATEADD(
 
 
 --
-INSERT INTO users(username,password,enabled) VALUES ('fraborcar','prueba',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('fraborcar','Prueba123',true);
 INSERT INTO authorities(username,authority) VALUES ('fraborcar','admin');
-INSERT INTO clientes(id, dni, nombre, apellidos, telefono, email, username) VALUES (100, '12345678A','Francisco', 'Borrego', '646123456', 'prueba@gmail.com', 'fraborcar');
+INSERT INTO clientes(id, dni, nombre, apellidos, telefono, email, username) VALUES (100, '12345678A','Francisco', 'Borrego', '646123456', 'jvargaszambrana0@gmail.com', 'fraborcar');
 
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1234-ABC', 'bastidordeprueba', 'Opel Corsa', 1, 100);
@@ -159,9 +160,3 @@ INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizac
 		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-22', '2021-10-22', '2021-10-22', '2021-10-22', 200);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
-		
---
-
-
-
-
