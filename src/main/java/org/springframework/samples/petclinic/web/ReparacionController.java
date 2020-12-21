@@ -138,9 +138,14 @@ private static final String FORMULARIO_REPARACION_FINALIZADA = "reparaciones/fin
 	@GetMapping(value="/finalizar/{reparacionId}")
 	public String initFinalizarReparacion(@PathVariable("reparacionId") int reparacionId, ModelMap model) {
 		Reparacion rep = this.reparacionService.findReparacionById(reparacionId).get();
-//		if(rep.getFechaFinalizacion().equals())
-		model.addAttribute("reparacion", rep);
-		return FORMULARIO_REPARACION_FINALIZADA;
+		if(rep.getFechaFinalizacion().equals(null)) { //CONFIRMAR QUE ES ASÍ
+			model.addAttribute("reparacion", rep);
+			return FORMULARIO_REPARACION_FINALIZADA;
+		}else {
+			return listadoReparaciones(model);
+		}
+		
+		
 	}
 	
 //	@GetMapping(value="/finalizarReparacion/{reparacionId}")
