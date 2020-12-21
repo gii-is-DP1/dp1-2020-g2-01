@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import java.util.Optional;
@@ -32,6 +33,8 @@ public class ReparacionController {
 	
 	
 	
+private static final String FORMULARIO_REPARACION_FINALIZADA = "reparaciones/finalizar_confirmacion";
+
 //	@InitBinder("reparacion")
 //	public void initReparacionBinder(WebDataBinder dataBinder) {
 //		dataBinder.setValidator(new ReparacionValidator());
@@ -131,6 +134,31 @@ public class ReparacionController {
 		}
 		return vista;
 	}
+	
+	@GetMapping(value="/finalizar/{reparacionId}")
+	public String initFinalizarReparacion(@PathVariable("reparacionId") int reparacionId, ModelMap model) {
+		Reparacion rep = this.reparacionService.findReparacionById(reparacionId).get();
+//		if(rep.getFechaFinalizacion().equals())
+		model.addAttribute("reparacion", rep);
+		return FORMULARIO_REPARACION_FINALIZADA;
+	}
+	
+//	@GetMapping(value="/finalizarReparacion/{reparacionId}")
+//	public String processFinalizarReparacion(@PathVariable("reparacionId") int reparacionId, ModelMap model) {
+//		String vista = "";
+//		try {
+//			reparacionService.deleteCOVID();
+//			model.addAttribute("message", "Citas canceladas correctamente");
+//
+//		}catch(Exception e){
+//			model.addAttribute("message", "Error inesperado al cancelar las citas");
+//			model.addAttribute("messageType", "danger");
+//		}
+//		
+//		vista=listadoReparaciones(model);
+//	
+//		return vista;
+//	}
 	
 
 }

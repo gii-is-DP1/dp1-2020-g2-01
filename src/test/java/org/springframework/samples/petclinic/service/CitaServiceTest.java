@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
@@ -22,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class CitaServiceTest {
-
+	
 	@Autowired
 	protected VehiculoService vehiculoService;
 	

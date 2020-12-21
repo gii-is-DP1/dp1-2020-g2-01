@@ -77,7 +77,19 @@
                   <c:out value="${reparacion.cita.vehiculo.modelo}"/>
                 </td>
                
+                <td>
+    				<spring:url value="/reparaciones/finalizar/{reparacionId}" var="reparacionUrl">
+    					<spring:param name="reparacionId" value="${reparacion.id}"/>
+    				</spring:url>
+   					<a class="btn btn-success" href="${fn:escapeXml(reparacionUrl)}">Finalizar</a>
+				</td>               
+                <td>
+                	<spring:url value="/reparaciones/update/{reparacionId}" var="reparacionUrl">
+                        <spring:param name="reparacionId" value="${reparacion.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(reparacionUrl)}">Update</a>
                 
+                </td>
                 
                 <td>
                 	<spring:url value="/reparaciones/delete/{reparacionId}" var="reparacionUrl">
@@ -88,13 +100,7 @@
                 </td>
                 
                 
-                 <td>
-                	<spring:url value="/reparaciones/update/{reparacionId}" var="reparacionUrl">
-                        <spring:param name="reparacionId" value="${reparacion.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(reparacionUrl)}">Update</a>
-                
-                </td>
+
                 
          		
                 

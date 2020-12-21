@@ -54,9 +54,15 @@ public class ReparacionService {
 	
 	
 	@Transactional
-	public void delete(Reparacion reparacion) {
+	public void delete(Reparacion reparacion) throws DataAccessException{
 		reparacionRepository.delete(reparacion);
 	}
 	
+	@Transactional
+	public void finalizar(Reparacion reparacion) throws DataAccessException{
+		LocalDate fechaActual = LocalDate.now();
+		reparacion.setFechaFinalizacion(fechaActual);
+		
+	}
 
 }
