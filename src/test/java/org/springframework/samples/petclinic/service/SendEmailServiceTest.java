@@ -16,11 +16,10 @@ public class SendEmailServiceTest {
 	
 	@Test
 	void shouldSendEmail() {
-		String to="tallersevillacustoms@gmail.com";
+		String to="fjbc1357@gmail.com";
 		String subject = "Pruebesita";
 		String content = "Cuerpo del email de prueba.";
 		assertDoesNotThrow(() ->sendEmailService.sendEmail(to, subject, content));
-		
 	}
 
 }

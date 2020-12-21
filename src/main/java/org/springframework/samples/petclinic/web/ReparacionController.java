@@ -1,14 +1,12 @@
 package org.springframework.samples.petclinic.web;
 
-import java.time.LocalDate;
 import java.util.List;
-
 import java.util.Optional;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Reparacion;
@@ -30,17 +28,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/reparaciones")
 public class ReparacionController {
-	
-	
-	
-private static final String FORMULARIO_REPARACION_FINALIZADA = "reparaciones/finalizar_confirmacion";
+		
+	private static final String FORMULARIO_REPARACION_FINALIZADA = "reparaciones/finalizar_confirmacion";
 
 //	@InitBinder("reparacion")
 //	public void initReparacionBinder(WebDataBinder dataBinder) {
 //		dataBinder.setValidator(new ReparacionValidator());
 //	}
-	
-	
+//	@InitBinder
+//	public void setAllowedFields(WebDataBinder dataBinder) {
+//		dataBinder.setDisallowedFields("id");
+//	}
+
 	@Autowired
 	private ReparacionService reparacionService;
 	
@@ -49,15 +48,12 @@ private static final String FORMULARIO_REPARACION_FINALIZADA = "reparaciones/fin
 	
 	@Autowired
 	private EmpleadoService empleadoService;
-	
-	
+
 	
 	@ModelAttribute("empleados")
 	public List<Empleado> empleados() {
 		return (List<Empleado>) this.empleadoService.findAll();
 	}
-	
-	
 	
 	@GetMapping(value = { "/listadoReparaciones" })
 	public String listadoReparaciones(ModelMap model) {
@@ -136,34 +132,29 @@ private static final String FORMULARIO_REPARACION_FINALIZADA = "reparaciones/fin
 	}
 	
 	@GetMapping(value="/finalizar/{reparacionId}")
-	public String initFinalizarReparacion(@PathVariable("reparacionId") int reparacionId, ModelMap model) {
-		Reparacion rep = this.reparacionService.findReparacionById(reparacionId).get();
-		if(rep.getFechaFinalizacion().equals(null)) { //CONFIRMAR QUE ES ASÍ
-			model.addAttribute("reparacion", rep);
-			return FORMULARIO_REPARACION_FINALIZADA;
-		}else {
-			return listadoReparaciones(model);
-		}
-		
-		
+	public String initFinalizarReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
+		Reparacion reparacion = reparacionService.findReparacionById(id).get();
+		model.addAttribute("reparacion", reparacion);
+		return FORMULARIO_REPARACION_FINALIZADA;
 	}
 	
-//	@GetMapping(value="/finalizarReparacion/{reparacionId}")
-//	public String processFinalizarReparacion(@PathVariable("reparacionId") int reparacionId, ModelMap model) {
-//		String vista = "";
-//		try {
-//			reparacionService.deleteCOVID();
-//			model.addAttribute("message", "Citas canceladas correctamente");
-//
-//		}catch(Exception e){
-//			model.addAttribute("message", "Error inesperado al cancelar las citas");
-//			model.addAttribute("messageType", "danger");
-//		}
-//		
-//		vista=listadoReparaciones(model);
-//	
-//		return vista;
-//	}
+	@GetMapping(value="/finalizarReparacion/{reparacionId}")
+	public String processFinalizarReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
+		String vista = "";
+		Reparacion rep = this.reparacionService.findReparacionById(id).get();
+		try {
+			reparacionService.finalizar(rep);
+			model.addAttribute("message", "Reparación "+rep.getId()+" finalizada correctamente");
+
+		}catch(Exception e){
+			model.addAttribute("message", "Error inesperado al finalizar la reparación "+rep.getId());
+			model.addAttribute("messageType", "danger");
+		}
+		
+		vista=listadoReparaciones(model);
+	
+		return vista;
+	}
 	
 
 }

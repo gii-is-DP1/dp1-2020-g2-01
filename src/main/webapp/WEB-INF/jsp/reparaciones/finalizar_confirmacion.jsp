@@ -10,8 +10,13 @@
     <br>
     <div class="reparacion" align="center">
     	<h4><strong>¿Está seguro de que desea dar por finalizada esta reparación?</strong></h4>
+    	<h5>Se sobreescribirá la fecha de finalización de esta reparación.</h5>
     	<br>
-    	<a href="/reparaciones/finalizarReparacion" class="btn btn-success btn-lg" role="button">Sí, estoy seguro</a>
+    	
+    	<spring:url value="/reparaciones/finalizarReparacion/{reparacionId}" var="reparacionUrl">
+    					<spring:param name="reparacionId" value="${reparacion.id}"/>
+    	</spring:url>		
+    	<a href="${fn:escapeXml(reparacionUrl)}" class="btn btn-success btn-lg" role="button">Sí, estoy seguro</a>
 		<a href="/reparaciones/listadoReparaciones" class="btn btn-default btn-lg" role="button" style="border-width: 1px">No, volver al listado</a>
 		<br><br>
 		<h5>Se enviará un correo electrónico al cliente de que su vehículo ya está reparado.</h5>

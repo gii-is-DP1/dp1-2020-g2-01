@@ -21,6 +21,9 @@ public class ReparacionService {
 		this.reparacionRepository = reparacionRepository;
 	}
 	
+	@Autowired
+	private SendEmailService sendEmailService;
+	
 	@Transactional
 	public void saveReparacion(Reparacion reparacion) throws DataAccessException, FechasReparacionException {
 		LocalDate fechaEntrega = reparacion.getFechaEntrega();
@@ -62,7 +65,15 @@ public class ReparacionService {
 	public void finalizar(Reparacion reparacion) throws DataAccessException{
 		LocalDate fechaActual = LocalDate.now();
 		reparacion.setFechaFinalizacion(fechaActual);
-		
+		reparacionRepository.save(reparacion);
+		String to = reparacion.getCita().getVehiculo().getCliente().getEmail();
+		String subject = "Reparación de su vehículo finalizada";
+		String content = "Estimado cliente,\nSirva este correo para informarle de que se ha finalizado "
+				+ "la reparación de su vehículo "+ reparacion.getCita().getVehiculo().getModelo()
+				+" con matrícula " + reparacion.getCita().getVehiculo().getMatricula() 
+				+ ". Puede pasar por nuestro taller a recogerlo.\n\nGracias por confiar en nosotros,\nTaller Sevilla Customs.\n\n\nPD.: Dispone desde hoy de un plazo de 10 "
+				+ "días laborales para recoger su vehículo sin coste adicional. Pasado ese tiempo, se le cobrarán 20€ por cada día fuera de plazo.";
+		sendEmailService.sendEmail(to, subject, content);
 	}
 
 }
