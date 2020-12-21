@@ -120,7 +120,6 @@ INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (2, 'Taller S
 
 INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersindo', '12345678A', '665112233', 'gumersindo@gmail.com');
 
-<<<<<<< Upstream, based on origin/master
 INSERT INTO users(username, password, enabled) VALUES ('jesfunrud', 'Prueba123', TRUE);
 INSERT INTO authorities(username, authority) VALUES ('jesfunrud', 'cliente');
 INSERT INTO clientes(id, dni, nombre, apellidos, fecha_nacimiento, telefono, email, username) VALUES (1, '11223344M', 'Jesus', 'Funes Ruda', '2000-02-20', '666339933', 'sergiariasruda@gmail.com', 'jesfunrud');
@@ -161,8 +160,7 @@ INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizac
 		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-22', '2021-10-22', '2021-10-22', '2021-10-22', 200);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
-=======
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación espejo retrovisor izquierdo', 'Po lo hase así y asá');
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');
 
->>>>>>> a149132 h04
+
