@@ -124,3 +124,6 @@ INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersin
 INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (100,'2021-10-22', 21, 1, 101);
 INSERT INTO citas(id, vehiculo_id, fecha, hora) VALUES (101, 100, '2021-10-22', 20);
 
+INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación espejo retrovisor izquierdo', 'Po lo hase así y asá');
+INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');
+
