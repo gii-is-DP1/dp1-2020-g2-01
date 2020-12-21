@@ -48,7 +48,7 @@ public class ClienteServiceTest {
 		
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344M");
+		cliente.setDni("11223345M");
 		cliente.setEmail("añoño@gmail.com");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
@@ -60,12 +60,12 @@ public class ClienteServiceTest {
 		
 		clienteService.saveCliente(cliente);
 		
-		Cliente cliente1 = clienteService.findClienteByDNI("11223344M").get();
+		Cliente cliente1 = clienteService.findClienteByDNI("11223345M").get();
 		cliente1.setDni("34567890K");
 		
 		clienteService.saveCliente(cliente1);
 		
-		assertFalse(clienteService.findClienteByDNI("11223344M").isPresent());
+		assertFalse(clienteService.findClienteByDNI("11223345M").isPresent());
 		assertTrue(clienteService.findClienteByDNI("34567890K").isPresent());
 		
 	
@@ -77,7 +77,7 @@ public class ClienteServiceTest {
 		
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344M");
+		cliente.setDni("11223346M");
 		cliente.setEmail("añoño@gmail.com");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
@@ -91,7 +91,7 @@ public class ClienteServiceTest {
 		
 		clienteService.delete(cliente);
 		
-		assertFalse(clienteService.findClienteByDNI("11223344M").isPresent());
+		assertFalse(clienteService.findClienteByDNI("11223346M").isPresent());
 		
 	
 	}
