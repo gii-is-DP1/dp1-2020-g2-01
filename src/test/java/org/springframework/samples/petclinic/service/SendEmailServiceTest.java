@@ -16,7 +16,7 @@ public class SendEmailServiceTest {
 	
 	@Test
 	void shouldSendEmail() {
-		String to="tallersevillacustoms@gmail.com";
+		String to="sergiariasruda@gmail.com";
 		String subject = "Pruebesita";
 		String content = "Cuerpo del email de prueba.";
 		assertDoesNotThrow(() ->sendEmailService.sendEmail(to, subject, content));
