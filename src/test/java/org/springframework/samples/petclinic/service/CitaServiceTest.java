@@ -70,6 +70,7 @@ class CitaServiceTest {
 	void shouldInsertCitaInvalida() {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
+		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
 	
 		
 		c.setFecha(LocalDate.now());
@@ -81,6 +82,7 @@ class CitaServiceTest {
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
 		v.setNumBastidor("1");
+		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
@@ -95,6 +97,7 @@ class CitaServiceTest {
 	void shouldUpdateCita() {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
+		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
@@ -105,6 +108,7 @@ class CitaServiceTest {
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
 		v.setNumBastidor("1");
+		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
@@ -122,6 +126,8 @@ class CitaServiceTest {
 	void shouldNotUpdateInvalidCita() {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
+		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
+		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
 		c.setTipoCita(tipo);
@@ -131,6 +137,7 @@ class CitaServiceTest {
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
 		v.setNumBastidor("1");
+		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
@@ -153,6 +160,7 @@ class CitaServiceTest {
 	void shouldDeleteCita() {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
+		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
@@ -163,6 +171,7 @@ class CitaServiceTest {
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
 		v.setNumBastidor("1");
+		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
