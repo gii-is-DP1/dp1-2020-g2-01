@@ -122,7 +122,7 @@ INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersin
 
 INSERT INTO users(username, password, enabled) VALUES ('jesfunrud', 'Prueba123', TRUE);
 INSERT INTO authorities(username, authority) VALUES ('jesfunrud', 'cliente');
-INSERT INTO clientes(id, dni, nombre, apellidos, fecha_nacimiento, telefono, email, username) VALUES (1, '11223344M', 'Jesus', 'Funes Ruda', '2000-02-20', '666339933', 'sergiariasruda@gmail.com', 'jesfunrud');
+INSERT INTO clientes(id, dni, nombre, apellidos, fecha_nacimiento, telefono, email, username) VALUES (1, '11223344M', 'Jesus', 'Funes Ruda', '2000-02-20', '666339933', 'tallersevillacustoms@gmail.com', 'jesfunrud');
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (100, '1234-ABC', 'bastidordeprueba', 'Ford Kuga', 1,1);
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (101, '1234-FBC', 'bastidordeprueb', 'Kawasaki Ninja ZX-6R', 2,1);
@@ -157,6 +157,6 @@ INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, em
 INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (200,'2021-10-23', 21, 1, 200);
 INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (201,'2021-10-24', 21, 1, 200);
 INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
-		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-22', '2021-10-22', '2021-10-22', '2021-10-22', 200);
+		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-22', null, '2021-10-22', '2021-10-22', 200);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);

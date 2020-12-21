@@ -31,7 +31,7 @@ public class CitaController {
 	
 
 	public static final String CREATE_OR_UPDATE_FORM = "citas/editCita";
-  private static final String FORMULARIO_CITA_COVID = "citas/covid_confirmation";
+	private static final String FORMULARIO_CITA_COVID = "citas/covid_confirmation";
 	
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {

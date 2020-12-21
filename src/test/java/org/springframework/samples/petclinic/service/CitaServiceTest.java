@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class CitaServiceTest {
-
+	
 	@Autowired
 	protected VehiculoService vehiculoService;
 	
@@ -47,7 +47,6 @@ class CitaServiceTest {
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
-		//c.setTipoCita("AIRE ACONDICIONADO");
 		c.setTipoCita(tipo);
 		
 		Vehiculo v = new Vehiculo();

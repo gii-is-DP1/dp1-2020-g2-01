@@ -6,16 +6,13 @@ import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.lang.Nullable;
 
 import lombok.Data;
 
@@ -24,24 +21,23 @@ import lombok.Data;
 @Table(name = "reparaciones")
 public class Reparacion extends NamedEntity {
 	
-	
 	@NotNull
-	@FutureOrPresent
+//	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate tiempoEstimado;
 	
-	@FutureOrPresent
+	@Nullable
+//	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaFinalizacion;
 	
-	@FutureOrPresent
+//	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaEntrega;
 	
-	@FutureOrPresent
+//	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaRecogida;
-	
 	
 	@NotEmpty
 	@NotNull
