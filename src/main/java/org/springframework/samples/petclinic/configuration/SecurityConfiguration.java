@@ -53,7 +53,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 =======
 				.antMatchers("/citas/**").permitAll()
 				.antMatchers("/reparacionesComunes/**").permitAll()
+<<<<<<< Upstream, based on origin/master
 >>>>>>> a149132 h04
+=======
+>>>>>>> a973937 h04
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				.antMatchers("/vets/**").authenticated()
