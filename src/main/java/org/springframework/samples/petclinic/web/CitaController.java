@@ -4,15 +4,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.joda.LocalDateParser;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.TipoCita;
@@ -126,8 +125,10 @@ public class CitaController {
 			for(Cita c: citas) {
 				c.setVehiculo(null);
 			}
-			model.addAttribute("citas", citaService.findAll().stream().filter(x->x.getFecha().isAfter(LocalDate.now()))
-					.collect(Collectors.groupingBy(x-> x.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))));
+//			Map<String, List<Cita>> c = citaService.findAll().stream().filter(x->x.getFecha().isAfter(LocalDate.now()))
+//					.collect(Collectors.groupingBy(x-> x.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
+			model.addAttribute("citas", citaService.findAll());
+//			model.addAttribute("fechas", c.keySet().stream().collect(Collectors.toList()));
 			model.addAttribute("cita", new Cita());
 		}else {
 			vista = "redirect:/login";			
