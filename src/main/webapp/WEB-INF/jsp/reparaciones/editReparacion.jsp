@@ -30,7 +30,6 @@
                 <petclinic:inputField label="Nombre" name="name"/>
                 <petclinic:inputField label="Descripción" name="descripcion"/> 
                 <petclinic:inputField label="Tiempo estimado" name="tiempoEstimado"/> 
-               	<petclinic:inputField label="Fecha de finalización" name="fechaFinalizacion"/> 
                	<petclinic:inputField label="Fecha de entrega" name="fechaEntrega"/> 
                	<petclinic:inputField label="Fecha de recogida" name="fechaRecogida"/>
                	<petclinic:selectField label="Cita asociada" name="cita" size="10" names="${citas}"/>

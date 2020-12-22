@@ -138,9 +138,13 @@ INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (103, 100, DATEADD(
 
 
 --
+INSERT INTO users(username,password,enabled) VALUES ('clienteEjemplo','Prueba123',true);
+INSERT INTO authorities(username,authority) VALUES ('clienteEjemplo','cliente');
+INSERT INTO clientes(id, dni, nombre, apellidos, telefono, email, username) VALUES (100, '12345678A','Cliente', 'Ejemplo', '646123456', 'jvargaszambrana0@gmail.com', 'clienteEjemplo');
+
+
 INSERT INTO users(username,password,enabled) VALUES ('fraborcar','Prueba123',true);
 INSERT INTO authorities(username,authority) VALUES ('fraborcar','admin');
-INSERT INTO clientes(id, dni, nombre, apellidos, telefono, email, username) VALUES (100, '12345678A','Francisco', 'Borrego', '646123456', 'jvargaszambrana0@gmail.com', 'fraborcar');
 
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1234-ABC', 'bastidordeprueba', 'Opel Corsa', 1, 100);
@@ -160,3 +164,8 @@ INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizac
 		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-22', null, '2021-10-22', '2021-10-22', 200);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
+
+
+
+
+

@@ -4,10 +4,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="reparaciones">
     <h2>Reparaciones</h2>
-    
+        
     <table id="reparacionesTable" class="table table-striped">
         <thead>
         <tr>
@@ -18,11 +19,16 @@
             <th>Fecha de finalización</th>
             <th>Fecha de entrega</th>
             <th>Fecha de recogida</th>
-            <th>Empleados</th>
-            <th>Cliente</th>
+            <sec:authorize access="hasAuthority('admin')">
+	            <th>Empleados</th>
+	            <th>Cliente</th>
+            </sec:authorize>
             <th>Vehiculo</th>
-            <th></th>
-            <th></th>
+            <sec:authorize access="hasAuthority('admin')">
+	            <th></th>
+	            <th></th>
+	            <th></th>
+            </sec:authorize>
             
         </tr>
         </thead>
@@ -58,58 +64,61 @@
                    <c:out value="${reparacion.fechaRecogida}"/>
                 </td>
                 
-                <td>
-                  <c:forEach items="${reparacion.empleados}" var="empleado">
-                  	<c:out value="${empleado.nombre}"/>
-                  	<c:out value=" "/>
-                  	<c:out value="${empleado.apellidos}"/>
-                  	<br/>
-                  </c:forEach>
-                </td>
-                
-               	<td>
-                  <c:out value="${reparacion.cita.vehiculo.cliente.nombre}"/>
-                  <c:out value=" "/>
-                  <c:out value="${reparacion.cita.vehiculo.cliente.apellidos}"/>
-                </td>
+                <sec:authorize access="hasAuthority('admin')">
+	                <td>
+	                  <c:forEach items="${reparacion.empleados}" var="empleado">
+	                  	<c:out value="${empleado.nombre}"/>
+	                  	<c:out value=" "/>
+	                  	<c:out value="${empleado.apellidos}"/>
+	                  	<br/>
+	                  </c:forEach>
+	                </td>
+	                
+	               	<td>
+	                  <c:out value="${reparacion.cita.vehiculo.cliente.nombre}"/>
+	                  <c:out value=" "/>
+	                  <c:out value="${reparacion.cita.vehiculo.cliente.apellidos}"/>
+	                </td>
+               </sec:authorize>
                
                 <td>
                   <c:out value="${reparacion.cita.vehiculo.modelo}"/>
                 </td>
                
-                <td>
-    				<spring:url value="/reparaciones/finalizar/{reparacionId}" var="reparacionUrl">
-    					<spring:param name="reparacionId" value="${reparacion.id}"/>
-    				</spring:url>
-   					<a class="btn btn-success" href="${fn:escapeXml(reparacionUrl)}">Finalizar</a>
-				</td>               
-                <td>
-                	<spring:url value="/reparaciones/update/{reparacionId}" var="reparacionUrl">
-                        <spring:param name="reparacionId" value="${reparacion.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(reparacionUrl)}">Update</a>
+               
+               
+               <sec:authorize access="hasAuthority('admin')">
+	                <td>
+	    				<spring:url value="/reparaciones/finalizar/{reparacionId}" var="reparacionUrl">
+	    					<spring:param name="reparacionId" value="${reparacion.id}"/>
+	    				</spring:url>
+	   					<a class="btn btn-success" href="${fn:escapeXml(reparacionUrl)}">Finalizar</a>
+					</td>               
+	                <td>
+	                	<spring:url value="/reparaciones/update/{reparacionId}" var="reparacionUrl">
+	                        <spring:param name="reparacionId" value="${reparacion.id}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(reparacionUrl)}">Update</a>
+	                
+	                </td>
+	                
+	                <td>
+	                	<spring:url value="/reparaciones/delete/{reparacionId}" var="reparacionUrl">
+	                        <spring:param name="reparacionId" value="${reparacion.id}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(reparacionUrl)}">Delete</a>
+	                
+	                </td>
+                </sec:authorize>
                 
-                </td>
-                
-                <td>
-                	<spring:url value="/reparaciones/delete/{reparacionId}" var="reparacionUrl">
-                        <spring:param name="reparacionId" value="${reparacion.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(reparacionUrl)}">Delete</a>
-                
-                </td>
-                
-                
-
-                
-         		
-                
+           
             </tr>
         </c:forEach>
         </tbody>
     </table>
     
-    <a href="/reparaciones/new">Crear una nueva reparación</a>
-
+    <sec:authorize access="hasAuthority('admin')">
+    	<a href="/reparaciones/new">Crear una nueva reparación</a>
+	</sec:authorize>
 
 </petclinic:layout>

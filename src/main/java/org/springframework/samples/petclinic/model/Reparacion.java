@@ -2,40 +2,44 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+
 import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "reparaciones")
 public class Reparacion extends NamedEntity {
 	
 	@NotNull
-//	@FutureOrPresent
+	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate tiempoEstimado;
 	
 	@Nullable
-//	@FutureOrPresent
+	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaFinalizacion;
 	
-//	@FutureOrPresent
+	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaEntrega;
 	
-//	@FutureOrPresent
+	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaRecogida;
 	
@@ -43,10 +47,12 @@ public class Reparacion extends NamedEntity {
 	@NotNull
 	private String descripcion;
 	
+	@NotNull
 	@OneToOne(optional=false)
 	private Cita cita;
 	
 	//Reparacioon->Empleado, ManyToMany
+	@NotNull
 	@ManyToMany
 	private Collection<Empleado> empleados;
 	
