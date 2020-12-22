@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,10 +25,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/reparaciones")
 public class ReparacionController {
+<<<<<<< Upstream, based on origin/master
 		
 	private static final String FORMULARIO_REPARACION_FINALIZADA = "reparaciones/finalizar_confirmacion";
 
@@ -40,6 +43,10 @@ public class ReparacionController {
 //		dataBinder.setDisallowedFields("id");
 //	}
 
+=======
+	
+	
+>>>>>>> 10f10d2 Error para añadir más de un empleado a una reparación solucionado
 	@Autowired
 	private ReparacionService reparacionService;
 	
@@ -75,13 +82,14 @@ public class ReparacionController {
 	}
 
 	@PostMapping(value = "/save")
-	public String guardarReparacion(@Valid Reparacion reparacion, BindingResult result, ModelMap model) {
+	public String guardarReparacion(@RequestParam("empleados") List<Empleado> empleados, @Valid Reparacion reparacion, BindingResult result, ModelMap model) {
 		String vista;
 		if(result.hasErrors()) {
-			model.addAttribute("reparacion", reparacion);
 			vista = "reparaciones/editReparacion";
 		} else {
 			try {
+				reparacion.setEmpleados(empleados);
+				model.addAttribute("reparacion", reparacion);
 				reparacionService.saveReparacion(reparacion);
 			
 			} catch (FechasReparacionException e) {
@@ -95,6 +103,8 @@ public class ReparacionController {
 		
 		return vista;
 	}
+	
+
 	
 	
 	@GetMapping(value = "/delete/{reparacionId}")
