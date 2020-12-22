@@ -51,8 +51,12 @@ public class Reparacion extends NamedEntity {
 	@OneToOne(optional=false)
 	private Cita cita;
 	
+<<<<<<< Upstream, based on origin/master
 	//Reparacioon->Empleado, ManyToMany
 	@NotNull
+=======
+	//Reparacion->Empleado, ManyToMany
+>>>>>>> 0b3e877 reparaciontest
 	@ManyToMany
 	private Collection<Empleado> empleados;
 	
