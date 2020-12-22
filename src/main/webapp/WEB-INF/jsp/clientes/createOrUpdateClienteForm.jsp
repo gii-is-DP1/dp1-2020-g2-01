@@ -32,12 +32,10 @@
                        <petclinic:inputField label="Usuario" name="user.username"/>
                     </c:when>
                     <c:otherwise>
-                    	 <label class="col-sm-2 control-label">Usuario</label>
-            <div class="col-sm-10"><input readonly class="form-control" type="text"  name="user.username" value="${cliente.user.username}"/></div>
+                    	<petclinic:inputField label="Usuario" name="user.username" type="text" readonly="true"/>
                     </c:otherwise>
              </c:choose>
-            <label class="col-sm-2 control-label">Contraseña</label>
-            <div class="col-sm-10"><input class="form-control" type="password"  name="user.password"/></div>
+             <petclinic:inputField label="Contraseña" name="user.password" type="password"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

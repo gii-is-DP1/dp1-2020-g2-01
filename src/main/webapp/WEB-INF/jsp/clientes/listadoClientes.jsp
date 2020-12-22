@@ -11,7 +11,8 @@
     <td>
     	<spring:url value="/clientes/new" var="clienteUrl">
         </spring:url>
-       	<a href="${fn:escapeXml(clienteUrl)}">Añadir cliente</a>
+       	<a class="btn btn-success" href="${fn:escapeXml(clienteUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cliente</a>
+
                 
     </td>
     
@@ -26,6 +27,8 @@
             <th>Teléfono</th>
             <th>Vehículos</th>
             <th>Nombre de usuario</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -52,30 +55,34 @@
                 <td>
                    <c:out value="${clientes.telefono}"/>
                 </td>
-                <td>
-                    <c:forEach var="vehiculo" items="${clientes.vehiculos}">
-                        <c:out value="${vehiculo.modelo} "/>
-                    </c:forEach>
+                <td><spring:url value="/vehiculos/listadoVehiculos/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${clientes.user.username}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(clienteUrl)}">
+                    <span class="glyphicon glyphicon-eye-open"></span></a>
                 </td>
                 <td>
                    <c:out value="${clientes.user.username}"/>
                 </td>
                 
                 <td>
-                	<spring:url value="/clientes/delete/{clienteId}" var="clienteUrl">
+                <spring:url value="/clientes/update/{clienteId}" var="clienteUrl">
                         <spring:param name="clienteId" value="${clientes.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(clienteUrl)}">Borrar</a>
+                    <a href="${fn:escapeXml(clienteUrl)}">
+                    	<span class="glyphicon glyphicon-pencil"></span></a>
+                	
                 
                 </td>
                 
                 
                  <td>
-                	<spring:url value="/clientes/update/{clienteId}" var="clienteUrl">
+                	
+                <spring:url value="/clientes/delete/{clienteId}" var="clienteUrl">
                         <spring:param name="clienteId" value="${clientes.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(clienteUrl)}">Editar</a>
-                
+                    <a href="${fn:escapeXml(clienteUrl)}">
+						<span class="glyphicon glyphicon-trash"></span></a>
                 </td>
                 
             </tr>

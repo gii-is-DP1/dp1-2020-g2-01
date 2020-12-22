@@ -6,42 +6,48 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 
 <petclinic:layout pageName="citas">
-
-    <h2>Citas</h2>
+	<style>
+    .helper {
+		display: inline-block;
+		height: 100%;  	
+    	vertical-align:middle;
+		}
+    </style>
     
-
+	
+	<div class="col-sm-12">
+	<div class="col-sm-10">
 	<!-- No debe dejarte ver citas de otros clientes a menos que seas admin o empleado -->
+    <div class="col-sm-2"><h2>Citas</h2></div>
+    <div class="col-sm-3 col-sm-offset-5">
+    <sec:authorize access="hasAuthority('admin')">
+    <spring:url value="/citas/covid" var="citaUrl">
+    </spring:url>
+    <a class="btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-asterisk"></span> Cancelar citas por COVID</a>
+	</sec:authorize>
+	</div>
 	<sec:authorize access="isAuthenticated()">
+	<div class="col-sm-2">
 	<sec:authentication property="name" var="username"/>
     <spring:url value="/citas/new/${username}" var="citaUrl">
     </spring:url>
     <a class="btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cita</a>
+    </div>
     </sec:authorize>
-    <sec:authorize access="hasAuthority('admin')">
-    <div style="float:right">
-    <spring:url value="/citas/covid" var="citaUrl">
-    </spring:url>
-    <a class="btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-asterisk"></span> Cancelar citas por COVID</a>
-	</div>
-	</sec:authorize>
+    <div class="col-sm-12" style="height:5px"></div>
     <table id="citasTable" class="table table-striped">
         <thead>
         <tr>
-        	<th>Id</th>
-        	
-        	
+            <th class = "text-center">Fecha</th>
+            <th>Hora</th>
         	<sec:authorize access="hasAuthority('admin')">
                 <th>Nombre</th>
 			</sec:authorize>
-        	<sec:authorize access="hasAuthority('admin')">
-                <th>Apellidos</th>
-			</sec:authorize>
             <th>Modelo</th>
-            <th>Fecha</th>
-            <th>Hora</th>
             <th>Tipo de cita</th>
             <th></th>
             <th></th>
@@ -51,34 +57,33 @@
         <tbody>
         <c:forEach items="${citas}" var="citas">
             <tr>
-               <td>
-                    <c:out value="${citas.id}"/>
+                
+                <td>
+                <p class="text-center" style="font-size: 65%; margin: 0">${citas.fecha.year}</p>
+                <c:set var = "monthParsed" value = "${fn:substring(citas.fecha.month, 0, 3)}" />
+                <p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
+                <p class="text-center"  style="margin: 0"><strong>${citas.fecha.dayOfMonth}</strong></p>
+                </td>
+                
+                <td>
+                <span class="helper"></span>
+                   <p><strong>${citas.hora}:00</strong></p>
                 </td>
                 <sec:authorize access="hasAuthority('admin')">
                 <td>
-                    <c:out value="${citas.vehiculo.cliente.nombre}"/>
-                </td>
-				</sec:authorize>
-                <sec:authorize access="hasAuthority('admin')">
-                <td>
-                    <c:out value="${citas.vehiculo.cliente.apellidos}"/>
+                    <p><c:out value="${citas.vehiculo.cliente.nombre}"/></p>
+                    <p><small><c:out value="${citas.vehiculo.cliente.apellidos}"/></small></p>
                 </td>
 				</sec:authorize>
             
                 <td>
-                    <c:out value="${citas.vehiculo.modelo}"/>
+                    <p><c:out value="${citas.vehiculo.modelo}"/></p>
+                    <p><small><c:out value="${citas.vehiculo.matricula}"/></small></p>
                 </td>
                 
                 <td>
-                   <c:out value="${citas.fecha}"/>
-                </td>
-                
-                <td>
-                   <c:out value="${citas.hora}:00"/>
-                </td>
-                
-                <td>
-                   <c:out value="${citas.tipoCita.tipo}"/>
+                <span class="helper"></span>
+                   <p><c:out value="${citas.tipoCita.tipo}"/></p>
                 </td>
                 
                 <td>
@@ -86,7 +91,7 @@
                         <spring:param name="citaId" value="${citas.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(citaUrl)}">
-                    	<span class="glyphicon glyphicon-pencil"></span>
+                    	<span class="helper glyphicon glyphicon-pencil"></span>
                     </a>
                 
                 </td>
@@ -97,7 +102,7 @@
                         <spring:param name="citaId" value="${citas.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(citaUrl)}">
-						<span class="glyphicon glyphicon-trash"></span>
+						<span class="helper glyphicon glyphicon-trash"></span>
 					</a>
                 
                 </td>
@@ -106,6 +111,8 @@
         </c:forEach>
         </tbody>
     </table>
+    </div>
+    </div>
 
 
 

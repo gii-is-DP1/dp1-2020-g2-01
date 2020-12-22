@@ -18,10 +18,10 @@
 
         <form:form action="/vehiculos/save/${username}" modelAttribute="vehiculo" class="form-horizontal">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="matricula" name="matricula"/>
-                <petclinic:inputField label="modelo" name="modelo"/> 
-               	<petclinic:inputField label="numero de bastidor" name="numBastidor"/>
-               	<petclinic:selectField name="tipoVehiculo" label="tipo de vehículo" names="${types}" size="5"/>
+                <petclinic:inputField label="Matricula" name="matricula"/>
+                <petclinic:inputField label="Modelo" name="modelo"/> 
+               	<petclinic:inputField label="Numero de bastidor" name="numBastidor"/>
+               	<petclinic:selectTipo label="Tipo de vehículo" name="tipoVehiculo" items="${types}"/>
             </div>
 
             <div class="form-group">

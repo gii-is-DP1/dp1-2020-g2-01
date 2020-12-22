@@ -19,18 +19,13 @@ public class TipoVehiculoFormatter implements Formatter<TipoVehiculo> {
 	
 	@Override
 	public String print(TipoVehiculo object, Locale locale) {
-		return object.getName();
+		return object.getTipo();
 	}
 
 	@Override
-	public TipoVehiculo parse(String text, Locale locale) throws ParseException {
-		List<TipoVehiculo> tipos = vehiculoService.findVehiculoTypes();
-		for (TipoVehiculo tipo: tipos) {
-			if (tipo.getName().equals(text)) {
-				return tipo;
-			}
-		}
-		throw new ParseException("type not found: " + text, 0);
+	public TipoVehiculo parse(String id, Locale locale) throws ParseException {
+		return vehiculoService.findVehiculoTypeById(Integer.valueOf(id));
+//		throw new ParseException("type not found: ", 0);
 	}
 
 }

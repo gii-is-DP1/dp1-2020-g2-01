@@ -11,6 +11,7 @@
 <petclinic:layout pageName="vehiculos">
     <h2>Vehículos</h2>
     
+	<a class="btn btn-success" href="/vehiculos/new"><span class="glyphicon glyphicon-plus"></span> Añadir vehículo</a>
     <table id="vehiculosTable" class="table table-striped">
         <thead>
         <tr>
@@ -46,34 +47,34 @@
                 
                 
                 <td>
-                   <c:out value="${vehiculos.tipoVehiculo.name}"/>
+                   <c:out value="${vehiculos.tipoVehiculo.tipo}"/>
                 </td>
                 
                 
-                <sec:authentication property="name" var="username"/>
                 
+                <td>
+                	<spring:url value="/vehiculos/update/{vehiculoId}" var="vehiculoUrl">
+                        <spring:param name="vehiculoId" value="${vehiculos.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(vehiculoUrl)}"><span class="glyphicon glyphicon-pencil"></span></a></a>
+                
+                </td>
+                <sec:authentication property="name" var="username"/>
                 <td>
                 	<spring:url value="/vehiculos/delete/${username}/{vehiculoId}" var="vehiculoUrl">
                         <spring:param name="vehiculoId" value="${vehiculos.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(vehiculoUrl)}">Delete</a>
+                    <a href="${fn:escapeXml(vehiculoUrl)}"><span class="glyphicon glyphicon-trash"></span></a>
                 
                 </td>
                                 
                 
-              	<td>
-                	<spring:url value="/vehiculos/update/{vehiculoId}" var="vehiculoUrl">
-                        <spring:param name="vehiculoId" value="${vehiculos.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(vehiculoUrl)}">Update</a>
-                
-                </td>
+              	
                 
             </tr>
         </c:forEach>
         </tbody>
     </table>
 
-	<a href="/vehiculos/new">Crear un nuevo vehículo</a>
 
 </petclinic:layout>
