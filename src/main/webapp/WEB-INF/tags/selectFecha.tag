@@ -41,7 +41,7 @@
 		
         <div class="col-sm-10">
             <button type="button" class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseFecha">
-            Elegir fecha <span class="caret"></span></button>
+            Elegir hora <span class="caret"></span></button>
             <div class="collapse" style="border: solid 1px #34302d" id="collapseFecha">       					
 			</div>
             <c:if test="${status.error}">
