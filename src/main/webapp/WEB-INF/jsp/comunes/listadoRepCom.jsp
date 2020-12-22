@@ -11,7 +11,7 @@
     
     <h2>Reparaciones comunes</h2>
     <a href="/reparacionesComunes/new">Añadir una reparación común</a>
-    <form:form modelAttribute="repCom" action="/reparacionesComunes" class="form-horizontal"
+    <form:form modelAttribute="repCom" class="form-horizontal"
                id="search-repCom-form">
         <div class="form-group">
             <div class="control-group" id="nombre">
