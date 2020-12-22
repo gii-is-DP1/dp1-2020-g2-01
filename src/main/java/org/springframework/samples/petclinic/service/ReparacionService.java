@@ -1,10 +1,12 @@
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.repository.ReparacionRepository;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
@@ -74,6 +76,10 @@ public class ReparacionService {
 				+ ". Puede pasar por nuestro taller a recogerlo.\n\nGracias por confiar en nosotros,\nTaller Sevilla Customs.\n\n\nPD.: Dispone desde hoy de un plazo de 10 "
 				+ "días laborales para recoger su vehículo sin coste adicional. Pasado ese tiempo, se le cobrarán 20€ por cada día fuera de plazo.";
 		sendEmailService.sendEmail(to, subject, content);
+	}
+
+	public List<Reparacion> findReparacionesCliente(Cliente cliente) {
+		return reparacionRepository.findReparacionesCliente(cliente);
 	}
 
 }
