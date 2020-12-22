@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("reparacionesComunes")
@@ -28,6 +27,7 @@ public class ReparacionComunController {
 		String vista = "comunes/listadoRepCom";
 		Iterable<ReparacionComun> comunes = reparacionComunSc.findAll();
 		m.addAttribute("comunes", comunes);
+		m.addAttribute("repCom", new ReparacionComun());
 		return vista;
 	}
 	
@@ -81,38 +81,35 @@ public class ReparacionComunController {
 		return vista;
 	}
 	
-	@RequestMapping(value = "", method = RequestMethod.GET) 
-	public String displayRepCom(ModelMap model) { 
-	    model.addAttribute("repCom", new ReparacionComun()); 
-	    return "repCom"; 
+	@GetMapping(value = "/find")
+	public String initFindForm(Map<String, Object> model) {
+		model.put("repCom", new ReparacionComun());
+		return "comunes/listadoRepCom";
 	}
 	
-//	@GetMapping(value = "")
-//	public String initFindForm(Map<String, Object> model) {
-//		model.put("repCom", new ReparacionComun());
-//		return "comunes/listadoRepCom";
-//	}
-	
-	@PostMapping(value="")
-	public String processFindForm(ReparacionComun repCom, BindingResult result, Map<String, Object> model) {
+	@PostMapping(value="/listadoRepCom")
+	public String processFindForm(ReparacionComun repCom, BindingResult result, ModelMap model) {
 
 		if(result.hasErrors()) {
-			return "/comunes/listadoRepCom";
+			return listadoRepCom(model);
 		}
 		
 		if (repCom.getNombre() == null||repCom.getNombre()=="") {
-			model.put("comunes", reparacionComunSc.findAll());
+			model.addAttribute("comunes", reparacionComunSc.findAll());
+			model.addAttribute("repCom", new ReparacionComun());
 			return "comunes/listadoRepCom";
 		}
 
 		Collection<ReparacionComun> results = this.reparacionComunSc.findRepComByNombre(repCom.getNombre());
 		if (results.isEmpty()) {
 			
-			return "comunes/listadoRepCom";
+			return listadoRepCom(model);
 		}
 		
 		else {
-			model.put("comunes", results);
+			model.addAttribute("comunes", results);
+			model.addAttribute("repCom", new ReparacionComun());
+
 			return "comunes/listadoRepCom";
 		}
 	}

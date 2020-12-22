@@ -50,7 +50,7 @@ public class Reparacion extends NamedEntity {
 	@OneToOne(optional=false)
 	private Cita cita;
 	
-	//Reparacioon->Empleado, ManyToMany
+	//Reparacion->Empleado, ManyToMany
 	@ManyToMany
 	private Collection<Empleado> empleados;
 	
