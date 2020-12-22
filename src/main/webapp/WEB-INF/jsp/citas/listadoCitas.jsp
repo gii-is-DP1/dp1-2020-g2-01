@@ -4,28 +4,35 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+
 
 <petclinic:layout pageName="citas">
+
     <h2>Citas</h2>
     
 
-
-    <spring:url value="/citas/new" var="citaUrl">
+	<!-- No debe dejarte ver citas de otros clientes a menos que seas admin o empleado -->
+	<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="name" var="username"/>
+    <spring:url value="/citas/new/${username}" var="citaUrl">
     </spring:url>
     <a class="btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cita</a>
-    
+    </sec:authorize>
+    <sec:authorize access="hasAuthority('admin')">
     <div style="float:right">
     <spring:url value="/citas/covid" var="citaUrl">
     </spring:url>
     <a class="btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-asterisk"></span> Cancelar citas por COVID</a>
 	</div>
+	</sec:authorize>
     <table id="citasTable" class="table table-striped">
         <thead>
         <tr>
         	<th>Id</th>
         	
         	
-        	<!-- HAY QUE BUSCAR LA FORMA DE QUE SOLO SE MUESTRE NOMBRE Y APELLIDOS CUANDO ES ADMIN -->
         	<sec:authorize access="hasAuthority('admin')">
                 <th>Nombre</th>
 			</sec:authorize>
@@ -67,7 +74,7 @@
                 </td>
                 
                 <td>
-                   <c:out value="${citas.hora}"/>
+                   <c:out value="${citas.hora}:00"/>
                 </td>
                 
                 <td>

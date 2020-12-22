@@ -3,13 +3,13 @@ package org.springframework.samples.petclinic.repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Cita;
+import org.springframework.samples.petclinic.model.Cliente;
 
 public interface CitaRepository extends CrudRepository<Cita, Integer> {
 
@@ -25,4 +25,7 @@ public interface CitaRepository extends CrudRepository<Cita, Integer> {
 	
 	@Query(value = "SELECT id FROM CITAS EXCEPT (SELECT CITA_ID FROM REPARACIONES)", nativeQuery = true)
 	List<Integer> findCitaIdSinReparacion();
+
+	@Query("SELECT cita FROM Cita cita WHERE cita.vehiculo.cliente LIKE :cliente")
+	List<Cita> findByUsername(@Param("cliente") Cliente cliente);
 }

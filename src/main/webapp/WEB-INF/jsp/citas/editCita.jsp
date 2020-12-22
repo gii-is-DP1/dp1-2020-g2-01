@@ -4,33 +4,108 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-
-<petclinic:layout pageName="vehiculos">
+<petclinic:layout pageName="vehiculos">     
     <jsp:attribute name="customScript">
-        <script>
+<script>
+		<c:if test="${cita['new']}"> 
+        let cits = [
+        <c:forEach var="c" items="${citas}">
+        	{"fecha": "${c.fecha}",
+        	"hora": ${c.hora}},
+        </c:forEach>
+        ]
+		</c:if>
+        <c:if test="${ not cita['new']}">
+        let cits = [
+            <c:forEach var="c" items="${citas}">
+            <c:if test="${ not (c.hora == cita.hora && c.fecha == cita.fecha)}">
+            	{"fecha": "${c.fecha}",
+            	"hora": ${c.hora}},
+            </c:if>
+            </c:forEach>
+            ]
+        </c:if>
             $(function () {
-                $("#fecha").datepicker({dateFormat: 'dd/mm/yy'});
-                
+                $("#fecha").datepicker({dateFormat: 'dd/mm/yy', minDate: 1})
+                $("#fecha").change(function(){
+                	var fecha = $( "#fecha" ).datepicker( "getDate" );
+                	horas = []
+                	for(i = 0; i<cits.length; i++){
+                		console.log(formatDate(fecha))
+                		console.log(formatYearFirstToYearLast(cits[i]["fecha"]))
+                		console.log(formatDate(fecha) == formatYearFirstToYearLast(cits[i]["fecha"]))
+                		if(formatDate(fecha) == formatYearFirstToYearLast(cits[i]["fecha"])){
+                        	horas.push(cits[i]["hora"]);
+                		}
+                	}
+                	mostrarHorasConCitas(horas);
+    				document.getElementsByName("hora")[0].value = '';
+    	        })
             });
-        </script>
-    </jsp:attribute>      
-    
-    
+
+        function formatYearFirstToYearLast(d){
+            dformat = d.split("-")[2] + "/" + d.split("-")[1] + "/" + d.split("-")[0]
+         	return dformat
+		}
+        function formatYearLastToYearFirst(d){
+          dformat = d.split("/")[2] + "-" + d.split("/")[1] + "-" + d.split("/")[0]
+          return dformat
+		}
+        
+        function padLeft(n){
+            return ("00" + n).slice(-2);
+          }
+
+        function formatDate(d){
+                dformat = [ padLeft(d.getDate()),
+                            padLeft(d.getMonth()+1),
+                            d.getFullYear()
+                            ].join('/');
+             return dformat
+          }
+        function mostrarHorasConCitas(horas){
+        	var res = '';
+        	var buttonStyle = 'buttonStyle';
+        	for(i = 9; i<22; i++){
+        		var type = 'default';
+        		var disabled='';
+        		if(horas.includes(i)){
+        			type = 'danger';
+        			disabled='disabled="disabled"';
+        		}
+        		var but = '<button ' + disabled + ' type="button" id="' + i + '" onClick="elegirHora(' + i + ')" class="btn btn-' + type + ' ' + buttonStyle + '" type="button">' + i + ':00</button>'
+        		res += but;
+        		if(i==14){
+        			res += "</br>";
+        			buttonStyle += '1';
+        		}
+        	}
+        	document.getElementById("collapseFecha").innerHTML = res;
+        }
+        function elegirHora(hora) {
+			var lastId = document.getElementById("ultimoBotonPulsado").value;
+			if(lastId!=null){
+				document.getElementById(lastId).classList.remove("btn-success");
+				document.getElementById("ultimoBotonPulsado").value = null;
+			}
+			if(lastId != hora){
+				document.getElementById("ultimoBotonPulsado").value = hora;
+				document.getElementById(hora).classList.add("btn-success");
+				document.getElementsByName("hora")[0].value = hora;
+			}
+		}
+
+</script>
+</jsp:attribute>
     <jsp:body>
         <h2>
         <c:if test="${cita['new']}">Añadir </c:if> <c:if test="${ not cita['new']}">Editar </c:if> cita
     	</h2>
-
-        
-
         <form:form modelAttribute="cita" class="form-horizontal">
             <div class="form-group has-feedback">
               
             	<petclinic:selectVehiculo label="Vehículos" name="vehiculo" items="${vehiculos}"/>
-            	
-                <petclinic:inputField label="Fecha" name="fecha"/> 
-               	<petclinic:inputField label="Hora" name="hora"/>
-               	
+               	<petclinic:selectFecha items="${citas}" label="Fecha" name="fecha" label1="Hora" name1="hora"></petclinic:selectFecha>
                	<petclinic:selectTipoCita label="Tipo de cita" name="tipoCita" items="${tipos}"/>
                 <input type="hidden" name="id" value="${cita.id}"/>
             </div>
@@ -50,5 +125,4 @@
         </form:form>
 
     </jsp:body>
-
 </petclinic:layout>
