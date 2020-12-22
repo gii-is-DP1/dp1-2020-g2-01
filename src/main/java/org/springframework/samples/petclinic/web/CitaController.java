@@ -1,10 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -121,14 +118,7 @@ public class CitaController {
 		if(cliente.isPresent()) {
 			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente.get()));
 			model.addAttribute("tipos", tipoCitaService.findAll());
-			List<Cita> citas = citaService.findAll();
-			for(Cita c: citas) {
-				c.setVehiculo(null);
-			}
-//			Map<String, List<Cita>> c = citaService.findAll().stream().filter(x->x.getFecha().isAfter(LocalDate.now()))
-//					.collect(Collectors.groupingBy(x-> x.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
 			model.addAttribute("citas", citaService.findAll());
-//			model.addAttribute("fechas", c.keySet().stream().collect(Collectors.toList()));
 			model.addAttribute("cita", new Cita());
 		}else {
 			vista = "redirect:/login";			
@@ -159,10 +149,9 @@ public class CitaController {
 			vista = listadoCitas(model);
 		}else {
 			Cita cita = c.get();
-			cita.getVehiculo().setCitas(null); // Evita stackOverflowError
-			cita.getVehiculo().setCliente(null);
 			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
 			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
+			model.addAttribute("citas", citaService.findAll());
 			model.addAttribute("cita", cita);
 			vista = "citas/editCita";
 		}

@@ -74,7 +74,7 @@
                 </td>
                 
                 <td>
-                   <c:out value="${citas.hora}"/>
+                   <c:out value="${citas.hora}:00"/>
                 </td>
                 
                 <td>
