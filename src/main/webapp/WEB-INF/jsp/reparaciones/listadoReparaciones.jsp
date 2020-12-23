@@ -7,14 +7,47 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="reparaciones">
+	<style>
+		.helper {
+			display: inline-block;
+			height: 100%;  	
+    		vertical-align:middle;
+		}
+	
+		.textoTabla {
+			min-width: 120px;
+		}
+		
+		.fechaTabla {
+			min-width: 80px;
+		}
+	
+	
+		th, td {
+			text-align: center;
+			
+		}
+		
+	
+	</style>
+
+
+
     <h2>Reparaciones</h2>
+    
+   
+    <sec:authorize access="hasAuthority('admin')">
+    	 <br/>
+    	<a class="btn btn-success" href="/reparaciones/new"><span class="glyphicon glyphicon-plus"></span> Crear una nueva reparación</a>
+		<br/><br/>
+	</sec:authorize>
         
     <table id="reparacionesTable" class="table table-striped">
         <thead>
         <tr>
-        	<th>Id</th>
             <th>Nombre</th>
             <th>Descripción</th>
+            <th>Cita asociada</th>
             <th>Tiempo estimado</th>
             <th>Fecha de finalización</th>
             <th>Fecha de entrega</th>
@@ -35,70 +68,85 @@
         <tbody>
         <c:forEach items="${reparaciones}" var="reparacion">
             <tr>
-               <td>
-                    <c:out value="${reparacion.id}"/>
-                </td>
-                
-                <td>
+ 
+                <td class="textoTabla">
                     <c:out value="${reparacion.name}"/>
                 </td>
                 
-                <td>
+                <td class="textoTabla" style="text-align:left;">
                    <c:out value="${reparacion.descripcion}"/>
                 </td>
                 
                 
-                <td>
-                   <c:out value="${reparacion.tiempoEstimado}"/>
+                <td class="fechaTabla">
+					<p class="text-center" style="font-size: 65%; margin: 0">${reparacion.cita.fecha.year}</p>
+                	<c:set var = "monthParsed" value = "${fn:substring(reparacion.cita.fecha.month, 0, 3)}" />
+                	<p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
+                	<p class="text-center"  style="margin: 0"><strong>${reparacion.cita.fecha.dayOfMonth}</strong></p>
                 </td>
                 
-                <td>
-                   <c:out value="${reparacion.fechaFinalizacion}"/>
+                
+                <td class="fechaTabla">
+					<p class="text-center" style="font-size: 65%; margin: 0">${reparacion.tiempoEstimado.year}</p>
+                	<c:set var = "monthParsed" value = "${fn:substring(reparacion.tiempoEstimado.month, 0, 3)}" />
+                	<p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
+                	<p class="text-center"  style="margin: 0"><strong>${reparacion.tiempoEstimado.dayOfMonth}</strong></p>
                 </td>
                 
-                <td>
-                   <c:out value="${reparacion.fechaEntrega}"/>
+                
+                
+                <td class="fechaTabla">
+                   	<p class="text-center" style="font-size: 65%; margin: 0">${reparacion.fechaFinalizacion.year}</p>
+                	<c:set var = "monthParsed" value = "${fn:substring(reparacion.fechaFinalizacion.month, 0, 3)}" />
+                	<p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
+                	<p class="text-center"  style="margin: 0"><strong>${reparacion.fechaFinalizacion.dayOfMonth}</strong></p>
                 </td>
                 
-                <td>
-                   <c:out value="${reparacion.fechaRecogida}"/>
+                <td class="fechaTabla">
+                   	<p class="text-center" style="font-size: 65%; margin: 0">${reparacion.fechaEntrega.year}</p>
+                	<c:set var = "monthParsed" value = "${fn:substring(reparacion.fechaEntrega.month, 0, 3)}" />
+                	<p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
+                	<p class="text-center"  style="margin: 0"><strong>${reparacion.fechaEntrega.dayOfMonth}</strong></p>
+                </td>
+                
+                <td class="fechaTabla">
+                   	<p class="text-center" style="font-size: 65%; margin: 0">${reparacion.fechaRecogida.year}</p>
+                	<c:set var = "monthParsed" value = "${fn:substring(reparacion.fechaRecogida.month, 0, 3)}" />
+                	<p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
+                	<p class="text-center"  style="margin: 0"><strong>${reparacion.fechaRecogida.dayOfMonth}</strong></p>
                 </td>
                 
                 <sec:authorize access="hasAuthority('admin')">
-	                <td>
+	                <td class="textoTabla">
 	                  <c:forEach items="${reparacion.empleados}" var="empleado">
-	                  	<c:out value="${empleado.nombre}"/>
-	                  	<c:out value=" "/>
-	                  	<c:out value="${empleado.apellidos}"/>
+	                  	<p><c:out value="${empleado.nombre}"/></p>
+                    	<p><small><c:out value="${empleado.apellidos}"/></small></p>
 	                  	<br/>
 	                  </c:forEach>
 	                </td>
 	                
-	               	<td>
-	                  <c:out value="${reparacion.cita.vehiculo.cliente.nombre}"/>
-	                  <c:out value=" "/>
-	                  <c:out value="${reparacion.cita.vehiculo.cliente.apellidos}"/>
+	               	<td class="textoTabla">
+	               		<p><c:out value="${reparacion.cita.vehiculo.cliente.nombre}"/></p>
+                    	<p><small><c:out value="${reparacion.cita.vehiculo.cliente.apellidos}"/></small></p>
 	                </td>
                </sec:authorize>
                
-                <td>
-                  <c:out value="${reparacion.cita.vehiculo.modelo}"/>
+                <td class="textoTabla">
+                    <p><c:out value="${reparacion.cita.vehiculo.modelo}"/></p>
+                    <p><small><c:out value="${reparacion.cita.vehiculo.matricula}"/></small></p>
                 </td>
                
                
                
-               <sec:authorize access="hasAuthority('admin')">
-	                <td>
-	    				<spring:url value="/reparaciones/finalizar/{reparacionId}" var="reparacionUrl">
-	    					<spring:param name="reparacionId" value="${reparacion.id}"/>
-	    				</spring:url>
-	   					<a class="btn btn-success" href="${fn:escapeXml(reparacionUrl)}">Finalizar</a>
-					</td>               
+               <sec:authorize access="hasAuthority('admin')"> 
+					            
 	                <td>
 	                	<spring:url value="/reparaciones/update/{reparacionId}" var="reparacionUrl">
 	                        <spring:param name="reparacionId" value="${reparacion.id}"/>
 	                    </spring:url>
-	                    <a href="${fn:escapeXml(reparacionUrl)}">Update</a>
+	                    <a href="${fn:escapeXml(reparacionUrl)}">
+	                    	<span class="helper glyphicon glyphicon-pencil"></span>
+	                    </a>
 	                
 	                </td>
 	                
@@ -106,9 +154,19 @@
 	                	<spring:url value="/reparaciones/delete/{reparacionId}" var="reparacionUrl">
 	                        <spring:param name="reparacionId" value="${reparacion.id}"/>
 	                    </spring:url>
-	                    <a href="${fn:escapeXml(reparacionUrl)}">Delete</a>
+	                    <a href="${fn:escapeXml(reparacionUrl)}">
+	                    	<span class="helper glyphicon glyphicon-trash"></span>
+	                    </a>
 	                
 	                </td>
+	                
+	                <td>
+	    				<spring:url value="/reparaciones/finalizar/{reparacionId}" var="reparacionUrl">
+	    					<spring:param name="reparacionId" value="${reparacion.id}"/>
+	    				</spring:url>
+	   					<a class="btn btn-success" href="${fn:escapeXml(reparacionUrl)}">Finalizar</a>
+					</td>  
+					
                 </sec:authorize>
                 
            
@@ -117,8 +175,5 @@
         </tbody>
     </table>
     
-    <sec:authorize access="hasAuthority('admin')">
-    	<a href="/reparaciones/new">Crear una nueva reparación</a>
-	</sec:authorize>
 
 </petclinic:layout>
