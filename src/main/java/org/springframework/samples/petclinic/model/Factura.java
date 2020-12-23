@@ -1,28 +1,33 @@
 package org.springframework.samples.petclinic.model;
 
-import java.time.LocalDate;
+
+import java.time.LocalTime;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name="factura")
 public class Factura extends BaseEntity{
-	
-	@JoinColumn(name = "fecha_pago")
-	private LocalDate fechaPago;
+
+	@NotNull
+	@JoinColumn(name="fechaPago")
+	private LocalTime fechaPago;
 	
 	@NotNull
-	@JoinColumn(name = "cantidad")
-	private Integer cantidad;
+	@JoinColumn(name="precioTotal")
+	private Double precioTotal;
 	
 	@Min(0)
 	@Max(1)
@@ -32,8 +37,7 @@ public class Factura extends BaseEntity{
 	
 	@ManyToOne
 	@NotNull
+	@JoinColumn(name="cliente")
 	private Cliente cliente;
-	
-	// Falta asociación con recambios y reparación
-
+		
 }
