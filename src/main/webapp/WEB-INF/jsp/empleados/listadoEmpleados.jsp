@@ -11,7 +11,7 @@
     <td>
     	<spring:url value="/empleados/new" var="empleadoUrl">
         </spring:url>
-       	<a href="${fn:escapeXml(empleadoUrl)}">Añadir empleado</a>
+       	<a class="btn btn-success" href="${fn:escapeXml(empleadoUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir empleado</a>
                 
     </td>
     
@@ -28,6 +28,8 @@
             <th>Fecha del inicio del contrato</th>
             <th>Fecha del fin del contrato</th>
             <th>Número seguridad social</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -74,21 +76,21 @@
                   <td>
                     <c:out value="${empleado.num_seg_social}"/>
                 </td>
-           
-                <td>
-                	<spring:url value="/empleados/delete/{empleadoId}" var="empleadoUrl">
-                        <spring:param name="empleadoId" value="${empleado.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(empleadoUrl)}">Delete</a>
-                
-                </td>
                 
                 
                  <td>
                 	<spring:url value="/empleados/update/{empleadoId}" var="empleadoUrl">
                         <spring:param name="empleadoId" value="${empleado.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(empleadoUrl)}">Update</a>
+                    <a href="${fn:escapeXml(empleadoUrl)}"><span class="glyphicon glyphicon-pencil"></span></a>
+                
+                </td>
+           
+                <td>
+                	<spring:url value="/empleados/delete/{empleadoId}" var="empleadoUrl">
+                        <spring:param name="empleadoId" value="${empleado.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(empleadoUrl)}"><span class="glyphicon glyphicon-trash"></span></a>
                 
                 </td>
                 

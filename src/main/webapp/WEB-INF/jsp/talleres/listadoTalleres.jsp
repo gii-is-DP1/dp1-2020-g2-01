@@ -7,7 +7,11 @@
 
 <petclinic:layout pageName="talleres">
     <h2>Talleres</h2>
+    <div class="col-sm-12">
     
+    <div class="col-sm-2"><a class="btn btn-success" href="/talleres/new"><span class="glyphicon glyphicon-plus"></span> Crear un nuevo taller</a></div>
+    <div class="col-sm-3 col-sm-offset-7"><a style="float: right" class="btn btn-success" href="/talleres/contacto"><span class="glyphicon glyphicon-earphone"></span> Página de contacto para clientes</a></div>
+	<div class="col-sm-12">
     <table id="talleresTable" class="table table-striped">
         <thead>
         <tr>
@@ -16,6 +20,8 @@
             <th>Teléfono</th>
             <th>Correo</th>
             <th>Ubicación</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -42,20 +48,20 @@
                    <c:out value="${taller.ubicacion}"/>
                 </td>
                 
-                <td>
-                	<spring:url value="/talleres/delete/{tallerId}" var="tallerUrl">
-                        <spring:param name="tallerId" value="${taller.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(tallerUrl)}">Delete</a>
-                
-                </td>
-                
                 
                  <td>
                 	<spring:url value="/talleres/update/{tallerId}" var="tallerUrl">
                         <spring:param name="tallerId" value="${taller.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(tallerUrl)}">Update</a>
+                    <a href="${fn:escapeXml(tallerUrl)}"><span class="glyphicon glyphicon-pencil"></span></a>
+                
+                </td>
+                
+                <td>
+                	<spring:url value="/talleres/delete/{tallerId}" var="tallerUrl">
+                        <spring:param name="tallerId" value="${taller.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(tallerUrl)}"><span class="glyphicon glyphicon-trash"></span></a>
                 
                 </td>
                 
@@ -65,10 +71,7 @@
         </c:forEach>
         </tbody>
     </table>
-    
-    <a href="/talleres/new">Crear un nuevo taller</a>
-    <br/>
-    <a href="/talleres/contacto">Página de contacto para clientes</a>
-
+    </div>
+	</div>
 
 </petclinic:layout>

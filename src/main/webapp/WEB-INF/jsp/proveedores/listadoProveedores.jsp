@@ -8,6 +8,7 @@
 <petclinic:layout pageName="proveedores">
     <h2>Proveedores</h2>
     
+    <a class="btn btn-success" href="/proveedores/new"><span class="glyphicon glyphicon-plus"></span> Crear un nuevo proveedor</a>
     <table id="proveedoresTable" class="table table-striped">
         <thead>
         <tr>
@@ -47,20 +48,20 @@
                    <c:out value="${proveedor.email}"/>
                 </td>
                 
-                <td>
-                	<spring:url value="/proveedores/delete/{proveedorId}" var="proveedorUrl">
-                        <spring:param name="proveedorId" value="${proveedor.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(proveedorUrl)}">Delete</a>
-                
-                </td>
-                
                 
                  <td>
                 	<spring:url value="/proveedores/update/{proveedorId}" var="proveedorUrl">
                         <spring:param name="proveedorId" value="${proveedor.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(proveedorUrl)}">Update</a>
+                    <a href="${fn:escapeXml(proveedorUrl)}"><span class="glyphicon glyphicon-pencil"></span></a>
+                
+                </td>
+                
+                <td>
+                	<spring:url value="/proveedores/delete/{proveedorId}" var="proveedorUrl">
+                        <spring:param name="proveedorId" value="${proveedor.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(proveedorUrl)}"><span class="glyphicon glyphicon-trash"></span></a>
                 
                 </td>
                 
@@ -71,7 +72,6 @@
         </tbody>
     </table>
     
-    <a href="/proveedores/new">Crear un nuevo proveedor</a>
 
 
 </petclinic:layout>

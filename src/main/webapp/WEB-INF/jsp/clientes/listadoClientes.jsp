@@ -66,8 +66,8 @@
                 </td>
                 
                 <td>
-                <spring:url value="/clientes/update/{clienteId}" var="clienteUrl">
-                        <spring:param name="clienteId" value="${clientes.id}"/>
+                <spring:url value="/clientes/update/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${clientes.user.username}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(clienteUrl)}">
                     	<span class="glyphicon glyphicon-pencil"></span></a>

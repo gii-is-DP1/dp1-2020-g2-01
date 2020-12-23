@@ -56,7 +56,7 @@
                 	<spring:url value="/vehiculos/update/{vehiculoId}" var="vehiculoUrl">
                         <spring:param name="vehiculoId" value="${vehiculos.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(vehiculoUrl)}"><span class="glyphicon glyphicon-pencil"></span></a></a>
+                    <a href="${fn:escapeXml(vehiculoUrl)}"><span class="glyphicon glyphicon-pencil"></span></a>
                 
                 </td>
                 <sec:authentication property="name" var="username"/>

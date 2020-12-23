@@ -146,13 +146,17 @@ INSERT INTO clientes(id, dni, nombre, apellidos, telefono, email, username) VALU
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1234-ABC', 'bastidordeprueba', 'Opel Corsa', 1, 100);
 
 
+INSERT INTO users(username,password,enabled) VALUES ('empleado1','Prueba123',true);
+INSERT INTO authorities(username,authority) VALUES ('empleado1','admin');
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
-				fecha_ini_contrato, num_seg_social, sueldo) VALUES (100, 'Sech', '11111111A', 
-					'2021-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2021-11-16', '11111111111', 700.50);
+				fecha_ini_contrato, num_seg_social, sueldo, username) VALUES (100, 'Sech', '11111111A', 
+					'2000-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111111', 950, 'empleado1');
 					
+INSERT INTO users(username,password,enabled) VALUES ('empleado2','Prueba123',true);
+INSERT INTO authorities(username,authority) VALUES ('empleado2','admin');					
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
-				fecha_ini_contrato, num_seg_social, sueldo) VALUES (101, 'Aguayo', '11111111A', 
-					'2021-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2021-11-16', '11111111111', 700.50);
+				fecha_ini_contrato, num_seg_social, sueldo, username) VALUES (101, 'Aguayo', '11111111A', 
+					'2000-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111111', 950, 'empleado2');
 
 INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (200,'2021-10-23', 20, 1, 200);
 INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (201,'2021-10-24', 20, 1, 200);
