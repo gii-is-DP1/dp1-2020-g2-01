@@ -99,14 +99,21 @@ INSERT INTO tipovehiculo(id,tipo) VALUES (1, 'COCHE');
 INSERT INTO tipovehiculo(id,tipo) VALUES (2, 'MOTO');
 INSERT INTO tipovehiculo(id,tipo) VALUES (3, 'BARCO');
 
-INSERT INTO tipocita(id,tipo) VALUES (1, 'CHAPA');
-INSERT INTO tipocita(id,tipo) VALUES (2, 'ITV');
-INSERT INTO tipoCita(id,tipo) VALUES (3, 'FRENOS');
-INSERT INTO tipoCita(id,tipo) VALUES (4, 'INSPECCIÓN ANUAL');
-INSERT INTO tipoCita(id,tipo) VALUES (5, 'AIRE ACONDICIONADO');
-INSERT INTO tipoCita(id,tipo) VALUES (6, 'NEUMÁTICOS');
-INSERT INTO tipoCita(id,tipo) VALUES (7, 'CAMBIO DE LUCES');
-INSERT INTO tipoCita(id,tipo) VALUES (8, 'OTROS');
+INSERT INTO tipocita(id,tipo) VALUES (1, 'REVISIÓN');
+INSERT INTO tipocita(id,tipo) VALUES (2, 'DISTRIBUCIÓN');
+INSERT INTO tipoCita(id,tipo) VALUES (3, 'AIRE ACONDICIONADO');
+INSERT INTO tipoCita(id,tipo) VALUES (4, 'FRENOS');
+INSERT INTO tipoCita(id,tipo) VALUES (5, 'NEUMÁTICOS');
+INSERT INTO tipoCita(id,tipo) VALUES (6, 'ENCENDIDO');
+INSERT INTO tipoCita(id,tipo) VALUES (7, 'REVISIÓN PRE-ITV');
+INSERT INTO tipoCita(id,tipo) VALUES (8, 'LIMPIAPARABRISAS');
+INSERT INTO tipoCita(id,tipo) VALUES (9, 'BATERÍA');
+INSERT INTO tipoCita(id,tipo) VALUES (10, 'AMORTIGUADORES');
+INSERT INTO tipoCita(id,tipo) VALUES (11, 'CARROCERÍA');
+INSERT INTO tipoCita(id,tipo) VALUES (12, 'ROTURA DE CRISTALES');
+INSERT INTO tipoCita(id,tipo) VALUES (13, 'LLAVES');
+INSERT INTO tipoCita(id,tipo) VALUES (14, 'AVISO DEL FABRICANTE');
+INSERT INTO tipoCita(id,tipo) VALUES (15, 'OTROS');
 
 
 --INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, correo, fecha_fin_contrato, 
