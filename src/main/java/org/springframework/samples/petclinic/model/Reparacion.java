@@ -50,8 +50,12 @@ public class Reparacion extends NamedEntity {
 	@OneToOne(optional=false)
 	private Cita cita;
 	
+<<<<<<< HEAD
 	//Reparacioon->Empleado, ManyToMany
 	@NotNull
+=======
+	//Reparacion->Empleado, ManyToMany
+>>>>>>> branch 'jesvarzam' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
 	@ManyToMany
 	private Collection<Empleado> empleados;
 	

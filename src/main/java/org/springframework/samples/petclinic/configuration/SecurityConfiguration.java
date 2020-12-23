@@ -46,10 +46,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/talleres/**").permitAll()
 				.antMatchers("/proveedores/**").permitAll()
 				.antMatchers("/clientes/**").permitAll()
+<<<<<<< HEAD
 				.antMatchers("/citas").hasAnyAuthority("admin")
 				.antMatchers("/citas/listadoCitas").hasAnyAuthority("admin")
 				.antMatchers("/citas/listadoCitas/**").hasAnyAuthority("cliente","admin")
 				.antMatchers("/citas/**").hasAnyAuthority("cliente","admin")
+=======
+				.antMatchers("/citas/**").permitAll()
+>>>>>>> branch 'jesvarzam' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
 				.antMatchers("/reparacionesComunes/**").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
