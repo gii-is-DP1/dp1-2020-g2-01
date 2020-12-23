@@ -1,15 +1,18 @@
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.repository.ReparacionRepository;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
+import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +29,9 @@ public class ReparacionService {
 	@Autowired
 	private SendEmailService sendEmailService;
 	
+	
 	@Transactional
-	public void saveReparacion(Reparacion reparacion) throws DataAccessException, FechasReparacionException {
+	public void saveReparacion(Reparacion reparacion) throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
 		LocalDate fechaEntrega = reparacion.getFechaEntrega();
 		LocalDate fechaRecogida = reparacion.getFechaRecogida();
 		LocalDate fechaFinalizacion = reparacion.getFechaFinalizacion();
@@ -44,8 +48,17 @@ public class ReparacionService {
 			throw new FechasReparacionException();
 		}
 		
+		Collection<Empleado> empleados = reparacion.getEmpleados();
+		for(Empleado e:empleados) {
+			Integer repActivas = this.findReparacionesActivasEmpleado(e);
+			if(repActivas == 3) {
+				throw new Max3ReparacionesSimultaneasPorEmpleadoException();
+			}
+		}
+		
 		reparacionRepository.save(reparacion);
 	}
+	
 	
 	@Transactional(readOnly = true)
 	public Iterable<Reparacion> findAll() throws DataAccessException {
@@ -78,8 +91,18 @@ public class ReparacionService {
 		sendEmailService.sendEmail(to, subject, content);
 	}
 
+	@Transactional(readOnly = true)
 	public List<Reparacion> findReparacionesCliente(Cliente cliente) {
 		return reparacionRepository.findReparacionesCliente(cliente);
 	}
+	
+	
+	//Devuelve el número de reparaciones no finalizadas asociadas a dicho empleado
+	@Transactional(readOnly = true) 
+	public Integer findReparacionesActivasEmpleado(Empleado e) {
+		return reparacionRepository.findReparacionesActivasEmpleado(e);
+	}
+	
+	
 
 }

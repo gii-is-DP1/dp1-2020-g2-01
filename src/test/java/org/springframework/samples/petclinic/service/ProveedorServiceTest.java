@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.NoSuchElementException;
 
+import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +21,9 @@ import org.springframework.stereotype.Service;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class ProveedorServiceTest {
 	
+	
+	@Autowired
+	protected EntityManager em;
 	
 	@Autowired
 	protected ProveedorService proveedorService;
@@ -91,30 +95,22 @@ class ProveedorServiceTest {
 	
 	
 	
-	//NO FUNCIONA
-//	@Test
-//	@Transactional
-//	void shouldNotUpdateProveedor() throws DataAccessException, DuplicatedProveedorNifException {
-//		Proveedor p1 = new Proveedor();
-//		p1.setNombre("Norauto");
-//		p1.setNif("98765432A");
-//		p1.setTelefono("665112233");
-//		p1.setEmail("norauto@gmail.com");
-//		
-//		proveedorService.saveProveedor(p1);
-//		
-//		
-//		Proveedor p2 = new Proveedor();
-//		p2.setNombre("");
-//		p2.setNif("98765432B");
-//		p2.setTelefono("665112245");
-//		p2.setEmail("prueba@gmail.com");
-//		p2.setId(p1.getId());
-//		
-//		
-//		assertThrows(ConstraintViolationException.class, ()->proveedorService.saveProveedor(p2));
-//		
-//	}
+	@Test
+	void shouldNotUpdateProveedor() throws DataAccessException, DuplicatedProveedorNifException {
+		Proveedor p2 = new Proveedor();
+		p2.setNombre("");
+		p2.setNif("98765432B");
+		p2.setTelefono("665112245");
+		p2.setEmail("prueba@gmail.com");
+		p2.setId(p.getId());
+		
+		
+		assertThrows(ConstraintViolationException.class, () ->{
+			this.proveedorService.saveProveedor(p2);
+			em.flush();
+		});
+		
+	}
 	
 	
 	@Test
