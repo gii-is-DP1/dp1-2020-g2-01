@@ -58,11 +58,22 @@
 				</petclinic:menuItem>
 				
 
-				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
-					title="trigger a RuntimeException to see how it is handled">
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-					<span>Error</span>
-				</petclinic:menuItem>
+				<!-- Citas -->
+				<sec:authorize access="!isAuthenticated()">
+					<petclinic:menuItem active="${name eq 'citas'}" url="/citas/listadoCitas"
+						title="citas">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>Citas</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+				<sec:authentication property="name" var="username"/>
+					<petclinic:menuItem active="${name eq 'citas'}" url="/citas/listadoCitas/${username}"
+						title="citas">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>Citas</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 
 			</ul>
 
@@ -94,7 +105,8 @@
 												<strong><sec:authentication property="name" /></strong>
 											</p>
 											<p class="text-left">
-												<a href="<c:url value="/clientes/update/???????"/>"
+												<sec:authentication property="name" var="username"/>
+												<a href="<c:url value="/clientes/update/${username}"/>"
 													class="btn btn-primary btn-block btn-sm">Editar perfil</a>
 
 											</p>

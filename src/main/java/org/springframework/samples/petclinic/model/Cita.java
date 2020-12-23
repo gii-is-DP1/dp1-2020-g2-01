@@ -43,7 +43,7 @@ public class Cita extends BaseEntity{
 	
 	@NotNull
 	@JoinColumn(name="hora")
-	@Range(min = 9, max = 21)
+	@Range(min = 9, max = 20)
 	private Integer hora;
 	
 	@JoinColumn(name="tipo")

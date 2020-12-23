@@ -7,20 +7,19 @@
               description="Label appears in red color if input is considered as invalid after submission" %>
 
 <spring:bind path="${name}">
-    <c:set var="cssGroup" value="form-group ${status.error ? 'has-error' : '' }"/>
     <c:set var="valid" value="${not status.error and not empty status.actualValue}"/>
-    <div class="${cssGroup}">
-        <label class="col-sm-2 control-label">${label}</label>
+    
+    <c:set var="cssGroup" value="${status.error ? 'has-error' : '' }"/>
+        <label class="col-sm-2 control-label ${cssGroup}">${label}</label>
 
-        <div class="col-sm-10">
+        <div class="col-sm-3 ${cssGroup}">
             <form:input autocomplete="off" class="form-control" path="${name}"/>
             <c:if test="${valid}">
                 <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             </c:if>
             <c:if test="${status.error}">
                 <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                <span class="help-inline">${status.errorMessage}</span>
+                <span class="help-inline">Debes elegir una fecha</span>
             </c:if>
         </div>
-    </div>
 </spring:bind>

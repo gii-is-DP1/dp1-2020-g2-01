@@ -59,8 +59,8 @@ public class VehiculoService {
 		return v;
 	}
 
-	public List<TipoVehiculo> findVehiculoTypes() {
-		return vehiculoRepository.findVehiculoTypes();
+	public TipoVehiculo findVehiculoTypeById(int id) {
+		return vehiculoRepository.findVehiculosById(id);
 	}
 
 
@@ -79,6 +79,10 @@ public class VehiculoService {
 		vehiculos.remove(vehiculo); 
 		vehiculos.add(0, vehiculo); 
 		return vehiculos;
+	}
+
+	public List<TipoVehiculo> findVehiculoTypes() {
+		return vehiculoRepository.findVehiculoTypes();
 	}
 
 }

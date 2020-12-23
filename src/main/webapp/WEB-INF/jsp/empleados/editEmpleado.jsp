@@ -37,25 +37,30 @@
                	<petclinic:inputField label="Fecha fin contrato" name="fecha_fin_contrato"/>
                	<petclinic:inputField label="Número seguridad social" name="num_seg_social"/>
                	<petclinic:inputField label="Sueldo" name="sueldo"/>
-               	<c:choose>
+               	<br>
+            	<c:choose>
                     <c:when test="${empleado['new']}">
                        <petclinic:inputField label="Usuario" name="usuario.username"/>
                     </c:when>
                     <c:otherwise>
-                         <label class="col-sm-2 control-label">Usuario</label>
-            <div class="col-sm-10"><input readonly class="form-control" type="text"  name="usuario.username" value="${empleado.usuario.username}"/></div>
+                    	<petclinic:inputField label="Usuario" name="usuario.username" type="text" readonly="true"/>
                     </c:otherwise>
-             </c:choose>
-            <label class="col-sm-2 control-label">Contraseña</label>
-            <div class="col-sm-10"><input class="form-control" type="password"  name="usuario.password"/></div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <input type="hidden" name="id" value="${empleado.id}"/>
-                    <button class="btn btn-default" type="submit">Guardar empleado</button>
-                </div>
-            </div>
+             	</c:choose>
+             	<petclinic:inputField label="Contraseña" name="usuario.password" type="password"/>
+        	</div>
+        	<div class="form-group">
+            	<div class="col-sm-offset-2 col-sm-10">
+            		<input type="hidden" name="id" value="${empleado.id }">
+	                <c:choose>
+	                    <c:when test="${empleado['new']}">
+	                        <button class="btn btn-default" type="submit">Añadir empleado</button>
+	                    </c:when>
+	                    <c:otherwise>
+	                        <button class="btn btn-default" type="submit">Actualizar empleado</button>
+	                    </c:otherwise>
+	                </c:choose>
+            	</div>
+        	</div>
         </form:form>
 
     </jsp:body>

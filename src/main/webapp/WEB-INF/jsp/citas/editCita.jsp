@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="vehiculos">     
+<petclinic:layout pageName="citas">     
     <jsp:attribute name="customScript">
 <script>
 		<c:if test="${cita['new']}"> 
@@ -65,19 +65,17 @@
           }
         function mostrarHorasConCitas(horas){
         	var res = '';
-        	var buttonStyle = 'buttonStyle';
-        	for(i = 9; i<22; i++){
+        	for(i = 9; i<21; i++){
         		var type = 'default';
         		var disabled='';
         		if(horas.includes(i)){
         			type = 'danger';
         			disabled='disabled="disabled"';
         		}
-        		var but = '<button ' + disabled + ' type="button" id="' + i + '" onClick="elegirHora(' + i + ')" class="btn btn-' + type + ' ' + buttonStyle + '" type="button">' + i + ':00</button>'
+        		var but = '<button ' + disabled + ' type="button" id="' + i + '" onClick="elegirHora(' + i + ')" class="col-sm-2 btn btn-' + type + ' buttonStyle" type="button">' + i + ':00</button>'
         		res += but;
         		if(i==14){
         			res += "</br>";
-        			buttonStyle += '1';
         		}
         	}
         	document.getElementById("collapseFecha").innerHTML = res;
@@ -105,8 +103,8 @@
             <div class="form-group has-feedback">
               
             	<petclinic:selectVehiculo label="Vehículos" name="vehiculo" items="${vehiculos}"/>
-               	<petclinic:selectFecha items="${citas}" label="Fecha" name="fecha" label1="Hora" name1="hora"></petclinic:selectFecha>
-               	<petclinic:selectTipoCita label="Tipo de cita" name="tipoCita" items="${tipos}"/>
+               	<petclinic:selectFecha items="${citas}" label="Fecha" name="fecha" name1="hora"></petclinic:selectFecha>
+               	<petclinic:selectTipo label="Tipo de cita" name="tipoCita" items="${tipos}"/>
                 <input type="hidden" name="id" value="${cita.id}"/>
             </div>
 

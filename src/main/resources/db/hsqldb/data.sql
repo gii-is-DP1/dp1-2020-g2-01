@@ -95,9 +95,9 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 --INSERT INTO clientes VALUES (1, 'Vargas Ruda', '12345678L', '2019-03-18', 'Francisco José','647194727', 'serarirud');
 --INSERT INTO vehiculos(id, matricula, num_bastidor, modelo) VALUES (100, '1234-ABC', 'bastidordeprueba', 'Ford Kuga');
 
-INSERT INTO tipovehiculo(id,name) VALUES (1, 'COCHE');
-INSERT INTO tipovehiculo(id,name) VALUES (2, 'MOTO');
-INSERT INTO tipovehiculo(id,name) VALUES (3, 'BARCO');
+INSERT INTO tipovehiculo(id,tipo) VALUES (1, 'COCHE');
+INSERT INTO tipovehiculo(id,tipo) VALUES (2, 'MOTO');
+INSERT INTO tipovehiculo(id,tipo) VALUES (3, 'BARCO');
 
 INSERT INTO tipocita(id,tipo) VALUES (1, 'CHAPA');
 INSERT INTO tipocita(id,tipo) VALUES (2, 'ITV');
@@ -129,7 +129,7 @@ INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cli
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (102, '5678-ABC', 'bastidordeprue', 'Citroen C3', 1, 1);
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (103, '5679-ABC', 'bastidordepru', 'Citroen C4', 1, 1);
 
-INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (100,'2021-10-22', 21, 1, 100);
+INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (100,'2021-10-22', 19, 1, 100);
 INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (101, 100, '2021-10-22', 20, 3);
 INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (102, 100, CURDATE(), 20, 1);
 INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (103, 100, DATEADD(day, 14, CURDATE()), 17, 1);
@@ -150,16 +150,20 @@ INSERT INTO authorities(username,authority) VALUES ('fraborcar','admin');
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1234-ABC', 'bastidordeprueba', 'Opel Corsa', 1, 100);
 
 
+INSERT INTO users(username,password,enabled) VALUES ('empleado1','Prueba123',true);
+INSERT INTO authorities(username,authority) VALUES ('empleado1','admin');
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
-				fecha_ini_contrato, num_seg_social, sueldo) VALUES (100, 'Sech', '11111111A', 
-					'2021-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2021-11-16', '11111111111', 700.50);
+				fecha_ini_contrato, num_seg_social, sueldo, username) VALUES (100, 'Sech', '11111111A', 
+					'2000-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111111', 950, 'empleado1');
 					
+INSERT INTO users(username,password,enabled) VALUES ('empleado2','Prueba123',true);
+INSERT INTO authorities(username,authority) VALUES ('empleado2','admin');					
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
-				fecha_ini_contrato, num_seg_social, sueldo) VALUES (101, 'Aguayo', '11111111A', 
-					'2021-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2021-11-16', '11111111111', 700.50);
+				fecha_ini_contrato, num_seg_social, sueldo, username) VALUES (101, 'Aguayo', '11111111A', 
+					'2000-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111111', 950, 'empleado2');
 
-INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (200,'2021-10-23', 21, 1, 200);
-INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (201,'2021-10-24', 21, 1, 200);
+INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (200,'2021-10-23', 20, 1, 200);
+INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (201,'2021-10-24', 20, 1, 200);
 INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-22', null, '2021-10-22', '2021-10-22', 200);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);

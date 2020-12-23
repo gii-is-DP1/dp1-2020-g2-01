@@ -108,23 +108,25 @@ public class ClienteController {
 		}
 	}
 	
-	@GetMapping(value = "/update/{clienteId}")
-	public String initUpdateClienteForm(@PathVariable("clienteId") int clienteId, Model model) {
-		Cliente cliente = this.clienteService.findClienteById(clienteId).get();
+	@GetMapping(value = "/update/{username}")
+	public String initUpdateClienteForm(@PathVariable("username") String username, Model model) {
+		Cliente cliente = this.clienteService.findClientesByUsername(username).get();
 		model.addAttribute("cliente", cliente);
 		return FORMULARIO_ADD_UPDATE_CLIENTES;
 	}
 
-	@PostMapping(value = "/update/{clienteId}")
+	@PostMapping(value = "/update/{username}")
 	public String processUpdateClienteForm(@Valid Cliente cliente, BindingResult result,
-			@PathVariable("clienteId") int clienteId) {
+			@PathVariable("username") String username) {
 		if (result.hasErrors()) {
 			return FORMULARIO_ADD_UPDATE_CLIENTES;
 		}
 		else {
-			cliente.setId(clienteId);
+			Cliente cliente1 = this.clienteService.findClientesByUsername(username).get();
+			// Si se modifica el nombre de usuario en el form, no se valida y sigue, de momento he puesto la siguiente linea
+			cliente.getUser().setUsername(username);
+			cliente.setId(cliente1.getId());
 			this.clienteService.saveCliente(cliente);
-//			Optional<User> u=userService.findUser(cliente.getUser().getUsername());
 			
 			return "redirect:/";
 		}
