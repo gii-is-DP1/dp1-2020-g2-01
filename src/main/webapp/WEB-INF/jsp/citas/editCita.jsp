@@ -92,6 +92,33 @@
 				document.getElementsByName("hora")[0].value = hora;
 			}
 		}
+        function activar(id, tipo){
+        	var label = document.getElementById("Tipo-" + id);
+        	var numElegidos = parseInt(document.getElementById("tiposElegidos").innerHTML);
+        	if(label.classList.contains("act")){
+        		label.classList.remove("act");
+        		label.innerHTML = '<input onClick="activar(' + id + ', \'' + tipo + '\')" style="opacity: 0" type="checkbox" autocomplete="off" name="tipo" value="' + id + '">' + tipo;
+        		document.getElementById("tiposElegidos").innerHTML = numElegidos - 1;
+        		var buttons = document.getElementsByName("tipo")
+        		for(i=0;i<buttons.length;i++){
+        			buttons[i].parentElement.removeAttribute("disabled"); 
+        		}
+        	}else{
+        		if(numElegidos < 3){
+	    			document.getElementById("tiposElegidos").innerHTML = numElegidos + 1;
+	        		label.classList.add("act");
+	        		label.innerHTML = '<input onClick="activar(' + id + ', \'' + tipo + '\')" style="opacity: 0" type="checkbox" autocomplete="off" name="tipo" value="' + id + '" checked>' + tipo;
+        		}
+        	}
+        	if(parseInt(document.getElementById("tiposElegidos").innerHTML) == 3){
+        		var buttons = document.getElementsByName("tipo")
+        		for(i=0;i<buttons.length;i++){
+        			if(!buttons[i].hasAttribute("checked")){
+        				buttons[i].parentElement.setAttribute("disabled", ""); 
+        			}
+        		}
+        	}
+        }
 
 </script>
 </jsp:attribute>
@@ -104,7 +131,7 @@
               
             	<petclinic:selectVehiculo label="Vehículos" name="vehiculo" items="${vehiculos}"/>
                	<petclinic:selectFecha items="${citas}" label="Fecha" name="fecha" name1="hora"></petclinic:selectFecha>
-               	<petclinic:selectTipo label="Tipo de cita" name="tipoCita" items="${tipos}"/>
+               	<petclinic:selectTipoCita label="Tipo de cita" name="tipoCita" items="${tipos}"/>
                 <input type="hidden" name="id" value="${cita.id}"/>
             </div>
 
