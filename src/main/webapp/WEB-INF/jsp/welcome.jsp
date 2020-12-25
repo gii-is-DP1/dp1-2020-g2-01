@@ -18,8 +18,8 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <spring:url value="/resources/images/us.png" htmlEscape="true" var="logoUS"/>
-            <img class="img-responsive" src="${logoUS}"/>
+            <spring:url value="/resources/images/logoCompletoSinFondo.png" htmlEscape="true" var="logo"/>
+            <img class="img-responsive" src="${logo}"/>
         </div>
     
         <div class="col-md-12">

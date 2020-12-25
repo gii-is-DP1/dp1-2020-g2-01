@@ -11,8 +11,8 @@ PetClinic :: a Spring Framework demonstration
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags --%>
 
-    <spring:url value="/resources/images/coche.jpg" var="coche"/>
-    <link rel="shortcut icon" type="image/x-icon" href="${coche}">
+    <spring:url value="/resources/images/logoSinFondo.png" var="logoSinFondo"/>
+    <link rel="shortcut icon" type="image/x-icon" href="${logoSinFondo}">
 
     <title>Taller Sevilla Customs</title>
 
