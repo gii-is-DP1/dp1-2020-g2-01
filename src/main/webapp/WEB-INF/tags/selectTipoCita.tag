@@ -41,10 +41,17 @@
             	<c:forEach var="item" items="${items}">
             		<div class="col-sm-4" style="margin-bottom: 1vh">
             		<label class="btn btn-default col-sm-12 no-outline buttonStyle" id="Tipo-${item.id}">
-				    <input onClick="activar(${item.id}, '${item.tipo}')"style="opacity: 0" name="tipo" type="checkbox" autocomplete="off" value="${item.id}">${item.tipo}
+				    <input onClick="activar(${item.id}, '${item.tipo}')" style="opacity: 0" name="tipo" type="checkbox" autocomplete="off" value="${item.id}">${item.tipo}
 				  	</label>
 				  	</div>
             	</c:forEach>
+            	<div class="col-sm-4" style="margin-bottom: 1vh">
+	            	<button type="button" class="btn btn-default col-sm-12 no-outline buttonStyle" data-toggle="collapse" data-target="#collapseOtros">
+	            	OTROS <span class="caret"></span></button>
+			  	</div>
+			  	<div class="collapse col-sm-12" id="collapseOtros">	
+			  	<form:input class="form-control" path="descripcion" placeholder="Añade una descripción de su problema"/>
+				</div>
             </div>
             <c:if test="${status.error}">
                 <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>

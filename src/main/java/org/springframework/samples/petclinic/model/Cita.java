@@ -47,7 +47,11 @@ public class Cita extends BaseEntity{
 	private Integer hora;
 	
 	@JoinColumn(name="tipo")
+//	@ManyToMany
+//	private List<TipoCita> tipoCita;
 	@ManyToOne
 	private TipoCita tipoCita;
 
+	@JoinColumn(name="descripcion")
+	private String descripcion;
 }
