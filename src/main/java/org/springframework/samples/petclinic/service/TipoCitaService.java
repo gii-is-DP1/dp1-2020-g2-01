@@ -26,14 +26,14 @@ public class TipoCitaService {
 		return tipoCitaRep.findById(id);
 	}
 
-	@Transactional
-	public List<TipoCita> geTiposCitaSeleccionadoPrimero(Cita cita) {
-		Integer tipoCitaId = cita.getTipoCita().getId();
-		TipoCita tipo = tipoCitaRep.findById(tipoCitaId).get();
-		List<TipoCita> tipos = tipoCitaRep.findAll();
-		tipos.remove(tipo);
-		tipos.add(0, tipo);
-		return tipos;
-	}
+//	@Transactional
+//	public List<TipoCita> geTiposCitaSeleccionadoPrimero(Cita cita) {
+//		Integer tipoCitaId = cita.getTipoCita().getId();
+//		TipoCita tipo = tipoCitaRep.findById(tipoCitaId).get();
+//		List<TipoCita> tipos = tipoCitaRep.findAll();
+//		tipos.remove(tipo);
+//		tipos.add(0, tipo);
+//		return tipos;
+//	}
 
 }

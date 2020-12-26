@@ -93,16 +93,17 @@ public class CitaController {
 			cita.getVehiculo().setCitas(null); // Evita stackOverflowError
 			cita.getVehiculo().setCliente(null);
 			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
-			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
+//			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
+			model.addAttribute("tipos", tipoCitaService.findAll());
 			vista = CREATE_OR_UPDATE_FORM;
 		}else {
 			Integer vehiculoId = cita.getVehiculo().getId();
 			Vehiculo vehiculo = vehiculoService.findVehiculoById(vehiculoId).get();
 			cita.setVehiculo(vehiculo);
 			
-			Integer tipoCitaId = cita.getTipoCita().getId();
-			TipoCita tipoCita = tipoCitaService.findById(tipoCitaId).get();
-			cita.setTipoCita(tipoCita);
+//			Integer tipoCitaId = cita.getTipoCita().getId();
+//			TipoCita tipoCita = tipoCitaService.findById(tipoCitaId).get();
+//			cita.setTipoCita(tipoCita);
 			
 			citaService.saveCita(cita);
 			model.addAttribute("message", "Cita " + mensaje + " successfully");
@@ -150,7 +151,8 @@ public class CitaController {
 		}else {
 			Cita cita = c.get();
 			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
-			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
+//			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
+			model.addAttribute("tipos", tipoCitaService.findAll());
 			model.addAttribute("citas", citaService.findAll());
 			model.addAttribute("cita", cita);
 			vista = "citas/editCita";

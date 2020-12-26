@@ -2,14 +2,19 @@ package org.springframework.samples.petclinic.model;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,11 +51,10 @@ public class Cita extends BaseEntity{
 	@Range(min = 9, max = 20)
 	private Integer hora;
 	
-	@JoinColumn(name="tipo")
-//	@ManyToMany
-//	private List<TipoCita> tipoCita;
-	@ManyToOne
-	private TipoCita tipoCita;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="citas_tipocita")
+	@Size(min=0, max=3)
+	private List<TipoCita> tiposCita;
 
 	@JoinColumn(name="descripcion")
 	private String descripcion;

@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
@@ -47,7 +49,9 @@ class CitaServiceTest {
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
-		c.setTipoCita(tipo);
+		List<TipoCita> tipos = new ArrayList<TipoCita>();
+		tipos.add(tipo);
+		c.setTiposCita(tipos);
 		
 		Vehiculo v = new Vehiculo();
 		
@@ -74,7 +78,9 @@ class CitaServiceTest {
 		
 		c.setFecha(LocalDate.now());
 		c.setHora(10);
-		c.setTipoCita(tipo);
+		List<TipoCita> tipos = new ArrayList<TipoCita>();
+		tipos.add(tipo);
+		c.setTiposCita(tipos);
 		
 		Vehiculo v = new Vehiculo();
 		
@@ -100,7 +106,9 @@ class CitaServiceTest {
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
-		c.setTipoCita(tipo);
+		List<TipoCita> tipos = new ArrayList<TipoCita>();
+		tipos.add(tipo);
+		c.setTiposCita(tipos);
 		
 		Vehiculo v = new Vehiculo();
 		
@@ -129,7 +137,9 @@ class CitaServiceTest {
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
-		c.setTipoCita(tipo);
+		List<TipoCita> tipos = new ArrayList<TipoCita>();
+		tipos.add(tipo);
+		c.setTiposCita(tipos);
 		
 		Vehiculo v = new Vehiculo();
 		
@@ -146,7 +156,7 @@ class CitaServiceTest {
 		c1.setId(c.getId());
 
 		c1.setHora(10);
-		c1.setTipoCita(tipo);
+		c.setTiposCita(tipos);
 		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
 		c1.setFecha(LocalDate.now());
 		assertThrows(ConstraintViolationException.class, () ->{
@@ -163,7 +173,9 @@ class CitaServiceTest {
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
-		c.setTipoCita(tipo);
+		List<TipoCita> tipos = new ArrayList<TipoCita>();
+		tipos.add(tipo);
+		c.setTiposCita(tipos);
 		
 		Vehiculo v = new Vehiculo();
 		

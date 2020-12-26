@@ -129,10 +129,15 @@ INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cli
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (102, '5678-ABC', 'bastidordeprue', 'Citroen C3', 1, 1);
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (103, '5679-ABC', 'bastidordepru', 'Citroen C4', 1, 1);
 
-INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (100,'2021-10-22', 19, 1, 100);
-INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (101, 100, '2021-10-22', 20, 3);
-INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (102, 100, CURDATE(), 20, 1);
-INSERT INTO citas(id, vehiculo_id, fecha, hora, tipo) VALUES (103, 100, DATEADD(day, 14, CURDATE()), 17, 1);
+INSERT INTO citas(id, fecha, hora, vehiculo_id) VALUES (100,'2021-10-22', 19, 100);
+INSERT INTO citas_tipocita VALUES (100, 1);
+INSERT INTO citas_tipocita VALUES (100, 2);
+INSERT INTO citas(id, vehiculo_id, fecha, hora) VALUES (101, 100, '2021-10-22', 20);
+INSERT INTO citas_tipocita VALUES (101, 1);
+INSERT INTO citas(id, vehiculo_id, fecha, hora) VALUES (102, 100, CURDATE(), 20);
+INSERT INTO citas_tipocita VALUES (102, 1);
+INSERT INTO citas(id, vehiculo_id, fecha, hora) VALUES (103, 100, DATEADD(day, 14, CURDATE()), 17);
+INSERT INTO citas_tipocita VALUES (103, 1);
 
 
 
@@ -162,8 +167,10 @@ INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, em
 				fecha_ini_contrato, num_seg_social, sueldo, username) VALUES (101, 'Aguayo', '11111111A', 
 					'2000-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111111', 950, 'empleado2');
 
-INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (200,'2021-10-23', 20, 1, 200);
-INSERT INTO citas(id, fecha, hora, tipo, vehiculo_id) VALUES (201,'2021-10-24', 20, 1, 200);
+INSERT INTO citas(id, fecha, hora, vehiculo_id) VALUES (200,'2021-10-23', 20, 200);
+INSERT INTO citas_tipocita VALUES (200, 1);
+INSERT INTO citas(id, fecha, hora, vehiculo_id) VALUES (201,'2021-10-24', 20, 200);
+INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-22', null, '2021-10-22', '2021-10-22', 200);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
