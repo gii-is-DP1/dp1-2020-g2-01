@@ -7,6 +7,7 @@
               description="Label appears in red color if input is considered as invalid after submission" %>
 <%@ attribute name="items" required="true" rtexprvalue="true" type="java.util.List"
               description="" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <spring:bind path="${name}">
     <style>
@@ -32,7 +33,9 @@
     </style>
     <c:set var="cssGroup" value="form-group ${status.error ? 'has-error' : '' }"/>
     <c:set var="valid" value="${not status.error and not empty status.actualValue}"/>
-    <p style='display:none' id="tiposElegidos">0</p>
+    <p style='display:none' id="tiposElegidos">${fn:length(cita.tiposCita)}</p>
+    <c:set var="max" value=""/>
+    <c:if test="${ fn:length(cita.tiposCita) >= 3}"><c:set var="max" value="disabled"/></c:if>
     <div class="${cssGroup}">
         <label class="col-sm-2 control-label">${label}</label>
 		
@@ -40,9 +43,25 @@
         	<div class="btn-group" style="margin-top: 1vh">
             	<c:forEach var="item" items="${items}">
             		<div class="col-sm-4" style="margin-bottom: 1vh">
-            		<label class="btn btn-default col-sm-12 no-outline buttonStyle" id="Tipo-${item.id}">
-				    <input onClick="activar(${item.id}, '${item.tipo}')" style="opacity: 0" name="tipo" type="checkbox" autocomplete="off" value="${item.id}">${item.tipo}
-				  	</label>
+            		<c:set var="contains" value="false"/>
+            		<c:forEach var="element" items="${cita.tiposCita}">
+            			<c:if test="${element.tipo eq item.tipo}">
+							<c:set var="contains" value="true" />
+						</c:if>
+            		</c:forEach>
+            		<c:choose>
+            		
+            		<c:when test="${contains}">
+	            		<label class="btn btn-default col-sm-12 no-outline buttonStyle act" id="Tipo-${item.id}">
+					    <input onClick="activar(${item.id}, '${item.tipo}')" style="opacity: 0" name="${name}" type="checkbox" autocomplete="off" value="${item.id}" checked>${item.tipo}
+					  	</label>
+					</c:when>
+					<c:otherwise>
+						<label class="btn btn-default col-sm-12 no-outline buttonStyle" id="Tipo-${item.id}" ${max}>
+					    <input onClick="activar(${item.id}, '${item.tipo}')" style="opacity: 0" name="${name}" type="checkbox" autocomplete="off" value="${item.id}">${item.tipo}
+					  	</label>
+					</c:otherwise>
+					</c:choose>
 				  	</div>
             	</c:forEach>
             	<div class="col-sm-4" style="margin-bottom: 1vh">

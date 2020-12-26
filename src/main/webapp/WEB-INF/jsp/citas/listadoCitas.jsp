@@ -83,7 +83,14 @@
                 
                 <td>
                 <span class="helper"></span>
-                   <p><c:out value="${citas.tipoCita.tipo}"/></p>
+                   <p>
+                   <c:set var="i" value="0"/>
+                   <c:forEach items="${citas.tiposCita}" var="tipo">
+                   <c:out value="${tipo.tipo}"/>
+                   <c:set var="i" value="${i + 1}"/>
+                   <c:if test="${ fn:length(citas.tiposCita) > i}">, </c:if>
+                   </c:forEach>
+                   </p>
                 </td>
                 
                 <td>

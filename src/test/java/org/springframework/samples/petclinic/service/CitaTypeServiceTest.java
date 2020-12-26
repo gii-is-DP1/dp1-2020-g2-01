@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 
 @DataJpaTest(includeFilters=@ComponentScan.Filter(Service.class))
-class CitaTypeServiceTest {
+class TipoCitaServiceTest {
 	
 	@Autowired
 	protected TipoCitaService tipoCitaService;
@@ -42,7 +42,7 @@ class CitaTypeServiceTest {
 	@Test
 	void shouldFindTipoCita() {
 		String t=tipoCitaService.findById(3).get().getTipo();
-		assertEquals(t, "FRENOS");
+		assertEquals(t, "AIRE ACONDICIONADO");
 	}
 	
 	
