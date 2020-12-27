@@ -27,19 +27,25 @@
         </c:if>
             $(function () {
                 $("#fecha").datepicker({dateFormat: 'dd/mm/yy', minDate: 1})
-                $("#fecha").change(function(){
-                	var fecha = $( "#fecha" ).datepicker( "getDate" );
-                	horas = []
-                	for(i = 0; i<cits.length; i++){
-                		if(formatDate(fecha) == formatYearFirstToYearLast(cits[i]["fecha"])){
-                        	horas.push(cits[i]["hora"]);
-                		}
-                	}
-                	mostrarHorasConCitas(horas);
-    				document.getElementsByName("hora")[0].value = '';
-    	        })
+                $("#fecha").change(function() {
+                	actualizarHoras()
+                })
             });
-
+		function actualizarHoras(updating){
+			var fecha = $( "#fecha" ).datepicker( "getDate" );
+        	horas = []
+        	for(i = 0; i<cits.length; i++){
+        		if(formatDate(fecha) == formatYearFirstToYearLast(cits[i]["fecha"])){
+                	horas.push(cits[i]["hora"]);
+        		}
+        	}
+        	mostrarHorasConCitas(horas);
+			if(!updating){
+				document.getElementsByName("hora")[0].value = '';
+			}
+			document.getElementById("ultimoBotonPulsado").value = null;
+			$('#collapseFecha').collapse('show')
+		}
         function formatYearFirstToYearLast(d){
             dformat = d.split("-")[2] + "/" + d.split("-")[1] + "/" + d.split("-")[0]
          	return dformat
@@ -116,13 +122,20 @@
         		}
         	}
         }
-
+        <c:if test="${not cita['new']}">$(function() {
+        	actualizarHoras(true)
+        	var hora = ${cita.hora}
+        	document.getElementById("ultimoBotonPulsado").value = hora;
+			document.getElementById(hora).classList.add("btn-success");
+			document.getElementsByName("hora")[0].value = hora;
+        })</c:if>	
 </script>
 </jsp:attribute>
     <jsp:body>
         <h2>
         <c:if test="${cita['new']}">Añadir </c:if> <c:if test="${ not cita['new']}">Editar </c:if> cita
     	</h2>
+        
         <form:form modelAttribute="cita" class="form-horizontal">
             <div class="form-group has-feedback">
               
