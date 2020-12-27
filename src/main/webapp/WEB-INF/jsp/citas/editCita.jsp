@@ -95,12 +95,13 @@
 				document.getElementsByName("hora")[0].value = hora;
 			}
 		}
-        function activar(id, tipo){
+        function activar(id, tipo, icono){
         	var label = document.getElementById("Tipo-" + id);
         	var numElegidos = parseInt(document.getElementById("tiposElegidos").innerHTML);
         	if(label.classList.contains("act")){
         		label.classList.remove("act");
-        		label.innerHTML = '<input onClick="activar(' + id + ', \'' + tipo + '\')" style="opacity: 0" type="checkbox" autocomplete="off" name="tiposCita" value="' + id + '">' + tipo;
+        		label.innerHTML = '<input onClick="activar(' + id + ', \'' + tipo + '\', \'' + icono + '\')" style="opacity: 0" type="checkbox" autocomplete="off" name="tiposCita" value="' + id + 
+        		'"><img src="/resources/images/' + icono + '" style="width: 32px; height: 32px"> ' + tipo;
         		document.getElementById("tiposElegidos").innerHTML = numElegidos - 1;
         		var buttons = document.getElementsByName("tiposCita")
         		for(i=0;i<buttons.length;i++){
@@ -110,7 +111,8 @@
         		if(numElegidos < 3){
 	    			document.getElementById("tiposElegidos").innerHTML = numElegidos + 1;
 	        		label.classList.add("act");
-	        		label.innerHTML = '<input onClick="activar(' + id + ', \'' + tipo + '\')" style="opacity: 0" type="checkbox" autocomplete="off" name="tiposCita" value="' + id + '" checked>' + tipo;
+	        		label.innerHTML = '<input onClick="activar(' + id + ', \'' + tipo + '\', \'' + icono + '\')" style="opacity: 0" type="checkbox" autocomplete="off" name="tiposCita" value="' + id + 
+	        		'" checked><img src="/resources/images/' + icono + '" style="width: 32px; height: 32px"> ' + tipo;
         		}
         	}
         	if(parseInt(document.getElementById("tiposElegidos").innerHTML) == 3){

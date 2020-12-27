@@ -53,12 +53,16 @@
             		
             		<c:when test="${contains}">
 	            		<label class="btn btn-default col-sm-12 no-outline buttonStyle act" id="Tipo-${item.id}">
-					    <input onClick="activar(${item.id}, '${item.tipo}')" style="opacity: 0" name="${name}" type="checkbox" autocomplete="off" value="${item.id}" checked>${item.tipo}
+					    <input onClick="activar(${item.id}, '${item.tipo}', '${item.icono}')" style="opacity: 0" name="${name}" type="checkbox" autocomplete="off" value="${item.id}" checked>
+					    <img src="/resources/images/${item.icono}" style="width: 32px; height: 32px">
+					    ${item.tipo}
 					  	</label>
 					</c:when>
 					<c:otherwise>
 						<label class="btn btn-default col-sm-12 no-outline buttonStyle" id="Tipo-${item.id}" ${max}>
-					    <input onClick="activar(${item.id}, '${item.tipo}')" style="opacity: 0" name="${name}" type="checkbox" autocomplete="off" value="${item.id}">${item.tipo}
+					    <input onClick="activar(${item.id}, '${item.tipo}', '${item.icono}')" style="opacity: 0" name="${name}" type="checkbox" autocomplete="off" value="${item.id}">
+					    <img src="/resources/images/${item.icono}" style="width: 32px; height: 32px">
+					    ${item.tipo}
 					  	</label>
 					</c:otherwise>
 					</c:choose>
