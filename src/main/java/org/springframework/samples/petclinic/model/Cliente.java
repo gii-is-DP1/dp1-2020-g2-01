@@ -23,8 +23,7 @@ public class Cliente extends Persona{
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-    //Cambiar, no es bidireccional, Cliente -> Factura
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente")
 	private List<Factura> facturas;
 
 
