@@ -1,24 +1,17 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.validation.ConstraintViolationException;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.time.LocalDate;
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -32,7 +25,9 @@ import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
+import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class ReparacionServiceTest {
@@ -53,19 +48,13 @@ class ReparacionServiceTest {
 	protected EmpleadoService empleadoService;
 	
 	@Autowired
-	protected CitaService citaService;
-	
-	@Autowired
-	protected TipoCitaService tipoCitaService;
-	
-	@Autowired
-	protected VehiculoService vehiculoService;
+	protected TipoVehiculoService tipoVehiculoService;
 	
 	@Autowired
 	protected EntityManager em;
 	
 	@Test
-	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException {
+	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
 		
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
@@ -77,6 +66,8 @@ class ReparacionServiceTest {
 	
 		Cita c = new Cita();
 		TipoCita t = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos = new ArrayList<>();
+		tipos.add(t);
 		Vehiculo v = new Vehiculo();
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
@@ -85,7 +76,7 @@ class ReparacionServiceTest {
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
-		c.setTipoCita(t);
+		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
 		citaService.saveCita(c);
@@ -135,6 +126,8 @@ class ReparacionServiceTest {
 	
 		Cita c = new Cita();
 		TipoCita t = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos = new ArrayList<>();
+		tipos.add(t);
 		Vehiculo v = new Vehiculo();
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
@@ -143,7 +136,7 @@ class ReparacionServiceTest {
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
-		c.setTipoCita(t);
+		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
 		citaService.saveCita(c);
@@ -190,6 +183,8 @@ class ReparacionServiceTest {
 	
 		Cita c = new Cita();
 		TipoCita t = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos = new ArrayList<>();
+		tipos.add(t);
 		Vehiculo v = new Vehiculo();
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
@@ -198,7 +193,7 @@ class ReparacionServiceTest {
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
-		c.setTipoCita(t);
+		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
 		citaService.saveCita(c);
@@ -233,7 +228,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException {
+	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
@@ -244,6 +239,8 @@ class ReparacionServiceTest {
 	
 		Cita c = new Cita();
 		TipoCita t = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos = new ArrayList<>();
+		tipos.add(t);
 		Vehiculo v = new Vehiculo();
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
@@ -252,7 +249,7 @@ class ReparacionServiceTest {
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
-		c.setTipoCita(t);
+		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
 		citaService.saveCita(c);
@@ -294,7 +291,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException {
+	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
@@ -305,6 +302,8 @@ class ReparacionServiceTest {
 	
 		Cita c = new Cita();
 		TipoCita t = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos = new ArrayList<>();
+		tipos.add(t);
 		Vehiculo v = new Vehiculo();
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
@@ -313,7 +312,7 @@ class ReparacionServiceTest {
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
-		c.setTipoCita(t);
+		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
 		citaService.saveCita(c);
@@ -358,7 +357,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldDeleteReparacion() throws DataAccessException, FechasReparacionException {
+	void shouldDeleteReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
 		
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
@@ -370,6 +369,8 @@ class ReparacionServiceTest {
 	
 		Cita c = new Cita();
 		TipoCita t = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos = new ArrayList<>();
+		tipos.add(t);
 		Vehiculo v = new Vehiculo();
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
@@ -378,7 +379,7 @@ class ReparacionServiceTest {
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
-		c.setTipoCita(t);
+		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
 		citaService.saveCita(c);

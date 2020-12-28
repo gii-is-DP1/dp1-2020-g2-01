@@ -108,6 +108,12 @@ public class ReparacionComunController {
 		else {
 			model.addAttribute("comunes", results);
 			model.addAttribute("repCom", new ReparacionComun());
+			return listadoRepCom(model);
+
+		}
+		
+		
+	}
 
 	@GetMapping(value="show/{repComId}")
 	public String showRepCom(@PathVariable("repComId") int id, ModelMap model) {
