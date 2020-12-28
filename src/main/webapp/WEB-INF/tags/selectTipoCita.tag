@@ -53,21 +53,21 @@
             		
             		<c:when test="${contains}">
 	            		<label class="btn btn-default col-sm-12 no-outline buttonStyle act" id="Tipo-${item.id}">
-					    <input onClick="activar(${item.id}, '${item.tipo}')" style="opacity: 0" name="${name}" type="checkbox" autocomplete="off" value="${item.id}" checked>${item.tipo}
+					    <input onClick="activar(${item.id}, '${item.tipo}', '${item.icono}')" style="opacity: 0" name="${name}" type="checkbox" autocomplete="off" value="${item.id}" checked>
+					    <img src="/resources/images/${item.icono}" style="width: 32px; height: 32px">
+					    ${item.tipo}
 					  	</label>
 					</c:when>
 					<c:otherwise>
 						<label class="btn btn-default col-sm-12 no-outline buttonStyle" id="Tipo-${item.id}" ${max}>
-					    <input onClick="activar(${item.id}, '${item.tipo}')" style="opacity: 0" name="${name}" type="checkbox" autocomplete="off" value="${item.id}">${item.tipo}
+					    <input onClick="activar(${item.id}, '${item.tipo}', '${item.icono}')" style="opacity: 0" name="${name}" type="checkbox" autocomplete="off" value="${item.id}">
+					    <img src="/resources/images/${item.icono}" style="width: 32px; height: 32px">
+					    ${item.tipo}
 					  	</label>
 					</c:otherwise>
 					</c:choose>
 				  	</div>
             	</c:forEach>
-            	<div class="col-sm-4" style="margin-bottom: 1vh">
-	            	<button type="button" class="btn btn-default col-sm-12 no-outline buttonStyle" data-toggle="collapse" data-target="#collapseOtros">
-	            	OTROS <span class="caret"></span></button>
-			  	</div>
 			  	<div class="collapse col-sm-12" id="collapseOtros">	
 			  	<form:input class="form-control" path="descripcion" placeholder="Añade una descripción de su problema"/>
 				</div>

@@ -18,4 +18,5 @@ public class TipoCita extends BaseEntity {
 	@NotEmpty
 	private String tipo;
 
+	private String icono;
 }

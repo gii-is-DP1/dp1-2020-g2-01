@@ -53,7 +53,7 @@ public class Cita extends BaseEntity{
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="citas_tipocita")
-	@Size(min=0, max=3)
+	@Size(min=1, max=3)
 	private List<TipoCita> tiposCita;
 
 	@JoinColumn(name="descripcion")

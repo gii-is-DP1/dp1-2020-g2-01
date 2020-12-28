@@ -38,9 +38,7 @@
     <div class="${cssGroup}">
 		<petclinic:inputFieldNotAutocompleted label="${label}" name="${name}"/>
         <div class="col-sm-7">
-            <button type="button" class="col-sm-3 btn btn-${error} no-outline" type="button" data-toggle="collapse" data-target="#collapseFecha">
-            Elegir hora <span class="caret"></span></button>
-            <div class="collapse col-sm-9" id="collapseFecha">				
+            <div class="col-sm-12 collapse" id="collapseFecha">	
 			</div>
             <c:if test="${status.error}">
                 <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
@@ -48,6 +46,6 @@
             </c:if>
         </div>
     </div>
-    <input type="hidden" name="${name1}">
+    <input type="hidden" name="${name1}" value="${cita.hora}">
 </spring:bind>
 
