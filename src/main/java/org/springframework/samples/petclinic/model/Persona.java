@@ -38,6 +38,7 @@ public class Persona extends BaseEntity{
 	
 	@Column(name="telefono")
 	@NotEmpty
+	@Pattern(regexp="^[0-9]{9,9}$")
 	private String telefono;
 	
 	@Column(name="email")

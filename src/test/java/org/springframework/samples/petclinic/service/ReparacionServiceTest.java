@@ -73,7 +73,7 @@ class ReparacionServiceTest {
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
 		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("12");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
@@ -133,7 +133,7 @@ class ReparacionServiceTest {
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
 		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("12");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
@@ -190,7 +190,7 @@ class ReparacionServiceTest {
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
 		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("12");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
@@ -247,7 +247,7 @@ class ReparacionServiceTest {
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
 		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("12");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
@@ -310,7 +310,7 @@ class ReparacionServiceTest {
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
 		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("12");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
@@ -378,7 +378,7 @@ class ReparacionServiceTest {
 		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
 		v.setMatricula("4052DMR");
 		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("12");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);

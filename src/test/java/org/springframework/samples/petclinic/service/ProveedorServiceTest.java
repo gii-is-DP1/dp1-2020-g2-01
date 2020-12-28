@@ -80,14 +80,13 @@ class ProveedorServiceTest {
 	void shouldUpdateProveedor() throws DataAccessException, DuplicatedProveedorNifException {
 		Proveedor p2 = new Proveedor();
 		p2.setNombre("Prueba");
-		p2.setNif("98765432B");
+		p2.setNif("33333333B");
 		p2.setTelefono("665112245");
 		p2.setEmail("prueba@gmail.com");
 		p2.setId(p.getId());
 		
-		
 		proveedorService.saveProveedor(p2);
-		
+						
 		assertEquals(p2, proveedorService.findProveedorById(p.getId()).get());
 		
 		

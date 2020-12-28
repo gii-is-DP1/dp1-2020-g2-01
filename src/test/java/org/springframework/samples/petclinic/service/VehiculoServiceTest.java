@@ -33,7 +33,7 @@ class VehiculoServiceTest {
 		Vehiculo v = new Vehiculo();
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("1");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(vehiculoService.findVehiculoTypes().get(0));
 		vehiculoService.saveVehiculo(v);
 		
@@ -46,7 +46,7 @@ class VehiculoServiceTest {
 		
 		v.setMatricula("");
 		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("1");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(vehiculoService.findVehiculoTypes().get(0));
 		
 		assertThrows(ConstraintViolationException.class, () -> this.vehiculoService.saveVehiculo(v));
@@ -58,7 +58,7 @@ class VehiculoServiceTest {
 		
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("1");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(vehiculoService.findVehiculoTypes().get(0));
 		vehiculoService.saveVehiculo(v);
 		
