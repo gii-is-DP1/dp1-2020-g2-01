@@ -106,7 +106,7 @@ INSERT INTO tipoCita(id,tipo,icono) VALUES (11, 'CARROCERÍA', 'carroceria.png')
 INSERT INTO tipoCita(id,tipo,icono) VALUES (12, 'ROTURA DE CRISTALES', 'rotura.png');
 INSERT INTO tipoCita(id,tipo,icono) VALUES (13, 'LLAVES', 'llaves.png');
 INSERT INTO tipoCita(id,tipo,icono) VALUES (14, 'AVISO DEL FABRICANTE', 'fabricante.png');
---INSERT INTO tipoCita(id,tipo) VALUES (15, 'OTROS');
+INSERT INTO tipoCita(id,tipo,icono) VALUES (15, 'OTROS', 'caret-abajo.png');
 
 
 --INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, correo, fecha_fin_contrato, 
