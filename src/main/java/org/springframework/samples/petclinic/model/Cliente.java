@@ -23,7 +23,7 @@ public class Cliente extends Persona{
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+	@OneToMany
 	private List<Factura> facturas;
 
 

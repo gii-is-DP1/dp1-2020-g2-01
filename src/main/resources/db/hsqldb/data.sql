@@ -160,3 +160,5 @@ INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizac
 		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-22', '2021-10-22', '2021-10-22', '2021-10-22', 200);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
+
+INSERT INTO facturas(id, fecha_Pago, precio_Total, porcentaje_descuento) VALUES (1, '2020-12-27', 254.87, 15);
