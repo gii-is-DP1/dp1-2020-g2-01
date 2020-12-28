@@ -57,7 +57,7 @@ class CitaServiceTest {
 		
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("1");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
@@ -86,7 +86,7 @@ class CitaServiceTest {
 		
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("1");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
@@ -114,7 +114,7 @@ class CitaServiceTest {
 		
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("1");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
@@ -145,7 +145,7 @@ class CitaServiceTest {
 		
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("1");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
@@ -181,7 +181,7 @@ class CitaServiceTest {
 		
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("1");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
