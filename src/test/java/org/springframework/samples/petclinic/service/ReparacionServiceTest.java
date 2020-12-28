@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.TipoCita;
@@ -52,6 +53,9 @@ class ReparacionServiceTest {
 	
 	@Autowired
 	protected EntityManager em;
+
+	@Autowired
+	protected ClienteService clienteService;
 	
 	
 	@Test
@@ -418,6 +422,87 @@ class ReparacionServiceTest {
 		reparacionService.delete(r);
 		assertFalse(reparacionService.findReparacionById(r.getId()).isPresent());
 		
+	}
+	
+	@Test
+	@Transactional
+	void shouldFinalizar() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException{
+		Reparacion r = new Reparacion();
+		r.setName("Nombre");
+		r.setDescripcion("Una descripcion hola que tal");
+		r.setFechaEntrega(LocalDate.now().plusDays(2));
+		r.setTiempoEstimado(LocalDate.now().plusDays(9));
+		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
+		r.setFechaRecogida(LocalDate.now().plusDays(11));
+		
+		Cliente cliente = new Cliente();
+		cliente.setNombre("Antonio");
+		cliente.setApellidos("Vargas Ruda");
+		cliente.setDni("11223344M");
+		cliente.setEmail("sergiariasruda@gmail.com");
+		cliente.setFechaNacimiento(LocalDate.now().minusDays(9000));
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
+		cliente.setUser(userP);
+		cliente.setTelefono("111223344");
+		
+		Vehiculo v = new Vehiculo();
+		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
+		v.setMatricula("4052DMR");
+		v.setModelo("Renault Clio 2006");
+		v.setNumBastidor("12");
+		v.setTipoVehiculo(tv);
+		v.setCliente(cliente);
+		vehiculoService.saveVehiculo(v);
+		List<Vehiculo> vehiculos = new ArrayList<>();
+		vehiculos.add(v);
+		cliente.setVehiculos(vehiculos);
+		clienteService.saveCliente(cliente);
+		
+		Cita c = new Cita();
+		TipoCita t = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos = new ArrayList<>();
+		tipos.add(t);
+		c.setFecha(LocalDate.now().plusDays(2));
+		c.setHora(18);
+		c.setTiposCita(tipos);
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
+		
+		citaService.saveCita(c);
+		
+		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
+		
+		Empleado e1 = new Empleado();
+		List<Empleado> empleados = new ArrayList<>();
+		User userP2 = new User();
+		userP2.setUsername("nombreusuario1");
+		userP2.setPassword("passdeprueba");
+		userP2.setEnabled(true);
+		e1.setNombre("Pepito");
+		e1.setApellidos("Grillo");
+		e1.setDni("89898988A");
+		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
+		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
+		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
+		e1.setSueldo(1000L);
+		e1.setUsuario(userP2);
+		e1.setNum_seg_social("1");
+		e1.setEmail("prueba@prueba.com");
+		e1.setTelefono("777777777");
+		
+		empleados.add(e1);
+		empleadoService.saveEmpleado(e1);
+
+		r.setEmpleados(empleados);
+		
+		reparacionService.saveReparacion(r);
+		
+		reparacionService.finalizar(r);
+		assertEquals(r.getFechaFinalizacion(), LocalDate.now());
+		
+
 	}
 	
 }
