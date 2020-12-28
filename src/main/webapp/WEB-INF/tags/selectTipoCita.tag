@@ -68,10 +68,6 @@
 					</c:choose>
 				  	</div>
             	</c:forEach>
-            	<div class="col-sm-4" style="margin-bottom: 1vh">
-	            	<button type="button" class="btn btn-default col-sm-12 no-outline buttonStyle" data-toggle="collapse" data-target="#collapseOtros">
-	            	OTROS <span class="caret"></span></button>
-			  	</div>
 			  	<div class="collapse col-sm-12" id="collapseOtros">	
 			  	<form:input class="form-control" path="descripcion" placeholder="Añade una descripción de su problema"/>
 				</div>
