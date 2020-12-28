@@ -176,7 +176,7 @@ INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizac
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
 
-
-
+INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación espejo retrovisor izquierdo', 'Po lo hase así y asá');
+INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');
 
 
