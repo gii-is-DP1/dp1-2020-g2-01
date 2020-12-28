@@ -58,22 +58,29 @@
 				</petclinic:menuItem>
 				
 
-				<!-- Citas -->
-				<sec:authorize access="!isAuthenticated()">
+				<!-- Citas HAY FALLO, COMO SE HACE ESTO?-->
+				<c:choose> 
+					<c:when test="hasAuthority('admin')">
+					<sec:authorize access="hasAuthority('cliente')">
 					<petclinic:menuItem active="${name eq 'citas'}" url="/citas/listadoCitas"
 						title="citas">
 						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						<span>Citas</span>
 					</petclinic:menuItem>
-				</sec:authorize>
-				<sec:authorize access="isAuthenticated()">
-				<sec:authentication property="name" var="username"/>
-					<petclinic:menuItem active="${name eq 'citas'}" url="/citas/listadoCitas/${username}"
-						title="citas">
-						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-						<span>Citas</span>
-					</petclinic:menuItem>
-				</sec:authorize>
+					</sec:authorize>
+					</c:when>
+					
+					<c:otherwise>
+					<sec:authorize access="hasAuthority('cliente')">
+					<sec:authentication property="name" var="username"/>
+						<petclinic:menuItem active="${name eq 'citas'}" url="/citas/listadoCitas/${username}"
+							title="citas">
+							<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+							<span>Mis citas</span>
+						</petclinic:menuItem>
+					</sec:authorize>
+					</c:otherwise>
+					</c:choose>
 
 			</ul>
 
@@ -106,8 +113,8 @@
 											</p>
 											<p class="text-left">
 												<sec:authentication property="name" var="username"/>
-												<a href="<c:url value="/clientes/update/${username}"/>"
-													class="btn btn-primary btn-block btn-sm">Editar perfil</a>
+												<a href="<c:url value="/clientes/clienteDetails/${username}"/>"
+													class="btn btn-primary btn-block btn-sm">Ver perfil</a>
 
 											</p>
 											<p class="text-left">

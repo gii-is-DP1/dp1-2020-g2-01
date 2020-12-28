@@ -26,6 +26,7 @@
             <th>Fecha de Nacimiento</th>
             <th>Teléfono</th>
             <th>Vehículos</th>
+            <th>Facturas</th>
             <th>Nombre de usuario</th>
             <th></th>
             <th></th>
@@ -56,6 +57,12 @@
                    <c:out value="${clientes.telefono}"/>
                 </td>
                 <td><spring:url value="/vehiculos/listadoVehiculos/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${clientes.user.username}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(clienteUrl)}">
+                    <span class="glyphicon glyphicon-eye-open"></span></a>
+                </td>
+       			<td><spring:url value="/facturas/listadoFacturas/{username}" var="clienteUrl">
                         <spring:param name="username" value="${clientes.user.username}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(clienteUrl)}">

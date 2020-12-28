@@ -2,13 +2,11 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.UserService;
@@ -28,13 +26,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ClienteController {
 
 	private static final String FORMULARIO_ADD_UPDATE_CLIENTES = "clientes/createOrUpdateClienteForm";
+
+	private static final String FORMULARIO_CONFIRM_DELETE = "clientes/confirmar_delete";
 	
 	@Autowired
 	private ClienteService clienteService;
-	
-	@Autowired
-	private UserService userService;
-	
+		
 
 	@Autowired
 	public ClienteController(ClienteService clienteService, UserService userService, AuthoritiesService authoritiesService) {
@@ -47,6 +44,13 @@ public class ClienteController {
 		Iterable<Cliente> clientes = clienteService.findAll();
 		model.put("clientes", clientes);
 		return vista;
+	}
+	
+	@GetMapping(value = "/clienteDetails/{username}")
+	public String mostrasDetalles(@PathVariable("username") String username, Model model) {
+		Cliente cliente = this.clienteService.findClientesByUsername(username).get();
+		model.addAttribute("clientes", cliente);
+		return "clientes/clienteDetails";
 	}
 	
 	
@@ -117,7 +121,7 @@ public class ClienteController {
 
 	@PostMapping(value = "/update/{username}")
 	public String processUpdateClienteForm(@Valid Cliente cliente, BindingResult result,
-			@PathVariable("username") String username) {
+			@PathVariable("username") String username, Model model) {
 		if (result.hasErrors()) {
 			return FORMULARIO_ADD_UPDATE_CLIENTES;
 		}
@@ -128,16 +132,31 @@ public class ClienteController {
 			cliente.setId(cliente1.getId());
 			this.clienteService.saveCliente(cliente);
 			
-			return "redirect:/";
+			return mostrasDetalles(username, model);
 		}
 	}
 	
 	@GetMapping(value = "/delete/{clienteId}")
-	public String deleteCliente(@PathVariable("clienteId") int id, ModelMap model) {
+	public String initDeleteCliente(@PathVariable("clienteId") int id, ModelMap model) {
 		Cliente c = clienteService.findClienteById(id).get();
-		clienteService.delete(c);
-		model.addAttribute("message", "El cliente se ha borrado con éxito");
-		return "clientes/listadoClientes";
+		model.addAttribute("clientes", c);
+		return FORMULARIO_CONFIRM_DELETE;
+
+	}
+	
+	
+	@GetMapping(value="/deleteCliente/{clienteId}")
+	public String processDeleteCliente(@PathVariable("clienteId") int id, ModelMap model) {
+		Cliente c = this.clienteService.findClienteById(id).get();
+		try {
+			clienteService.delete(c);
+			model.addAttribute("message", "Cliente borrado correctamente.");
+			
+		}catch(Exception e) {
+			model.addAttribute("message", "Error inesperado al borrar al cliente");
+			model.addAttribute("messageType", "danger");
+		}
+		return listadoClientes(model);
 	}
 
 	
