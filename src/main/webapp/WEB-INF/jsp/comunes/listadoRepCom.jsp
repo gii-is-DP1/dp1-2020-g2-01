@@ -12,7 +12,10 @@
     <h2>Reparaciones comunes</h2>
     <a href="/reparacionesComunes/new">Añadir una reparación común</a>
     <form:form modelAttribute="repCom" class="form-horizontal"
+<<<<<<< HEAD
     <form:form modelAttribute="repCom" action="/reparacionesComunes" class="form-horizontal"
+=======
+>>>>>>> branch 'jesvarzam' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
                id="search-repCom-form">
         <div class="form-group">
             <div class="control-group" id="nombre">

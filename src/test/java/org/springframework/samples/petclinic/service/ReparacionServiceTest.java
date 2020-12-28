@@ -45,13 +45,14 @@ class ReparacionServiceTest {
 	protected VehiculoService vehiculoService;
 	
 	@Autowired
-	protected EmpleadoService empleadoService;
-	
-	@Autowired
 	protected TipoVehiculoService tipoVehiculoService;
 	
 	@Autowired
+	protected EmpleadoService empleadoService;
+	
+	@Autowired
 	protected EntityManager em;
+	
 	
 	@Test
 	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
@@ -194,6 +195,7 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
+		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
 		citaService.saveCita(c);
@@ -356,6 +358,7 @@ class ReparacionServiceTest {
 
 	}
 	
+	
 	@Test
 	void shouldDeleteReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
 		
@@ -417,7 +420,4 @@ class ReparacionServiceTest {
 		
 	}
 	
-	
-	
-
 }

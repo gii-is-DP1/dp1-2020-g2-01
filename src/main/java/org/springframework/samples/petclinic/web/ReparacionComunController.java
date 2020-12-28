@@ -108,7 +108,7 @@ public class ReparacionComunController {
 		else {
 			model.addAttribute("comunes", results);
 			model.addAttribute("repCom", new ReparacionComun());
-			return listadoRepCom(model);
+			return "comunes/listadoRepCom";
 
 		}
 		
