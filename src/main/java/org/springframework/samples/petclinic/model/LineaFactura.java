@@ -43,4 +43,8 @@ public class LineaFactura extends BaseEntity{
 	public Double getPrecio() {
 		return Math.round(precioBase*(1-descuento/100.0)*100d)/100d;
 	}
+<<<<<<< Upstream, based on origin/master
 }
+=======
+}
+>>>>>>> 4172321 Añadiendo linea factura a reparacion
