@@ -68,14 +68,14 @@
 					</c:choose>
 				  	</div>
             	</c:forEach>
+            <c:if test="${status.error}">
+                <span class="form-control-feedback" aria-hidden="true"></span>
+                <span class="help-inline">Tipo de cita: ${status.errorMessage}</span>
+            </c:if>
 			  	<div class="collapse col-sm-12" id="collapseOtros">	
 			  	<form:input class="form-control" path="descripcion" placeholder="Añade una descripción de su problema"/>
 				</div>
             </div>
-            <c:if test="${status.error}">
-                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                <span class="help-inline">${status.errorMessage}</span>
-            </c:if>
         </div>
     </div>
 </spring:bind>

@@ -94,6 +94,7 @@ public class CitaController {
 			cita.getVehiculo().setCliente(null);
 			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
 //			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
+			model.addAttribute("citas", citaService.findAll());
 			model.addAttribute("tipos", tipoCitaService.findAll());
 			vista = CREATE_OR_UPDATE_FORM;
 		}else {
