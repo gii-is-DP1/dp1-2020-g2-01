@@ -124,7 +124,11 @@
         		}
         	}
         }
-        $("#Tipo-15").click(function() {$("#collapseOtros").collapse("toggle")})
+        $("#Tipo-15").click(function() {
+        	if(!document.getElementById("Tipo-15").hasAttribute("disabled")){
+        		$("#collapseOtros").collapse("toggle")
+        	}
+        	})
         <c:if test="${not cita['new']}">$(function() {
         	actualizarHoras(true)
         	var hora = ${cita.hora}
