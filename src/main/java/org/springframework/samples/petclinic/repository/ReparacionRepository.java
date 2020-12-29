@@ -17,4 +17,5 @@ public interface ReparacionRepository extends CrudRepository<Reparacion, Integer
 	@Query("SELECT count(r) FROM Reparacion r WHERE (r.fechaFinalizacion IS NOT EMPTY) AND (:empleado MEMBER OF r.empleados)")
 	Integer findReparacionesActivasEmpleado(@Param("empleado") Empleado empleado);
 
+
 }

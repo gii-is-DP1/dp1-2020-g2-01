@@ -7,6 +7,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
+import org.springframework.data.annotation.Transient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,13 +15,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="lineaFactura")
+@Table(name="linea_factura")
 public class LineaFactura extends BaseEntity{
 
 
 	@NotNull
-	@JoinColumn(name = "precio")
-	private Double precio;
+	@JoinColumn(name = "precio_base")
+	private Double precioBase;
 
 	@Range(min=0,max=100)
 	@NotNull
@@ -33,8 +34,13 @@ public class LineaFactura extends BaseEntity{
 	private Reparacion reparacion;
 
 	@ManyToOne
-	@NotNull
 	@JoinColumn(name="factura")
 	private Factura factura;
+	
+	private String recambio; // Cambiarlo cuando se haga el recambio
 
+	@Transient
+	public Double getPrecio() {
+		return Math.round(precioBase*(1-descuento/100.0)*100d)/100d;
+	}
 }
