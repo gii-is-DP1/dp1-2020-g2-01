@@ -145,12 +145,12 @@ INSERT INTO citas_tipocita VALUES (103, 1);
 --
 INSERT INTO users(username,password,enabled) VALUES ('clienteEjemplo','Prueba123',true);
 INSERT INTO authorities(username,authority) VALUES ('clienteEjemplo','cliente');
-INSERT INTO clientes(id, dni, fecha_nacimiento, nombre, apellidos, telefono, email, username) VALUES (99, '12345678A','2000-02-20', 'Cliente', 'Ejemplo', '646123456', 'jvargaszambrana0@gmail.com', 'clienteEjemplo');
+INSERT INTO clientes(id, dni, fecha_nacimiento, nombre, apellidos, telefono, email, username) VALUES (99, '12345678A','2000-02-20', 'Cliente', 'Ejemplo', '646123456', 'tallersevillacustoms@gmail.com', 'clienteEjemplo');
 
 
 INSERT INTO users(username,password,enabled) VALUES ('fraborcar','Prueba123',true);
 INSERT INTO authorities(username,authority) VALUES ('fraborcar','admin');
-INSERT INTO clientes(id, dni, nombre, apellidos, telefono, fecha_nacimiento, email, username) VALUES (100, '34567890A','Francisco', 'Borrego', '646123456', '2000-02-20', 'jvargaszambrana0@gmail.com', 'fraborcar');
+INSERT INTO clientes(id, dni, nombre, apellidos, telefono, fecha_nacimiento, email, username) VALUES (100, '34567890A','Francisco', 'Borrego', '646123456', '2000-02-20', 'tallersevillacustoms@gmail.com', 'fraborcar');
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1111AAB', 'VSSZZZ6KZ1R149943', 'Opel Corsa', 1, 100);
 
@@ -172,8 +172,9 @@ INSERT INTO citas_tipocita VALUES (200, 1);
 INSERT INTO citas(id, fecha, hora, vehiculo_id) VALUES (201,'2021-10-24', 20, 200);
 INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
-		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-22', null, '2021-10-22', '2021-10-22', 200);
-INSERT INTO linea_factura(precio_base, descuento, reparacion, recambio) VALUES (50, 15, 1, 'rueda');
+		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
+INSERT INTO linea_factura(precio_base, descuento, reparacion, recambio, descripcion) VALUES (50, 15, 1, 'rueda', '2 ruedas delanteras');
+INSERT INTO linea_factura(precio_base, descuento, reparacion, recambio, descripcion) VALUES (40, 0, 1, 'Mano de obra', '2h de trabajo');
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
 

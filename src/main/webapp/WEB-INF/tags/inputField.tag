@@ -10,7 +10,9 @@
               description="" %>
 <%@ attribute name="readonly" required="false" rtexprvalue="true"
               description="" %>
-
+<%@ attribute name="noglyphicon" required="false" rtexprvalue="true"
+              description="" %>
+              
 <spring:bind path="${name}">
     <c:set var="cssGroup" value="form-group ${status.error ? 'has-error' : '' }"/>
     <c:set var="valid" value="${not status.error and not empty status.actualValue}"/>
@@ -18,9 +20,11 @@
         <label class="col-sm-2 control-label">${label}</label>
 
         <div class="col-sm-10">
-            <form:input type="${type}" readonly="${readonly}" class="form-control" path="${name}"/>
+            <form:input type="${type}" readonly="${readonly}" class="form-control" path="${name}" id="${name}"/>
             <c:if test="${valid}">
-                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+            	<c:set var="icon" value="glyphicon glyphicon-ok"></c:set>
+            	<c:if test="${noglyphicon}"><c:set var="icon" value=""></c:set></c:if>
+                <span class="${icon} form-control-feedback" aria-hidden="true"></span>
             </c:if>
             <c:if test="${status.error}">
                 <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>

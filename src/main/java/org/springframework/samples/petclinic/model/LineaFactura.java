@@ -37,6 +37,9 @@ public class LineaFactura extends BaseEntity{
 	@JoinColumn(name="factura")
 	private Factura factura;
 	
+	@JoinColumn(name="descripcion")
+	private String descripcion;
+	
 	private String recambio; // Cambiarlo cuando se haga el recambio
 
 	@Transient
