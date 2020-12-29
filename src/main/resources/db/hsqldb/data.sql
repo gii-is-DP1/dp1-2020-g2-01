@@ -173,6 +173,7 @@ INSERT INTO citas(id, fecha, hora, vehiculo_id) VALUES (201,'2021-10-24', 20, 20
 INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-22', null, '2021-10-22', '2021-10-22', 200);
+INSERT INTO linea_factura(precio_base, descuento, reparacion, recambio) VALUES (50, 15, 1, 'rueda');
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
 

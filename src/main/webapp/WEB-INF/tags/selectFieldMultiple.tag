@@ -9,6 +9,8 @@
               description="Names in the list" %>
 <%@ attribute name="size" required="true" rtexprvalue="true"
               description="Size of Select" %>
+<%@ attribute name="noglyphicon" required="false" rtexprvalue="true"
+              description="" %>
 
 <spring:bind path="${name}">
     <c:set var="cssGroup" value="form-group ${status.error ? 'error' : '' }"/>
@@ -22,7 +24,9 @@
             </form:select>
            
             <c:if test="${valid}">
-                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+            	<c:set var="icon" value="glyphicon glyphicon-ok"></c:set>
+            	<c:if test="${noglyphicon}"><c:set var="icon" value=""></c:set></c:if>
+                <span class="${icon} form-control-feedback" aria-hidden="true"></span>
             </c:if>
             <c:if test="${status.error}">
                 <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>

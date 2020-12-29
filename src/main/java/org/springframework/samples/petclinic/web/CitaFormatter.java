@@ -20,14 +20,14 @@ public class CitaFormatter implements Formatter<Cita> {
 	
 	@Override
 	public String print(Cita object, Locale locale) {
-		return object.getFecha()+ ";" + object.getHora();
+		return object.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))+ " a las " + object.getHora() + ":00";
 	}
 
 	@Override
 	public Cita parse(String text, Locale locale) throws ParseException {
-		String[] cadena = text.split(";");
-		LocalDate fecha = LocalDate.parse(cadena[0], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		Integer hora = Integer.valueOf(cadena[1]);
+		String[] cadena = text.split(" a las ");
+		LocalDate fecha = LocalDate.parse(cadena[0], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		Integer hora = Integer.valueOf(cadena[1].replace(":00", ""));
 		return citaService.findCitaByFechaAndHora(fecha, hora);
 		
 	}
