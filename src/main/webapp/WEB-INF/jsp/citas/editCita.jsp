@@ -174,17 +174,5 @@
                 </div>
             </div>
         </form:form>
-
-    </jsp:body>
-</petclinic:layout>"submit">Añadir cita</button>
-                    </c:when>
-                    <c:otherwise>
-                        <button class="btn btn-default" type="submit">Editar cita</button>
-                    </c:otherwise>
-                </c:choose>
-                </div>
-            </div>
-        </form:form>
-
     </jsp:body>
 </petclinic:layout>
