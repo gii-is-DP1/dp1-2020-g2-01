@@ -129,27 +129,22 @@
         		$("#collapseOtros").collapse("toggle")
         	}
         	})
-        <c:if test="${not cita['new'] or not empty cita.hora}">$(function() {
+        var tipos = [<c:forEach var="t" items="${cita.tiposCita}">
+       	"${t.tipo}",
+           </c:forEach>
+           ]
+   		for(i=0;i<tipos.length;i++){
+   			if(tipos[i] == "OTROS"){
+   				$("#collapseOtros").collapse("show")
+   			}
+   		}
+        <c:if test="${not cita['new'] or not empty cita.fecha}">$(function() {
         	actualizarHoras(true)
         	var hora = ${cita.hora}
         	document.getElementById("ultimoBotonPulsado").value = hora;
 			document.getElementById(hora).classList.add("btn-success");
 			document.getElementsByName("hora")[0].value = hora;
-			
-			var tipos = [<c:forEach var="t" items="${cita.tiposCita}">
-        	"${t.tipo}",
-            </c:forEach>
-            ]
-			var otros = false
-			for(i=0;i<tipos.length;i++){
-				if(tipos[i] == "OTROS"){
-					otros = true
-				}
-			}
-			if(otros){
-				$("#collapseOtros").collapse("toggle")
-			}
-        })</c:if>	
+        })</c:if>
 </script>
 </jsp:attribute>
     <jsp:body>
