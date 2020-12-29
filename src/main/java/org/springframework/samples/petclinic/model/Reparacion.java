@@ -1,11 +1,12 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
@@ -56,7 +57,7 @@ public class Reparacion extends NamedEntity {
 	private Collection<Empleado> empleados;
 	
 	
-	//Reparacion->Factura, OneToOne(optional)
-	//private Factura factura;
+	@OneToMany(mappedBy="reparacion")
+	private List<LineaFactura> lineaFactura;
 
 }
