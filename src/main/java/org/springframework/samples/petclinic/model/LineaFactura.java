@@ -43,11 +43,4 @@ public class LineaFactura extends BaseEntity{
 	public Double getPrecio() {
 		return Math.round(precioBase*(1-descuento/100.0)*100d)/100d;
 	}
-<<<<<<< HEAD
-<<<<<<< Upstream, based on origin/master
-=======
->>>>>>> branch 'serarirud' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
 }
-=======
-}
->>>>>>> 4172321 Añadiendo linea factura a reparacion
