@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -54,6 +55,7 @@ public class Cita extends BaseEntity{
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="citas_tipocita")
 	@Size(min=1, max=3)
+	@NotEmpty
 	private List<TipoCita> tiposCita;
 
 	@JoinColumn(name="descripcion")

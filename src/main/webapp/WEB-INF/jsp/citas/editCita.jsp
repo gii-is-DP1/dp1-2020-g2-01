@@ -129,7 +129,7 @@
         		$("#collapseOtros").collapse("toggle")
         	}
         	})
-        <c:if test="${not cita['new']}">$(function() {
+        <c:if test="${not cita['new'] or not empty cita.hora}">$(function() {
         	actualizarHoras(true)
         	var hora = ${cita.hora}
         	document.getElementById("ultimoBotonPulsado").value = hora;
