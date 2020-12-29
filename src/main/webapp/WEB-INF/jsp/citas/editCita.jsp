@@ -130,6 +130,7 @@
         	}
         	})
 <<<<<<< Upstream, based on origin/master
+<<<<<<< Upstream, based on origin/master
         var tipos = [<c:forEach var="t" items="${cita.tiposCita}">
        	"${t.tipo}",
            </c:forEach>
@@ -143,6 +144,18 @@
 =======
         <c:if test="${not cita['new'] or not empty cita.hora}">$(function() {
 >>>>>>> 5745b71 Cita
+=======
+        var tipos = [<c:forEach var="t" items="${cita.tiposCita}">
+       	"${t.tipo}",
+           </c:forEach>
+           ]
+   		for(i=0;i<tipos.length;i++){
+   			if(tipos[i] == "OTROS"){
+   				$("#collapseOtros").collapse("show")
+   			}
+   		}
+        <c:if test="${not cita['new'] or not empty cita.fecha}">$(function() {
+>>>>>>> b08b10b c
         	actualizarHoras(true)
         	var hora = ${cita.hora}
         	document.getElementById("ultimoBotonPulsado").value = hora;
