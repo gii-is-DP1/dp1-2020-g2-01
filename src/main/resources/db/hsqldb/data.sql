@@ -179,4 +179,5 @@ INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación espejo retrovisor izquierdo', 'Po lo hase así y asá');
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');
 
+INSERT INTO facturas(id, fecha_Pago, precio_Total, porcentaje_descuento) VALUES (1, '2020-12-27', 254.87, 15);
 
