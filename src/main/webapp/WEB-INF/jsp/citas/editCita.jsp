@@ -129,6 +129,7 @@
         		$("#collapseOtros").collapse("toggle")
         	}
         	})
+<<<<<<< Upstream, based on origin/master
         var tipos = [<c:forEach var="t" items="${cita.tiposCita}">
        	"${t.tipo}",
            </c:forEach>
@@ -139,6 +140,9 @@
    			}
    		}
         <c:if test="${not cita['new'] or not empty cita.fecha}">$(function() {
+=======
+        <c:if test="${not cita['new'] or not empty cita.hora}">$(function() {
+>>>>>>> 5745b71 Cita
         	actualizarHoras(true)
         	var hora = ${cita.hora}
         	document.getElementById("ultimoBotonPulsado").value = hora;
