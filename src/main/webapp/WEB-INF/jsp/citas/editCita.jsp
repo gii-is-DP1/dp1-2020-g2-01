@@ -129,6 +129,7 @@
         		$("#collapseOtros").collapse("toggle")
         	}
         	})
+<<<<<<< HEAD
 <<<<<<< Upstream, based on origin/master
 <<<<<<< Upstream, based on origin/master
         var tipos = [<c:forEach var="t" items="${cita.tiposCita}">
@@ -156,6 +157,18 @@
    		}
         <c:if test="${not cita['new'] or not empty cita.fecha}">$(function() {
 >>>>>>> b08b10b c
+=======
+        var tipos = [<c:forEach var="t" items="${cita.tiposCita}">
+       	"${t.tipo}",
+           </c:forEach>
+           ]
+   		for(i=0;i<tipos.length;i++){
+   			if(tipos[i] == "OTROS"){
+   				$("#collapseOtros").collapse("show")
+   			}
+   		}
+        <c:if test="${not cita['new'] or not empty cita.fecha}">$(function() {
+>>>>>>> branch 'serarirud' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
         	actualizarHoras(true)
         	var hora = ${cita.hora}
         	document.getElementById("ultimoBotonPulsado").value = hora;
