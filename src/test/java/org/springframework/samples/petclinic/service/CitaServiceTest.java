@@ -15,10 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.Vehiculo;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +44,7 @@ class CitaServiceTest {
 
 	@Test
 	@Transactional
-	void shouldInsertCita() {
+	void shouldInsertCita() throws DataAccessException, DuplicatedMatriculaException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
@@ -70,7 +72,7 @@ class CitaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldInsertCitaInvalida() {
+	void shouldInsertCitaInvalida() throws DataAccessException, DuplicatedMatriculaException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
@@ -99,7 +101,7 @@ class CitaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldUpdateCita() {
+	void shouldUpdateCita() throws DataAccessException, DuplicatedMatriculaException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
@@ -130,7 +132,7 @@ class CitaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotUpdateInvalidCita() {
+	void shouldNotUpdateInvalidCita() throws DataAccessException, DuplicatedMatriculaException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
@@ -166,7 +168,7 @@ class CitaServiceTest {
 	}
 	
 	@Test
-	void shouldDeleteCita() {
+	void shouldDeleteCita() throws DataAccessException, DuplicatedMatriculaException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();

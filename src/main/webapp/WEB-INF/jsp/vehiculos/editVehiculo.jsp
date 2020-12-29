@@ -13,9 +13,7 @@
     <jsp:body>
         <h2>Vehiculo</h2>
 
-        <sec:authentication property="name" var="username"/>
-
-        <form:form action="/vehiculos/save/${username}" modelAttribute="vehiculo" class="form-horizontal">
+        <form:form action="/vehiculos/save" modelAttribute="vehiculo" class="form-horizontal">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Matricula" name="matricula"/>
                 <petclinic:inputField label="Modelo" name="modelo"/> 

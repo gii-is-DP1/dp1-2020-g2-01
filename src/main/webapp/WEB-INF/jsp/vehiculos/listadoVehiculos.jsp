@@ -9,67 +9,78 @@
 
 
 <petclinic:layout pageName="vehiculos">
+	<style>
+		.textoTabla {
+			min-width: 120px;
+		}
+		
+	</style>
+
+
     <h2>Vehículos</h2>
     
 	<a class="btn btn-success" href="/vehiculos/new"><span class="glyphicon glyphicon-plus"></span> Añadir vehículo</a>
     <table id="vehiculosTable" class="table table-striped">
         <thead>
         <tr>
-        	<th>Id</th>
             <th>Matrícula</th>
-            <th>Número de bastidor</th>
             <th>Modelo</th>
             <th>Tipo de vehículo</th>
+            <sec:authorize access="hasAuthority('admin')">
+            <th>Cliente</th>
+            </sec:authorize>
+            <th>Número de bastidor</th>
             <th></th>
             <th></th>
             
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${vehiculos}" var="vehiculos">
+        <c:forEach items="${vehiculos}" var="vehiculo">
             <tr>
-               <td>
-                    <c:out value="${vehiculos.id}"/>
-                </td>
-                
-            
                 <td>
-                    <c:out value="${vehiculos.matricula}"/>
-                </td>
-                
-                <td>
-                   <c:out value="${vehiculos.numBastidor}"/>
-                </td>
-                
-                <td>
-                   <c:out value="${vehiculos.modelo}"/>
+                  <c:out value="${vehiculo.matricula}"/>
                 </td>
                 
                 
                 <td>
-                   <c:out value="${vehiculos.tipoVehiculo.tipo}"/>
+                   <c:out value="${vehiculo.modelo}"/>
                 </td>
                 
                 
+                <td>
+                   <c:out value="${vehiculo.tipoVehiculo.tipo}"/>
+                </td>
+                
+               	<sec:authorize access="hasAuthority('admin')">
+	             	<td class="textoTabla">
+	               		<p><c:out value="${vehiculo.cliente.nombre}"/></p>
+                    	<p><small><c:out value="${vehiculo.cliente.apellidos}"/></small></p>
+	                </td>
+               	</sec:authorize>
+               	
+                
+                <td>
+                   <c:out value="${vehiculo.numBastidor}"/>
+                </td>
                 
                 <td>
                 	<spring:url value="/vehiculos/update/{vehiculoId}" var="vehiculoUrl">
-                        <spring:param name="vehiculoId" value="${vehiculos.id}"/>
+                        <spring:param name="vehiculoId" value="${vehiculo.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(vehiculoUrl)}"><span class="glyphicon glyphicon-pencil"></span></a>
                 
                 </td>
-                <sec:authentication property="name" var="username"/>
+             
+             
                 <td>
-                	<spring:url value="/vehiculos/delete/${username}/{vehiculoId}" var="vehiculoUrl">
-                        <spring:param name="vehiculoId" value="${vehiculos.id}"/>
+                	<spring:url value="/vehiculos/delete/{vehiculoId}" var="vehiculoUrl">
+                        <spring:param name="vehiculoId" value="${vehiculo.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(vehiculoUrl)}"><span class="glyphicon glyphicon-trash"></span></a>
                 
                 </td>
                                 
-                
-              	
                 
             </tr>
         </c:forEach>

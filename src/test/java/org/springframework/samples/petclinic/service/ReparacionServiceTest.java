@@ -25,6 +25,7 @@ import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vehiculo;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
 import org.springframework.stereotype.Service;
@@ -59,7 +60,7 @@ class ReparacionServiceTest {
 	
 	
 	@Test
-	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
+	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException {
 		
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
@@ -119,7 +120,7 @@ class ReparacionServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotInsertReparacionInvalida() {
+	void shouldNotInsertReparacionInvalida() throws DataAccessException, DuplicatedMatriculaException {
 		
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
@@ -176,7 +177,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldNotInsertReparacionConFechasIncorrectas() {
+	void shouldNotInsertReparacionConFechasIncorrectas() throws DataAccessException, DuplicatedMatriculaException {
 		
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
@@ -234,7 +235,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
+	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException {
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
@@ -297,7 +298,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
+	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException {
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
@@ -364,7 +365,7 @@ class ReparacionServiceTest {
 	
 	
 	@Test
-	void shouldDeleteReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
+	void shouldDeleteReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException {
 		
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
@@ -426,7 +427,7 @@ class ReparacionServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldFinalizar() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException{
+	void shouldFinalizar() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException{
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
