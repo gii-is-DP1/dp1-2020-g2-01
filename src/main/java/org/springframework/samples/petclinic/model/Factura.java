@@ -29,15 +29,15 @@ public class Factura extends BaseEntity{
 		
 	@Range(min = 0, max = 100)
 	@NotNull
-	@JoinColumn(name = "porcentaje_descuento")
-	private Double porcentajeDescuento;
+	@JoinColumn(name = "descuento")
+	private Double descuento;
 	
 	@OneToMany(mappedBy="factura")
 	private List<LineaFactura> lineaFactura;
 	
 	@Transient
 	public Double getPrecioConDescuento() {
-		return (double)Math.round(getPrecioTotal()*(1-porcentajeDescuento/100.0)*100d)/100d;
+		return (double)Math.round(getPrecioTotal()*(1-descuento/100.0)*100d)/100d;
 	}
 	
 	@Transient

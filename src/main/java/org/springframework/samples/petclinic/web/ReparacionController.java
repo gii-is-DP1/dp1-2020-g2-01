@@ -1,32 +1,30 @@
 package org.springframework.samples.petclinic.web;
 
-import java.util.Collection;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.Factura;
+import org.springframework.samples.petclinic.model.LineaFactura;
 import org.springframework.samples.petclinic.model.Reparacion;
-import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.EmpleadoService;
+import org.springframework.samples.petclinic.service.FacturaService;
 import org.springframework.samples.petclinic.service.ReparacionService;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +50,9 @@ public class ReparacionController {
 
 	@Autowired
 	private ReparacionService reparacionService;
+	
+	@Autowired
+	private FacturaService facturaService;
 	
 	@Autowired
 	private CitaService citaService;
@@ -166,16 +167,23 @@ public class ReparacionController {
 	@GetMapping(value="/finalizar/{reparacionId}")
 	public String initFinalizarReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
 		Reparacion reparacion = reparacionService.findReparacionById(id).get();
+		List<LineaFactura> lineaFactura = reparacion.getLineaFactura();
+		Factura factura = new Factura();
+		factura.setDescuento(0.0);
+		factura.setFechaPago(LocalDate.now());
+		factura.setLineaFactura(lineaFactura);
+		model.addAttribute("factura",factura);
 		model.addAttribute("reparacion", reparacion);
 		return FORMULARIO_REPARACION_FINALIZADA;
 	}
 	
-	@GetMapping(value="/finalizarReparacion/{reparacionId}")
-	public String processFinalizarReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
+	@PostMapping(value="/finalizarReparacion/{reparacionId}")
+	public String processFinalizarReparacion(@PathVariable("reparacionId") int id, @Valid Factura factura, ModelMap model) {
 		String vista = "";
 		Reparacion rep = this.reparacionService.findReparacionById(id).get();
 		try {
 			reparacionService.finalizar(rep);
+			facturaService.saveFactura(factura);
 			model.addAttribute("message", "Reparación "+rep.getId()+" finalizada correctamente");
 
 		}catch(Exception e){
