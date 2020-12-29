@@ -36,7 +36,7 @@
                 </td>
 
                  <td>
-                    <c:out value="${factura.porcentajeDescuento}"/>
+                    <c:out value="${factura.descuento}"/>
                 </td>
 
                 <td>
