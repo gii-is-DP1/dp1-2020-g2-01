@@ -35,16 +35,8 @@
 				</petclinic:menuItem>
 				
 				<!-- Vehiculos -->
-				<sec:authorize access="!isAuthenticated()">
-					<petclinic:menuItem active="${name eq 'vehiculos'}" url="/vehiculos/listadoVehiculos"
-						title="vehiculos">
-						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-						<span>Vehículos</span>
-					</petclinic:menuItem>
-				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
-				<sec:authentication property="name" var="username"/>
-					<petclinic:menuItem active="${name eq 'vehiculos'}" url="/vehiculos/listadoVehiculos/${username}"
+					<petclinic:menuItem active="${name eq 'vehiculos'}" url="/vehiculos/listadoVehiculos"
 						title="vehiculos">
 						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						<span>Vehículos</span>

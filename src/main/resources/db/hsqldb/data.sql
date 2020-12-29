@@ -147,6 +147,9 @@ INSERT INTO users(username,password,enabled) VALUES ('clienteEjemplo','Prueba123
 INSERT INTO authorities(username,authority) VALUES ('clienteEjemplo','cliente');
 INSERT INTO clientes(id, dni, fecha_nacimiento, nombre, apellidos, telefono, email, username) VALUES (99, '12345678A','2000-02-20', 'Cliente', 'Ejemplo', '646123456', 'tallersevillacustoms@gmail.com', 'clienteEjemplo');
 
+INSERT INTO users(username,password,enabled) VALUES ('adminEjemplo','Prueba123',true);
+INSERT INTO authorities(username,authority) VALUES ('adminEjemplo','admin');
+
 
 INSERT INTO users(username,password,enabled) VALUES ('fraborcar','Prueba123',true);
 INSERT INTO authorities(username,authority) VALUES ('fraborcar','admin');

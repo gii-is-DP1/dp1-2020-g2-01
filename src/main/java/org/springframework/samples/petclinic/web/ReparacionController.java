@@ -147,7 +147,7 @@ public class ReparacionController {
 		if(cliente.isPresent()) {
 			reparaciones = reparacionService.findReparacionesCliente(cliente.get());
 			model.put("reparaciones", reparaciones);
-		}else {
+		}else { //como se obliga a loguearse, si no es cliente debe ser admin, luego poder ver todas las reparaciones
 			reparaciones = (List<Reparacion>) reparacionService.findAll();
 			model.put("reparaciones", reparaciones);
 		}

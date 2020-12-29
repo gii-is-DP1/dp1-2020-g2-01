@@ -12,6 +12,8 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.repository.VehiculoRepository;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedProveedorNifException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +30,14 @@ public class VehiculoService {
 		this.vehiculoRepository = vehiculoRepository;
 	}
 	
-	@Transactional
-	public void saveVehiculo(Vehiculo vehiculo) throws DataAccessException {
-		vehiculoRepository.save(vehiculo);
+	@Transactional(rollbackFor = DuplicatedMatriculaException.class)
+	public void saveVehiculo(Vehiculo vehiculo) throws DataAccessException, DuplicatedMatriculaException {
+		Vehiculo v = vehiculoRepository.findVehiculoMatricula(vehiculo.getMatricula());
+		if(v!=null && !v.getId().equals(vehiculo.getId())) {   
+			throw new DuplicatedMatriculaException();
+		} else {
+			vehiculoRepository.save(vehiculo);
+		}	
 	}
 	
 	@Transactional(readOnly = true)

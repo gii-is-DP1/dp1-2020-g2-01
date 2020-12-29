@@ -26,7 +26,7 @@ public class Vehiculo extends BaseEntity {
 	@NotEmpty
 	@Column(unique=true)
 	@Pattern(regexp="^[0-9]{4}[A-Z]{3}$",
-	message="La matrícula debe estar compuesta de 4 números y 3 letras.")
+	message="La matrícula debe estar compuesta de 4 números y 3 letras en mayúscula sin espacios.")
 	private String matricula;
 	
 	@NotNull
