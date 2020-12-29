@@ -30,7 +30,7 @@ public class Factura extends BaseEntity{
 	@Range(min = 0, max = 100)
 	@NotNull
 	@JoinColumn(name = "descuento")
-	private Double descuento;
+	private Integer descuento;
 	
 	@OneToMany(mappedBy="factura")
 	private List<LineaFactura> lineaFactura;

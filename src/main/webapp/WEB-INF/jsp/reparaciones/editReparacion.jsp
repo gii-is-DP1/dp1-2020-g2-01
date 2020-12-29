@@ -8,6 +8,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
+
 <petclinic:layout pageName="reparaciones">
      <jsp:attribute name="customScript">
         <script>
@@ -43,11 +44,10 @@
 			        <thead>
 			        <tr>
 			            <th>Recambio</th>
+			            <th>Descripcion</th>
 			            <th>Precio base</th>
 			            <th>Descuento</th>
 			            <th>Precio final</th>
-			            <th></th>
-			            <th></th>
 			
 			        </tr>
 			        </thead>
@@ -55,16 +55,17 @@
 				<c:forEach var="lineaFactura" items="${reparacion.lineaFactura}">
 					<tr>
 						<td>${lineaFactura.recambio}</td>
-						<td>${lineaFactura.precioBase}</td>
-						<td>${lineaFactura.descuento}</td>
-						<td>${lineaFactura.precio}</td>
-						<td>editar</td>
-						<td>eliminar</td>
+						<td>${lineaFactura.descripcion}</td>
+						<td>${lineaFactura.precioBase}<span class="glyphicon glyphicon-eur"></span></td>
+						<td>${lineaFactura.descuento}%</td>
+						<td>${lineaFactura.precio}<span class="glyphicon glyphicon-eur"></span></td>
 					</tr>
+					<input style="display: none" name="lineaFactura" type="checkbox" autocomplete="off" value="${lineaFactura.id}" checked>
+				
 				</c:forEach>
 				</tbody>
 				</table>
-				</c:if><a href="/reparaciones/addRecambio" class="btn btn-success">Añadir recambios</a>
+				</c:if>
         		</div>
             </div>
 

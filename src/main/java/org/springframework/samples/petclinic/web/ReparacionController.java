@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.web;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,13 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
-import org.springframework.samples.petclinic.model.Factura;
-import org.springframework.samples.petclinic.model.LineaFactura;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.EmpleadoService;
-import org.springframework.samples.petclinic.service.FacturaService;
 import org.springframework.samples.petclinic.service.ReparacionService;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
@@ -50,9 +46,6 @@ public class ReparacionController {
 
 	@Autowired
 	private ReparacionService reparacionService;
-	
-	@Autowired
-	private FacturaService facturaService;
 	
 	@Autowired
 	private CitaService citaService;
@@ -105,7 +98,7 @@ public class ReparacionController {
 			}
 			
 			model.addAttribute("message", "Reparacion created successfully");
-			vista = listadoReparaciones(model);
+			vista = verReparacion(reparacion.getId(), model);
 		}
 		
 		return vista;
@@ -167,23 +160,16 @@ public class ReparacionController {
 	@GetMapping(value="/finalizar/{reparacionId}")
 	public String initFinalizarReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
 		Reparacion reparacion = reparacionService.findReparacionById(id).get();
-		List<LineaFactura> lineaFactura = reparacion.getLineaFactura();
-		Factura factura = new Factura();
-		factura.setDescuento(0.0);
-		factura.setFechaPago(LocalDate.now());
-		factura.setLineaFactura(lineaFactura);
-		model.addAttribute("factura",factura);
 		model.addAttribute("reparacion", reparacion);
 		return FORMULARIO_REPARACION_FINALIZADA;
 	}
 	
-	@PostMapping(value="/finalizarReparacion/{reparacionId}")
-	public String processFinalizarReparacion(@PathVariable("reparacionId") int id, @Valid Factura factura, ModelMap model) {
+	@GetMapping(value="/finalizarReparacion/{reparacionId}")
+	public String processFinalizarReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
 		String vista = "";
 		Reparacion rep = this.reparacionService.findReparacionById(id).get();
 		try {
 			reparacionService.finalizar(rep);
-			facturaService.saveFactura(factura);
 			model.addAttribute("message", "Reparación "+rep.getId()+" finalizada correctamente");
 
 		}catch(Exception e){
@@ -193,6 +179,21 @@ public class ReparacionController {
 		
 		vista=listadoReparaciones(model);
 	
+		return vista;
+	}
+	
+	@GetMapping(value="/getReparacion/{idReparacion}")
+	public String verReparacion(@PathVariable("idReparacion") int id, ModelMap model) {
+		String vista = "";
+		Optional<Reparacion> rep = reparacionService.findReparacionById(id);
+		if(rep.isPresent()) {
+			model.put("reparacion", rep.get());
+			vista = "reparaciones/datosReparacion";
+		}else {
+			model.put("message", "Reparación no encontrada");
+			model.put("messageType", "warning");
+			vista = listadoReparaciones(model);
+		}
 		return vista;
 	}
 	
