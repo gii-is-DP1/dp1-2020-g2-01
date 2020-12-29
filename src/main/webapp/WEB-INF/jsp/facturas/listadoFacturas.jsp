@@ -7,17 +7,11 @@
 
 <petclinic:layout pageName="facturas">
     <h2>Facturas</h2>
-    
-    <td>
-    	<spring:url value="/facturas/new" var="FacturasUrl">
-        </spring:url>
-       	<a href="${fn:escapeXml(FacturasUrl)}">A�adir facturas</a>
-                
-    </td>
-    
+        
     <table id="facturasTable" class="table table-striped">
         <thead>
         <tr>
+        	<th>Número de Factura </th>
             <th>Fecha de Pago</th>
             <th>Precio</th>
             <th>Descuento</th>
@@ -28,14 +22,17 @@
         <tbody>
         <c:forEach items="${facturas}" var="factura">
             <tr>
-          
+          		<td>
+          			<c:out value="${factura.id}"/>
             
                 <td>
                     <c:out value="${factura.fechaPago}"/>
+             
                 </td>
                 
                   <td>
                     <c:out value="${factura.precioTotal}"/>
+                    <span class="glyphicon glyphicon-euro" style="font-size: 12px"> </span>
                 </td>
                 
                  <td>
@@ -44,25 +41,19 @@
                 
                 <td>
                 	<c:out value="${factura.precioConDescuento}"/>
+                    <span class="glyphicon glyphicon-euro" style="font-size: 12px"> </span>
                 </td>
                 
            
                 <td>
-                	<spring:url value="/facturas/delete/{facturaId}" var="facturaUrl">
+                	<spring:url value="/facturas/info/{facturaId}" var="facturaUrl">
                         <spring:param name="facturaId" value="${factura.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(facturaUrl)}">Delete</a>
+                    <a href="${fn:escapeXml(facturaUrl)}">Más Información</a>
                 
                 </td>
                 
-                
-                 <td>
-                	<spring:url value="/facturas/update/{facturaId}" var="facturaUrl">
-                        <spring:param name="facturaId" value="${factura.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(facturaUrl)}">Update</a>
-                
-                </td>
+               
                 
             </tr>
         </c:forEach>
