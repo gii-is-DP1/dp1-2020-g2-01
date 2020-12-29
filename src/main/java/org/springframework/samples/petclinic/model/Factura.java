@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="factura")
+@Table(name="facturas")
 public class Factura extends BaseEntity{
 	
 	@NotNull
@@ -33,7 +33,6 @@ public class Factura extends BaseEntity{
 	private Double porcentajeDescuento;
 	
 	@OneToMany(mappedBy="factura")
-	@JoinColumn(name="lineaFactura")
 	private List<LineaFactura> lineaFactura;
 	
 	@Transient
