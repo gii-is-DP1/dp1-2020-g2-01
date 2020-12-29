@@ -9,9 +9,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name="clientes")
 public class Cliente extends Persona{
@@ -23,7 +25,7 @@ public class Cliente extends Persona{
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany
 	private List<Factura> facturas;
 
 
