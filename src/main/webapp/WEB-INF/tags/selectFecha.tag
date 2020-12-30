@@ -42,7 +42,7 @@
 			</div>
             <c:if test="${status.error}">
                 <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                <span class="help-inline"> Tienes que seleccionar una hora</span>
+                <span class="help-inline">La fecha no puede ser para hoy o estar vacía</span>
             </c:if>
         </div>
     </div>

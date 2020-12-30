@@ -7,7 +7,7 @@
 <petclinic:layout pageName="citas">     
     <jsp:attribute name="customScript">
 <script>
-		<c:if test="${cita['new']}"> 
+		<c:if test="${empty cita.fecha or empty cita.hora}"> 
         let cits = [
         <c:forEach var="c" items="${citas}">
         	{"fecha": "${c.fecha}",
@@ -15,10 +15,10 @@
         </c:forEach>
         ]
 		</c:if>
-        <c:if test="${ not cita['new']}">
+        <c:if test="${not empty cita.fecha and not empty cita.hora}">
         let cits = [
             <c:forEach var="c" items="${citas}">
-            <c:if test="${ not (c.hora == cita.hora && c.fecha == cita.fecha)}">
+            <c:if test="${ not (c.id == cita.id)}">
             	{"fecha": "${c.fecha}",
             	"hora": ${c.hora}},
             </c:if>
@@ -149,16 +149,16 @@
 </jsp:attribute>
     <jsp:body>
         <h2>
-        <c:if test="${cita['new']}">Añadir </c:if> <c:if test="${ not cita['new']}">Editar </c:if> cita
+        <c:if test="${empty cita.id}">Añadir <c:set var="id" value="0"/></c:if> <c:if test="${ not empty cita.id}">Editar <c:set var="id" value="${cita.id}"/></c:if> cita
     	</h2>
         
-        <form:form modelAttribute="cita" class="form-horizontal">
+        <form:form modelAttribute="cita" class="form-horizontal" action="/citas/save/${id}">
             <div class="form-group has-feedback">
               
             	<petclinic:selectVehiculo label="Vehículos" name="vehiculo" items="${vehiculos}"/>
                	<petclinic:selectFecha items="${citas}" label="Fecha" name="fecha" name1="hora"></petclinic:selectFecha>
                	<petclinic:selectTipoCita label="Tipo de cita" name="tiposCita" items="${tipos}"/>
-                <input type="hidden" name="id" value="${cita.id}"/>
+                <input type="hidden" name="id" value="${id}"/>
             </div>
 
             <div class="form-group">
