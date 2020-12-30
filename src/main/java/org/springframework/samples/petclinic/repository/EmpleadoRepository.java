@@ -15,4 +15,6 @@ public interface EmpleadoRepository extends CrudRepository<Empleado, Integer> {
 	@Query("SELECT DISTINCT empleado FROM Empleado empleado WHERE empleado.dni LIKE :dni")
 	Optional<Empleado> findEmpleadoDNI(@Param("dni") String dni) throws DataAccessException;
 	
+	Optional<Empleado> findEmpleadoByUsuarioUsername(String username) throws DataAccessException;
+	
 }
