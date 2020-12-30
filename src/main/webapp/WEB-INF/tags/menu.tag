@@ -59,8 +59,7 @@
 				
 
 				<sec:authorize access="hasAuthority('cliente')">
-				<sec:authentication property="name" var="username"/>
-					<petclinic:menuItem active="${name eq 'citas'}" url="/citas/listadoCitas/${username}"
+					<petclinic:menuItem active="${name eq 'citas'}" url="/citas/listadoCitas"
 						title="citas">
 						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						<span>Mis citas</span>

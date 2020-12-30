@@ -21,22 +21,17 @@
 	
 	<div class="col-sm-12">
 	<div class="col-sm-10">
-	<!-- No debe dejarte ver citas de otros clientes a menos que seas admin o empleado -->
     <div class="col-sm-2"><h2>Citas</h2></div>
-    <div class="col-sm-3 col-sm-offset-5">
     <sec:authorize access="hasAuthority('admin')">
     <spring:url value="/citas/covid" var="citaUrl">
     </spring:url>
-    <a class="btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-asterisk"></span> Cancelar citas por COVID</a>
+    <a class="btn btn-success col-sm-offset-7 col-sm-3" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-asterisk"></span> Cancelar citas por COVID</a>
 	</sec:authorize>
-	</div>
-	<sec:authorize access="isAuthenticated()">
-	<div class="col-sm-2">
-	<sec:authentication property="name" var="username"/>
-    <spring:url value="/citas/new/${username}" var="citaUrl">
+	<sec:authorize access="hasAuthority('cliente')">
+    <spring:url value="/citas/new" var="citaUrl">
     </spring:url>
-    <a class="btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cita</a>
-    </div>
+    <a class="btn btn-success col-sm-offset-8 col-sm-2" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cita</a>
+
     </sec:authorize>
     <div class="col-sm-12" style="height:5px"></div>
     <table id="citasTable" class="table table-striped">

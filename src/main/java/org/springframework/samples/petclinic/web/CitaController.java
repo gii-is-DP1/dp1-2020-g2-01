@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
-import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.EmpleadoService;
@@ -68,17 +68,8 @@ public class CitaController {
 	
 	@GetMapping(value = { "/listadoCitas"})
 	public String listadoCitas(ModelMap model) {
-		String vista = "citas/listadoCitas";
-		List<Cita> citas = citaService.findAll();
-		Comparator<Cita> ordenarPorFechaYHora = Comparator.comparing(Cita::getFecha)
-				.thenComparing(Comparator.comparing(Cita::getHora));
-		model.put("citas", citas.stream().sorted(ordenarPorFechaYHora).collect(Collectors.toList()));
-		return vista;
-	}
-	
-	@GetMapping(value = { "/listadoCitas/{username}"})
-	public String listadoCitasCliente(@PathVariable(value="username") String username, ModelMap model) { // Tiene que mostrar solo las citas del cliente
 		String vista = "";
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
 		if(cliente.isPresent()) {
 			List<Cita> citas = citaService.findByCliente(cliente.get());
@@ -87,39 +78,41 @@ public class CitaController {
 			model.put("citas", citas.stream().sorted(ordenarPorFechaYHora).collect(Collectors.toList()));
 			vista = "citas/listadoCitas";
 		}else {
-			vista = "redirect:/login";
+			List<Cita> citas = citaService.findAll();
+			Comparator<Cita> ordenarPorFechaYHora = Comparator.comparing(Cita::getFecha)
+					.thenComparing(Comparator.comparing(Cita::getHora));
+			model.put("citas", citas.stream().sorted(ordenarPorFechaYHora).collect(Collectors.toList()));
+			vista = "citas/listadoCitas";
 		}
 		return vista;
 	}
 	
-	private String saveCita(Cita cita, BindingResult result, ModelMap model, String mensaje, String username) {
+	@PostMapping(value="/save/{citaId}")
+	public String saveCita(@PathVariable("citaId") Integer id, @Valid Cita cita, BindingResult result, ModelMap model) {
 		String vista;
 		if(result.hasErrors()) {
-			cita.getVehiculo().setCitas(null); // Evita stackOverflowError
-			cita.getVehiculo().setCliente(null);
 			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
-//			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
-			model.addAttribute("citas", citaService.findAll());
 			model.addAttribute("tipos", tipoCitaService.findAll());
+			model.addAttribute("citas", citaService.findAll());
+			if(id != 0) {
+				cita.setId(id);
+			}
+			model.addAttribute("cita", cita);
 			vista = CREATE_OR_UPDATE_FORM;
 		}else {
-			Integer vehiculoId = cita.getVehiculo().getId();
-			Vehiculo vehiculo = vehiculoService.findVehiculoById(vehiculoId).get();
-			cita.setVehiculo(vehiculo);
-			
-//			Integer tipoCitaId = cita.getTipoCita().getId();
-//			TipoCita tipoCita = tipoCitaService.findById(tipoCitaId).get();
-//			cita.setTipoCita(tipoCita);
-			
+			if(id != 0) {
+				cita.setId(id);
+			}
 			citaService.saveCita(cita);
-			model.addAttribute("message", "Cita " + mensaje + " successfully");
-			vista = listadoCitasCliente(username, model);
+			model.addAttribute("message", "Cita guardada successfully");
+			vista = listadoCitas(model);
 		}
 		return vista;
 	}
 	
-	@GetMapping(value = "/new/{username}")
-	public String crearCita(@PathVariable String username, ModelMap model) {
+	@GetMapping(value = "/new")
+	public String crearCita(ModelMap model) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		String vista = "citas/editCita";
 		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
 		if(cliente.isPresent()) {
@@ -128,22 +121,10 @@ public class CitaController {
 			model.addAttribute("citas", citaService.findAll());
 			model.addAttribute("cita", new Cita());
 		}else {
-			vista = "redirect:/login";			
+			model.addAttribute("message", "Debes haber iniciado sesión como cliente");
+			vista = listadoCitas(model);			
 		}
 		return vista;
-	}
-	
-	@PostMapping(value="/new/{username}")
-	public String guardarCita(@PathVariable String username, @Valid Cita cita, BindingResult result, ModelMap model) {
-		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
-		if(cliente.isPresent()) {
-			if(!cita.getVehiculo().getCliente().equals(cliente.get())) {
-				model.addAttribute("message", "cliente erroneo");
-				model.addAttribute("messageType", "warning");
-				return "/new/" + username;
-			}
-		}
-		return saveCita(cita, result, model, "created", username);
 	}
 	
 	@GetMapping(value="/update/{citaId}")
@@ -156,20 +137,19 @@ public class CitaController {
 			vista = listadoCitas(model);
 		}else {
 			Cita cita = c.get();
-			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
-//			model.addAttribute("tipos", tipoCitaService.geTiposCitaSeleccionadoPrimero(cita));
-			model.addAttribute("tipos", tipoCitaService.findAll());
-			model.addAttribute("citas", citaService.findAll());
-			model.addAttribute("cita", cita);
-			vista = "citas/editCita";
+			if(cita.getFecha().isBefore(LocalDate.now())) {
+				model.addAttribute("message", "No puedes modificar una cita que ya ha pasado");
+				model.addAttribute("messageType", "warning");
+				vista = listadoCitas(model);
+			}else {
+				model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
+				model.addAttribute("tipos", tipoCitaService.findAll());
+				model.addAttribute("citas", citaService.findAll());
+				model.addAttribute("cita", cita);
+				vista = "citas/editCita";
+			}
 		}
 		return vista;
-	}
-  
-	@PostMapping(value="/update/{citaId}")
-	public String updateCitaPost(@Valid Cita cita, @PathVariable("citaId") int id, BindingResult result, ModelMap model) {
-		cita.setId(id);  // #### A la hora de hacer un update con un error no pasa por aquí y salta el fallo directamente
-		return saveCita(cita, result, model, "updated", cita.getVehiculo().getCliente().getUser().getUsername());
 	}
   
 	@GetMapping(value="/delete/{citaId}")
@@ -181,9 +161,15 @@ public class CitaController {
 			vista = listadoCitas(model);
 		}else {
 			Cita cita = c.get();
-			citaService.delete(cita);
-			model.addAttribute("message", "Cita borrado con éxito.");
-			vista = listadoCitas(model);
+			if(cita.getFecha().isBefore(LocalDate.now())) {
+				model.addAttribute("message", "No puedes modificar una cita que ya ha pasado");
+				model.addAttribute("messageType", "warning");
+				vista = listadoCitas(model);
+			}else {
+				citaService.delete(cita);
+				model.addAttribute("message", "Cita borrado con éxito.");
+				vista = listadoCitas(model);
+			}
 		}
 		return vista;
 	}
