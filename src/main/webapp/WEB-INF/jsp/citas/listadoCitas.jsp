@@ -49,6 +49,9 @@
 			</sec:authorize>
             <th>Modelo</th>
             <th>Tipo de cita</th>
+        	<sec:authorize access="hasAuthority('admin')">
+                <th></th>
+			</sec:authorize>
             <th></th>
             <th></th>
             
@@ -92,6 +95,27 @@
                    </c:forEach>
                    </p>
                 </td>
+                
+                <sec:authorize access="hasAuthority('admin')">
+                <td>
+					<sec:authentication property="name" var="username"/>
+					<c:set var="empleadoEnCita" value="false"/>
+					<c:forEach var="empleado" items="${citas.empleados}">
+						<c:if test="${empleado.usuario.username == username}">
+							<c:set var="empleadoEnCita" value="true"/>							
+						</c:if>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${empleadoEnCita}">
+							<strong>Atiendes esta cita</strong></br>
+							<a href="/citas/noAtender/${citas.id}">No puedo atender</a>	
+						</c:when>
+						<c:otherwise>
+							<a href="/citas/atender/${citas.id}">Atender la cita</a>
+						</c:otherwise>
+					</c:choose>
+                </td>
+				</sec:authorize>
                 
                 <td>
                 	<spring:url value="/citas/update/{citaId}" var="citaUrl">

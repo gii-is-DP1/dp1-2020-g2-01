@@ -33,9 +33,9 @@ public class Cita extends BaseEntity{
 //	@JoinColumn(name = "taller_id")
 //	private Taller taller;
 	
-//	@ManyToMany
-//	@JoinColumn(name ="empleados")
-//	private List<Empleado> empleados;
+	@ManyToMany
+	@JoinTable(name="citas_empleados")
+	private List<Empleado> empleados;
   
 	@ManyToOne
 	@JoinColumn(name = "vehiculo_id")

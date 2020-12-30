@@ -6,8 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Empleado;
-import org.springframework.samples.petclinic.model.Vehiculo;
-import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.EmpleadoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,10 +46,13 @@ public class EmpleadoService {
 		empleadoRepository.delete(empleado);
 	}
 	
-	
 	@Transactional(readOnly = true)
 	public Optional<Empleado> findEmpleadoDni(String dni) throws DataAccessException {
 		return empleadoRepository.findEmpleadoDNI(dni);
 	}
-
+	
+	@Transactional(readOnly = true)
+	public Optional<Empleado> findEmpleadoByUsuarioUsername(String username) throws DataAccessException {
+		return empleadoRepository.findEmpleadoByUsuarioUsername(username);
+	}
 }

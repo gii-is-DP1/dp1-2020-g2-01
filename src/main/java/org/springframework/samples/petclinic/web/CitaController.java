@@ -11,12 +11,14 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.TipoCita;
+import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.TipoCitaService;
 import org.springframework.samples.petclinic.service.VehiculoService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -52,6 +54,9 @@ public class CitaController {
 	
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private EmpleadoService empleadoService;
 	
 	@Autowired
 	protected EntityManager em;
@@ -202,6 +207,62 @@ public class CitaController {
 		
 		vista=listadoCitas(model);
 	
+		return vista;
+	}
+	
+	@GetMapping(value="/atender/{citaId}")
+	public String addEmpleadoACita(@PathVariable("citaId") int id, ModelMap model) {
+		String vista = listadoCitas(model);
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
+		if(empleado.isPresent()) {
+			Optional<Cita> cita = citaService.findCitaById(id);
+			if(cita.isPresent()) {
+				Cita c = cita.get();
+				if(!c.getEmpleados().contains(empleado.get())) {
+					c.getEmpleados().add(empleado.get());
+					citaService.saveCita(c);
+					model.put("message", "Te has unido correctamente");
+				}else {
+					model.put("message", "Ya estás atendiendo a la cita");	
+					model.put("messageType", "warning");				
+				}
+			}else {
+				model.put("message", "Cita no encontrada");
+				model.put("messageType", "warning");
+			}
+		}else {
+			model.put("message", "Empleado no encontrado");
+			model.put("messageType", "warning");
+		}
+		return vista;
+	}
+	
+	@GetMapping(value="/noAtender/{citaId}")
+	public String eliminarEmpleadoDeCita(@PathVariable("citaId") int id, ModelMap model) {
+		String vista = listadoCitas(model);
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
+		if(empleado.isPresent()) {
+			Optional<Cita> cita = citaService.findCitaById(id);
+			if(cita.isPresent()) {
+				Cita c = cita.get();
+				if(c.getEmpleados().contains(empleado.get())) {
+					c.getEmpleados().remove(empleado.get());
+					citaService.saveCita(c);
+					model.put("message", "Te has quitado correctamente");
+				}else {
+					model.put("message", "No estabas atendiendo la cita");	
+					model.put("messageType", "warning");				
+				}
+			}else {
+				model.put("message", "Cita no encontrada");
+				model.put("messageType", "warning");
+			}
+		}else {
+			model.put("message", "Empleado no encontrado");
+			model.put("messageType", "warning");
+		}
 		return vista;
 	}
 }
