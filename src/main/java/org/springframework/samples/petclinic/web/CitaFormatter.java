@@ -29,7 +29,6 @@ public class CitaFormatter implements Formatter<Cita> {
 		LocalDate fecha = LocalDate.parse(cadena[0], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		Integer hora = Integer.valueOf(cadena[1].replace(":00", ""));
 		return citaService.findCitaByFechaAndHora(fecha, hora);
-		
 	}
 
 }

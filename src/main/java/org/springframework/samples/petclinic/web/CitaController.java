@@ -218,7 +218,7 @@ public class CitaController {
 				model.put("messageType", "warning");
 			}
 		}else {
-			model.put("message", "Empleado no encontrado");
+			model.put("message", "No has iniciado sesión como empleado");
 			model.put("messageType", "warning");
 		}
 		return vista;
