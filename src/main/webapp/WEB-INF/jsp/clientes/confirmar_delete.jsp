@@ -11,8 +11,8 @@
     <div class="clientes" align="center">
     	<h4><strong>¿Está seguro de que desea borrar este cliente?</strong></h4>
     	
-    	<spring:url value="/clientes/deleteCliente/{clienteId}" var="clienteUrl">
-    					<spring:param name="clienteId" value="${clientes.id}"/>
+    	<spring:url value="/clientes/deleteCliente/{username}" var="clienteUrl">
+    					<spring:param name="username" value="${clientes.user.username}"/>
     	</spring:url>
     	<br>		
     	<a href="${fn:escapeXml(clienteUrl)}" class="btn btn-success btn-lg" role="button">Sí, estoy seguro</a>
