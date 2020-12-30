@@ -34,13 +34,6 @@
 
 
     <h2>Reparaciones</h2>
-    
-   
-    <sec:authorize access="hasAuthority('admin')">
-    	 <br/>
-    	<a class="btn btn-success" href="/reparaciones/new"><span class="glyphicon glyphicon-plus"></span> Crear una nueva reparación</a>
-		<br/><br/>
-	</sec:authorize>
         
     <table id="reparacionesTable" class="table table-striped">
         <thead>

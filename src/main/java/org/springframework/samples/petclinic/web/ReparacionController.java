@@ -69,10 +69,26 @@ public class ReparacionController {
 	}
 	
 	
-	@GetMapping(value = "/new")
-	public String crearReparacion(ModelMap model) {
+	@GetMapping(value = "/new/{citaId}")
+	public String crearReparacion(@PathVariable("citaId") int id, ModelMap model) {
 		String vista = "reparaciones/editReparacion";
-		model.addAttribute("reparacion", new Reparacion());
+		Optional<Cita> c = citaService.findCitaById(id);
+		if(c.isPresent()) {
+			List<Cita> citas = citaService.findCitaSinReparacion();
+			if(!citas.contains(c.get())) {
+				model.addAttribute("message", "Esta cita ya tiene una reparación asociada");
+				model.addAttribute("messageType", "warning");
+				vista = listadoReparaciones(model);
+			}else {
+				Reparacion reparacion = new Reparacion();
+				reparacion.setCita(c.get());
+				model.addAttribute("reparacion", reparacion);
+			}
+		}else {
+			model.addAttribute("message", "Cita no encontrada");
+			model.addAttribute("messageType", "warning");
+			vista = listadoReparaciones(model);
+		}
 		return vista;
 	}
 

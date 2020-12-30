@@ -47,6 +47,9 @@
         	<sec:authorize access="hasAuthority('admin')">
                 <th></th>
 			</sec:authorize>
+			<sec:authorize access="hasAuthority('admin')">
+                <th></th>
+			</sec:authorize>
             <th></th>
             <th></th>
             
@@ -111,7 +114,11 @@
 					</c:choose>
                 </td>
 				</sec:authorize>
-                
+                <sec:authorize access="hasAuthority('admin')">
+                <td>
+                	<a href="/reparaciones/new/${citas.id}">Crear reparación</a>
+                </td>
+                </sec:authorize>
                 <td>
                 	<spring:url value="/citas/update/{citaId}" var="citaUrl">
                         <spring:param name="citaId" value="${citas.id}"/>
