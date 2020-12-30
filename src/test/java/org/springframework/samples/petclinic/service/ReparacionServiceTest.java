@@ -440,7 +440,7 @@ class ReparacionServiceTest {
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Vargas Ruda");
 		cliente.setDni("11223344M");
-		cliente.setEmail("sergiariasruda@gmail.com");
+		cliente.setEmail("tallersevillacustoms@gmail.com");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(9000));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
