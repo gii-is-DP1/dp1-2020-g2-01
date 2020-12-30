@@ -85,8 +85,8 @@
                 
                  <td>
                 	
-                <spring:url value="/clientes/delete/{clienteId}" var="clienteUrl">
-                        <spring:param name="clienteId" value="${clientes.id}"/>
+                <spring:url value="/clientes/delete/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${clientes.user.username}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(clienteUrl)}">
 						<span class="glyphicon glyphicon-trash"></span></a>

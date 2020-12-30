@@ -45,8 +45,8 @@
     </spring:url>
         <a href="${fn:escapeXml(clienteUrl)}" class="btn btn-default">Editar perfil</a>
 
-    <spring:url value="/vehiculos/listadoVehiculos/{username}" var="addUrl">
-        <spring:param name="username" value="${clientes.user.username}"/>
+    <spring:url value="/vehiculos/listadoVehiculos" var="addUrl">
+       
     </spring:url>
     <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Ver mis vehículos</a>
 	

@@ -104,9 +104,6 @@ public class ReparacionController {
 		return vista;
 	}
 	
-
-	
-	
 	@GetMapping(value = "/delete/{reparacionId}")
 	public String borrarReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
 		String vista;

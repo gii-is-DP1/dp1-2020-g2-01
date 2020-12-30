@@ -10,6 +10,7 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -49,8 +50,13 @@ public class ClienteController {
 	@GetMapping(value = "/clienteDetails/{username}")
 	public String mostrasDetalles(@PathVariable("username") String username, Model model) {
 		Cliente cliente = this.clienteService.findClientesByUsername(username).get();
-		model.addAttribute("clientes", cliente);
-		return "clientes/clienteDetails";
+		String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
+		if(username.equals(username2)) {
+			model.addAttribute("clientes", cliente);
+			return "clientes/clienteDetails";
+		}else {
+			return "redirect:/";
+		}
 	}
 	
 	
@@ -115,8 +121,15 @@ public class ClienteController {
 	@GetMapping(value = "/update/{username}")
 	public String initUpdateClienteForm(@PathVariable("username") String username, Model model) {
 		Cliente cliente = this.clienteService.findClientesByUsername(username).get();
-		model.addAttribute("cliente", cliente);
-		return FORMULARIO_ADD_UPDATE_CLIENTES;
+		String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
+		if(username.equals(username2)) {
+			model.addAttribute("cliente", cliente);
+			return FORMULARIO_ADD_UPDATE_CLIENTES;
+		}else {
+			return "redirect:/";
+		}
+
+		
 	}
 
 	@PostMapping(value = "/update/{username}")
@@ -136,18 +149,18 @@ public class ClienteController {
 		}
 	}
 	
-	@GetMapping(value = "/delete/{clienteId}")
-	public String initDeleteCliente(@PathVariable("clienteId") int id, ModelMap model) {
-		Cliente c = clienteService.findClienteById(id).get();
+	@GetMapping(value = "/delete/{username}")
+	public String initDeleteCliente(@PathVariable("username") String username, ModelMap model) {
+		Cliente c = clienteService.findClientesByUsername(username).get();
 		model.addAttribute("clientes", c);
 		return FORMULARIO_CONFIRM_DELETE;
 
 	}
 	
 	
-	@GetMapping(value="/deleteCliente/{clienteId}")
-	public String processDeleteCliente(@PathVariable("clienteId") int id, ModelMap model) {
-		Cliente c = this.clienteService.findClienteById(id).get();
+	@GetMapping(value="/deleteCliente/{username}")
+	public String processDeleteCliente(@PathVariable("username") String username, ModelMap model) {
+		Cliente c = this.clienteService.findClientesByUsername(username).get();
 		try {
 			clienteService.delete(c);
 			model.addAttribute("message", "Cliente borrado correctamente.");
