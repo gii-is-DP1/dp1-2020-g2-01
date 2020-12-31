@@ -20,7 +20,6 @@
     
 	
 	<div class="col-sm-12">
-	<div class="col-sm-10">
     <div class="col-sm-2"><h2>Citas</h2></div>
     <sec:authorize access="hasAuthority('admin')">
     <spring:url value="/citas/covid" var="citaUrl">
@@ -44,6 +43,7 @@
 			</sec:authorize>
             <th>Modelo</th>
             <th>Tipo de cita</th>
+			<th>Taller</th>
         	<sec:authorize access="hasAuthority('admin')">
                 <th></th>
 			</sec:authorize>
@@ -93,7 +93,9 @@
                    </c:forEach>
                    </p>
                 </td>
-                
+                <td>
+                	<p><c:out value="${citas.taller.ubicacion}"/></p>
+                </td>
                 <sec:authorize access="hasAuthority('admin')">
                 <td>
 					<sec:authentication property="name" var="username"/>
@@ -144,7 +146,6 @@
         </c:forEach>
         </tbody>
     </table>
-    </div>
     </div>
 
 

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,9 @@ public class EmpleadoServiceTest {
 
 	@Autowired
 	protected EmpleadoService empleadoService;
+	
+	@Autowired
+	protected TallerService tallerService;
 	
 	@Autowired
 	protected EntityManager em;
@@ -54,6 +58,16 @@ public class EmpleadoServiceTest {
 		u.setPassword("laura123");
 		
 		e.setUsuario(u);
+		
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t);
+		
+		e.setTaller(t);
 		
 		empleadoService.saveEmpleado(e);
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R").get());
@@ -117,6 +131,16 @@ public class EmpleadoServiceTest {
 		
 		e.setUsuario(u);
 		
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t);
+		
+		e.setTaller(t);
+		
 		empleadoService.saveEmpleado(e);
 		
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
@@ -156,6 +180,16 @@ public class EmpleadoServiceTest {
 		
 		e.setUsuario(u);
 		
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t);
+		
+		e.setTaller(t);
+		
 		empleadoService.saveEmpleado(e);
 		
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
@@ -193,6 +227,16 @@ public class EmpleadoServiceTest {
 		u.setPassword("laura123");
 		
 		e.setUsuario(u);
+		
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t);
+		
+		e.setTaller(t);
 		
 		empleadoService.saveEmpleado(e);
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R").get());
