@@ -155,7 +155,8 @@
         <form:form modelAttribute="cita" class="form-horizontal" action="/citas/save/${id}">
             <div class="form-group has-feedback">
               
-            	<petclinic:selectVehiculo label="Vehículos" name="vehiculo" items="${vehiculos}"/>
+            	<petclinic:select label="Vehículos" name="vehiculo" items="${vehiculos}"/>
+            	<petclinic:select label="Taller" name="taller" items="${talleres}"/>
                	<petclinic:selectFecha items="${citas}" label="Fecha" name="fecha" name1="hora"></petclinic:selectFecha>
                	<petclinic:selectTipoCita label="Tipo de cita" name="tiposCita" items="${tipos}"/>
                 <input type="hidden" name="id" value="${id}"/>

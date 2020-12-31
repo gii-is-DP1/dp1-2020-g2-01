@@ -1,17 +1,18 @@
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
-
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "talleres")
 public class Taller extends NamedEntity {

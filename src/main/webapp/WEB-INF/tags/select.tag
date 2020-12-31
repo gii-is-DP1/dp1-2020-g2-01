@@ -15,11 +15,11 @@
         <label class="col-sm-2 control-label">${label}</label>
 
         <div class="col-sm-10">
-            	<select class="form-control" name="${name}">
+            	<form:select class="form-control" path="${name}">
             	<c:forEach var="item" items="${items}">
-            		<option value="${item.id}">${item.modelo} - ${item.matricula}</option>
+            		<form:option value="${item}"/>
             	</c:forEach>
-            	</select>
+            	</form:select>
             <c:if test="${status.error}">
                 <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 <span class="help-inline">${status.errorMessage}</span>

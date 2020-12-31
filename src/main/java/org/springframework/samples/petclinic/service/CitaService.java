@@ -38,6 +38,11 @@ public class CitaService {
 		return citaRepository.findById(id);
 	}
 	
+	@Transactional(readOnly = true)
+	public List<Cita> findCitaByTallerUbicacion(String ubicacion) throws DataAccessException {
+		return citaRepository.findCitaByTallerUbicacion(ubicacion);
+	}
+	
 	@Transactional
 	public void delete(Cita cita) {
 		citaRepository.delete(cita);

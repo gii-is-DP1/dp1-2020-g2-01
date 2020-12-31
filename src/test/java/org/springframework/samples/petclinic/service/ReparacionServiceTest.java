@@ -21,6 +21,7 @@ import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Reparacion;
+import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.User;
@@ -51,6 +52,9 @@ class ReparacionServiceTest {
 	
 	@Autowired
 	protected EmpleadoService empleadoService;
+	
+	@Autowired
+	protected TallerService tallerService;
 	
 	@Autowired
 	protected EntityManager em;
@@ -85,6 +89,17 @@ class ReparacionServiceTest {
 		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
+		
+		Taller taller = new Taller();
+		taller.setCorreo("test@test.com");
+		taller.setName("test");
+		taller.setTelefono("123456789");
+		taller.setUbicacion("calle test");
+		
+		tallerService.saveTaller(taller);
+		
+		c.setTaller(taller);
+		
 		citaService.saveCita(c);
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
@@ -108,6 +123,7 @@ class ReparacionServiceTest {
 		e1.setTelefono("777777777");
 		
 		empleados.add(e1);
+		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
 		r.setEmpleados(empleados);
@@ -145,6 +161,17 @@ class ReparacionServiceTest {
 		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
+		
+		Taller taller = new Taller();
+		taller.setCorreo("test@test.com");
+		taller.setName("test");
+		taller.setTelefono("123456789");
+		taller.setUbicacion("calle test");
+		
+		tallerService.saveTaller(taller);
+		
+		c.setTaller(taller);
+		
 		citaService.saveCita(c);
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
@@ -168,6 +195,9 @@ class ReparacionServiceTest {
 		e1.setTelefono("777777777");
 		
 		empleados.add(e1);
+
+		e1.setTaller(taller);
+		
 		empleadoService.saveEmpleado(e1);
 
 		r.setEmpleados(empleados);
@@ -203,6 +233,17 @@ class ReparacionServiceTest {
 		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
+		
+		Taller taller = new Taller();
+		taller.setCorreo("test@test.com");
+		taller.setName("test");
+		taller.setTelefono("123456789");
+		taller.setUbicacion("calle test");
+		
+		tallerService.saveTaller(taller);
+		
+		c.setTaller(taller);
+		
 		citaService.saveCita(c);
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
@@ -226,6 +267,7 @@ class ReparacionServiceTest {
 		e1.setTelefono("777777777");
 		
 		empleados.add(e1);
+		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
 		r.setEmpleados(empleados);
@@ -259,6 +301,17 @@ class ReparacionServiceTest {
 		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
+		
+		Taller taller = new Taller();
+		taller.setCorreo("test@test.com");
+		taller.setName("test");
+		taller.setTelefono("123456789");
+		taller.setUbicacion("calle test");
+		
+		tallerService.saveTaller(taller);
+		
+		c.setTaller(taller);
+		
 		citaService.saveCita(c);
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
@@ -282,6 +335,7 @@ class ReparacionServiceTest {
 		e1.setTelefono("777777777");
 		
 		empleados.add(e1);
+		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
 		r.setEmpleados(empleados);
@@ -322,6 +376,17 @@ class ReparacionServiceTest {
 		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
+		
+		Taller taller = new Taller();
+		taller.setCorreo("test@test.com");
+		taller.setName("test");
+		taller.setTelefono("123456789");
+		taller.setUbicacion("calle test");
+		
+		tallerService.saveTaller(taller);
+		
+		c.setTaller(taller);
+		
 		citaService.saveCita(c);
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
@@ -345,6 +410,9 @@ class ReparacionServiceTest {
 		e1.setTelefono("777777777");
 		
 		empleados.add(e1);
+		
+		e1.setTaller(taller);
+		
 		empleadoService.saveEmpleado(e1);
 
 		r.setEmpleados(empleados);
@@ -390,6 +458,17 @@ class ReparacionServiceTest {
 		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		vehiculoService.saveVehiculo(v);
+		
+		Taller taller = new Taller();
+		taller.setCorreo("test@test.com");
+		taller.setName("test");
+		taller.setTelefono("123456789");
+		taller.setUbicacion("calle test");
+		
+		tallerService.saveTaller(taller);
+		
+		c.setTaller(taller);
+		
 		citaService.saveCita(c);
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
@@ -413,6 +492,7 @@ class ReparacionServiceTest {
 		e1.setTelefono("777777777");
 		
 		empleados.add(e1);
+		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
 		r.setEmpleados(empleados);
@@ -471,6 +551,16 @@ class ReparacionServiceTest {
 		c.setTiposCita(tipos);
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
 		
+		Taller taller = new Taller();
+		taller.setCorreo("test@test.com");
+		taller.setName("test");
+		taller.setTelefono("123456789");
+		taller.setUbicacion("calle test");
+		
+		tallerService.saveTaller(taller);
+		
+		c.setTaller(taller);
+		
 		citaService.saveCita(c);
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
@@ -494,6 +584,7 @@ class ReparacionServiceTest {
 		e1.setTelefono("777777777");
 		
 		empleados.add(e1);
+		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
 		r.setEmpleados(empleados);

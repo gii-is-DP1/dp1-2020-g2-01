@@ -28,4 +28,6 @@ public interface CitaRepository extends CrudRepository<Cita, Integer> {
 
 	@Query("SELECT cita FROM Cita cita WHERE cita.vehiculo.cliente LIKE :cliente")
 	List<Cita> findByUsername(@Param("cliente") Cliente cliente);
+
+	List<Cita> findCitaByTallerUbicacion(String ubicacion) throws DataAccessException;
 }
