@@ -21,7 +21,7 @@ public interface CitaRepository extends CrudRepository<Cita, Integer> {
 	Cita findCitaByFechaAndHora(@Param("fecha") LocalDate fecha, @Param("hora") Integer hora) throws DataAccessException;
 	
 	@Query("SELECT cita FROM Cita cita WHERE cita.fecha LIKE :fecha")
-	List<Cita> findCitaByFecha(@Param("fecha") LocalDate fecha) throws DataAccessException;
+	List<Cita> findCitasByFecha(@Param("fecha") LocalDate fecha) throws DataAccessException;
 	
 	@Query(value = "SELECT id FROM CITAS EXCEPT (SELECT CITA_ID FROM REPARACIONES)", nativeQuery = true)
 	List<Integer> findCitaIdSinReparacion();

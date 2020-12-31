@@ -18,10 +18,10 @@ public interface VehiculoRepository extends CrudRepository<Vehiculo, Integer>  {
 	List<Vehiculo> findAll() throws DataAccessException;
 
 	@Query("SELECT DISTINCT vehiculo FROM Vehiculo vehiculo WHERE vehiculo.matricula LIKE :matricula")
-	Vehiculo findVehiculoMatricula(@Param("matricula") String matricula) throws DataAccessException;
+	Vehiculo findVehiculoByMatricula(@Param("matricula") String matricula) throws DataAccessException;
 	
 	@Query("SELECT vehiculo FROM Vehiculo vehiculo WHERE vehiculo.cliente LIKE :cliente")
-	List<Vehiculo> findVehiculosCliente(@Param("cliente") Cliente cliente) throws DataAccessException;
+	List<Vehiculo> findVehiculosByCliente(@Param("cliente") Cliente cliente) throws DataAccessException;
 
 	@Query("SELECT vtype FROM TipoVehiculo vtype WHERE vtype.id = :id")
 	TipoVehiculo findVehiculosById(@Param("id")int id);

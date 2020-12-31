@@ -93,7 +93,7 @@ public class ReparacionService {
 
 	@Transactional(readOnly = true)
 	public List<Reparacion> findReparacionesCliente(Cliente cliente) {
-		return reparacionRepository.findReparacionesCliente(cliente);
+		return reparacionRepository.findReparacionesByCliente(cliente);
 	}
 	
 	
