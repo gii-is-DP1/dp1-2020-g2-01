@@ -29,9 +29,10 @@ import lombok.Setter;
 @Table(name = "citas" , uniqueConstraints = @UniqueConstraint(columnNames = {"fecha", "hora"}))
 public class Cita extends BaseEntity{
 
-//	@ManyToOne(cascade = CascadeType.ALL)
-//	@JoinColumn(name = "taller_id")
-//	private Taller taller;
+	@ManyToOne
+	@NotNull
+	@JoinColumn(name = "taller_id")
+	private Taller taller;
 	
 	@ManyToMany
 	@JoinTable(name="citas_empleados")

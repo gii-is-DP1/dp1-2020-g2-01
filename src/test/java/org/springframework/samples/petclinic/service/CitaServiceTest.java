@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
+import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.Vehiculo;
@@ -35,6 +36,9 @@ class CitaServiceTest {
 	
 	@Autowired
 	protected TipoCitaService tipoCitaService;
+	
+	@Autowired
+	protected TallerService tallerService;
 	
 	@Autowired
 	protected EntityManager em;
@@ -65,7 +69,19 @@ class CitaServiceTest {
 		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
 		
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t);
+		
+		c.setTaller(t);
+		
 		citaService.saveCita(c);
+		
+
 		
 		assertEquals(c, citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10));
 	}
@@ -122,6 +138,16 @@ class CitaServiceTest {
 		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
 		
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t);
+		
+		c.setTaller(t);
+		
 		citaService.saveCita(c);
 		Cita c1 = citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10);
 		
@@ -150,6 +176,16 @@ class CitaServiceTest {
 		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
+		
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t);
+		
+		c.setTaller(t);
 		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
 		citaService.saveCita(c);
@@ -188,6 +224,17 @@ class CitaServiceTest {
 		vehiculoService.saveVehiculo(v);
 		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+		
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t);
+		
+		c.setTaller(t);
+		
 		citaService.saveCita(c);
 		
 		assertEquals(c, citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10));

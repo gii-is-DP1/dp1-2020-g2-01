@@ -16,6 +16,7 @@ import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.EmpleadoService;
+import org.springframework.samples.petclinic.service.TallerService;
 import org.springframework.samples.petclinic.service.TipoCitaService;
 import org.springframework.samples.petclinic.service.VehiculoService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,6 +60,9 @@ public class CitaController {
 	private EmpleadoService empleadoService;
 	
 	@Autowired
+	private TallerService tallerService;
+	
+	@Autowired
 	protected EntityManager em;
 	
 	@GetMapping(value="")
@@ -68,7 +72,7 @@ public class CitaController {
 	
 	@GetMapping(value = { "/listadoCitas"})
 	public String listadoCitas(ModelMap model) {
-		String vista = "";
+		String vista = "citas/listadoCitas";
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
 		if(cliente.isPresent()) {
@@ -76,13 +80,19 @@ public class CitaController {
 			Comparator<Cita> ordenarPorFechaYHora = Comparator.comparing(Cita::getFecha)
 					.thenComparing(Comparator.comparing(Cita::getHora));
 			model.put("citas", citas.stream().sorted(ordenarPorFechaYHora).collect(Collectors.toList()));
-			vista = "citas/listadoCitas";
+			
 		}else {
-			List<Cita> citas = citaService.findAll();
+			String ubicacion = "";
+			Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
+			if(empleado.isPresent()) {
+				ubicacion = empleado.get().getTaller().getUbicacion();
+			}else {
+				// Es un administrador y se buscará mediante el administradorService
+			}
+			List<Cita> citas = citaService.findCitaByTallerUbicacion(ubicacion);
 			Comparator<Cita> ordenarPorFechaYHora = Comparator.comparing(Cita::getFecha)
 					.thenComparing(Comparator.comparing(Cita::getHora));
 			model.put("citas", citas.stream().sorted(ordenarPorFechaYHora).collect(Collectors.toList()));
-			vista = "citas/listadoCitas";
 		}
 		return vista;
 	}
@@ -93,6 +103,7 @@ public class CitaController {
 		if(result.hasErrors()) {
 			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
 			model.addAttribute("tipos", tipoCitaService.findAll());
+			model.addAttribute("talleres", tallerService.findAll());
 			model.addAttribute("citas", citaService.findAll());
 			if(id != 0) {
 				cita.setId(id);
@@ -119,6 +130,7 @@ public class CitaController {
 			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente.get()));
 			model.addAttribute("tipos", tipoCitaService.findAll());
 			model.addAttribute("citas", citaService.findAll());
+			model.addAttribute("talleres", tallerService.findAll());
 			model.addAttribute("cita", new Cita());
 		}else {
 			model.addAttribute("message", "Debes haber iniciado sesión como cliente");
@@ -145,6 +157,7 @@ public class CitaController {
 				model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
 				model.addAttribute("tipos", tipoCitaService.findAll());
 				model.addAttribute("citas", citaService.findAll());
+				model.addAttribute("talleres", tallerService.findAll());
 				model.addAttribute("cita", cita);
 				vista = "citas/editCita";
 			}
