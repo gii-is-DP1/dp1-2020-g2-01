@@ -12,7 +12,7 @@ import org.springframework.samples.petclinic.model.Reparacion;
 public interface ReparacionRepository extends CrudRepository<Reparacion, Integer> {
 
 	@Query("SELECT r FROM Reparacion r WHERE r.cita.vehiculo.cliente LIKE :cliente")
-	List<Reparacion> findReparacionesCliente(@Param("cliente") Cliente cliente);
+	List<Reparacion> findReparacionesByCliente(@Param("cliente") Cliente cliente);
 
 	@Query("SELECT count(r) FROM Reparacion r WHERE (r.fechaFinalizacion IS NOT EMPTY) AND (:empleado MEMBER OF r.empleados)")
 	Integer findReparacionesActivasEmpleado(@Param("empleado") Empleado empleado);

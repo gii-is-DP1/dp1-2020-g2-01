@@ -77,7 +77,7 @@ public class CitaService {
 	
 	@Transactional
 	public Boolean hayCitaParaElDia(LocalDate fecha) {
-		List<Cita> cita = citaRepository.findCitaByFecha(fecha);
+		List<Cita> cita = citaRepository.findCitasByFecha(fecha);
 		return cita.size() < 21 - 9; // El taller admite citas desde las 9 hasta las 21
 	}
 	

@@ -13,7 +13,6 @@ import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.repository.VehiculoRepository;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedProveedorNifException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +31,7 @@ public class VehiculoService {
 	
 	@Transactional(rollbackFor = DuplicatedMatriculaException.class)
 	public void saveVehiculo(Vehiculo vehiculo) throws DataAccessException, DuplicatedMatriculaException {
-		Vehiculo v = vehiculoRepository.findVehiculoMatricula(vehiculo.getMatricula());
+		Vehiculo v = vehiculoRepository.findVehiculoByMatricula(vehiculo.getMatricula());
 		if(v!=null && !v.getId().equals(vehiculo.getId())) {   
 			throw new DuplicatedMatriculaException();
 		} else {
@@ -52,7 +51,7 @@ public class VehiculoService {
 	
 	@Transactional
 	public List<Vehiculo> findVehiculosCliente(Cliente cliente) throws DataAccessException {
-		return vehiculoRepository.findVehiculosCliente(cliente);
+		return vehiculoRepository.findVehiculosByCliente(cliente);
 	}
 	
 	@Transactional
@@ -62,7 +61,7 @@ public class VehiculoService {
 	
 	@Transactional(readOnly = true)
 	public Vehiculo findVehiculoByMatricula(String matricula) throws DataAccessException {
-		Vehiculo v = vehiculoRepository.findVehiculoMatricula(matricula);
+		Vehiculo v = vehiculoRepository.findVehiculoByMatricula(matricula);
 		return v;
 	}
 
