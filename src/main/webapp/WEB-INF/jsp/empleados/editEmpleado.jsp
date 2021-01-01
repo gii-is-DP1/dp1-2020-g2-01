@@ -37,6 +37,7 @@
                	<petclinic:inputField label="Fecha fin contrato" name="fecha_fin_contrato"/>
                	<petclinic:inputField label="Número seguridad social" name="num_seg_social"/>
                	<petclinic:inputField label="Sueldo" name="sueldo"/>
+               	<petclinic:select label="Taller" name="taller" items="${talleres}"/>
                	<br>
             	<c:choose>
                     <c:when test="${empleado['new']}">
