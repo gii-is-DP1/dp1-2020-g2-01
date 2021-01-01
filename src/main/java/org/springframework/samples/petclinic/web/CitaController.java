@@ -101,7 +101,7 @@ public class CitaController {
 	public String saveCita(@PathVariable("citaId") Integer id, @Valid Cita cita, BindingResult result, ModelMap model) {
 		String vista;
 		if(result.hasErrors()) {
-			model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
+			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cita.getVehiculo().getCliente()));
 			model.addAttribute("tipos", tipoCitaService.findAll());
 			model.addAttribute("talleres", tallerService.findAll());
 			model.addAttribute("citas", citaService.findAll());
@@ -154,7 +154,7 @@ public class CitaController {
 				model.addAttribute("messageType", "warning");
 				vista = listadoCitas(model);
 			}else {
-				model.addAttribute("vehiculos", vehiculoService.getVehiculosSeleccionadoPrimero(cita));
+				model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cita.getVehiculo().getCliente()));
 				model.addAttribute("tipos", tipoCitaService.findAll());
 				model.addAttribute("citas", citaService.findAll());
 				model.addAttribute("talleres", tallerService.findAll());

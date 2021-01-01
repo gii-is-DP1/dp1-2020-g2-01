@@ -21,7 +21,7 @@
             	</c:forEach>
             	</form:select>
             <c:if test="${status.error}">
-                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                <span class="form-control-feedback" aria-hidden="true"></span>
                 <span class="help-inline">${status.errorMessage}</span>
             </c:if>
         </div>

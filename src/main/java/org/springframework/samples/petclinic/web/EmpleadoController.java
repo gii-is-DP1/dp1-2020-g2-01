@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.service.EmpleadoService;
+import org.springframework.samples.petclinic.service.TallerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,9 @@ public class EmpleadoController {
 	@Autowired
 	private EmpleadoService empleadoService;
 	
+	@Autowired
+	private TallerService tallerService;
+	
 	@GetMapping(value = "/listadoEmpleados")
 	public String listadoEmpleados(ModelMap m) {
 		
@@ -34,6 +38,7 @@ public class EmpleadoController {
 	@GetMapping(value = "/new")
 	public String crearEmpleado(ModelMap model) {
 		String vista = "empleados/editEmpleado";
+		model.addAttribute("talleres", tallerService.findAll());
 		model.addAttribute("empleado", new Empleado());
 		return vista;
 	}
@@ -44,6 +49,7 @@ public class EmpleadoController {
 		
 		if(result.hasErrors()) {
 			model.addAttribute("empleado", empleado);
+			model.addAttribute("talleres", tallerService.findAll());
 			vista = "empleados/editEmpleado";
 		} else {
 			empleadoService.saveEmpleado(empleado);
@@ -78,6 +84,7 @@ public class EmpleadoController {
 			model.addAttribute("message", "Empleado not found");
 			vista = listadoEmpleados(model);
 		} else {
+			model.addAttribute("talleres", tallerService.findAll());
 			model.addAttribute("empleado", empleado.get());
 		}
 		return vista;
