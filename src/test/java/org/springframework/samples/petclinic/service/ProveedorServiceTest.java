@@ -35,7 +35,7 @@ class ProveedorServiceTest {
 	@BeforeEach
 	void insertProveedor() throws DataAccessException, DuplicatedProveedorNifException {
 		Proveedor p = new Proveedor();
-		p.setNombre("Norauto");
+		p.setName("Norauto");
 		p.setNif("98765432A");
 		p.setTelefono("665112233");
 		p.setEmail("norauto@gmail.com");
@@ -55,7 +55,7 @@ class ProveedorServiceTest {
 	@Test
 	void shouldNotInsertProveedor() {
 		Proveedor p = new Proveedor();
-		p.setNombre("");
+		p.setName("");
 		p.setNif("98765432Z");
 		p.setTelefono("665112233");
 		p.setEmail("norauto@gmail.com");
@@ -67,7 +67,7 @@ class ProveedorServiceTest {
 	@Test
 	void shouldNotInsertTwoProveedoresWithSameNif() throws DataAccessException, DuplicatedProveedorNifException {
 		Proveedor p2 = new Proveedor();
-		p2.setNombre("Prueba2");
+		p2.setName("Prueba2");
 		p2.setNif("98765432A");
 		p2.setTelefono("665112233");
 		p2.setEmail("norauto@gmail.com");
@@ -79,7 +79,7 @@ class ProveedorServiceTest {
 	@Test
 	void shouldUpdateProveedor() throws DataAccessException, DuplicatedProveedorNifException {
 		Proveedor p2 = new Proveedor();
-		p2.setNombre("Prueba");
+		p2.setName("Prueba");
 		p2.setNif("33333333B");
 		p2.setTelefono("665112245");
 		p2.setEmail("prueba@gmail.com");
@@ -97,7 +97,7 @@ class ProveedorServiceTest {
 	@Test
 	void shouldNotUpdateProveedor() throws DataAccessException, DuplicatedProveedorNifException {
 		Proveedor p2 = new Proveedor();
-		p2.setNombre("");
+		p2.setName("");
 		p2.setNif("98765432B");
 		p2.setTelefono("665112245");
 		p2.setEmail("prueba@gmail.com");

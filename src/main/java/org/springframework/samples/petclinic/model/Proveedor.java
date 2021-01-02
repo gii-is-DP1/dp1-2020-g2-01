@@ -18,11 +18,8 @@ import lombok.Setter;
 @Data
 @Entity
 @Table(name="proveedores")
-public class Proveedor extends BaseEntity {
+public class Proveedor extends NamedEntity {
 	
-	@NotNull
-	@NotEmpty
-	private String nombre;
 	
 	@NotNull
 	@NotEmpty

@@ -118,7 +118,7 @@ INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (1, 'Taller S
 INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (2, 'Taller Sevilla Customs 2', 'prueba2@gmail.com', 
 					'666666677', 'Calle Prueba, numero 3');
 
-INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (200, 'Gumersindo', '12345678A', '665112233', 'gumersindo@gmail.com');
+INSERT INTO proveedores(id, name, nif, telefono, email) VALUES (200, 'Gumersindo', '12345678A', '665112233', 'gumersindo@gmail.com');
 
 INSERT INTO users(username, password, enabled) VALUES ('jesfunrud', 'Prueba123', TRUE);
 INSERT INTO authorities(username, authority) VALUES ('jesfunrud', 'cliente');
@@ -191,7 +191,7 @@ INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
 
 -- Pruebas con recambios
 
-INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (201, 'Pablo', '12345678H', '665112233', 'gumersindo@gmail.com');
+INSERT INTO proveedores(id, name, nif, telefono, email) VALUES (201, 'Pablo', '12345678H', '665112233', 'gumersindo@gmail.com');
 
 INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (100, 'Neumático Michelin', 1, 10);
 INSERT INTO ejemplarrecambios (id, recambio_id) VALUES (1, 100);
