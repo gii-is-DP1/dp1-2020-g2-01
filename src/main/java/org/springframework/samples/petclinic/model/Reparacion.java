@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "reparaciones")
-public class Reparacion extends NamedEntity {
+public class Reparacion extends BaseEntity {
 	
 	@NotNull
 	@FutureOrPresent

@@ -16,7 +16,7 @@
 
         <form:form action="/proveedores/save" modelAttribute="proveedor" class="form-horizontal">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="Nombre" name="nombre"/>
+                <petclinic:inputField label="Nombre" name="name"/>
                 <petclinic:inputField label="NIF" name="nif"/> 
                	<petclinic:inputField label="Teléfono" name="telefono"/>
                	<petclinic:inputField label="Email" name="email"/>

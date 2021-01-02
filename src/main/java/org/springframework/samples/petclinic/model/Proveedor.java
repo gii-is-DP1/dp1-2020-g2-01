@@ -1,8 +1,10 @@
 package org.springframework.samples.petclinic.model;
 
 
-import javax.persistence.Entity;
+import java.util.Collection;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -16,11 +18,8 @@ import lombok.Setter;
 @Data
 @Entity
 @Table(name="proveedores")
-public class Proveedor extends BaseEntity {
+public class Proveedor extends NamedEntity {
 	
-	@NotNull
-	@NotEmpty
-	private String nombre;
 	
 	@NotNull
 	@NotEmpty
@@ -36,6 +35,9 @@ public class Proveedor extends BaseEntity {
 	@NotEmpty
 	private String email;
 	
+	
+	@ManyToMany
+	private Collection<Recambio> recambios;
 	
 	
 	//pedidosrecambios
