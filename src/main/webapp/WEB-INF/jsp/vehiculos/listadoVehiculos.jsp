@@ -30,8 +30,10 @@
             <th>Cliente</th>
             </sec:authorize>
             <th>Número de bastidor</th>
+            <sec:authorize access="hasAuthority('cliente')">
             <th></th>
             <th></th>
+            </sec:authorize>
             
         </tr>
         </thead>
@@ -64,23 +66,24 @@
                    <c:out value="${vehiculo.numBastidor}"/>
                 </td>
                 
-                <td>
-                	<spring:url value="/vehiculos/update/{vehiculoId}" var="vehiculoUrl">
-                        <spring:param name="vehiculoId" value="${vehiculo.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(vehiculoUrl)}"><span class="glyphicon glyphicon-pencil"></span></a>
-                
-                </td>
-             
-             
-                <td>
-                	<spring:url value="/vehiculos/delete/{vehiculoId}" var="vehiculoUrl">
-                        <spring:param name="vehiculoId" value="${vehiculo.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(vehiculoUrl)}"><span class="glyphicon glyphicon-trash"></span></a>
-                
-                </td>
-                                
+                <sec:authorize access="hasAuthority('cliente')">
+	                <td>
+	                	<spring:url value="/vehiculos/update/{vehiculoId}" var="vehiculoUrl">
+	                        <spring:param name="vehiculoId" value="${vehiculo.id}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(vehiculoUrl)}"><span class="glyphicon glyphicon-pencil"></span></a>
+	                
+	                </td>
+	             
+	             
+	                <td>
+	                	<spring:url value="/vehiculos/delete/{vehiculoId}" var="vehiculoUrl">
+	                        <spring:param name="vehiculoId" value="${vehiculo.id}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(vehiculoUrl)}"><span class="glyphicon glyphicon-trash"></span></a>
+	                
+	                </td>
+                </sec:authorize>        
                 
             </tr>
         </c:forEach>
