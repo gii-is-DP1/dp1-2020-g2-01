@@ -1,8 +1,10 @@
 package org.springframework.samples.petclinic.model;
 
 
-import javax.persistence.Entity;
+import java.util.Collection;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -36,6 +38,9 @@ public class Proveedor extends BaseEntity {
 	@NotEmpty
 	private String email;
 	
+	
+	@ManyToMany
+	private Collection<Recambio> recambios;
 	
 	
 	//pedidosrecambios

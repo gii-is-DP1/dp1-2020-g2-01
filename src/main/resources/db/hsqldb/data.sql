@@ -187,3 +187,18 @@ INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación
 
 INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
 
+
+
+-- Pruebas con recambios
+
+INSERT INTO proveedores(id, nombre, nif, telefono, email) VALUES (201, 'Pablo', '12345678H', '665112233', 'gumersindo@gmail.com');
+
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (100, 'Neumático Michelin', 1, 10);
+INSERT INTO ejemplarrecambios (id, recambio_id) VALUES (1, 100);
+
+
+INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 100);
+
+
+
+--
