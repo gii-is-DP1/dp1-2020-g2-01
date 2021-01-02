@@ -38,7 +38,6 @@
     <table id="reparacionesTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Nombre</th>
             <th>Descripción</th>
             <th>Dia de la cita</th>
             <th>Vehiculo</th>
@@ -56,10 +55,6 @@
         <tbody>
         <c:forEach items="${reparaciones}" var="reparacion">
             <tr>
- 
-                <td class="textoTabla">
-                    <c:out value="${reparacion.name}"/>
-                </td>
                 
                 <td class="textoTabla" style="text-align:left;">
                    <c:out value="${reparacion.descripcion}"/>

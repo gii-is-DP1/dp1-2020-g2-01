@@ -175,8 +175,8 @@ INSERT INTO citas_tipocita VALUES (200, 1);
 INSERT INTO citas_empleados VALUES (200, 100);
 INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id) VALUES (201,'2021-10-24', 20, 200, 2);
 INSERT INTO citas_tipocita VALUES (201, 1);
-INSERT INTO reparaciones(id, name, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
-		VALUES (1, 'Reparación de prueba','Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
+INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
+		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
 INSERT INTO linea_factura(precio_base, descuento, reparacion, recambio, descripcion) VALUES (50, 15, 1, 'rueda', '2 ruedas delanteras');
 INSERT INTO linea_factura(precio_base, descuento, reparacion, recambio, descripcion) VALUES (40, 0, 1, 'Mano de obra', '2h de trabajo');
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);

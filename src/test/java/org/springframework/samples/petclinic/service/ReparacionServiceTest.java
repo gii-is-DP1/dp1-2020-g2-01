@@ -67,7 +67,6 @@ class ReparacionServiceTest {
 	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException {
 		
 		Reparacion r = new Reparacion();
-		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
@@ -139,7 +138,6 @@ class ReparacionServiceTest {
 	void shouldNotInsertReparacionInvalida() throws DataAccessException, DuplicatedMatriculaException {
 		
 		Reparacion r = new Reparacion();
-		r.setName("Nombre");
 		r.setDescripcion("");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
@@ -210,7 +208,6 @@ class ReparacionServiceTest {
 	void shouldNotInsertReparacionConFechasIncorrectas() throws DataAccessException, DuplicatedMatriculaException {
 		
 		Reparacion r = new Reparacion();
-		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
@@ -279,7 +276,6 @@ class ReparacionServiceTest {
 	@Test
 	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException {
 		Reparacion r = new Reparacion();
-		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
@@ -343,7 +339,7 @@ class ReparacionServiceTest {
 		reparacionService.saveReparacion(r);
 		
 		Reparacion r1 = reparacionService.findReparacionById(r.getId()).get();
-		r1.setName("Nombre cambiado");
+		r1.setDescripcion("Descripcion cambiada");
 		
 		reparacionService.saveReparacion(r1);
 		
@@ -354,7 +350,6 @@ class ReparacionServiceTest {
 	@Test
 	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException {
 		Reparacion r = new Reparacion();
-		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
@@ -420,7 +415,7 @@ class ReparacionServiceTest {
 		reparacionService.saveReparacion(r);
 		
 		Reparacion r1 = reparacionService.findReparacionById(r.getId()).get();
-		r1.setName("");
+		r1.setDescripcion("");
 		
 		
 		
@@ -436,7 +431,6 @@ class ReparacionServiceTest {
 	void shouldDeleteReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException {
 		
 		Reparacion r = new Reparacion();
-		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
@@ -509,7 +503,6 @@ class ReparacionServiceTest {
 	@Transactional
 	void shouldFinalizar() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException{
 		Reparacion r = new Reparacion();
-		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(2));
 		r.setTiempoEstimado(LocalDate.now().plusDays(9));
