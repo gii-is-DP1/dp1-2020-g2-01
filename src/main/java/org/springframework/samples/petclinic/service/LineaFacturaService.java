@@ -16,7 +16,7 @@ public class LineaFacturaService {
 	private LineaFacturaRepository lineafacturaRepository;
 
 	@Transactional
-	public void saveFactura(LineaFactura lineafactura) {
+	public void saveLineaFactura(LineaFactura lineafactura) {
 		lineafacturaRepository.save(lineafactura);
 	}
 
@@ -26,10 +26,9 @@ public class LineaFacturaService {
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<LineaFactura> findFacturaById(int id) throws DataAccessException {
+	public Optional<LineaFactura> findLineaFacturaById(int id) throws DataAccessException {
 		return lineafacturaRepository.findById(id);
 	}
-
 
 	@Transactional
 	public void delete(LineaFactura factura) {

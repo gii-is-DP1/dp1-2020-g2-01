@@ -149,7 +149,7 @@
 </jsp:attribute>
     <jsp:body>
         <h2>
-        <c:if test="${empty cita.id}">Añadir <c:set var="id" value="0"/></c:if> <c:if test="${ not empty cita.id}">Editar <c:set var="id" value="${cita.id}"/></c:if> cita
+        <c:if test="${empty cita.id}">Pedir <c:set var="id" value="0"/></c:if> <c:if test="${ not empty cita.id}">Editar <c:set var="id" value="${cita.id}"/></c:if> cita
     	</h2>
         
         <form:form modelAttribute="cita" class="form-horizontal" action="/citas/save/${id}">
@@ -166,7 +166,7 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
                     <c:when test="${cita['new']}">
-                        <button class="btn btn-default" type="submit">Añadir cita</button>
+                        <button class="btn btn-default" type="submit">Pedir cita</button>
                     </c:when>
                     <c:otherwise>
                         <button class="btn btn-default" type="submit">Editar cita</button>

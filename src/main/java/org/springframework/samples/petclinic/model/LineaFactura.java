@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
@@ -37,6 +38,8 @@ public class LineaFactura extends BaseEntity{
 	@JoinColumn(name="factura")
 	private Factura factura;
 	
+	@NotEmpty
+	@NotNull
 	@JoinColumn(name="descripcion")
 	private String descripcion;
 	
