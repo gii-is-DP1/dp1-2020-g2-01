@@ -81,7 +81,6 @@ class FacturaServiceTest {
 		lf.setDescripcion("Descripcion de prueba de una factura");
 		
 		Reparacion r = new Reparacion();
-		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
@@ -189,7 +188,6 @@ class FacturaServiceTest {
 		lf.setDescripcion("Descripcion bonita");
 		
 		Reparacion r = new Reparacion();
-		r.setName("Nombre");
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
@@ -295,7 +293,7 @@ class FacturaServiceTest {
 		lf.setDescripcion("Descripcion de prueba de una factura");
 		
 		Reparacion r = new Reparacion();
-		r.setName("Nombre");
+
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
