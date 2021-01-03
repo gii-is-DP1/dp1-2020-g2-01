@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/vehiculos")
 public class VehiculoController {
 	
+	private static final String FORM_CONFIRM_DELETE = "vehiculos/confirmar_vehiculo_borrado";
+
 	@Autowired
 	private VehiculoService vehiculoService;
 	
@@ -102,23 +104,48 @@ public class VehiculoController {
 		return vista;
 	}
 	
-	
 	@GetMapping(value = "/delete/{vehiculoId}")
-	public String borrarVehiculo(@PathVariable("vehiculoId") int id, ModelMap model) {
+	public String initDeleteVehiculo(@PathVariable ("vehiculoId") int id, ModelMap model) {
 		String vista;
-		Optional<Vehiculo> op = vehiculoService.findVehiculoById(id);
-		if(op.isPresent()) {
-			if(!op.get().getCitas().isEmpty()) {
+		Vehiculo v = vehiculoService.findVehiculoById(id).get();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		String propietario = v.getCliente().getUser().getUsername();
+		if(username.equals(propietario)) {
+			if(!v.getCitas().isEmpty()) {
 				model.addAttribute("message", "No se puede borrar un vehículo con una cita asociada");
+				model.addAttribute("messageType", "danger");
+				vista = listadoVehiculos(model);
 			} else {
-				vehiculoService.delete(op.get());
-				model.addAttribute("message", "Vehiculo deleted successfully");
+				model.addAttribute("vehiculos", v);
+				vista = FORM_CONFIRM_DELETE;
 			}
-		} else {
-			model.addAttribute("message", "Vehiculo not found");
-			
+		}else {
+			model.addAttribute("message", "Vehiculo no encontrado");
+			vista = listadoVehiculos(model);
 		}
-		vista = listadoVehiculos(model);
+		return vista;
+	}
+	
+	@GetMapping(value = "/deleteVehiculo/{vehiculoId}")
+	public String processDeleteVehiculo(@PathVariable("vehiculoId") int id, ModelMap model) {
+		String vista;
+		Vehiculo v = vehiculoService.findVehiculoById(id).get();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		String propietario = v.getCliente().getUser().getUsername();
+		if(username.equals(propietario)) {
+			try {
+				vehiculoService.delete(v);
+				model.addAttribute("message", "Vehiculo borrado correctamente.");
+			}catch(Exception e) {
+				model.addAttribute("message", "Error inesperado al borrar el vehículo.");
+				model.addAttribute("messageType", "danger");
+			}
+			vista=listadoVehiculos(model);
+		}else {
+			model.addAttribute("message", "Vehiculo no encontrado");
+			vista = listadoVehiculos(model);
+		}
+
 		return vista;
 	}
 	
