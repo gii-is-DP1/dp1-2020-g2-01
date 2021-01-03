@@ -142,6 +142,7 @@ class ReparacionServiceTest {
 	void shouldNotInsertReparacionInvalida() throws DataAccessException, DuplicatedMatriculaException {
 		
 		Reparacion r = new Reparacion();
+
 		r.setDescripcion(""); //Descripción vacía
 
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
