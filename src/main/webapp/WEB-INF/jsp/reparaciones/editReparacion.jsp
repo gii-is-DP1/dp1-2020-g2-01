@@ -29,7 +29,6 @@
 
         <form:form action="/reparaciones/save" modelAttribute="reparacion" class="form-horizontal">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="Nombre" name="name"/>
                 <petclinic:inputField label="Descripción" name="descripcion"/> 
                 <petclinic:inputField label="Tiempo estimado" name="tiempoEstimado"/> 
                	<petclinic:inputField label="Fecha de entrega" name="fechaEntrega"/> 

@@ -30,7 +30,7 @@
                 
             
                 <td>
-                    <c:out value="${proveedor.nombre}"/>
+                    <c:out value="${proveedor.name}"/>
                 </td>
                 
 
