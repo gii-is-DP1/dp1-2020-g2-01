@@ -143,7 +143,7 @@ class ReparacionServiceTest {
 		
 		Reparacion r = new Reparacion();
 
-		r.setName("Nombre");
+
 		r.setDescripcion(""); //Descripción vacía
 
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
