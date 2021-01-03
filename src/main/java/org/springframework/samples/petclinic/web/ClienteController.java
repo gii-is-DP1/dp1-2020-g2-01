@@ -51,7 +51,8 @@ public class ClienteController {
 	public String mostrasDetalles(@PathVariable("username") String username, Model model) {
 		Cliente cliente = this.clienteService.findClientesByUsername(username).get();
 		String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
-		if(username.equals(username2)) {
+		String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		if(username.equals(username2) || auth.equals("admin")) {
 			model.addAttribute("clientes", cliente);
 			return "clientes/clienteDetails";
 		}else {
@@ -80,7 +81,7 @@ public class ClienteController {
 		else {
 			this.clienteService.saveCliente(cliente);
 			
-			return "redirect:/";
+			return "redirect:/login";
 		}
 	}
 	
