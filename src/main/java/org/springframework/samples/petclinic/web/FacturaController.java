@@ -50,7 +50,7 @@ public class FacturaController {
 
 			for(LineaFactura l: factura.getLineaFactura()) {
 				l.setFactura(factura);
-				lineaFacturaService.saveFactura(l);
+				lineaFacturaService.saveLineaFactura(l);
 			}
 			model.addAttribute("message", "Factura "+factura.getId()+" generada correctamente");
 

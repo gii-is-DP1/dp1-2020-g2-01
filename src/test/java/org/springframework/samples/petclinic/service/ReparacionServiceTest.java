@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class ReparacionServiceTest {
 	
+
 	@Autowired
 	protected ReparacionService reparacionService;
 	
@@ -133,6 +134,9 @@ class ReparacionServiceTest {
 		
 		
 	}
+	//
+	//HAY QUE HACER TEST DE MAX3REPARACIONESSIMULTANEAS
+	//
 	
 	@Test
 	@Transactional
@@ -140,7 +144,7 @@ class ReparacionServiceTest {
 		
 		Reparacion r = new Reparacion();
 		r.setName("Nombre");
-		r.setDescripcion("");
+		r.setDescripcion(""); //Descripción vacía
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
 		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
