@@ -6,6 +6,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <petclinic:layout pageName="cliente">
+<style>
+    .helper {
+		display: inline-block;
+		height: 100%;  	
+    	vertical-align:middle;
+		}
+    </style>
 <div class="col-sm-12">
 <div class="col-sm-6">
 <div class="panel panel-success">
@@ -50,6 +57,51 @@
   <petclinic:tablaVehiculos/>
 </div>
 </div>
+<c:if test="${not empty cita}">
+	<div class="col-sm-6">
+	<div class="panel panel-primary">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Próxima cita</h3>
+	  </div>
+		  <div class="panel-body" style="padding: 0;padding-top:1%">
+		  	<div class="col-sm-2">
+	  			<p class="text-center" style="font-size: 65%; margin: 0">${cita.fecha.year}</p>
+	           	<c:set var = "monthParsed" value = "${fn:substring(cita.fecha.month, 0, 3)}" />
+	           	<p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
+	           	<p class="text-center"  style="margin: 0"><strong>${cita.fecha.dayOfMonth}</strong></p>
+	      	</div>
+	      	<div class="col-sm-5">
+	      		<span class="helper"></span>
+	      		<p>${cita.taller.ubicacion}</p>
+	      	</div>
+	      	<div class="col-sm-3">
+	      		<p><c:out value="${cita.vehiculo.modelo}"/></p>
+                <p><small><c:out value="${cita.vehiculo.matricula}"/></small></p>
+	      	</div>
+	      	<div class="col-sm-1">
+                    <a href="/citas/listadoCitas">
+                    	<span class="helper glyphicon glyphicon-eye-open"></span>
+                    </a>
+	      	</div>
+	      	<div class="col-sm-1">
+	      			<spring:url value="/citas/update/{citaId}" var="citaUrl">
+                    <spring:param name="citaId" value="${cita.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(citaUrl)}">
+                    	<span class="helper glyphicon glyphicon-pencil"></span>
+                    </a>
+                    
+                	<spring:url value="/citas/delete/{citaId}" var="citaUrl">
+                    <spring:param name="citaId" value="${cita.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(citaUrl)}">
+						<span class="helper glyphicon glyphicon-trash"></span>
+					</a>
+	      	</div>
+		  </div>
+	</div>
+	</div>
+</c:if>
 </div>
 	
 	

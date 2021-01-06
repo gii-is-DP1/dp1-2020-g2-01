@@ -94,6 +94,7 @@
                    </p>
                 </td>
                 <td>
+                <span class="helper"></span>
                 	<p><c:out value="${citas.taller.ubicacion}"/></p>
                 </td>
                 <sec:authorize access="hasAuthority('admin')">
