@@ -153,7 +153,7 @@
     	</h2>
         
         <form:form modelAttribute="cita" class="form-horizontal" action="/citas/save/${id}">
-            <div class="form-group has-feedback">
+            <div class="form-group has-feedback col-sm-12">
               
             	<petclinic:select label="Vehículos" name="vehiculo" items="${vehiculos}"/>
             	<petclinic:select label="Taller" name="taller" items="${talleres}"/>

@@ -67,7 +67,7 @@ class CitaServiceTest {
 		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
 		
 		Taller t = new Taller();
 		t.setCorreo("test@test.com");
@@ -108,7 +108,7 @@ class CitaServiceTest {
 		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
 	
 		
 		assertThrows(ConstraintViolationException.class, () -> this.citaService.saveCita(c));
@@ -136,7 +136,7 @@ class CitaServiceTest {
 		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
 		
 		Taller t = new Taller();
 		t.setCorreo("test@test.com");
@@ -187,7 +187,7 @@ class CitaServiceTest {
 		
 		c.setTaller(t);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
 		citaService.saveCita(c);
 		
 		Cita c1 = new Cita();
@@ -195,7 +195,7 @@ class CitaServiceTest {
 
 		c1.setHora(10);
 		c.setTiposCita(tipos);
-		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
 		c1.setFecha(LocalDate.now());
 		assertThrows(ConstraintViolationException.class, () ->{
 			this.citaService.saveCita(c1);
@@ -223,7 +223,7 @@ class CitaServiceTest {
 		v.setTipoVehiculo(tipoveh);
 		vehiculoService.saveVehiculo(v);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
 		
 		Taller t = new Taller();
 		t.setCorreo("test@test.com");

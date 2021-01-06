@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.EmpleadoService;
@@ -100,8 +101,24 @@ public class CitaController {
 	@PostMapping(value="/save/{citaId}")
 	public String saveCita(@PathVariable("citaId") Integer id, @Valid Cita cita, BindingResult result, ModelMap model) {
 		String vista;
-		if(result.hasErrors()) {
-			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cita.getVehiculo().getCliente()));
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Cliente> c = clienteService.findClientesByUsername(username);
+		Cliente cliente = null;
+		if(c.isPresent()) {
+			List<Vehiculo> vehiculosCliente = vehiculoService.findVehiculosCliente(c.get());
+			if(!vehiculosCliente.contains(cita.getVehiculo())) {
+				cliente = c.get();
+				model.addAttribute("message", "El vehículo seleccionado no se encuentra");
+				model.addAttribute("messageType", "danger");
+			}else {
+				cliente = cita.getVehiculo().getCliente();
+			}
+		}else {
+			cliente = cita.getVehiculo().getCliente();
+		}
+		
+		if(result.hasErrors() || !cita.getVehiculo().getCliente().equals(cliente)) {
+			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente));
 			model.addAttribute("tipos", tipoCitaService.findAll());
 			model.addAttribute("talleres", tallerService.findAll());
 			model.addAttribute("citas", citaService.findAll());
@@ -134,6 +151,7 @@ public class CitaController {
 			model.addAttribute("cita", new Cita());
 		}else {
 			model.addAttribute("message", "Debes haber iniciado sesión como cliente");
+			model.addAttribute("messageType", "warning");
 			vista = listadoCitas(model);			
 		}
 		return vista;

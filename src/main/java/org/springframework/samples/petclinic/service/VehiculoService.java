@@ -31,7 +31,7 @@ public class VehiculoService {
 	
 	@Transactional(rollbackFor = DuplicatedMatriculaException.class)
 	public void saveVehiculo(Vehiculo vehiculo) throws DataAccessException, DuplicatedMatriculaException {
-		Vehiculo v = vehiculoRepository.findVehiculoByMatricula(vehiculo.getMatricula());
+		Vehiculo v = vehiculoRepository.findVehiculoByMatricula(vehiculo.getMatricula()).get();
 		if(v!=null && !v.getId().equals(vehiculo.getId())) {   
 			throw new DuplicatedMatriculaException();
 		} else {
@@ -60,9 +60,8 @@ public class VehiculoService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Vehiculo findVehiculoByMatricula(String matricula) throws DataAccessException {
-		Vehiculo v = vehiculoRepository.findVehiculoByMatricula(matricula);
-		return v;
+	public Optional<Vehiculo> findVehiculoByMatricula(String matricula) throws DataAccessException {
+		return vehiculoRepository.findVehiculoByMatricula(matricula);
 	}
 
 	public TipoVehiculo findVehiculoTypeById(int id) {
