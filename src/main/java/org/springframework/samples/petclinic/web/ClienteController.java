@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -10,6 +11,7 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.samples.petclinic.service.VehiculoService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +34,9 @@ public class ClienteController {
 	
 	@Autowired
 	private ClienteService clienteService;
-		
+	
+	@Autowired
+	private VehiculoService vehiculoService;
 
 	@Autowired
 	public ClienteController(ClienteService clienteService, UserService userService, AuthoritiesService authoritiesService) {
@@ -49,11 +53,18 @@ public class ClienteController {
 	
 	@GetMapping(value = "/clienteDetails/{username}")
 	public String mostrasDetalles(@PathVariable("username") String username, Model model) {
-		Cliente cliente = this.clienteService.findClientesByUsername(username).get();
+		Optional<Cliente> cliente = this.clienteService.findClientesByUsername(username);
+		if(!cliente.isPresent()) {
+			model.addAttribute("cliente", new Cliente());
+			model.addAttribute("message", "Cliente no encontrado");
+			model.addAttribute("messageType", "danger");
+			return "clientes/clienteDetails";
+		}
 		String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
 		String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
 		if(username.equals(username2) || auth.equals("admin")) {
-			model.addAttribute("clientes", cliente);
+			model.addAttribute("cliente", cliente.get());
+			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente.get()));
 			return "clientes/clienteDetails";
 		}else {
 			return "redirect:/";

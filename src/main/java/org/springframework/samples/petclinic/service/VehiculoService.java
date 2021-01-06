@@ -31,8 +31,8 @@ public class VehiculoService {
 	
 	@Transactional(rollbackFor = DuplicatedMatriculaException.class)
 	public void saveVehiculo(Vehiculo vehiculo) throws DataAccessException, DuplicatedMatriculaException {
-		Vehiculo v = vehiculoRepository.findVehiculoByMatricula(vehiculo.getMatricula()).get();
-		if(v!=null && !v.getId().equals(vehiculo.getId())) {   
+		Optional<Vehiculo> v = vehiculoRepository.findVehiculoByMatricula(vehiculo.getMatricula());
+		if(v.isPresent() && !v.get().getId().equals(vehiculo.getId())) {   
 			throw new DuplicatedMatriculaException();
 		} else {
 			vehiculoRepository.save(vehiculo);

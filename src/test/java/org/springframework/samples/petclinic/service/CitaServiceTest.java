@@ -1,7 +1,9 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
@@ -17,9 +19,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.stereotype.Service;
@@ -45,6 +49,9 @@ class CitaServiceTest {
 	
 	@Autowired
 	protected TipoVehiculoService tipoVehiculoService;
+	
+	@Autowired
+	protected ClienteService clienteService;
 
 	@Test
 	@Transactional
@@ -242,6 +249,89 @@ class CitaServiceTest {
 		citaService.delete(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10));
 		
 		assertNull(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10));
+	}
+	
+	@Test
+	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException {
+		Cita c = new Cita();
+		TipoCita tipo = tipoCitaService.findById(1).get();
+		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
+		
+		c.setFecha(LocalDate.now().plusDays(1));
+		c.setHora(10);
+		List<TipoCita> tipos = new ArrayList<TipoCita>();
+		tipos.add(tipo);
+		c.setTiposCita(tipos);
+		
+		Cliente cliente = new Cliente();
+		
+		cliente.setNombre("Antonio");
+		cliente.setApellidos("Vargas Ruda");
+		cliente.setDni("11223344M");
+		cliente.setEmail("sevillacustoms@gmail.com");
+		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
+		cliente.setUser(userP);
+		cliente.setTelefono("111223344");
+		
+		clienteService.saveCliente(cliente);
+		
+		Vehiculo v = new Vehiculo();
+		
+		v.setMatricula("1111AAA");
+		v.setModelo("Seat Ibiza");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
+		v.setTipoVehiculo(tipoveh);
+		v.setCliente(cliente);
+		vehiculoService.saveVehiculo(v);
+		
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+		
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t);
+		
+		c.setTaller(t);
+		
+		citaService.saveCita(c);
+		
+		Cita c1 = new Cita();
+		TipoCita tipo1 = tipoCitaService.findById(1).get();
+		
+		c1.setFecha(LocalDate.now().plusDays(14));
+		c1.setHora(10);
+		List<TipoCita> tipos1 = new ArrayList<TipoCita>();
+		tipos1.add(tipo1);
+		c1.setTiposCita(tipos1);
+		
+		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+		
+		Taller t1 = new Taller();
+		t1.setCorreo("test@test.com");
+		t1.setName("test");
+		t1.setTelefono("123456789");
+		t1.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t1);
+		
+		c1.setTaller(t1);
+		
+		citaService.saveCita(c1);
+		
+		assertTrue(citaService.findCitaById(c.getId()).isPresent());
+		assertTrue(citaService.findCitaById(c1.getId()).isPresent());
+		
+		citaService.deleteCOVID();
+		
+		assertFalse(citaService.findCitaById(c.getId()).isPresent());
+		assertFalse(citaService.findCitaById(c1.getId()).isPresent());
 	}
 
 }
