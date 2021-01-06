@@ -23,4 +23,9 @@ public class TipoVehiculoService {
 	public Optional<TipoVehiculo> findById(Integer id) {
 		return tipoVehiculoRep.findById(id);
 	}
+	
+	@Transactional
+	public Optional<TipoVehiculo> findByTipo(String tipo) {
+		return tipoVehiculoRep.findByTipo(tipo);
+	}
 }

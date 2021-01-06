@@ -18,7 +18,7 @@ public interface VehiculoRepository extends CrudRepository<Vehiculo, Integer>  {
 	
 	List<Vehiculo> findAll() throws DataAccessException;
 
-	Optional<Vehiculo> findVehiculoByMatricula(String matricula) throws DataAccessException;
+	Optional<Vehiculo> findVehiculoByMatricula(@Param("matricula") String matricula) throws DataAccessException;
 	
 	@Query("SELECT vehiculo FROM Vehiculo vehiculo WHERE vehiculo.cliente LIKE :cliente")
 	List<Vehiculo> findVehiculosByCliente(@Param("cliente") Cliente cliente) throws DataAccessException;

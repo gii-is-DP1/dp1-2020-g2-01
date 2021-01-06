@@ -68,7 +68,7 @@ class ReparacionServiceTest {
 	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException {
 		
 		Reparacion r = new Reparacion();
-		r.setDescripcion("Una descripcion hola que tal");
+		r.setDescripcion("Una descripcion");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
 		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
@@ -87,8 +87,8 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		vehiculoService.saveVehiculo(v);
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -163,8 +163,8 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		vehiculoService.saveVehiculo(v);
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -233,9 +233,9 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+
 		vehiculoService.saveVehiculo(v);
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -301,8 +301,8 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		vehiculoService.saveVehiculo(v);
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -375,8 +375,8 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		vehiculoService.saveVehiculo(v);
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -456,8 +456,8 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		vehiculoService.saveVehiculo(v);
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -594,6 +594,94 @@ class ReparacionServiceTest {
 		assertEquals(r.getFechaFinalizacion(), LocalDate.now());
 		
 
+	}
+	
+	@Test
+	void shouldGetReparacionesCliente() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException {
+		Reparacion r = new Reparacion();
+		r.setDescripcion("Una descripcion");
+		r.setFechaEntrega(LocalDate.now().plusDays(7));
+		r.setTiempoEstimado(LocalDate.now().plusDays(8));
+		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
+		r.setFechaRecogida(LocalDate.now().plusDays(10));
+	
+		Cita c = new Cita();
+		TipoCita t = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos = new ArrayList<>();
+		tipos.add(t);
+		
+		Cliente cliente = new Cliente();
+		
+		cliente.setNombre("Antonio");
+		cliente.setApellidos("Vargas Ruda");
+		cliente.setDni("11223344M");
+		cliente.setEmail("sevillacustoms@gmail.com");
+		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
+		User user = new User();
+		user.setUsername("nombreusuario");
+		user.setPassword("passdeprueba");
+		user.setEnabled(true);
+		cliente.setUser(user);
+		cliente.setTelefono("111223344");
+		
+		clienteService.saveCliente(cliente);
+		
+		Vehiculo v = new Vehiculo();
+		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
+		v.setMatricula("4052DMR");
+		v.setModelo("Renault Clio 2006");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
+		v.setTipoVehiculo(tv);
+		v.setCliente(cliente);
+		vehiculoService.saveVehiculo(v);
+		c.setFecha(LocalDate.now().plusDays(2));
+		c.setHora(18);
+		c.setTiposCita(tipos);
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		
+		Taller taller = new Taller();
+		taller.setCorreo("test@test.com");
+		taller.setName("test");
+		taller.setTelefono("123456789");
+		taller.setUbicacion("calle test");
+		
+		tallerService.saveTaller(taller);
+		
+		c.setTaller(taller);
+		
+		citaService.saveCita(c);
+		
+		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
+		
+		Empleado e1 = new Empleado();
+		
+		User userP = new User();
+		userP.setUsername("nombreusuario1");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
+		e1.setNombre("Pepito");
+		e1.setApellidos("Grillo");
+		e1.setDni("89898988A");
+		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
+		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
+		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
+		e1.setSueldo(1000L);
+		e1.setUsuario(userP);
+		e1.setNum_seg_social("1");
+		e1.setEmail("prueba@prueba.com");
+		e1.setTelefono("777777777");
+		
+		e1.setTaller(taller);
+		empleadoService.saveEmpleado(e1);
+		
+		List<Empleado> empleados = new ArrayList<>();
+		empleados.add(e1);
+
+		r.setEmpleados(empleados);
+		
+		reparacionService.saveReparacion(r);
+		
+		assertEquals(r, reparacionService.findReparacionesCliente(cliente).get(0));
 	}
 	
 }
