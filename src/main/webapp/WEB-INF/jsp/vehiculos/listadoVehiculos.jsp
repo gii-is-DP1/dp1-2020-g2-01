@@ -17,9 +17,10 @@
 	</style>
 
 
-    <h2>Vehículos</h2>
+    <h2 class="col-sm-2">Vehículos</h2>
     
-	<a class="btn btn-success" href="/vehiculos/new"><span class="glyphicon glyphicon-plus"></span> Añadir vehículo</a>
+	<a class="btn btn-success col-sm-offset-8 col-sm-2" href="/vehiculos/new"><span class="glyphicon glyphicon-plus"></span> Añadir vehículo</a>
+    <div class="col-sm-12" style="height:5px"></div>
     <table id="vehiculosTable" class="table table-striped">
         <thead>
         <tr>

@@ -87,7 +87,7 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		vehiculoService.saveVehiculo(v);
 		
 		Taller taller = new Taller();
@@ -163,7 +163,7 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		vehiculoService.saveVehiculo(v);
 		
 		Taller taller = new Taller();
@@ -234,7 +234,7 @@ class ReparacionServiceTest {
 		c.setHora(18);
 		c.setTiposCita(tipos);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		vehiculoService.saveVehiculo(v);
 		
 		Taller taller = new Taller();
@@ -301,7 +301,7 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		vehiculoService.saveVehiculo(v);
 		
 		Taller taller = new Taller();
@@ -375,7 +375,7 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		vehiculoService.saveVehiculo(v);
 		
 		Taller taller = new Taller();
@@ -456,7 +456,7 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		vehiculoService.saveVehiculo(v);
 		
 		Taller taller = new Taller();
@@ -548,7 +548,7 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR"));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");

@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.text.ParseException;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
@@ -25,7 +26,11 @@ public class VehiculoFormatter implements Formatter<Vehiculo> {
 	public Vehiculo parse(String text, Locale locale) throws ParseException {
 		String[] cadena = text.split(" - ");
 		String matricula = cadena[1];
-		return vehiculoService.findVehiculoByMatricula(matricula);
+		Optional<Vehiculo> v = vehiculoService.findVehiculoByMatricula(matricula);
+		if(v.isPresent()) {
+			return v.get();
+		}
+		throw new ParseException("Vehiculo not found: " + text, 0);
 	}
 
 }
