@@ -1,14 +1,19 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VehiculoService;
@@ -37,6 +42,9 @@ public class ClienteController {
 	
 	@Autowired
 	private VehiculoService vehiculoService;
+	
+	@Autowired
+	private CitaService citaService;
 
 	@Autowired
 	public ClienteController(ClienteService clienteService, UserService userService, AuthoritiesService authoritiesService) {
@@ -65,6 +73,14 @@ public class ClienteController {
 		if(username.equals(username2) || auth.equals("admin")) {
 			model.addAttribute("cliente", cliente.get());
 			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente.get()));
+			
+			List<Cita> citas = citaService.findByCliente(cliente.get());
+			Comparator<Cita> ordenarPorFechaYHora = Comparator.comparing(Cita::getFecha)
+					.thenComparing(Comparator.comparing(Cita::getHora));
+			citas = citas.stream().sorted(ordenarPorFechaYHora).collect(Collectors.toList());
+			if(!citas.isEmpty()) {
+				model.addAttribute("cita", citas.get(0));
+			}
 			return "clientes/clienteDetails";
 		}else {
 			return "redirect:/";
