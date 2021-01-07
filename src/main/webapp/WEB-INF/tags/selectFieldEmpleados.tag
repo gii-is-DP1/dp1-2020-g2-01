@@ -20,7 +20,7 @@
 
         <div class="col-sm-10">
             <form:select multiple="true" class="form-control" path="${name}" size="${size}"> 	
-            	<form:options items="${empleados}" />
+            	<form:options items="${empleados}"/>
             </form:select>
            
             <c:if test="${valid}">

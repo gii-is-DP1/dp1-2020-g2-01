@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.repository.CitaRepository;
+import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +25,18 @@ public class CitaService {
 	@Autowired
 	private SendEmailService sendEmailService;
 	
+	
 	@Transactional
-	public void saveCita(Cita cita) throws DataAccessException {
+	public void saveCita(Cita cita) throws DataAccessException, EmpleadoYCitaDistintoTallerException
+	{	
+		List<Empleado> empleados = cita.getEmpleados();
+		if(empleados!=null) {
+			for(Empleado e:empleados) {
+				if(!e.getTaller().equals(cita.getTaller())) {
+					throw new EmpleadoYCitaDistintoTallerException();
+				}
+			}
+		}
 		citaRepository.save(cita);
 	}
 	

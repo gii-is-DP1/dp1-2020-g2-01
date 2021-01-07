@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
+import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
 import org.springframework.stereotype.Service;
@@ -69,7 +70,7 @@ class FacturaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldInsertFactura() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException{
+	void shouldInsertFactura() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException{
 		
 		Factura f = new Factura();
 		f.setDescuento(0);
@@ -178,7 +179,7 @@ class FacturaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotInsertFactura() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException{
+	void shouldNotInsertFactura() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException{
 		Factura f = new Factura();
 		//Sin valor de descuento
 		f.setFechaPago(LocalDate.now().plusDays(10));
@@ -283,7 +284,7 @@ class FacturaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldDeleteFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException{
+	void shouldDeleteFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException{
 		
 		Factura f = new Factura();
 		f.setDescuento(0);

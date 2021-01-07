@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
@@ -20,6 +21,7 @@ import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.TallerService;
 import org.springframework.samples.petclinic.service.TipoCitaService;
 import org.springframework.samples.petclinic.service.VehiculoService;
+import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -90,6 +92,7 @@ public class CitaController {
 			}else {
 				// Es un administrador y se buscará mediante el administradorService
 			}
+			
 			List<Cita> citas = citaService.findCitaByTallerUbicacion(ubicacion);
 			Comparator<Cita> ordenarPorFechaYHora = Comparator.comparing(Cita::getFecha)
 					.thenComparing(Comparator.comparing(Cita::getHora));
@@ -99,7 +102,7 @@ public class CitaController {
 	}
 	
 	@PostMapping(value="/save/{citaId}")
-	public String saveCita(@PathVariable("citaId") Integer id, @Valid Cita cita, BindingResult result, ModelMap model) {
+	public String saveCita(@PathVariable("citaId") Integer id, @Valid Cita cita, BindingResult result, ModelMap model) throws DataAccessException {
 		String vista;
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Cliente> c = clienteService.findClientesByUsername(username);
@@ -131,7 +134,14 @@ public class CitaController {
 			if(id != 0) {
 				cita.setId(id);
 			}
-			citaService.saveCita(cita);
+
+			try {
+				citaService.saveCita(cita);
+			} catch (EmpleadoYCitaDistintoTallerException e) {
+				model.addAttribute("message", "La cita y los empleados deben estar asignados al mismo taller");
+				model.addAttribute("messageType", "danger");
+				return listadoCitas(model);
+			}
 			model.addAttribute("message", "Cita guardada successfully");
 			vista = listadoCitas(model);
 		}
@@ -227,6 +237,7 @@ public class CitaController {
 		return vista;
 	}
 	
+
 	@GetMapping(value="/atender/{citaId}")
 	public String addEmpleadoACita(@PathVariable("citaId") int id, ModelMap model) {
 		String vista = listadoCitas(model);
@@ -238,7 +249,13 @@ public class CitaController {
 				Cita c = cita.get();
 				if(!c.getEmpleados().contains(empleado.get())) {
 					c.getEmpleados().add(empleado.get());
-					citaService.saveCita(c);
+					try {
+						citaService.saveCita(c);
+					} catch (EmpleadoYCitaDistintoTallerException e) {
+						model.put("message", "No puedes atender una cita de otro taller diferente al que trabajas");
+						model.addAttribute("messageType", "danger");
+						return vista;
+					}
 					model.put("message", "Te has unido correctamente");
 				}else {
 					model.put("message", "Ya estás atendiendo a la cita");	
@@ -256,7 +273,7 @@ public class CitaController {
 	}
 	
 	@GetMapping(value="/noAtender/{citaId}")
-	public String eliminarEmpleadoDeCita(@PathVariable("citaId") int id, ModelMap model) {
+	public String eliminarEmpleadoDeCita(@PathVariable("citaId") int id, ModelMap model) throws DataAccessException, EmpleadoYCitaDistintoTallerException {
 		String vista = listadoCitas(model);
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);

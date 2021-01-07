@@ -34,7 +34,7 @@
                	<petclinic:inputField label="Fecha de entrega" name="fechaEntrega"/> 
                	<petclinic:inputField label="Fecha de recogida" name="fechaRecogida"/>
                	<petclinic:inputField label="Cita asociada" name="cita" readonly="true"/>
-               	<petclinic:selectFieldMultiple label="Empleados asignados (usar CTRL para seleccionar varios)" 
+               	<petclinic:selectFieldEmpleados label="Empleados asignados (usar CTRL para seleccionar varios)" 
                	name="empleados" size="5"  names="${empleados}" noglyphicon="true"/>
 				<label class="col-sm-2 control-label">Recambios</label>
         		<div class="col-sm-10">

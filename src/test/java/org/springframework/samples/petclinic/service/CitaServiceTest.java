@@ -20,12 +20,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
+import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,10 +54,13 @@ class CitaServiceTest {
 	
 	@Autowired
 	protected ClienteService clienteService;
+	
+	@Autowired
+	protected EmpleadoService empleadoService;
 
 	@Test
 	@Transactional
-	void shouldInsertCita() throws DataAccessException, DuplicatedMatriculaException {
+	void shouldInsertCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
@@ -95,7 +100,7 @@ class CitaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldInsertCitaInvalida() throws DataAccessException, DuplicatedMatriculaException {
+	void shouldNotInsertCitaInvalida() throws DataAccessException, DuplicatedMatriculaException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
@@ -116,7 +121,6 @@ class CitaServiceTest {
 		vehiculoService.saveVehiculo(v);
 		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
-	
 		
 		assertThrows(ConstraintViolationException.class, () -> this.citaService.saveCita(c));
 	}
@@ -124,7 +128,87 @@ class CitaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldUpdateCita() throws DataAccessException, DuplicatedMatriculaException {
+	void shouldNotInsertCitaYEmpleadoDistintoTaller() throws DataAccessException, DuplicatedMatriculaException {
+		
+		//Setup inicial de cita
+		Cita c = new Cita();
+		TipoCita tipo = tipoCitaService.findById(1).get();
+		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
+	
+		
+		c.setFecha(LocalDate.now());
+		c.setHora(10);
+		List<TipoCita> tipos = new ArrayList<TipoCita>();
+		tipos.add(tipo);
+		c.setTiposCita(tipos);
+		
+		//Setup de vehículo
+		Vehiculo v = new Vehiculo();
+		
+		v.setMatricula("1111AAA");
+		v.setModelo("Seat Ibiza");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
+		v.setTipoVehiculo(tipoveh);
+		vehiculoService.saveVehiculo(v);
+		
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+	
+		
+		//Setup de 2 talleres distintos. Asigno t1 a cita y t2 al empleado
+		Taller t1 = new Taller();
+		t1.setCorreo("test@test.com");
+		t1.setName("test");
+		t1.setTelefono("123456789");
+		t1.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t1);
+		
+		
+		c.setTaller(t1); 
+		
+		
+		Taller t2 = new Taller();
+		t2.setCorreo("test2@test.com");
+		t2.setName("test2");
+		t2.setTelefono("123456780");
+		t2.setUbicacion("calle test 2");
+		
+		tallerService.saveTaller(t2);
+		
+		
+		//Setup de empleado
+		Empleado e1 = new Empleado();
+		User userP = new User();
+		userP.setUsername("nombreusuario");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
+		e1.setNombre("Pepito");
+		e1.setApellidos("Grillo");
+		e1.setDni("89898988A");
+		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
+		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
+		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
+		e1.setSueldo(1000L);
+		e1.setUsuario(userP);
+		e1.setNum_seg_social("1");
+		e1.setEmail("prueba@prueba.com");
+		e1.setTelefono("777777777");
+		e1.setTaller(t2);
+		empleadoService.saveEmpleado(e1);
+		
+		//Añadimos empleado a la cita 
+		List<Empleado> empleados = new ArrayList<>();
+		empleados.add(e1);
+		c.setEmpleados(empleados);
+		
+		assertThrows(EmpleadoYCitaDistintoTallerException.class, () -> this.citaService.saveCita(c));
+	}
+	
+	
+	
+	@Test
+	@Transactional
+	void shouldUpdateCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
@@ -165,7 +249,7 @@ class CitaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotUpdateInvalidCita() throws DataAccessException, DuplicatedMatriculaException {
+	void shouldNotUpdateInvalidCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
@@ -211,7 +295,7 @@ class CitaServiceTest {
 	}
 	
 	@Test
-	void shouldDeleteCita() throws DataAccessException, DuplicatedMatriculaException {
+	void shouldDeleteCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
@@ -252,7 +336,7 @@ class CitaServiceTest {
 	}
 	
 	@Test
-	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException {
+	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
