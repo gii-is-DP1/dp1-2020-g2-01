@@ -93,11 +93,18 @@ public class ReparacionController {
 	}
 
 	@PostMapping(value = "/save")
-	public String guardarReparacion(@RequestParam("empleados") List<Empleado> empleados, @Valid Reparacion reparacion, BindingResult result, ModelMap model) {
+	public String guardarReparacion(@RequestParam(value="empleados", required=false) List<Empleado> empleados, @Valid Reparacion reparacion, BindingResult result, ModelMap model) {
 		String vista;
-		if(result.hasErrors()) {
+		
+		//Al hacer RequestParam con la lista vacía da null, como se añade los empleados a mano a la reparación @Valid no comprueba el @NotNull
+		//de empleados
+		if(result.hasErrors() || empleados==null) { 
+			if(empleados==null) {
+				result.rejectValue("empleados", "Se debe escoger al menos un empleado", "Se debe escoger al menos un empleado");
+			}
 			model.addAttribute("reparacion", reparacion);
 			vista = "reparaciones/editReparacion";
+		
 		} else {
 			try {
 				reparacion.setEmpleados(empleados);
