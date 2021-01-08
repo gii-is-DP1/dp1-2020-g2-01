@@ -13,7 +13,7 @@
     	vertical-align:middle;
 		}
     </style>
-<div class="col-sm-12">
+<div class="col-sm-12" style="margin-bottom: 20px">
 <div class="col-sm-6">
 <div class="panel panel-success">
   <div class="panel-heading">
