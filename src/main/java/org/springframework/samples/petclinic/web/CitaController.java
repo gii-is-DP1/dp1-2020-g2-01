@@ -137,12 +137,12 @@ public class CitaController {
 
 			try {
 				citaService.saveCita(cita);
+				model.addAttribute("message", "Cita guardada successfully");
 			} catch (EmpleadoYCitaDistintoTallerException e) {
 				model.addAttribute("message", "La cita y los empleados deben estar asignados al mismo taller");
 				model.addAttribute("messageType", "danger");
-				return listadoCitas(model);
 			}
-			model.addAttribute("message", "Cita guardada successfully");
+			
 			vista = listadoCitas(model);
 		}
 		return vista;
@@ -169,49 +169,48 @@ public class CitaController {
 	
 	@GetMapping(value="/update/{citaId}")
 	public String updateCita(@PathVariable("citaId") int id, ModelMap model) {
-		String vista = "";
 		Optional<Cita> c = citaService.findCitaById(id);
 		if(!c.isPresent()) {
 			model.addAttribute("message", "Cita not found");
 			model.addAttribute("messageType", "warning");
-			vista = listadoCitas(model);
-		}else {
-			Cita cita = c.get();
-			if(cita.getFecha().isBefore(LocalDate.now())) {
-				model.addAttribute("message", "No puedes modificar una cita que ya ha pasado");
-				model.addAttribute("messageType", "warning");
-				vista = listadoCitas(model);
-			}else {
-				model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cita.getVehiculo().getCliente()));
-				model.addAttribute("tipos", tipoCitaService.findAll());
-				model.addAttribute("citas", citaService.findAll());
-				model.addAttribute("talleres", tallerService.findAll());
-				model.addAttribute("cita", cita);
-				vista = "citas/editCita";
-			}
+			return listadoCitas(model);
 		}
-		return vista;
+		
+		Cita cita = c.get();
+		if(cita.getFecha().isBefore(LocalDate.now())) {
+			model.addAttribute("message", "No puedes modificar una cita que ya ha pasado");
+			model.addAttribute("messageType", "warning");
+			return listadoCitas(model);
+		}
+		
+		model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cita.getVehiculo().getCliente()));
+		model.addAttribute("tipos", tipoCitaService.findAll());
+		model.addAttribute("citas", citaService.findAll());
+		model.addAttribute("talleres", tallerService.findAll());
+		model.addAttribute("cita", cita);
+		return "citas/editCita";
 	}
   
 	@GetMapping(value="/delete/{citaId}")
 	public String deleteCita(@PathVariable("citaId") int id, ModelMap model) {
-		String vista = "";
+		String vista = listadoCitas(model);
 		Optional<Cita> c = citaService.findCitaById(id);
 		if(!c.isPresent()) {
 			model.addAttribute("message", "Cita not found");
-			vista = listadoCitas(model);
-		}else {
-			Cita cita = c.get();
-			if(cita.getFecha().isBefore(LocalDate.now())) {
-				model.addAttribute("message", "No puedes modificar una cita que ya ha pasado");
-				model.addAttribute("messageType", "warning");
-				vista = listadoCitas(model);
-			}else {
-				citaService.delete(cita);
-				model.addAttribute("message", "Cita borrado con éxito.");
-				vista = listadoCitas(model);
-			}
+			return vista;
 		}
+
+		Cita cita = c.get();
+		if(cita.getFecha().isBefore(LocalDate.now())) {
+			model.addAttribute("message", "No puedes modificar una cita que ya ha pasado");
+			model.addAttribute("messageType", "warning");
+			return vista;
+		}
+		
+		citaService.delete(cita);
+		model.addAttribute("message", "Cita borrado con éxito.");
+		vista = listadoCitas(model);		
+		
 		return vista;
 	}
 	
@@ -243,32 +242,37 @@ public class CitaController {
 		String vista = listadoCitas(model);
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
-		if(empleado.isPresent()) {
-			Optional<Cita> cita = citaService.findCitaById(id);
-			if(cita.isPresent()) {
-				Cita c = cita.get();
-				if(!c.getEmpleados().contains(empleado.get())) {
-					c.getEmpleados().add(empleado.get());
-					try {
-						citaService.saveCita(c);
-					} catch (EmpleadoYCitaDistintoTallerException e) {
-						model.put("message", "No puedes atender una cita de otro taller diferente al que trabajas");
-						model.addAttribute("messageType", "danger");
-						return vista;
-					}
-					model.put("message", "Te has unido correctamente");
-				}else {
-					model.put("message", "Ya estás atendiendo a la cita");	
-					model.put("messageType", "warning");				
-				}
-			}else {
-				model.put("message", "Cita no encontrada");
-				model.put("messageType", "warning");
-			}
-		}else {
+		
+		if(!empleado.isPresent()) {
 			model.put("message", "No has iniciado sesión como empleado");
 			model.put("messageType", "warning");
+			return vista;
 		}
+		
+		Optional<Cita> cita = citaService.findCitaById(id);
+		if(!cita.isPresent()) {
+			model.put("message", "Cita no encontrada");
+			model.put("messageType", "warning");
+			return vista;
+		}
+		
+		Cita c = cita.get();
+		if(c.getEmpleados().contains(empleado.get())) {
+			model.put("message", "Ya estás atendiendo a la cita");	
+			model.put("messageType", "warning");
+			return vista;
+		}
+		
+		c.getEmpleados().add(empleado.get());
+		try {
+			citaService.saveCita(c);
+		} catch (EmpleadoYCitaDistintoTallerException e) {
+			model.put("message", "No puedes atender una cita de otro taller diferente al que trabajas");
+			model.addAttribute("messageType", "danger");
+			return vista;
+		}
+		
+		model.put("message", "Te has unido correctamente");
 		return vista;
 	}
 	
@@ -277,26 +281,29 @@ public class CitaController {
 		String vista = listadoCitas(model);
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
-		if(empleado.isPresent()) {
-			Optional<Cita> cita = citaService.findCitaById(id);
-			if(cita.isPresent()) {
-				Cita c = cita.get();
-				if(c.getEmpleados().contains(empleado.get())) {
-					c.getEmpleados().remove(empleado.get());
-					citaService.saveCita(c);
-					model.put("message", "Te has quitado correctamente");
-				}else {
-					model.put("message", "No estabas atendiendo la cita");	
-					model.put("messageType", "warning");				
-				}
-			}else {
-				model.put("message", "Cita no encontrada");
-				model.put("messageType", "warning");
-			}
-		}else {
+		if(!empleado.isPresent()) {
 			model.put("message", "Empleado no encontrado");
 			model.put("messageType", "warning");
+			return vista;
 		}
+		
+		Optional<Cita> cita = citaService.findCitaById(id);
+		if(!cita.isPresent()) {
+			model.put("message", "Cita no encontrada");
+			model.put("messageType", "warning");
+			return vista;
+		}
+		
+		Cita c = cita.get();
+		if(!c.getEmpleados().contains(empleado.get())) {
+			model.put("message", "No estabas atendiendo la cita");	
+			model.put("messageType", "warning");		
+			return vista;
+		}
+		
+		c.getEmpleados().remove(empleado.get());
+		citaService.saveCita(c);
+		model.put("message", "Te has quitado correctamente");
 		return vista;
 	}
 }
