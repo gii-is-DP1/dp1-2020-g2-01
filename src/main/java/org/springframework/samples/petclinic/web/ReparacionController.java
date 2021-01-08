@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/reparaciones")
@@ -93,21 +92,21 @@ public class ReparacionController {
 	}
 
 	@PostMapping(value = "/save")
-	public String guardarReparacion(@RequestParam(value="empleados", required=false) List<Empleado> empleados, @Valid Reparacion reparacion, BindingResult result, ModelMap model) {
+	public String guardarReparacion(@Valid Reparacion reparacion, BindingResult result, ModelMap model) {
 		String vista;
 		
 		//Al hacer RequestParam con la lista vacía da null, como se añade los empleados a mano a la reparación @Valid no comprueba el @NotNull
 		//de empleados
-		if(result.hasErrors() || empleados==null) { 
-			if(empleados==null) {
-				result.rejectValue("empleados", "Se debe escoger al menos un empleado", "Se debe escoger al menos un empleado");
-			}
+		if(result.hasErrors()) { 
+//			if(empleados==null) {
+//				result.rejectValue("empleados", "Se debe escoger al menos un empleado", "Se debe escoger al menos un empleado");
+//			}
 			model.addAttribute("reparacion", reparacion);
 			vista = "reparaciones/editReparacion";
 		
 		} else {
 			try {
-				reparacion.setEmpleados(empleados);
+//				reparacion.setEmpleados(empleados);
 				reparacionService.saveReparacion(reparacion);
 			
 			} catch (FechasReparacionException e) {

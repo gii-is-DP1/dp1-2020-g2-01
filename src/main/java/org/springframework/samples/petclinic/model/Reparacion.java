@@ -55,6 +55,7 @@ public class Reparacion extends BaseEntity {
 	
 	//Reparacioon->Empleado, ManyToMany
 	@NotNull
+	@NotEmpty
 	@ManyToMany
 	private Collection<Empleado> empleados;
 	
