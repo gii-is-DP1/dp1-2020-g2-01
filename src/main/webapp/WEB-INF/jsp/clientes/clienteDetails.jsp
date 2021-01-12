@@ -4,6 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="cliente">
 <style>
@@ -44,10 +46,12 @@
     <label class="col-sm-4">Usuario: </label>${cliente.user.username}
   </div>
 </div>
+<sec:authorize access="hasAuthority('cliente')">
    <spring:url value="/clientes/update/{username}" var="clienteUrl">
    		<spring:param name="username" value="${cliente.user.username}"/>
    </spring:url>
        	<a href="${fn:escapeXml(clienteUrl)}" class="btn btn-success">Editar perfil</a>
+</sec:authorize>
 </div>
 <div class="col-sm-6">
 <div class="panel panel-success">
@@ -56,9 +60,7 @@
   </div>
   <petclinic:tablaVehiculos/>
 </div>
-</div>
 <c:if test="${not empty cita}">
-	<div class="col-sm-6">
 	<div class="panel panel-primary">
 	  <div class="panel-heading">
 	    <h3 class="panel-title">Próxima cita</h3>
@@ -100,8 +102,19 @@
 	      	</div>
 		  </div>
 	</div>
-	</div>
 </c:if>
+<sec:authorize access="hasAuthority('cliente')">
+		<a class="col-sm-4 btn btn-success" href="/vehiculos/new"><span class="glyphicon glyphicon-plus"></span> Añadir vehiculo</a>
+       	<a class="col-sm-offset-4 col-sm-4 btn btn-success" href="/citas/new"><span class="glyphicon glyphicon-plus"></span> Añadir cita</a>
+</sec:authorize>
+<sec:authorize access="hasAuthority('admin')">
+		<spring:url value="/citas/new/{username}" var="citaUrl">
+        <spring:param name="username" value="${cliente.user.username}"/>
+        </spring:url>
+        <a class="col-sm-offset-8 col-sm-4 btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cita
+		</a>
+</sec:authorize>
+</div>
 </div>
 	
 	

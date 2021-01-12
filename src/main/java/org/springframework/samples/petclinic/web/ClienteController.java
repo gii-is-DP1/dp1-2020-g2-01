@@ -73,6 +73,7 @@ public class ClienteController {
 		if(username.equals(username2) || auth.equals("admin")) {
 			model.addAttribute("cliente", cliente.get());
 			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente.get()));
+			model.addAttribute("sinNombre", "sinNombre");
 			
 			List<Cita> citas = citaService.findByCliente(cliente.get());
 			Comparator<Cita> ordenarPorFechaYHora = Comparator.comparing(Cita::getFecha)

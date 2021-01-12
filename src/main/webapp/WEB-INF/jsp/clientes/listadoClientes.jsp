@@ -6,16 +6,14 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="clientes">
-    <h2>Clientes</h2>
+    <h2 class="col-sm-2">Clientes</h2>
     
-    <td>
+
     	<spring:url value="/clientes/new" var="clienteUrl">
         </spring:url>
-       	<a class="btn btn-success" href="${fn:escapeXml(clienteUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cliente</a>
+       	<a class="btn btn-success col-sm-offset-8 col-sm-2" href="${fn:escapeXml(clienteUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cliente</a>
 
-                
-    </td>
-    
+    <div class="col-sm-12" style="height:5px"></div>
     <table id="clientesTable" class="table table-striped">
         <thead>
         <tr>
@@ -23,58 +21,53 @@
             <th>Apellidos</th>
             <th>DNI</th>
             <th>E-mail</th>
-            <th>Fecha de Nacimiento</th>
             <th>Teléfono</th>
-            <th>Vehículos</th>
             <th>Facturas</th>
-            <th>Nombre de usuario</th>
+            <th>Detalles</th>
             <th></th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${clientes}" var="clientes">
+        <c:forEach items="${clientes}" var="cliente">
             <tr>
                <td>
-                    <c:out value="${clientes.nombre}"/>
+                    <c:out value="${cliente.nombre}"/>
                 </td>
             
                 <td>
-                    <c:out value="${clientes.apellidos}"/>
+                    <c:out value="${cliente.apellidos}"/>
                 </td>
                 
                 <td>
-                   <c:out value="${clientes.dni}"/>
+                   <c:out value="${cliente.dni}"/>
                 </td>
                 <td>
-                   <c:out value="${clientes.email}"/>
-                </td>
-                
-                <td>
-                   <c:out value="${clientes.fechaNacimiento}"/>
+                   <c:out value="${cliente.email}"/>
                 </td>
                 <td>
-                   <c:out value="${clientes.telefono}"/>
-                </td>
-                <td><spring:url value="/vehiculos/listadoVehiculos/{username}" var="clienteUrl">
-                        <spring:param name="username" value="${clientes.user.username}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(clienteUrl)}">
-                    <span class="glyphicon glyphicon-eye-open"></span></a>
+                   <c:out value="${cliente.telefono}"/>
                 </td>
        			<td><spring:url value="/facturas/listadoFacturas/{username}" var="clienteUrl">
-                        <spring:param name="username" value="${clientes.user.username}"/>
+                        <spring:param name="username" value="${cliente.user.username}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(clienteUrl)}">
-                    <span class="glyphicon glyphicon-eye-open"></span></a>
+                    <span class="glyphicon glyphicon-list-alt"></span></a>
                 </td>
+                
                 <td>
-                   <c:out value="${clientes.user.username}"/>
+                <spring:url value="/clientes/clienteDetails/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${cliente.user.username}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(clienteUrl)}">
+                    	<span class="glyphicon glyphicon-eye-open"></span></a>
+                	
+                
                 </td>
                 
                 <td>
                 <spring:url value="/clientes/update/{username}" var="clienteUrl">
-                        <spring:param name="username" value="${clientes.user.username}"/>
+                        <spring:param name="username" value="${cliente.user.username}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(clienteUrl)}">
                     	<span class="glyphicon glyphicon-pencil"></span></a>
@@ -86,7 +79,7 @@
                  <td>
                 	
                 <spring:url value="/clientes/delete/{username}" var="clienteUrl">
-                        <spring:param name="username" value="${clientes.user.username}"/>
+                        <spring:param name="username" value="${cliente.user.username}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(clienteUrl)}">
 						<span class="glyphicon glyphicon-trash"></span></a>
