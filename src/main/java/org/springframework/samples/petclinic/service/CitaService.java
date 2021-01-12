@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
@@ -42,7 +43,7 @@ public class CitaService {
 	
 	@Transactional(readOnly = true)
 	public List<Cita> findAll() throws DataAccessException {
-		return citaRepository.findAll();
+		return citaRepository.findAll(Sort.by(Sort.Direction.ASC, "fecha", "hora"));
 	}
 	
 	@Transactional(readOnly = true)
@@ -52,7 +53,7 @@ public class CitaService {
 	
 	@Transactional(readOnly = true)
 	public List<Cita> findCitaByTallerUbicacion(String ubicacion) throws DataAccessException {
-		return citaRepository.findCitaByTallerUbicacion(ubicacion);
+		return citaRepository.findCitaByTallerUbicacion(ubicacion, Sort.by(Sort.Direction.ASC, "fecha", "hora"));
 	}
 	
 	@Transactional
@@ -110,7 +111,7 @@ public class CitaService {
 
 	@Transactional(readOnly=true)
 	public List<Cita> findByCliente(Cliente cliente) throws DataAccessException{
-		return citaRepository.findByUsername(cliente);
+		return citaRepository.findByUsername(cliente, Sort.by(Sort.Direction.ASC, "fecha", "hora"));
 	}
 	
 	

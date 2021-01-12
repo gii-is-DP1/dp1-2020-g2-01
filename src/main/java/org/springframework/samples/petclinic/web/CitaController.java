@@ -1,10 +1,8 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
@@ -79,10 +77,7 @@ public class CitaController {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
 		if(cliente.isPresent()) {
-			List<Cita> citas = citaService.findByCliente(cliente.get());
-			Comparator<Cita> ordenarPorFechaYHora = Comparator.comparing(Cita::getFecha)
-					.thenComparing(Comparator.comparing(Cita::getHora));
-			model.put("citas", citas.stream().sorted(ordenarPorFechaYHora).collect(Collectors.toList()));
+			model.put("citas", citaService.findByCliente(cliente.get())); // Ya están ordenadas
 			
 		}else {
 			String ubicacion = "";
@@ -92,11 +87,7 @@ public class CitaController {
 			}else {
 				// Es un administrador y se buscará mediante el administradorService
 			}
-			
-			List<Cita> citas = citaService.findCitaByTallerUbicacion(ubicacion);
-			Comparator<Cita> ordenarPorFechaYHora = Comparator.comparing(Cita::getFecha)
-					.thenComparing(Comparator.comparing(Cita::getHora));
-			model.put("citas", citas.stream().sorted(ordenarPorFechaYHora).collect(Collectors.toList()));
+			model.put("citas", citaService.findCitaByTallerUbicacion(ubicacion)); // Ya están ordenadas
 		}
 		return vista;
 	}
