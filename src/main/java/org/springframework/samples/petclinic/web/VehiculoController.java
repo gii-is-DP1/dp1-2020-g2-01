@@ -59,7 +59,6 @@ public class VehiculoController {
 		return vista;
 		
 	}
-
 	
 	@GetMapping(value = "/new")
 	public String crearVehiculo(ModelMap model) {
@@ -80,16 +79,14 @@ public class VehiculoController {
 			
 			//preguntar esta parte, ahora mismo no deja añadir o editar
 			
-			if(cliente.isPresent()) {  
-				vehiculo.setCliente(cliente.get());
-			} else {
+			if(!cliente.isPresent()) {  
 				model.addAttribute("message", "Ha habido un error con el cliente");
 				vista = listadoVehiculos(model);
 				return vista;
 			} 
 			
 			//
-			
+			vehiculo.setCliente(cliente.get());
 			
 			try { //comprobar que la matrícula no está duplicada
 				vehiculoService.saveVehiculo(vehiculo);

@@ -56,52 +56,57 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${citas}" var="citas">
+        <c:forEach items="${citas}" var="cita">
             <tr>
                 
                 <td>
-                <p class="text-center" style="font-size: 65%; margin: 0">${citas.fecha.year}</p>
-                <c:set var = "monthParsed" value = "${fn:substring(citas.fecha.month, 0, 3)}" />
+                <p class="text-center" style="font-size: 65%; margin: 0">${cita.fecha.year}</p>
+                <c:set var = "monthParsed" value = "${fn:substring(cita.fecha.month, 0, 3)}" />
                 <p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
-                <p class="text-center"  style="margin: 0"><strong>${citas.fecha.dayOfMonth}</strong></p>
+                <p class="text-center"  style="margin: 0"><strong>${cita.fecha.dayOfMonth}</strong></p>
                 </td>
                 
                 <td>
                 <span class="helper"></span>
-                   <p><strong>${citas.hora}:00</strong></p>
+                   <p><strong>${cita.hora}:00</strong></p>
                 </td>
                 <sec:authorize access="hasAuthority('admin')">
                 <td>
-                    <p><c:out value="${citas.vehiculo.cliente.nombre}"/></p>
-                    <p><small><c:out value="${citas.vehiculo.cliente.apellidos}"/></small></p>
+                    <c:out value="${cita.vehiculo.cliente.nombre}"/>
+	               		<spring:url value="/clientes/clienteDetails/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${cita.vehiculo.cliente.user.username}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(clienteUrl)}">
+                    	<span class="glyphicon glyphicon-eye-open"></span></a>
+                    <p><small><c:out value="${cita.vehiculo.cliente.apellidos}"/></small></p>
                 </td>
 				</sec:authorize>
             
                 <td>
-                    <p><c:out value="${citas.vehiculo.modelo}"/></p>
-                    <p><small><c:out value="${citas.vehiculo.matricula}"/></small></p>
+                    <p><c:out value="${cita.vehiculo.modelo}"/></p>
+                    <p><small><c:out value="${cita.vehiculo.matricula}"/></small></p>
                 </td>
                 
                 <td>
                 <span class="helper"></span>
                    <p>
                    <c:set var="i" value="0"/>
-                   <c:forEach items="${citas.tiposCita}" var="tipo">
+                   <c:forEach items="${cita.tiposCita}" var="tipo">
                    <c:out value="${tipo.tipo}"/>
                    <c:set var="i" value="${i + 1}"/>
-                   <c:if test="${ fn:length(citas.tiposCita) > i}">, </c:if>
+                   <c:if test="${ fn:length(cita.tiposCita) > i}">, </c:if>
                    </c:forEach>
                    </p>
                 </td>
                 <td>
                 <span class="helper"></span>
-                	<p><c:out value="${citas.taller.ubicacion}"/></p>
+                	<p><c:out value="${cita.taller.ubicacion}"/></p>
                 </td>
                 <sec:authorize access="hasAuthority('admin')">
                 <td>
 					<sec:authentication property="name" var="username"/>
 					<c:set var="empleadoEnCita" value="false"/>
-					<c:forEach var="empleado" items="${citas.empleados}">
+					<c:forEach var="empleado" items="${cita.empleados}">
 						<c:if test="${empleado.usuario.username == username}">
 							<c:set var="empleadoEnCita" value="true"/>							
 						</c:if>
@@ -109,22 +114,22 @@
 					<c:choose>
 						<c:when test="${empleadoEnCita}">
 							<strong>Atiendes esta cita</strong></br>
-							<a href="/citas/noAtender/${citas.id}">No puedo atender</a>	
+							<a href="/citas/noAtender/${cita.id}">No puedo atender</a>	
 						</c:when>
 						<c:otherwise>
-							<a href="/citas/atender/${citas.id}">Atender la cita</a>
+							<a href="/citas/atender/${cita.id}">Atender la cita</a>
 						</c:otherwise>
 					</c:choose>
                 </td>
 				</sec:authorize>
                 <sec:authorize access="hasAuthority('admin')">
                 <td>
-                	<a href="/reparaciones/new/${citas.id}">Crear reparación</a>
+                	<a href="/reparaciones/new/${cita.id}">Crear reparación</a>
                 </td>
                 </sec:authorize>
                 <td>
                 	<spring:url value="/citas/update/{citaId}" var="citaUrl">
-                        <spring:param name="citaId" value="${citas.id}"/>
+                        <spring:param name="citaId" value="${cita.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(citaUrl)}">
                     	<span class="helper glyphicon glyphicon-pencil"></span>
@@ -135,7 +140,7 @@
                 
                  <td>
                 	<spring:url value="/citas/delete/{citaId}" var="citaUrl">
-                        <spring:param name="citaId" value="${citas.id}"/>
+                        <spring:param name="citaId" value="${cita.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(citaUrl)}">
 						<span class="helper glyphicon glyphicon-trash"></span>

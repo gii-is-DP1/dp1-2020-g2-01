@@ -167,6 +167,24 @@ public class CitaController {
 		return vista;
 	}
 	
+	@GetMapping(value = "/new/{username}")
+	public String crearCitaParaCliente(@PathVariable("username") String username, ModelMap model) {
+		String vista = "citas/editCita";
+		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
+		if(cliente.isPresent()) {
+			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente.get()));
+			model.addAttribute("tipos", tipoCitaService.findAll());
+			model.addAttribute("citas", citaService.findAll());
+			model.addAttribute("talleres", tallerService.findAll());
+			model.addAttribute("cita", new Cita());
+		}else {
+			model.addAttribute("message", "El cliente debe estar registrado");
+			model.addAttribute("messageType", "warning");
+			vista = listadoCitas(model);			
+		}
+		return vista;
+	}
+	
 	@GetMapping(value="/update/{citaId}")
 	public String updateCita(@PathVariable("citaId") int id, ModelMap model) {
 		Optional<Cita> c = citaService.findCitaById(id);
@@ -181,6 +199,17 @@ public class CitaController {
 			model.addAttribute("message", "No puedes modificar una cita que ya ha pasado");
 			model.addAttribute("messageType", "warning");
 			return listadoCitas(model);
+		}
+		
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
+		
+		if(cliente.isPresent()) {
+			if(!cliente.get().equals(cita.getVehiculo().getCliente())) {
+				model.addAttribute("message", "No puedes modificar una cita que no es tuya");
+				model.addAttribute("messageType", "warning");
+				return listadoCitas(model);
+			}
 		}
 		
 		model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cita.getVehiculo().getCliente()));

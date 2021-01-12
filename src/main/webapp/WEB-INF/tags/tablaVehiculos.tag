@@ -12,9 +12,11 @@
             <th>Matrícula</th>
             <th>Modelo</th>
             <th>Tipo de vehículo</th>
+            <c:if test="${empty sinNombre}">
             <sec:authorize access="hasAuthority('admin')">
             <th>Cliente</th>
             </sec:authorize>
+            </c:if>
             <th>Número de bastidor</th>
             <sec:authorize access="hasAuthority('cliente')">
             <th></th>
@@ -39,14 +41,21 @@
                 <td>
                    <c:out value="${vehiculo.tipoVehiculo.tipo}"/>
                 </td>
-                
+                <c:if test="${empty sinNombre}">
                	<sec:authorize access="hasAuthority('admin')">
 	             	<td class="textoTabla">
-	               		<p><c:out value="${vehiculo.cliente.nombre}"/></p>
+	             		
+	               		<c:out value="${vehiculo.cliente.nombre}"/>
+	               		<spring:url value="/clientes/clienteDetails/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${vehiculo.cliente.user.username}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(clienteUrl)}">
+                    	<span class="glyphicon glyphicon-eye-open"></span></a>
+	               		
                     	<p><small><c:out value="${vehiculo.cliente.apellidos}"/></small></p>
 	                </td>
                	</sec:authorize>
-               	
+               	</c:if>
                 
                 <td>
                    <c:out value="${vehiculo.numBastidor}"/>
