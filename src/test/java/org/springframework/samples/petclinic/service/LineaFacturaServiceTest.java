@@ -19,8 +19,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.EjemplarRecambio;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.LineaFactura;
+import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
@@ -67,6 +69,14 @@ class LineaFacturaServiceTest {
 	@Autowired
 	protected ClienteService clienteService;
 	
+	
+	@Autowired
+	protected RecambioService recambioService;
+	
+	@Autowired
+	protected EjemplarRecambioService ejemplarRecambioService;
+	
+	
 	@Test
 	@Transactional
 	void shouldInsertLineaFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException{
@@ -74,6 +84,23 @@ class LineaFacturaServiceTest {
 		LineaFactura lf = new LineaFactura();
 		lf.setDescuento(0);
 		lf.setDescripcion("Descripcion de prueba de una factura");
+		
+	///////
+		
+		Recambio rec = new Recambio();
+		rec.setName("Neumáticos Pirelli");
+		rec.setCantidadActual(100);
+		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+		
+		recambioService.saveRecambio(rec);
+		
+		EjemplarRecambio ej = new EjemplarRecambio();
+		ej.setRecambio(rec);
+		
+		ejemplarRecambioService.saveEjemplarRecambio(ej);
+		
+		
+	///////
 		
 		Reparacion r = new Reparacion();
 
@@ -160,7 +187,7 @@ class LineaFacturaServiceTest {
 		
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
-		lf.setRecambio("Hay que cambiarlo cuando se haga recambio.");
+		lf.setEjemplarRecambio(ej);
 		lfService.saveLineaFactura(lf);
 		
 		assertEquals(lf, lfService.findLineaFacturaById(lf.getId()).get());
@@ -175,6 +202,25 @@ class LineaFacturaServiceTest {
 		lf.setDescuento(0);
 		//Sin descripción
 		
+	///////
+		
+			Recambio rec = new Recambio();
+			rec.setName("Neumáticos Pirelli");
+			rec.setCantidadActual(100);
+			rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+			
+			recambioService.saveRecambio(rec);
+			
+			EjemplarRecambio ej = new EjemplarRecambio();
+			ej.setRecambio(rec);
+			
+			ejemplarRecambioService.saveEjemplarRecambio(ej);
+			
+			
+		///////
+		
+		
+		
 		Reparacion r = new Reparacion();
 
 		r.setDescripcion("Una descripcion hola que tal");
@@ -260,7 +306,7 @@ class LineaFacturaServiceTest {
 		
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
-		lf.setRecambio("Hay que cambiarlo cuando se haga recambio.");
+		lf.setEjemplarRecambio(ej);
 
 		assertThrows(ConstraintViolationException.class, () -> this.lfService.saveLineaFactura(lf));
 	}
@@ -273,6 +319,23 @@ class LineaFacturaServiceTest {
 		lf.setDescuento(0);
 		lf.setDescripcion("Descripcion de prueba de una factura");
 		
+	///////
+		
+			Recambio rec = new Recambio();
+			rec.setName("Neumáticos Pirelli");
+			rec.setCantidadActual(100);
+			rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+			
+			recambioService.saveRecambio(rec);
+			
+			EjemplarRecambio ej = new EjemplarRecambio();
+			ej.setRecambio(rec);
+			
+			ejemplarRecambioService.saveEjemplarRecambio(ej);
+			
+			
+		///////
+		
 		Reparacion r = new Reparacion();
 
 		r.setDescripcion("Una descripcion hola que tal");
@@ -358,7 +421,7 @@ class LineaFacturaServiceTest {
 		
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
-		lf.setRecambio("Hay que cambiarlo cuando se haga recambio.");
+		lf.setEjemplarRecambio(ej);
 		lfService.saveLineaFactura(lf);
 		assertTrue(lfService.findLineaFacturaById(lf.getId()).isPresent());
 		

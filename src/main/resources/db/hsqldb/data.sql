@@ -160,6 +160,22 @@ INSERT INTO users(username,password,enabled) VALUES ('fraborcar', @CONTRASENA,tr
 INSERT INTO authorities(username,authority) VALUES ('fraborcar','admin');
 INSERT INTO clientes(id, dni, nombre, apellidos, telefono, fecha_nacimiento, email, username) VALUES (100, '34567890A','Francisco', 'Borrego', '646123456', '2000-02-20', 'tallersevillacustoms@gmail.com', 'fraborcar');
 
+
+-- Pruebas con recambios
+
+INSERT INTO proveedores(id, name, nif, telefono, email) VALUES (201, 'Pablo', '12345678H', '665112233', 'gumersindo@gmail.com');
+
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (100, 'Neumático Michelin', 1, 10);
+INSERT INTO ejemplarrecambios (id, recambio_id) VALUES (1, 100);
+
+
+INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 100);
+
+
+--
+
+
+
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1111AAB', 'VSSZZZ6KZ1R149943', 'Opel Corsa', 1, 100);
 
 
@@ -182,8 +198,8 @@ INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id) VALUES (201,'2021-10-
 INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
-INSERT INTO linea_factura(precio_base, descuento, reparacion, recambio, descripcion) VALUES (50, 15, 1, 'rueda', '2 ruedas delanteras');
-INSERT INTO linea_factura(precio_base, descuento, reparacion, recambio, descripcion) VALUES (40, 0, 1, 'Mano de obra', '2h de trabajo');
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, ejemplar_recambio_id) VALUES (50, 15, 1, '2 ruedas delanteras', 1);
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion) VALUES (40, 0, 1,'2h de trabajo');
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
 
@@ -194,16 +210,4 @@ INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
 
 
 
--- Pruebas con recambios
 
-INSERT INTO proveedores(id, name, nif, telefono, email) VALUES (201, 'Pablo', '12345678H', '665112233', 'gumersindo@gmail.com');
-
-INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (100, 'Neumático Michelin', 1, 10);
-INSERT INTO ejemplarrecambios (id, recambio_id) VALUES (1, 100);
-
-
-INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 100);
-
-
-
---

@@ -19,9 +19,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.EjemplarRecambio;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Factura;
 import org.springframework.samples.petclinic.model.LineaFactura;
+import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
@@ -65,11 +67,17 @@ class FacturaServiceTest {
 	protected EmpleadoService empleadoService;
 	
 	@Autowired
-	protected TallerService tallerService;
-	
+	protected TallerService tallerService;	
 
 	@Autowired
 	protected ClienteService clienteService;
+	
+	@Autowired
+	protected RecambioService recambioService;
+	
+	@Autowired
+	protected EjemplarRecambioService ejemplarRecambioService;
+	
 	
 	@Test
 	@Transactional
@@ -83,6 +91,24 @@ class FacturaServiceTest {
 		LineaFactura lf = new LineaFactura();
 		lf.setDescuento(0);
 		lf.setDescripcion("Descripcion de prueba de una factura");
+		
+		///////
+		
+		Recambio rec = new Recambio();
+		rec.setName("Neumáticos Pirelli");
+		rec.setCantidadActual(100);
+		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+		
+		recambioService.saveRecambio(rec);
+		
+		EjemplarRecambio ej = new EjemplarRecambio();
+		ej.setRecambio(rec);
+		
+		ejemplarRecambioService.saveEjemplarRecambio(ej);
+		
+		
+		///////
+		
 		
 		Reparacion r = new Reparacion();
 
@@ -169,7 +195,7 @@ class FacturaServiceTest {
 		
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
-		lf.setRecambio("Hay que cambiarlo cuando se haga recambio.");
+		lf.setEjemplarRecambio(ej);
 		lFService.saveLineaFactura(lf);
 		
 		lineas.add(lf);
@@ -192,6 +218,24 @@ class FacturaServiceTest {
 		lf.setDescuento(0);
 		lf.setDescripcion("Descripcion bonita");
 		
+		
+	///////
+		
+		Recambio rec = new Recambio();
+		rec.setName("Neumáticos Pirelli");
+		rec.setCantidadActual(100);
+		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+		
+		recambioService.saveRecambio(rec);
+		
+		EjemplarRecambio ej = new EjemplarRecambio();
+		ej.setRecambio(rec);
+		
+		ejemplarRecambioService.saveEjemplarRecambio(ej);
+		
+		
+	///////
+		
 		Reparacion r = new Reparacion();
 
 		r.setDescripcion("Una descripcion hola que tal");
@@ -277,7 +321,7 @@ class FacturaServiceTest {
 		
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
-		lf.setRecambio("Hay que cambiarlo cuando se haga recambio.");
+		lf.setEjemplarRecambio(ej);
 		lFService.saveLineaFactura(lf);
 		
 		lineas.add(lf);
@@ -298,6 +342,23 @@ class FacturaServiceTest {
 		lf.setDescuento(0);
 		lf.setDescripcion("Descripcion de prueba de una factura");
 		
+	///////
+		
+		Recambio rec = new Recambio();
+		rec.setName("Neumáticos Pirelli");
+		rec.setCantidadActual(100);
+		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+		
+		recambioService.saveRecambio(rec);
+		
+		EjemplarRecambio ej = new EjemplarRecambio();
+		ej.setRecambio(rec);
+		
+		ejemplarRecambioService.saveEjemplarRecambio(ej);
+		
+		
+	///////
+		
 		Reparacion r = new Reparacion();
 
 		r.setDescripcion("Una descripcion hola que tal");
@@ -383,7 +444,7 @@ class FacturaServiceTest {
 		
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
-		lf.setRecambio("Hay que cambiarlo cuando se haga recambio.");
+		lf.setEjemplarRecambio(ej);
 		lFService.saveLineaFactura(lf);
 		
 		lineas.add(lf);
