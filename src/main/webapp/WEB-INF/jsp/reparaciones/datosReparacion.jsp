@@ -98,7 +98,7 @@
 	<table class="table table-striped">
        <thead>
        <tr>
-           <th>Recambio</th>
+      	   <th>Recambio</th>
            <th>Descripcion</th>
            <th>Precio base</th>
            <th>Descuento</th>
@@ -111,7 +111,7 @@
     <tbody>
 		<c:forEach var="lineaFactura" items="${reparacion.lineaFactura}">
 		<tr>
-			<td>${lineaFactura.recambio}</td>
+			<td>${lineaFactura.ejemplarRecambio.recambio.name}</td>
 			<td>${lineaFactura.descripcion}</td>
 			<td>${lineaFactura.precioBase}<span class="glyphicon glyphicon-eur"></span></td>
 			<td>${lineaFactura.descuento}%</td>
