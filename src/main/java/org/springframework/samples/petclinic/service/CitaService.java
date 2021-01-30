@@ -25,17 +25,21 @@ import javassist.NotFoundException;
 @Service
 public class CitaService {
 	
-	@Autowired
+	
 	private CitaRepository citaRepository;
-	
-	@Autowired
 	private SendEmailService sendEmailService;
-	
-	@Autowired
 	private ClienteService clienteService;
+	private VehiculoService vehiculoService;
 	
 	@Autowired
-	private VehiculoService vehiculoService;
+	public CitaService(CitaRepository citaRepository, SendEmailService sendEmailService,
+			ClienteService clienteService, VehiculoService vehiculoService) {
+		this.citaRepository = citaRepository;
+		this.sendEmailService = sendEmailService;
+		this.clienteService = clienteService;
+		this.vehiculoService = vehiculoService;
+		
+	}
 	
 	
 	@Transactional
