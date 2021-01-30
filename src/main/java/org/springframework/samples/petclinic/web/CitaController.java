@@ -12,7 +12,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
-import org.springframework.samples.petclinic.model.Vehiculo;
+import org.springframework.samples.petclinic.model.Taller;
+import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.EmpleadoService;
@@ -20,6 +21,7 @@ import org.springframework.samples.petclinic.service.TallerService;
 import org.springframework.samples.petclinic.service.TipoCitaService;
 import org.springframework.samples.petclinic.service.VehiculoService;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
+import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,9 +29,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javassist.NotFoundException;
 
 @Controller
 @RequestMapping("/citas")
@@ -66,6 +71,21 @@ public class CitaController {
 	@Autowired
 	protected EntityManager em;
 	
+	@ModelAttribute("tipos")
+	public List<TipoCita> tipos(){
+		return tipoCitaService.findAll();
+	}
+	
+	@ModelAttribute("citas")
+	public List<Cita> citas(){
+		return citaService.findAll();
+	}
+	
+	@ModelAttribute("talleres")
+	public List<Taller> talleres(){
+		return (List<Taller>) tallerService.findAll();
+	}
+	
 	@GetMapping(value="")
 	public String listado(ModelMap model) {
 		return "redirect:/citas/listadoCitas";
@@ -77,7 +97,7 @@ public class CitaController {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
 		if(cliente.isPresent()) {
-			model.put("citas", citaService.findByCliente(cliente.get())); // Ya están ordenadas
+			model.put("citas", citaService.findByCliente(cliente.get())); 
 			
 		}else {
 			String ubicacion = "";
@@ -87,7 +107,7 @@ public class CitaController {
 			}else {
 				// Es un administrador y se buscará mediante el administradorService
 			}
-			model.put("citas", citaService.findCitaByTallerUbicacion(ubicacion)); // Ya están ordenadas
+			model.put("citas", citaService.findCitaByTallerUbicacion(ubicacion)); 
 		}
 		return vista;
 	}
@@ -95,27 +115,8 @@ public class CitaController {
 	@PostMapping(value="/save/{citaId}")
 	public String saveCita(@PathVariable("citaId") Integer id, @Valid Cita cita, BindingResult result, ModelMap model) throws DataAccessException {
 		String vista;
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Optional<Cliente> c = clienteService.findClientesByUsername(username);
-		Cliente cliente = null;
-		if(c.isPresent()) {
-			List<Vehiculo> vehiculosCliente = vehiculoService.findVehiculosCliente(c.get());
-			if(!vehiculosCliente.contains(cita.getVehiculo())) {
-				cliente = c.get();
-				model.addAttribute("message", "El vehículo seleccionado no se encuentra");
-				model.addAttribute("messageType", "danger");
-			}else {
-				cliente = cita.getVehiculo().getCliente();
-			}
-		}else {
-			cliente = cita.getVehiculo().getCliente();
-		}
-		
-		if(result.hasErrors() || !cita.getVehiculo().getCliente().equals(cliente)) {
-			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente));
-			model.addAttribute("tipos", tipoCitaService.findAll());
-			model.addAttribute("talleres", tallerService.findAll());
-			model.addAttribute("citas", citaService.findAll());
+		if(result.hasErrors()) {
+			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cita.getVehiculo().getCliente()));
 			if(id != 0) {
 				cita.setId(id);
 			}
@@ -129,9 +130,17 @@ public class CitaController {
 			try {
 				citaService.saveCita(cita);
 				model.addAttribute("message", "Cita guardada successfully");
-			} catch (EmpleadoYCitaDistintoTallerException e) {
+				
+			}catch(EmpleadoYCitaDistintoTallerException e) {
 				model.addAttribute("message", "La cita y los empleados deben estar asignados al mismo taller");
 				model.addAttribute("messageType", "danger");
+				
+			}catch(NotAllowedException e) { // Un usuario ha intentado usar un vehiculo que no le pertenece
+				String username = SecurityContextHolder.getContext().getAuthentication().getName();
+				Cliente c = clienteService.findClientesByUsername(username).get();
+				model.addAttribute("message", "El vehículo seleccionado no se encuentra");
+				model.addAttribute("messageType", "danger");
+				model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(c));
 			}
 			
 			vista = listadoCitas(model);
@@ -141,14 +150,11 @@ public class CitaController {
 	
 	@GetMapping(value = "/new")
 	public String crearCita(ModelMap model) {
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		String vista = "citas/editCita";
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
 		if(cliente.isPresent()) {
 			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente.get()));
-			model.addAttribute("tipos", tipoCitaService.findAll());
-			model.addAttribute("citas", citaService.findAll());
-			model.addAttribute("talleres", tallerService.findAll());
 			model.addAttribute("cita", new Cita());
 		}else {
 			model.addAttribute("message", "Debes haber iniciado sesión como cliente");
@@ -164,9 +170,6 @@ public class CitaController {
 		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
 		if(cliente.isPresent()) {
 			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente.get()));
-			model.addAttribute("tipos", tipoCitaService.findAll());
-			model.addAttribute("citas", citaService.findAll());
-			model.addAttribute("talleres", tallerService.findAll());
 			model.addAttribute("cita", new Cita());
 		}else {
 			model.addAttribute("message", "El cliente debe estar registrado");
@@ -178,14 +181,15 @@ public class CitaController {
 	
 	@GetMapping(value="/update/{citaId}")
 	public String updateCita(@PathVariable("citaId") int id, ModelMap model) {
-		Optional<Cita> c = citaService.findCitaById(id);
-		if(!c.isPresent()) {
+		Cita cita = null;
+		try {
+			cita = citaService.findCitaById(id);
+		}catch(NotFoundException e) {
 			model.addAttribute("message", "Cita not found");
 			model.addAttribute("messageType", "warning");
 			return listadoCitas(model);
 		}
 		
-		Cita cita = c.get();
 		if(cita.getFecha().isBefore(LocalDate.now())) {
 			model.addAttribute("message", "No puedes modificar una cita que ya ha pasado");
 			model.addAttribute("messageType", "warning");
@@ -204,9 +208,6 @@ public class CitaController {
 		}
 		
 		model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cita.getVehiculo().getCliente()));
-		model.addAttribute("tipos", tipoCitaService.findAll());
-		model.addAttribute("citas", citaService.findAll());
-		model.addAttribute("talleres", tallerService.findAll());
 		model.addAttribute("cita", cita);
 		return "citas/editCita";
 	}
@@ -214,13 +215,14 @@ public class CitaController {
 	@GetMapping(value="/delete/{citaId}")
 	public String deleteCita(@PathVariable("citaId") int id, ModelMap model) {
 		String vista = listadoCitas(model);
-		Optional<Cita> c = citaService.findCitaById(id);
-		if(!c.isPresent()) {
+		Cita cita = null;
+		try {
+			cita = citaService.findCitaById(id);
+		}catch(NotFoundException e) {
 			model.addAttribute("message", "Cita not found");
 			return vista;
 		}
-
-		Cita cita = c.get();
+		
 		if(cita.getFecha().isBefore(LocalDate.now())) {
 			model.addAttribute("message", "No puedes modificar una cita que ya ha pasado");
 			model.addAttribute("messageType", "warning");
@@ -269,14 +271,14 @@ public class CitaController {
 			return vista;
 		}
 		
-		Optional<Cita> cita = citaService.findCitaById(id);
-		if(!cita.isPresent()) {
-			model.put("message", "Cita no encontrada");
-			model.put("messageType", "warning");
+		Cita c = null;
+		try {
+			c = citaService.findCitaById(id);
+		}catch(NotFoundException e) {
+			model.addAttribute("message", "Cita not found");
 			return vista;
 		}
 		
-		Cita c = cita.get();
 		if(c.getEmpleados().contains(empleado.get())) {
 			model.put("message", "Ya estás atendiendo a la cita");	
 			model.put("messageType", "warning");
@@ -290,6 +292,8 @@ public class CitaController {
 			model.put("message", "No puedes atender una cita de otro taller diferente al que trabajas");
 			model.addAttribute("messageType", "danger");
 			return vista;
+		}catch(Exception e) {
+			
 		}
 		
 		model.put("message", "Te has unido correctamente");
@@ -297,7 +301,7 @@ public class CitaController {
 	}
 	
 	@GetMapping(value="/noAtender/{citaId}")
-	public String eliminarEmpleadoDeCita(@PathVariable("citaId") int id, ModelMap model) throws DataAccessException, EmpleadoYCitaDistintoTallerException {
+	public String eliminarEmpleadoDeCita(@PathVariable("citaId") int id, ModelMap model) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
 		String vista = listadoCitas(model);
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
@@ -307,14 +311,14 @@ public class CitaController {
 			return vista;
 		}
 		
-		Optional<Cita> cita = citaService.findCitaById(id);
-		if(!cita.isPresent()) {
-			model.put("message", "Cita no encontrada");
-			model.put("messageType", "warning");
+		Cita c = null;
+		try {
+			c = citaService.findCitaById(id);
+		}catch(NotFoundException e) {
+			model.addAttribute("message", "Cita not found");
 			return vista;
 		}
 		
-		Cita c = cita.get();
 		if(!c.getEmpleados().contains(empleado.get())) {
 			model.put("message", "No estabas atendiendo la cita");	
 			model.put("messageType", "warning");		

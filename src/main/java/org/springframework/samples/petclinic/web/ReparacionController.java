@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javassist.NotFoundException;
+
 @Controller
 @RequestMapping("/reparaciones")
 public class ReparacionController {
@@ -71,23 +73,24 @@ public class ReparacionController {
 	@GetMapping(value = "/new/{citaId}")
 	public String crearReparacion(@PathVariable("citaId") int id, ModelMap model) {
 		String vista = "reparaciones/editReparacion";
-		Optional<Cita> c = citaService.findCitaById(id);
-		if(c.isPresent()) {
+		try {
+			Cita c = citaService.findCitaById(id);
 			List<Cita> citas = citaService.findCitaSinReparacion();
-			if(!citas.contains(c.get())) {
+			if(!citas.contains(c)) {
 				model.addAttribute("message", "Esta cita ya tiene una reparación asociada");
 				model.addAttribute("messageType", "warning");
 				vista = listadoReparaciones(model);
 			}else {
 				Reparacion reparacion = new Reparacion();
-				reparacion.setCita(c.get());
+				reparacion.setCita(c);
 				model.addAttribute("reparacion", reparacion);
 			}
-		}else {
+		}catch(NotFoundException e) {
 			model.addAttribute("message", "Cita no encontrada");
 			model.addAttribute("messageType", "warning");
 			vista = listadoReparaciones(model);
 		}
+
 		return vista;
 	}
 
