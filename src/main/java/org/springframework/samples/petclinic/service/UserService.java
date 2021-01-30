@@ -19,9 +19,13 @@ package org.springframework.samples.petclinic.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,8 +38,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
 
+	//si se hace Autowired salta error en las pruebas porque no se importa SecurityConfiguration.java con DataJpaTest
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	
 	private UserRepository userRepository;
-
+	
 	@Autowired
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -44,6 +51,7 @@ public class UserService {
 	@Transactional
 	public void saveUser(User user) throws DataAccessException {
 		user.setEnabled(true);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
 	

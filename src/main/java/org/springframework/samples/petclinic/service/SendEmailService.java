@@ -18,8 +18,8 @@ public class SendEmailService{
 	private JavaMailSender jms;
 	
 	 @Autowired
-	 public JavaMailSender setMailSender() {
-		 return this.jms= getJavaMailSender();
+	 public JavaMailSender setMailSender(JavaMailSender jms) {
+		 return this.jms= jms;
 	 }
 	 
 	 public void sendEmail(String to, String subject, String content) {

@@ -88,6 +88,11 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 --INSERT INTO clientes VALUES (1, 'Vargas Ruda', '12345678L', '2019-03-18', 'Francisco José','647194727', 'serarirud');
 --INSERT INTO vehiculos(id, matricula, num_bastidor, modelo) VALUES (100, '1234ABC', 'VSSZZZ6KZ1R149943', 'Ford Kuga');
 
+
+--CONTRASEÑA = 'Prueba123'
+SET @CONTRASENA = '$2a$10$JX6kTLbKV/FXUc11PwCl.e7nn6W9USLzZ1TKgIMXSdmTWGouRoaR6';
+
+
 INSERT INTO tipovehiculo(id,tipo) VALUES (1, 'COCHE');
 INSERT INTO tipovehiculo(id,tipo) VALUES (2, 'MOTO');
 INSERT INTO tipovehiculo(id,tipo) VALUES (3, 'BARCO');
@@ -120,7 +125,7 @@ INSERT INTO talleres(id, name, correo, telefono, ubicacion) VALUES (2, 'Taller S
 
 INSERT INTO proveedores(id, name, nif, telefono, email) VALUES (200, 'Gumersindo', '12345678A', '665112233', 'gumersindo@gmail.com');
 
-INSERT INTO users(username, password, enabled) VALUES ('jesfunrud', 'Prueba123', TRUE);
+INSERT INTO users(username, password, enabled) VALUES ('jesfunrud', @CONTRASENA, TRUE);
 INSERT INTO authorities(username, authority) VALUES ('jesfunrud', 'cliente');
 INSERT INTO clientes(id, dni, nombre, apellidos, fecha_nacimiento, telefono, email, username) VALUES (1, '11223344M', 'Jesus', 'Funes Ruda', '2000-02-20', '666339933', 'tallersevillacustoms@gmail.com', 'jesfunrud');
 
@@ -143,28 +148,28 @@ INSERT INTO citas_tipocita VALUES (103, 1);
 
 
 --
-INSERT INTO users(username,password,enabled) VALUES ('clienteEjemplo','Prueba123',true);
+INSERT INTO users(username,password,enabled) VALUES ('clienteEjemplo',@CONTRASENA ,true);
 INSERT INTO authorities(username,authority) VALUES ('clienteEjemplo','cliente');
 INSERT INTO clientes(id, dni, fecha_nacimiento, nombre, apellidos, telefono, email, username) VALUES (99, '12345678A','2000-02-20', 'Cliente', 'Ejemplo', '646123456', 'tallersevillacustoms@gmail.com', 'clienteEjemplo');
 
-INSERT INTO users(username,password,enabled) VALUES ('adminEjemplo','Prueba123',true);
+INSERT INTO users(username,password,enabled) VALUES ('adminEjemplo', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('adminEjemplo','admin');
 
 
-INSERT INTO users(username,password,enabled) VALUES ('fraborcar','Prueba123',true);
+INSERT INTO users(username,password,enabled) VALUES ('fraborcar', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('fraborcar','admin');
 INSERT INTO clientes(id, dni, nombre, apellidos, telefono, fecha_nacimiento, email, username) VALUES (100, '34567890A','Francisco', 'Borrego', '646123456', '2000-02-20', 'tallersevillacustoms@gmail.com', 'fraborcar');
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1111AAB', 'VSSZZZ6KZ1R149943', 'Opel Corsa', 1, 100);
 
 
-INSERT INTO users(username,password,enabled) VALUES ('empleado1','Prueba123',true);
+INSERT INTO users(username,password,enabled) VALUES ('empleado1', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('empleado1','admin');
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (100, 'Sech', '11111111A', 
 					'2000-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111111', 950, 'empleado1', 1);
 					
-INSERT INTO users(username,password,enabled) VALUES ('empleado2','Prueba123',true);
+INSERT INTO users(username,password,enabled) VALUES ('empleado2', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('empleado2','admin');					
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (101, 'Aguayo', '11111112A', 

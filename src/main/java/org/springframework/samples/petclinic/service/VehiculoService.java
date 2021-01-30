@@ -13,6 +13,7 @@ import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.repository.VehiculoRepository;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,8 +87,19 @@ public class VehiculoService {
 		return vehiculos;
 	}
 
+	@Transactional(readOnly=true)
 	public List<TipoVehiculo> findVehiculoTypes() {
 		return vehiculoRepository.findVehiculoTypes();
 	}
+	
+	
+	//Comprueba si el usuario logeado y el propietario del vehiculo que se quiere eliminar son el mismo
+	@Transactional(readOnly=true)
+	public Boolean comprobarUsuarioYPropietario(Integer vehiculoId, Vehiculo v) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		String propietario = v.getCliente().getUser().getUsername();
+		return username.equals(propietario);
+	}
+	
 
 }

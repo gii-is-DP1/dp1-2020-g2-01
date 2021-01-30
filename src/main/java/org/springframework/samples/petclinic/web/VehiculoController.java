@@ -77,7 +77,7 @@ public class VehiculoController {
 			vista = "vehiculos/editVehiculo";
 		} else {
 			
-			//preguntar esta parte, ahora mismo no deja añadir o editar
+			//Ahora mismo no deja añadir o editar como administrador
 			
 			if(!cliente.isPresent()) {  
 				model.addAttribute("message", "Ha habido un error con el cliente");
@@ -85,7 +85,7 @@ public class VehiculoController {
 				return vista;
 			} 
 			
-			//
+			
 			vehiculo.setCliente(cliente.get());
 			
 			try { //comprobar que la matrícula no está duplicada
@@ -105,9 +105,7 @@ public class VehiculoController {
 	public String initDeleteVehiculo(@PathVariable ("vehiculoId") int id, ModelMap model) {
 		String vista;
 		Vehiculo v = vehiculoService.findVehiculoById(id).get();
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		String propietario = v.getCliente().getUser().getUsername();
-		if(username.equals(propietario)) {
+		if(this.vehiculoService.comprobarUsuarioYPropietario(id, v)) {
 			if(!v.getCitas().isEmpty()) {
 				model.addAttribute("message", "No se puede borrar un vehículo con una cita asociada");
 				model.addAttribute("messageType", "danger");
@@ -127,9 +125,7 @@ public class VehiculoController {
 	public String processDeleteVehiculo(@PathVariable("vehiculoId") int id, ModelMap model) {
 		String vista;
 		Vehiculo v = vehiculoService.findVehiculoById(id).get();
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		String propietario = v.getCliente().getUser().getUsername();
-		if(username.equals(propietario)) {
+		if(this.vehiculoService.comprobarUsuarioYPropietario(id, v)) {
 			try {
 				vehiculoService.delete(v);
 				model.addAttribute("message", "Vehiculo borrado correctamente.");
@@ -154,10 +150,15 @@ public class VehiculoController {
 		String vista = "vehiculos/editVehiculo";
 		Optional<Vehiculo> vehiculo = vehiculoService.findVehiculoById(id);
 		if(!vehiculo.isPresent()) {
-			model.addAttribute("message", "Vehiculo not found");
+			model.addAttribute("message", "Vehiculo no encontrado");
 			vista = listadoVehiculos(model);
 		} else {
-			model.addAttribute("vehiculo", vehiculo.get());
+			if(this.vehiculoService.comprobarUsuarioYPropietario(id, vehiculo.get())) {
+				model.addAttribute("vehiculo", vehiculo.get());				
+			} else {
+				model.addAttribute("message", "No eres propietario del vehiculo seleccionado");
+				vista = listadoVehiculos(model);
+			}
 		}
 		return vista;
 	}
