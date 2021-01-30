@@ -46,7 +46,7 @@ public class LineaFactura extends BaseEntity{
 	
 	@OneToOne(optional=true)
 	@JoinColumn(name="ejemplar_recambio_id")
-	private EjemplarRecambio ejemplarRecambio; // Cambiarlo cuando se haga el recambio
+	private EjemplarRecambio ejemplarRecambio; 
 
 	@Transient
 	public Double getPrecio() {

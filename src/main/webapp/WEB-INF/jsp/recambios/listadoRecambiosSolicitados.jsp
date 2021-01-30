@@ -33,18 +33,32 @@
 
 
 
-    <h2>Listado de pedidos realizados por empleados</h2>
+    <h2>Listado de recambios solicitados</h2>
         
-    <table id="listadoRecambiosEmpleadoTable" class="table table-striped">
+    <table id="listadoRecambiosSolicitadosTable" class="table table-striped">
         <thead>
-        <tr>
-            <th>Recambio</th>
-            <th>Reparación</th>
-            <th>Empleado</th>
-        </tr>
+	        <tr>
+	            <th>Recambio</th>
+	            <th>Reparación</th>
+	            <th>Empleado</th>
+	        </tr>
         </thead>
         <tbody>
-      
+        	<c:forEach items="${lineasFactura}" var="lineaFactura">
+		        <tr>
+		        	<td>
+		        		<c:out value="${lineaFactura.ejemplarRecambio.recambio.name}" />
+		        	</td>
+		        	
+		        	<td>
+		        		<c:out value="${lineaFactura.reparacion.descripcion}" />
+		        	</td>
+		        	
+		        	<td>
+		        		<c:out value="${lineaFactura.empleado}" />		        	
+		        	</td>
+		        </tr>
+      		</c:forEach>
         </tbody>
     </table>
     
