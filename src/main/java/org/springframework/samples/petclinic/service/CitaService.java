@@ -12,10 +12,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.repository.CitaRepository;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
+import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javassist.NotFoundException;
 
 @Service
 public class CitaService {
@@ -26,9 +31,15 @@ public class CitaService {
 	@Autowired
 	private SendEmailService sendEmailService;
 	
+	@Autowired
+	private ClienteService clienteService;
+	
+	@Autowired
+	private VehiculoService vehiculoService;
+	
 	
 	@Transactional
-	public void saveCita(Cita cita) throws DataAccessException, EmpleadoYCitaDistintoTallerException
+	public void saveCita(Cita cita) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException
 	{	
 		List<Empleado> empleados = cita.getEmpleados();
 		if(empleados!=null) {
@@ -38,6 +49,17 @@ public class CitaService {
 				}
 			}
 		}
+		
+
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Cliente> c = clienteService.findClientesByUsername(username);
+		if(c.isPresent()) {
+			List<Vehiculo> vehiculosCliente = vehiculoService.findVehiculosCliente(c.get());
+			if(!vehiculosCliente.contains(cita.getVehiculo())) {
+				throw new NotAllowedException();
+			}
+		}
+		
 		citaRepository.save(cita);
 	}
 	
@@ -47,8 +69,14 @@ public class CitaService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Optional<Cita> findCitaById(int id) throws DataAccessException {
-		return citaRepository.findById(id);
+	public Cita findCitaById(int id) throws DataAccessException, NotFoundException{
+		Optional<Cita> c = citaRepository.findById(id);
+		if(!c.isPresent()) {
+			throw new NotFoundException("");
+		}
+		
+		Cita cita = c.get();
+		return cita;
 	}
 	
 	@Transactional(readOnly = true)
