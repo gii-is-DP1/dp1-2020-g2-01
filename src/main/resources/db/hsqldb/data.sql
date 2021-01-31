@@ -210,4 +210,10 @@ INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
 
 
 
+-- Pruebas con solicitudes
+INSERT INTO solicitudes(terminada, cantidad, recambio_id, empleado_id) VALUES (false, 5, 100, 101);
+
+
+-- 
+
 
