@@ -34,29 +34,49 @@
 
 
     <h2>Listado de recambios solicitados</h2>
-        
+    
+    <a href="/recambios/listadoRecambiosSolicitados" class="btn btn-success">Todas las solicitudes</a>
+    <a href="/recambios/listadoRecambiosSolicitados?terminadas=true" class="btn btn-success">Solicitudes terminadas</a>
+    <a href="/recambios/listadoRecambiosSolicitados?terminadas=false" class="btn btn-success">Solicitudes no terminadas</a>
+    
+    
+    <br/><br/>
+    
+    
     <table id="listadoRecambiosSolicitadosTable" class="table table-striped">
         <thead>
 	        <tr>
 	            <th>Recambio</th>
-	            <th>Reparación</th>
-	            <th>Empleado</th>
+	            <th>Cantidad</th>
+	            <th>Terminada</th>
+	            <th>Empleado que realizó la solicitud</th>
+	            <th></th>
 	        </tr>
         </thead>
         <tbody>
-        	<c:forEach items="${lineasFactura}" var="lineaFactura">
+        	<c:forEach items="${solicitudes}" var="solicitud">
 		        <tr>
+		        
 		        	<td>
-		        		<c:out value="${lineaFactura.ejemplarRecambio.recambio.name}" />
+		        		<c:out value="${solicitud.recambio.name}" />
 		        	</td>
 		        	
 		        	<td>
-		        		<c:out value="${lineaFactura.reparacion.descripcion}" />
+		        		<c:out value="${solicitud.cantidad}" />
 		        	</td>
 		        	
 		        	<td>
-		        		<c:out value="${lineaFactura.empleado}" />		        	
+		        		<c:out value="${solicitud.terminada}" />		        	
 		        	</td>
+		        	
+		        	<td>
+		        		<c:out value="${solicitud.empleado.nombre} ${solicitud.empleado.apellidos}" />	        	
+		        	</td>
+		        	
+		        	<td>
+						<a href="/recambios/terminarSolicitud/${solicitud.id}" class="btn btn-success">Terminar</a>
+		        	</td>
+		
 		        </tr>
       		</c:forEach>
         </tbody>

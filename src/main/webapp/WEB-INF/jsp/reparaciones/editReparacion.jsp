@@ -53,7 +53,7 @@
 			        <tbody>
 				<c:forEach var="lineaFactura" items="${reparacion.lineaFactura}">
 					<tr>
-						<td>${lineaFactura.recambio}</td>
+						<td>${lineaFactura.ejemplarRecambio.recambio}</td>
 						<td>${lineaFactura.descripcion}</td>
 						<td>${lineaFactura.precioBase}<span class="glyphicon glyphicon-eur"></span></td>
 						<td>${lineaFactura.descuento}%</td>
