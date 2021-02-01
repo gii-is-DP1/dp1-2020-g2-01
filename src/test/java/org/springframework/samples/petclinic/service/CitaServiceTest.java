@@ -22,6 +22,7 @@ import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
@@ -116,6 +117,7 @@ class CitaServiceTest {
 		
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
+<<<<<<< Upstream, based on origin/master
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
 		List<TipoCita> tipos = new ArrayList<TipoCita>();
@@ -171,6 +173,73 @@ class CitaServiceTest {
 		
 		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c));
 	}
+=======
+		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
+		c.setFecha(LocalDate.now().plusDays(1));
+		c.setHora(10);
+		List<TipoCita> tipos = new ArrayList<TipoCita>();
+		tipos.add(tipo);
+		c.setTiposCita(tipos);
+		
+		Vehiculo v = new Vehiculo();
+		
+		v.setMatricula("1111AAA");
+		v.setModelo("Seat Ibiza");
+		v.setNumBastidor("VSSZZZ6KZ1R149943");
+		v.setTipoVehiculo(tipoveh);
+		vehiculoService.saveVehiculo(v);
+		
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+		
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t);
+		
+		c.setTaller(t);
+		
+		for(int i =1; i<4; i++) {
+			Cita c1 = new Cita();
+			TipoCita tipo1 = tipoCitaService.findById(1).get();
+			TipoVehiculo tipoveh1 = tipoVehiculoService.findById(1).get();
+			c.setFecha(LocalDate.now().plusDays(1));
+			c.setHora(10);
+			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
+			tipos.add(tipo1);
+			c.setTiposCita(tipos1);
+			
+			Vehiculo v1 = new Vehiculo();
+			
+			v.setMatricula("1111AAA");
+			v.setModelo("Seat Ibiza");
+			v.setNumBastidor("VSSZZZ6KZ1R149943");
+			v.setTipoVehiculo(tipoveh1);
+			vehiculoService.saveVehiculo(v1);
+			
+			c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+			
+			Taller t1 = new Taller();
+			t.setCorreo("test@test.com");
+			t.setName("test");
+			t.setTelefono("123456789");
+			t.setUbicacion("calle test");
+			
+			tallerService.saveTaller(t1);
+			
+			c.setTaller(t1);
+			
+			citaService.saveCita(c1);
+			
+		}
+		
+		citaService.saveCita(c);
+		
+	}
+	
+>>>>>>> 31793a7 rn4
 	
 	@Test
 	@Transactional
@@ -245,7 +314,8 @@ class CitaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldUpdateCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldUpdateCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
+		CitaSinPresentarseException{
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		
@@ -277,7 +347,8 @@ class CitaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotUpdateInvalidCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldNotUpdateInvalidCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
+	CitaSinPresentarseException{
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		
@@ -314,7 +385,8 @@ class CitaServiceTest {
 	}
 	
 	@Test
-	void shouldDeleteCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldDeleteCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
+	CitaSinPresentarseException{
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		
@@ -346,7 +418,8 @@ class CitaServiceTest {
 	}
 	
 	@Test
-	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotFoundException, NotAllowedException {
+	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotFoundException, 
+	NotAllowedException, CitaSinPresentarseException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		

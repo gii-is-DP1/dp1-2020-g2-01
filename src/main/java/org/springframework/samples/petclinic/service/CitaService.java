@@ -44,10 +44,14 @@ public class CitaService {
 	
 	@Transactional
 <<<<<<< Upstream, based on origin/master
+<<<<<<< Upstream, based on origin/master
 	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException
 =======
 	public void saveCita(Cita cita) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException
 >>>>>>> 1db5e5b rn4
+=======
+	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException
+>>>>>>> 31793a7 rn4
 	{	
 		List<Empleado> empleados = cita.getEmpleados();
 		List<Cita> citasNoReparacion = this.findCitaSinReparacion();
