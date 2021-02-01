@@ -16,6 +16,7 @@ import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.repository.CitaRepository;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
+import org.springframework.samples.petclinic.util.LoggedUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +56,7 @@ public class CitaService {
 		}
 		
 
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		String username = LoggedUser.getUsername();
 		Optional<Cliente> c = clienteService.findClientesByUsername(username);
 		if(c.isPresent()) {
 			List<Vehiculo> vehiculosCliente = vehiculoService.findVehiculosCliente(c.get());
