@@ -32,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javassist.NotFoundException;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+
+
 class CitaServiceTest {
 	
 	@Autowired
@@ -109,7 +111,7 @@ class CitaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotInsertCitaSinPresentarse() throws DataAccessException, CitaSinPresentarseException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldNotInsertCitaSinPresentarse() throws DataAccessException, CitaSinPresentarseException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
@@ -119,7 +121,7 @@ class CitaServiceTest {
 		tipos.add(tipo);
 		c.setTiposCita(tipos);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
 		
 		Taller t = new Taller();
 		t.setCorreo("test@test.com");
@@ -134,14 +136,13 @@ class CitaServiceTest {
 		for(int i =1; i<4; i++) {
 			Cita c1 = new Cita();
 			TipoCita tipo1 = tipoCitaService.findById(1).get();
-			c.setFecha(LocalDate.now().plusDays(1));
+			c.setFecha(LocalDate.now().minusDays(15).plusDays(i));
 			c.setHora(10);
 			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
 			tipos.add(tipo1);
 			c.setTiposCita(tipos1);
 			
-			
-			c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+			c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
 			
 			Taller t1 = new Taller();
 			t.setCorreo("test@test.com");
@@ -153,12 +154,12 @@ class CitaServiceTest {
 			
 			c.setTaller(t1);
 			
-			citaService.saveCita(c1);
+			citaService.saveCita(c1, "jesfunrud");
 			
 		}
 		
-		citaService.saveCita(c);
 		
+		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c, "jesfunrud"));
 	}
 	
 	
@@ -235,8 +236,7 @@ class CitaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldUpdateCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
-		CitaSinPresentarseException{
+	void shouldUpdateCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		
@@ -268,8 +268,7 @@ class CitaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotUpdateInvalidCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
-	CitaSinPresentarseException{
+	void shouldNotUpdateInvalidCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		
@@ -306,8 +305,7 @@ class CitaServiceTest {
 	}
 	
 	@Test
-	void shouldDeleteCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
-	CitaSinPresentarseException{
+	void shouldDeleteCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		
@@ -339,8 +337,7 @@ class CitaServiceTest {
 	}
 	
 	@Test
-	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotFoundException, 
-	NotAllowedException, CitaSinPresentarseException {
+	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotFoundException, NotAllowedException, CitaSinPresentarseException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		
