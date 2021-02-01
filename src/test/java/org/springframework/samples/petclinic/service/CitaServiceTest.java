@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
@@ -12,7 +11,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -23,9 +21,7 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
-import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
@@ -35,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javassist.NotFoundException;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@Disabled
 class CitaServiceTest {
 	
 	@Autowired
@@ -61,13 +56,12 @@ class CitaServiceTest {
 	
 	@Autowired
 	protected EmpleadoService empleadoService;
-
+	
 	@Test
 	@Transactional
 	void shouldInsertCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
@@ -75,15 +69,7 @@ class CitaServiceTest {
 		tipos.add(tipo);
 		c.setTiposCita(tipos);
 		
-		Vehiculo v = new Vehiculo();
-		
-		v.setMatricula("1111AAA");
-		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tipoveh);
-		vehiculoService.saveVehiculo(v);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller t = new Taller();
 		t.setCorreo("test@test.com");
@@ -95,7 +81,7 @@ class CitaServiceTest {
 		
 		c.setTaller(t);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 
 		
@@ -107,7 +93,6 @@ class CitaServiceTest {
 	void shouldNotInsertCitaInvalida() throws DataAccessException, DuplicatedMatriculaException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
 	
 		
 		c.setFecha(LocalDate.now());
@@ -116,16 +101,8 @@ class CitaServiceTest {
 		tipos.add(tipo);
 		c.setTiposCita(tipos);
 		
-		Vehiculo v = new Vehiculo();
-		
-		v.setMatricula("1111AAA");
-		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tipoveh);
-		vehiculoService.saveVehiculo(v);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
-		assertThrows(ConstraintViolationException.class, () -> this.citaService.saveCita(c));
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+		assertThrows(ConstraintViolationException.class, () -> this.citaService.saveCita(c, "jesfunrud"));
 	}
 	
 	
@@ -136,7 +113,6 @@ class CitaServiceTest {
 		//Setup inicial de cita
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
 	
 		
 		c.setFecha(LocalDate.now());
@@ -145,16 +121,8 @@ class CitaServiceTest {
 		tipos.add(tipo);
 		c.setTiposCita(tipos);
 		
-		//Setup de vehículo
-		Vehiculo v = new Vehiculo();
 		
-		v.setMatricula("1111AAA");
-		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tipoveh);
-		vehiculoService.saveVehiculo(v);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 	
 		
 		//Setup de 2 talleres distintos. Asigno t1 a cita y t2 al empleado
@@ -204,7 +172,7 @@ class CitaServiceTest {
 		empleados.add(e1);
 		c.setEmpleados(empleados);
 		
-		assertThrows(EmpleadoYCitaDistintoTallerException.class, () -> this.citaService.saveCita(c));
+		assertThrows(EmpleadoYCitaDistintoTallerException.class, () -> this.citaService.saveCita(c, "jesfunrud"));
 	}
 	
 	
@@ -214,7 +182,6 @@ class CitaServiceTest {
 	void shouldUpdateCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
@@ -222,15 +189,7 @@ class CitaServiceTest {
 		tipos.add(tipo);
 		c.setTiposCita(tipos);
 		
-		Vehiculo v = new Vehiculo();
-		
-		v.setMatricula("1111AAA");
-		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tipoveh);
-		vehiculoService.saveVehiculo(v);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller t = new Taller();
 		t.setCorreo("test@test.com");
@@ -242,11 +201,11 @@ class CitaServiceTest {
 		
 		c.setTaller(t);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		Cita c1 = citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10);
 		
 		c1.setFecha(LocalDate.now().plusDays(3));
-		citaService.saveCita(c1);
+		citaService.saveCita(c1, "jesfunrud");
 		assertEquals(c1, citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(3), 10));
 	}
 	
@@ -255,21 +214,12 @@ class CitaServiceTest {
 	void shouldNotUpdateInvalidCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
 		List<TipoCita> tipos = new ArrayList<TipoCita>();
 		tipos.add(tipo);
 		c.setTiposCita(tipos);
-		
-		Vehiculo v = new Vehiculo();
-		
-		v.setMatricula("1111AAA");
-		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tipoveh);
-		vehiculoService.saveVehiculo(v);
 		
 		Taller t = new Taller();
 		t.setCorreo("test@test.com");
@@ -281,18 +231,18 @@ class CitaServiceTest {
 		
 		c.setTaller(t);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
-		citaService.saveCita(c);
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+		citaService.saveCita(c, "jesfunrud");
 		
 		Cita c1 = new Cita();
 		c1.setId(c.getId());
 
 		c1.setHora(10);
 		c.setTiposCita(tipos);
-		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		c1.setFecha(LocalDate.now());
 		assertThrows(ConstraintViolationException.class, () ->{
-			this.citaService.saveCita(c1);
+			this.citaService.saveCita(c1, "jesfunrud");
 			em.flush();
 		});	
 	}
@@ -301,7 +251,6 @@ class CitaServiceTest {
 	void shouldDeleteCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
@@ -309,15 +258,7 @@ class CitaServiceTest {
 		tipos.add(tipo);
 		c.setTiposCita(tipos);
 		
-		Vehiculo v = new Vehiculo();
-		
-		v.setMatricula("1111AAA");
-		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tipoveh);
-		vehiculoService.saveVehiculo(v);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller t = new Taller();
 		t.setCorreo("test@test.com");
@@ -329,7 +270,7 @@ class CitaServiceTest {
 		
 		c.setTaller(t);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		assertEquals(c, citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10));
 		
@@ -342,7 +283,6 @@ class CitaServiceTest {
 	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotFoundException, NotAllowedException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
 		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
@@ -366,16 +306,7 @@ class CitaServiceTest {
 		
 		clienteService.saveCliente(cliente);
 		
-		Vehiculo v = new Vehiculo();
-		
-		v.setMatricula("1111AAA");
-		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tipoveh);
-		v.setCliente(cliente);
-		vehiculoService.saveVehiculo(v);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller t = new Taller();
 		t.setCorreo("test@test.com");
@@ -387,7 +318,7 @@ class CitaServiceTest {
 		
 		c.setTaller(t);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		Cita c1 = new Cita();
 		TipoCita tipo1 = tipoCitaService.findById(1).get();
@@ -398,7 +329,7 @@ class CitaServiceTest {
 		tipos1.add(tipo1);
 		c1.setTiposCita(tipos1);
 		
-		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller t1 = new Taller();
 		t1.setCorreo("test@test.com");
@@ -410,15 +341,13 @@ class CitaServiceTest {
 		
 		c1.setTaller(t1);
 		
-		citaService.saveCita(c1);
+		citaService.saveCita(c1, "jesfunrud");
 		
 		assertEquals(c, citaService.findCitaById(c.getId()));
 		assertEquals(c1, citaService.findCitaById(c1.getId()));
 		
 		citaService.deleteCOVID();
-		
-		assertNotEquals(c, citaService.findCitaById(c.getId()));
-		assertNotEquals(c1, citaService.findCitaById(c1.getId()));
+		assertThrows(NotFoundException.class, () -> citaService.findCitaById(c.getId()));
+		assertThrows(NotFoundException.class, () -> citaService.findCitaById(c.getId()));
 	}
-
 }

@@ -36,7 +36,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@Disabled
 class ReparacionServiceTest {
 	
 
@@ -67,9 +66,8 @@ class ReparacionServiceTest {
 	@Autowired
 	protected ClienteService clienteService;
 	
-	
-	
-	
+	@Autowired
+	protected UserService userService;
 	
 	@Test
 	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
@@ -85,17 +83,10 @@ class ReparacionServiceTest {
 		TipoCita t = tipoCitaService.findById(1).get();
 		List<TipoCita> tipos = new ArrayList<>();
 		tipos.add(t);
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		vehiculoService.saveVehiculo(v);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -107,14 +98,14 @@ class ReparacionServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
 		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
-		userP.setUsername("nombreusuario");
+		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
@@ -159,17 +150,10 @@ class ReparacionServiceTest {
 		TipoCita t = tipoCitaService.findById(1).get();
 		List<TipoCita> tipos = new ArrayList<>();
 		tipos.add(t);
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		vehiculoService.saveVehiculo(v);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -181,14 +165,14 @@ class ReparacionServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
 		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
-		userP.setUsername("nombreusuario");
+		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
@@ -229,18 +213,11 @@ class ReparacionServiceTest {
 		TipoCita t = tipoCitaService.findById(1).get();
 		List<TipoCita> tipos = new ArrayList<>();
 		tipos.add(t);
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
 
-		vehiculoService.saveVehiculo(v);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -252,14 +229,14 @@ class ReparacionServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
 		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
-		userP.setUsername("nombreusuario");
+		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
@@ -300,17 +277,10 @@ class ReparacionServiceTest {
 		TipoCita t = tipoCitaService.findById(1).get();
 		List<TipoCita> tipos = new ArrayList<>();
 		tipos.add(t);
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		vehiculoService.saveVehiculo(v);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		//Setup de taller
 		Taller taller = new Taller();
@@ -323,7 +293,7 @@ class ReparacionServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		//Asigna una cita a la reparacion
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
@@ -332,7 +302,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
-		userP.setUsername("nombreusuario");
+		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
@@ -368,10 +338,10 @@ class ReparacionServiceTest {
 		c1.setFecha(LocalDate.now().plusDays(2));
 		c1.setHora(10);
 		c1.setTiposCita(tipos);
-		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		c1.setTaller(taller);
 		
-		citaService.saveCita(c1);
+		citaService.saveCita(c1, "jesfunrud");
 		
 		r1.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 10));
 		
@@ -392,10 +362,10 @@ class ReparacionServiceTest {
 		c2.setFecha(LocalDate.now().plusDays(2));
 		c2.setHora(11);
 		c2.setTiposCita(tipos);
-		c2.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c2.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		c2.setTaller(taller);
 		
-		citaService.saveCita(c2);
+		citaService.saveCita(c2, "jesfunrud");
 		
 		r2.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 11));
 		
@@ -418,10 +388,10 @@ class ReparacionServiceTest {
 		c3.setFecha(LocalDate.now().plusDays(2));
 		c3.setHora(12);
 		c3.setTiposCita(tipos);
-		c3.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c3.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		c3.setTaller(taller);
 		
-		citaService.saveCita(c3);
+		citaService.saveCita(c3, "jesfunrud");
 		
 		r3.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 12));
 		
@@ -449,17 +419,10 @@ class ReparacionServiceTest {
 		TipoCita t = tipoCitaService.findById(1).get();
 		List<TipoCita> tipos = new ArrayList<>();
 		tipos.add(t);
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		vehiculoService.saveVehiculo(v);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -471,14 +434,14 @@ class ReparacionServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
 		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
-		userP.setUsername("nombreusuario");
+		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
@@ -496,7 +459,7 @@ class ReparacionServiceTest {
 		empleados.add(e1);
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
-
+		
 		r.setEmpleados(empleados);
 		
 		reparacionService.saveReparacion(r);
@@ -523,17 +486,10 @@ class ReparacionServiceTest {
 		TipoCita t = tipoCitaService.findById(1).get();
 		List<TipoCita> tipos = new ArrayList<>();
 		tipos.add(t);
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		vehiculoService.saveVehiculo(v);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -545,14 +501,14 @@ class ReparacionServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
 		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
-		userP.setUsername("nombreusuario");
+		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
@@ -604,17 +560,10 @@ class ReparacionServiceTest {
 		TipoCita t = tipoCitaService.findById(1).get();
 		List<TipoCita> tipos = new ArrayList<>();
 		tipos.add(t);
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		vehiculoService.saveVehiculo(v);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -626,14 +575,14 @@ class ReparacionServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
 		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
-		userP.setUsername("nombreusuario");
+		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
@@ -672,32 +621,6 @@ class ReparacionServiceTest {
 		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r.setFechaRecogida(LocalDate.now().plusDays(11));
 		
-		Cliente cliente = new Cliente();
-		cliente.setNombre("Antonio");
-		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344M");
-		cliente.setEmail("tallersevillacustoms@gmail.com");
-		cliente.setFechaNacimiento(LocalDate.now().minusDays(9000));
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
-		userP.setEnabled(true);
-		cliente.setUser(userP);
-		cliente.setTelefono("111223344");
-		
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
-		v.setCliente(cliente);
-		vehiculoService.saveVehiculo(v);
-		List<Vehiculo> vehiculos = new ArrayList<>();
-		vehiculos.add(v);
-		cliente.setVehiculos(vehiculos);
-		clienteService.saveCliente(cliente);
-		
 		Cita c = new Cita();
 		TipoCita t = tipoCitaService.findById(1).get();
 		List<TipoCita> tipos = new ArrayList<>();
@@ -705,7 +628,7 @@ class ReparacionServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -717,7 +640,7 @@ class ReparacionServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
@@ -767,34 +690,10 @@ class ReparacionServiceTest {
 		List<TipoCita> tipos = new ArrayList<>();
 		tipos.add(t);
 		
-		Cliente cliente = new Cliente();
-		
-		cliente.setNombre("Antonio");
-		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344M");
-		cliente.setEmail("sevillacustoms@gmail.com");
-		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
-		User user = new User();
-		user.setUsername("nombreusuario");
-		user.setPassword("passdeprueba");
-		user.setEnabled(true);
-		cliente.setUser(user);
-		cliente.setTelefono("111223344");
-		
-		clienteService.saveCliente(cliente);
-		
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
-		v.setCliente(cliente);
-		vehiculoService.saveVehiculo(v);
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -806,7 +705,7 @@ class ReparacionServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
@@ -838,7 +737,7 @@ class ReparacionServiceTest {
 		
 		reparacionService.saveReparacion(r);
 		
-		assertEquals(r, reparacionService.findReparacionesCliente(cliente).get(0));
+		assertEquals(r, reparacionService.findReparacionById(r.getId()).get());
 	}
 	
 }
