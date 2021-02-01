@@ -93,12 +93,13 @@
 <div class="col-sm-6">
 <div class="panel panel-success">
   <div class="panel-heading">
-    <h3 class="panel-title">Lineas de factura</h3>
+    <h3 class="panel-title">Líneas de factura</h3>
   </div>
 	<table class="table table-striped">
        <thead>
        <tr>
       	   <th>Recambio</th>
+      	   <th>Cantidad</th>
            <th>Descripcion</th>
            <th>Precio base</th>
            <th>Descuento</th>
@@ -112,6 +113,7 @@
 		<c:forEach var="lineaFactura" items="${reparacion.lineaFactura}">
 		<tr>
 			<td>${lineaFactura.ejemplarRecambio.recambio.name}</td>
+			<td>${lineaFactura.ejemplarRecambio.cantidad}</td>
 			<td>${lineaFactura.descripcion}</td>
 			<td>${lineaFactura.precioBase}<span class="glyphicon glyphicon-eur"></span></td>
 			<td>${lineaFactura.descuento}%</td>

@@ -18,6 +18,7 @@ public class Recambio extends NamedEntity {
 	
 	//PREGUNTAR CAMBIOS EN EL UML
 	
+	
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name="tipo_vehiculo_id")
@@ -26,6 +27,10 @@ public class Recambio extends NamedEntity {
 	@Min(0)
 	@JoinColumn(name="cantidad_actual")
 	private int cantidadActual;
+	
+	@ManyToOne
+	@NotNull
+	private Proveedor proveedor;
 	
 	
 

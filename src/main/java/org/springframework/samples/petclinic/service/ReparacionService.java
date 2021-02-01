@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.LineaFactura;
+import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
+import org.springframework.samples.petclinic.repository.RecambioRepository;
 import org.springframework.samples.petclinic.repository.ReparacionRepository;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
@@ -28,6 +31,12 @@ public class ReparacionService {
 	
 	@Autowired
 	private SendEmailService sendEmailService;
+	
+	@Autowired
+	private RecambioService recambioService;
+	
+	@Autowired
+	private LineaFacturaService lfService;
 	
 	
 	@Transactional
@@ -89,6 +98,23 @@ public class ReparacionService {
 				+ ". Puede pasar por nuestro taller a recogerlo.\n\nGracias por confiar en nosotros,\nTaller Sevilla Customs.\n\n\nPD.: Dispone desde hoy de un plazo de 10 "
 				+ "días laborales para recoger su vehículo sin coste adicional. Pasado ese tiempo, se le cobrarán 20€ por cada día fuera de plazo.";
 		sendEmailService.sendEmail(to, subject, content);
+		
+		int i=0;
+		while(i<reparacion.getLineaFactura().size()) {
+			int idLf = reparacion.getLineaFactura().get(i).getId();
+			LineaFactura lf = lfService.findLineaFacturaById(idLf).get();
+			int iDrecambio=lf.getEjemplarRecambio().getRecambio().getId(); //FALLO AQUí
+//			Recambio recambio = recambioService.findRecambioById(id).get();
+//			Integer cantActual=recambio.getCantidadActual();
+//			Integer cantidadUsada = lf.getEjemplarRecambio().getCantidad();
+//			Integer cantidadSobrante = cantActual-cantidadUsada;
+//			if(cantidadSobrante>0) {
+//				recambio.setCantidadActual(cantidadSobrante);
+//				recambioRepository.save(recambio);
+//			}
+//			
+			i++;
+		}
 	}
 
 	@Transactional(readOnly = true)

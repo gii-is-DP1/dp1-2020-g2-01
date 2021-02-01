@@ -165,8 +165,8 @@ INSERT INTO clientes(id, dni, nombre, apellidos, telefono, fecha_nacimiento, ema
 
 INSERT INTO proveedores(id, name, nif, telefono, email) VALUES (201, 'Pablo', '12345678H', '665112233', 'gumersindo@gmail.com');
 
-INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (100, 'Neumático Michelin', 1, 10);
-INSERT INTO ejemplarrecambios (id, recambio_id) VALUES (1, 100);
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual, proveedor_id) VALUES (100, 'Neumático Michelin', 1, 10, 201);
+INSERT INTO ejemplarrecambios (id, recambio_id, cantidad) VALUES (1, 100, 2);
 
 
 INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 100);

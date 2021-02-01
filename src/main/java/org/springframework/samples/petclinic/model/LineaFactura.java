@@ -20,7 +20,6 @@ import lombok.Setter;
 @Table(name="linea_factura")
 public class LineaFactura extends BaseEntity{
 
-
 	@NotNull
 	@JoinColumn(name = "precio_base")
 	private Double precioBase;
