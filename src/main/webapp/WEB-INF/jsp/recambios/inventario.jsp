@@ -10,6 +10,9 @@
     
 
     	<!-- AÑADIR NUEVA SOLICITUD DE PEDIDO -->
+    	
+		<a href="/nuevaSolicitud" class="btn btn-success">Nueva solicitud de producto</a>
+		 
     	<!-- ¿BOTONES DE EDITAR Y BORRAR RECAMBIOS? -->
 
     <div class="col-sm-12" style="height:5px"></div>
