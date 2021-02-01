@@ -43,7 +43,15 @@ public class CitaService {
 	
 	
 	@Transactional
+<<<<<<< Upstream, based on origin/master
 	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException
+=======
+<<<<<<< Upstream, based on origin/master
+	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException
+=======
+	public void saveCita(Cita cita) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException
+>>>>>>> 1db5e5b rn4
+>>>>>>> dd54e5d rn4
 	{	
 		List<Empleado> empleados = cita.getEmpleados();
 		List<Cita> citasNoReparacion = this.findCitaSinReparacion();
@@ -57,7 +65,11 @@ public class CitaService {
 		if(citasNoReparacion.size()>=3) {
 			int c = 0;
 			for(Cita citaR: citasNoReparacion) {
+<<<<<<< Upstream, based on origin/master
 				if(citaR.getFecha().plusDays(7).isBefore(LocalDate.now())) {
+=======
+				if(citaR.getFecha().plusDays(7).isAfter(LocalDate.now())) {
+>>>>>>> dd54e5d rn4
 					c++;
 				}
 			}

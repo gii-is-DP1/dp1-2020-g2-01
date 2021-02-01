@@ -131,7 +131,6 @@ class CitaServiceTest {
 		
 		c.setTaller(t);
 		
-		List<Cita> temp = new ArrayList<>();
 		for(int i =1; i<4; i++) {
 			Cita c1 = new Cita();
 			TipoCita tipo1 = tipoCitaService.findById(1).get();
@@ -152,19 +151,9 @@ class CitaServiceTest {
 			tallerService.saveTaller(t1);
 			
 			c1.setTaller(t1);
-			
-			temp.add(c1);
 		}
 		
-<<<<<<< Upstream, based on origin/master
-		assertThrows(CitaSinPresentarseException.class, () -> citaService.saveCita(c, "jesfunrud"));
-		
-=======
-		for(Cita citaTemp: temp) {
-			citaService.saveCita(citaTemp, "jesfunrud");
-		}
 		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c, "jesfunrud"));
->>>>>>> 846261d sinterminar
 	}
 
 	
