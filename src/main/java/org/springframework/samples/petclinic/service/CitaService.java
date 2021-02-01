@@ -43,8 +43,7 @@ public class CitaService {
 	
 	
 	@Transactional
-	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException
-	{	
+	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {	
 		List<Empleado> empleados = cita.getEmpleados();
 		List<Cita> citasNoReparacion = this.findCitaSinReparacion();
 		if(empleados!=null) {
