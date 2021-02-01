@@ -134,7 +134,7 @@ class CitaServiceTest {
 		for(int i =1; i<4; i++) {
 			Cita c1 = new Cita();
 			TipoCita tipo1 = tipoCitaService.findById(1).get();
-			c1.setFecha(LocalDate.now().plusDays(1));
+			c1.setFecha(LocalDate.now().minusDays(15).plusDays(i));
 			c1.setHora(10);
 			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
 			tipos1.add(tipo1);
