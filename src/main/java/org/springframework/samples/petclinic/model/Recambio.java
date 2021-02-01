@@ -33,5 +33,8 @@ public class Recambio extends NamedEntity {
 	private Proveedor proveedor;
 	
 	
+<<<<<<< Upstream, based on origin/master
 	
+=======
+>>>>>>> 31793a7 rn4
 }
