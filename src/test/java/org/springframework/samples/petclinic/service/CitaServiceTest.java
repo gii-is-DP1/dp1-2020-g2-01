@@ -118,6 +118,7 @@ class CitaServiceTest {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 <<<<<<< Upstream, based on origin/master
+<<<<<<< Upstream, based on origin/master
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
 		List<TipoCita> tipos = new ArrayList<TipoCita>();
@@ -175,21 +176,15 @@ class CitaServiceTest {
 	}
 =======
 		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
+=======
+>>>>>>> 679bc5e m
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
 		List<TipoCita> tipos = new ArrayList<TipoCita>();
 		tipos.add(tipo);
 		c.setTiposCita(tipos);
 		
-		Vehiculo v = new Vehiculo();
-		
-		v.setMatricula("1111AAA");
-		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tipoveh);
-		vehiculoService.saveVehiculo(v);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller t = new Taller();
 		t.setCorreo("test@test.com");
@@ -204,22 +199,14 @@ class CitaServiceTest {
 		for(int i =1; i<4; i++) {
 			Cita c1 = new Cita();
 			TipoCita tipo1 = tipoCitaService.findById(1).get();
-			TipoVehiculo tipoveh1 = tipoVehiculoService.findById(1).get();
 			c.setFecha(LocalDate.now().plusDays(1));
 			c.setHora(10);
 			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
 			tipos.add(tipo1);
 			c.setTiposCita(tipos1);
 			
-			Vehiculo v1 = new Vehiculo();
 			
-			v.setMatricula("1111AAA");
-			v.setModelo("Seat Ibiza");
-			v.setNumBastidor("VSSZZZ6KZ1R149943");
-			v.setTipoVehiculo(tipoveh1);
-			vehiculoService.saveVehiculo(v1);
-			
-			c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
+			c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 			
 			Taller t1 = new Taller();
 			t.setCorreo("test@test.com");
