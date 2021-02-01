@@ -57,7 +57,7 @@ public class CitaService {
 		if(citasNoReparacion.size()>=3) {
 			int c = 0;
 			for(Cita citaR: citasNoReparacion) {
-				if(citaR.getFecha().plusDays(7).isAfter(LocalDate.now())) {
+				if(citaR.getFecha().plusDays(7).isBefore(LocalDate.now())) {
 					c++;
 				}
 			}
