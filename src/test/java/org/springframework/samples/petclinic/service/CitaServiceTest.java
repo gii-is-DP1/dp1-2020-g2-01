@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javassist.NotFoundException;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@Disabled
+
 class CitaServiceTest {
 	
 	@Autowired
@@ -166,7 +166,7 @@ class CitaServiceTest {
 			Cita c1 = new Cita();
 			TipoCita tipo1 = tipoCitaService.findById(1).get();
 			TipoVehiculo tipoveh1 = tipoVehiculoService.findById(1).get();
-			c.setFecha(LocalDate.now().plusDays(1));
+			c.setFecha(LocalDate.now().minusDays(15).plusDays(i));
 			c.setHora(10);
 			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
 			tipos.add(tipo1);
@@ -196,8 +196,8 @@ class CitaServiceTest {
 			
 		}
 		
-		citaService.saveCita(c);
 		
+		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c));
 	}
 	
 	
