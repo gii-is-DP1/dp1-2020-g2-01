@@ -10,9 +10,10 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+
+@Entity
 @Getter
 @Setter
-@Entity
 @Table(name="ejemplarrecambios")
 public class EjemplarRecambio extends BaseEntity {
 	
@@ -23,5 +24,4 @@ public class EjemplarRecambio extends BaseEntity {
 	@NotNull
 	@Min(0)
 	private Integer cantidad;
-	
 }

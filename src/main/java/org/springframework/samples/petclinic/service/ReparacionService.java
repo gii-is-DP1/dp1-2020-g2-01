@@ -12,7 +12,6 @@ import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.LineaFactura;
 import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
-import org.springframework.samples.petclinic.repository.RecambioRepository;
 import org.springframework.samples.petclinic.repository.ReparacionRepository;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
@@ -100,19 +99,19 @@ public class ReparacionService {
 		sendEmailService.sendEmail(to, subject, content);
 		
 		int i=0;
-		while(i<reparacion.getLineaFactura().size()) {
+		while(i<reparacion.getLineaFactura().size()-1) { //¿LA ÚLTIMA LÍNEAFACTURA ES LA DE LOS DESCUENTOS Y NO TIENE EJEMPLARRECAMBIO ASOCIADO?
 			int idLf = reparacion.getLineaFactura().get(i).getId();
 			LineaFactura lf = lfService.findLineaFacturaById(idLf).get();
-			int iDrecambio=lf.getEjemplarRecambio().getRecambio().getId(); //FALLO AQUí
-//			Recambio recambio = recambioService.findRecambioById(id).get();
-//			Integer cantActual=recambio.getCantidadActual();
-//			Integer cantidadUsada = lf.getEjemplarRecambio().getCantidad();
-//			Integer cantidadSobrante = cantActual-cantidadUsada;
-//			if(cantidadSobrante>0) {
-//				recambio.setCantidadActual(cantidadSobrante);
-//				recambioRepository.save(recambio);
-//			}
-//			
+			if(!lf.getEjemplarRecambio().equals(null)) {
+				Recambio recambio = lf.getEjemplarRecambio().getRecambio();
+				Integer cantActual=recambio.getCantidadActual();
+				Integer cantidadUsada = lf.getEjemplarRecambio().getCantidad();
+				Integer cantidadSobrante = cantActual-cantidadUsada;
+				if(cantidadSobrante>0) {
+					recambio.setCantidadActual(cantidadSobrante);
+					recambioService.saveRecambio(recambio);
+				}
+			}
 			i++;
 		}
 	}

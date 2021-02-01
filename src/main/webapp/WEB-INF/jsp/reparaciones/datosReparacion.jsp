@@ -49,7 +49,7 @@
     </p>
   </div>
   <div class="panel-body">
-    <label class="col-sm-4">Fecha de finalización estimada: </label>
+    <label class="col-sm-4">Fecha estimada finalización: </label>
     <fmt:parseDate value="${reparacion.tiempoEstimado}" pattern="yyyy-MM-dd" 
                              var="parsedDate" type="date" />
 
