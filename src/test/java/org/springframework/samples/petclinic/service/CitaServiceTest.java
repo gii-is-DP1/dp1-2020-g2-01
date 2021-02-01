@@ -32,6 +32,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javassist.NotFoundException;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+<<<<<<< Upstream, based on origin/master
+=======
+
+>>>>>>> 6bc85ec m
 class CitaServiceTest {
 	
 	@Autowired
@@ -134,8 +138,18 @@ class CitaServiceTest {
 		for(int i =1; i<4; i++) {
 			Cita c1 = new Cita();
 			TipoCita tipo1 = tipoCitaService.findById(1).get();
+<<<<<<< Upstream, based on origin/master
 			c1.setFecha(LocalDate.now().minusDays(15).plusDays(i));
+=======
+<<<<<<< Upstream, based on origin/master
+			c1.setFecha(LocalDate.now().plusDays(i-15));
+>>>>>>> e0729b3 m
 			c1.setHora(10);
+=======
+			TipoVehiculo tipoveh1 = tipoVehiculoService.findById(1).get();
+			c.setFecha(LocalDate.now().minusDays(15).plusDays(i));
+			c.setHora(10);
+>>>>>>> 6bc85ec m
 			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
 			tipos1.add(tipo1);
 			c1.setTiposCita(tipos1);
@@ -153,7 +167,16 @@ class CitaServiceTest {
 			c1.setTaller(t1);
 		}
 		
+<<<<<<< Upstream, based on origin/master
 		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c, "jesfunrud"));
+=======
+<<<<<<< Upstream, based on origin/master
+		citaService.saveCita(c, "jesfunrud");
+=======
+>>>>>>> 6bc85ec m
+		
+		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c));
+>>>>>>> e0729b3 m
 	}
 
 	
