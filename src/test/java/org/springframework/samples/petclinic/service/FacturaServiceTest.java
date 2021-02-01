@@ -39,7 +39,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@Disabled
 class FacturaServiceTest {
 
 	@Autowired
@@ -118,32 +117,6 @@ class FacturaServiceTest {
 		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r.setFechaRecogida(LocalDate.now().plusDays(10));
 		
-		Cliente cliente = new Cliente();
-		cliente.setNombre("Antonio");
-		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344M");
-		cliente.setEmail("tallersevillacustoms@gmail.com");
-		cliente.setFechaNacimiento(LocalDate.now().minusDays(9000));
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
-		userP.setEnabled(true);
-		cliente.setUser(userP);
-		cliente.setTelefono("111223344");
-		
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
-		v.setCliente(cliente);
-		vehiculoService.saveVehiculo(v);
-		List<Vehiculo> vehiculos = new ArrayList<>();
-		vehiculos.add(v);
-		cliente.setVehiculos(vehiculos);
-		clienteService.saveCliente(cliente);
-		
 		Cita c = new Cita();
 		TipoCita t = tipoCitaService.findById(1).get();
 		List<TipoCita> tipos = new ArrayList<>();
@@ -151,7 +124,7 @@ class FacturaServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -163,7 +136,7 @@ class FacturaServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
@@ -244,32 +217,6 @@ class FacturaServiceTest {
 		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r.setFechaRecogida(LocalDate.now().plusDays(10));
 		
-		Cliente cliente = new Cliente();
-		cliente.setNombre("Antonio");
-		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344M");
-		cliente.setEmail("tallersevillacustoms@gmail.com");
-		cliente.setFechaNacimiento(LocalDate.now().minusDays(9000));
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
-		userP.setEnabled(true);
-		cliente.setUser(userP);
-		cliente.setTelefono("111223344");
-		
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
-		v.setCliente(cliente);
-		vehiculoService.saveVehiculo(v);
-		List<Vehiculo> vehiculos = new ArrayList<>();
-		vehiculos.add(v);
-		cliente.setVehiculos(vehiculos);
-		clienteService.saveCliente(cliente);
-		
 		Cita c = new Cita();
 		TipoCita t = tipoCitaService.findById(1).get();
 		List<TipoCita> tipos = new ArrayList<>();
@@ -277,7 +224,7 @@ class FacturaServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -289,7 +236,7 @@ class FacturaServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
@@ -367,32 +314,6 @@ class FacturaServiceTest {
 		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r.setFechaRecogida(LocalDate.now().plusDays(10));
 		
-		Cliente cliente = new Cliente();
-		cliente.setNombre("Antonio");
-		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344M");
-		cliente.setEmail("tallersevillacustoms@gmail.com");
-		cliente.setFechaNacimiento(LocalDate.now().minusDays(9000));
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
-		userP.setEnabled(true);
-		cliente.setUser(userP);
-		cliente.setTelefono("111223344");
-		
-		Vehiculo v = new Vehiculo();
-		TipoVehiculo tv = tipoVehiculoService.findById(1).get();
-		v.setMatricula("4052DMR");
-		v.setModelo("Renault Clio 2006");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(tv);
-		v.setCliente(cliente);
-		vehiculoService.saveVehiculo(v);
-		List<Vehiculo> vehiculos = new ArrayList<>();
-		vehiculos.add(v);
-		cliente.setVehiculos(vehiculos);
-		clienteService.saveCliente(cliente);
-		
 		Cita c = new Cita();
 		TipoCita t = tipoCitaService.findById(1).get();
 		List<TipoCita> tipos = new ArrayList<>();
@@ -400,7 +321,7 @@ class FacturaServiceTest {
 		c.setFecha(LocalDate.now().plusDays(2));
 		c.setHora(18);
 		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("4052DMR").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -412,7 +333,7 @@ class FacturaServiceTest {
 		
 		c.setTaller(taller);
 		
-		citaService.saveCita(c);
+		citaService.saveCita(c, "jesfunrud");
 		
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		

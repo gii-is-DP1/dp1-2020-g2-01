@@ -16,8 +16,6 @@ import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.repository.CitaRepository;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
-import org.springframework.samples.petclinic.util.LoggedUser;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +42,7 @@ public class CitaService {
 	
 	
 	@Transactional
-	public void saveCita(Cita cita) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException
+	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException
 	{	
 		List<Empleado> empleados = cita.getEmpleados();
 		if(empleados!=null) {
@@ -55,8 +53,6 @@ public class CitaService {
 			}
 		}
 		
-
-		String username = LoggedUser.getUsername();
 		Optional<Cliente> c = clienteService.findClientesByUsername(username);
 		if(c.isPresent()) {
 			List<Vehiculo> vehiculosCliente = vehiculoService.findVehiculosCliente(c.get());

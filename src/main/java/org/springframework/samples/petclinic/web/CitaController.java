@@ -22,6 +22,7 @@ import org.springframework.samples.petclinic.service.TipoCitaService;
 import org.springframework.samples.petclinic.service.VehiculoService;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
+import org.springframework.samples.petclinic.util.LoggedUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -128,7 +129,7 @@ public class CitaController {
 			}
 
 			try {
-				citaService.saveCita(cita);
+				citaService.saveCita(cita, LoggedUser.getUsername());
 				model.addAttribute("message", "Cita guardada successfully");
 				
 			}catch(EmpleadoYCitaDistintoTallerException e) {
@@ -287,7 +288,7 @@ public class CitaController {
 		
 		c.getEmpleados().add(empleado.get());
 		try {
-			citaService.saveCita(c);
+			citaService.saveCita(c, LoggedUser.getUsername());
 		} catch (EmpleadoYCitaDistintoTallerException e) {
 			model.put("message", "No puedes atender una cita de otro taller diferente al que trabajas");
 			model.addAttribute("messageType", "danger");
@@ -326,7 +327,7 @@ public class CitaController {
 		}
 		
 		c.getEmpleados().remove(empleado.get());
-		citaService.saveCita(c);
+		citaService.saveCita(c, LoggedUser.getUsername());
 		model.put("message", "Te has quitado correctamente");
 		return vista;
 	}
