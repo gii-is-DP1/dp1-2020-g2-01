@@ -117,6 +117,11 @@ class CitaServiceTest {
 		
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
+<<<<<<< Upstream, based on origin/master
+=======
+<<<<<<< Upstream, based on origin/master
+<<<<<<< Upstream, based on origin/master
+>>>>>>> f4bd4b3 m
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
 		List<TipoCita> tipos = new ArrayList<TipoCita>();
@@ -162,7 +167,63 @@ class CitaServiceTest {
 		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c, "jesfunrud"));
 
 	}
+<<<<<<< Upstream, based on origin/master
 
+=======
+=======
+		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
+=======
+>>>>>>> 679bc5e m
+		c.setFecha(LocalDate.now().plusDays(1));
+		c.setHora(10);
+		List<TipoCita> tipos = new ArrayList<TipoCita>();
+		tipos.add(tipo);
+		c.setTiposCita(tipos);
+		
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+		
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		
+		tallerService.saveTaller(t);
+		
+		c.setTaller(t);
+		
+		for(int i =1; i<4; i++) {
+			Cita c1 = new Cita();
+			TipoCita tipo1 = tipoCitaService.findById(1).get();
+			c.setFecha(LocalDate.now().plusDays(1));
+			c.setHora(10);
+			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
+			tipos.add(tipo1);
+			c.setTiposCita(tipos1);
+			
+			
+			c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+			
+			Taller t1 = new Taller();
+			t.setCorreo("test@test.com");
+			t.setName("test");
+			t.setTelefono("123456789");
+			t.setUbicacion("calle test");
+			
+			tallerService.saveTaller(t1);
+			
+			c.setTaller(t1);
+			
+			citaService.saveCita(c1);
+			
+		}
+		
+		citaService.saveCita(c);
+		
+	}
+	
+>>>>>>> 31793a7 rn4
+>>>>>>> f4bd4b3 m
 	
 	@Test
 	@Transactional
