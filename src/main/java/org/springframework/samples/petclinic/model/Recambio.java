@@ -33,5 +33,5 @@ public class Recambio extends NamedEntity {
 	private Proveedor proveedor;
 	
 	
-
+	
 }
