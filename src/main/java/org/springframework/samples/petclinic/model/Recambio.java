@@ -28,5 +28,5 @@ public class Recambio extends NamedEntity {
 	private int cantidadActual;
 	
 	
-
+	
 }
