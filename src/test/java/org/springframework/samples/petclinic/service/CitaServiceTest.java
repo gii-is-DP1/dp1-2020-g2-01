@@ -136,11 +136,7 @@ class CitaServiceTest {
 		for(int i =1; i<4; i++) {
 			Cita c1 = new Cita();
 			TipoCita tipo1 = tipoCitaService.findById(1).get();
-<<<<<<< Upstream, based on origin/master
-			c1.setFecha(LocalDate.now().minusDays(15).plusDays(i));
-=======
 			c1.setFecha(LocalDate.now().plusDays(i));
->>>>>>> a4d004f Sin terminar ni CitaSinPresentarse ni tests
 			c1.setHora(10);
 			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
 			tipos1.add(tipo1);
@@ -162,7 +158,7 @@ class CitaServiceTest {
 			citaService.saveCita(c1, "jesfunrud");
 		}
 		
-		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c));
+		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c, "jesfunrud"));
 	}
 
 	@Test
