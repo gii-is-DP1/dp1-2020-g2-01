@@ -95,14 +95,14 @@ public class ClienteController {
 	}
 	
 	@GetMapping(value = "/new")
-	public String anadirCliente(ModelMap model) {
+	public String initNuevoCliente(ModelMap model) {
 		Cliente cliente = new Cliente();
 		model.put("cliente", cliente);
 		return FORMULARIO_ADD_UPDATE_CLIENTES;
 	}
 
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Cliente cliente, BindingResult result) {
+	public String processNuevoCliente(@Valid Cliente cliente, BindingResult result) {
 		if (result.hasErrors()) {
 			return FORMULARIO_ADD_UPDATE_CLIENTES;
 		}

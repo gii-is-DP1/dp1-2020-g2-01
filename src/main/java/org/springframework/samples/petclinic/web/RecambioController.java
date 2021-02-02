@@ -20,15 +20,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/recambios")
+
 public class RecambioController {
 
-	
-//	private static final String FORM_CONFIRM_DELETE_RECAMBIO = "recambios/confirmar_recambio_borrado";
 
 	@Autowired
 	private RecambioService recambioService;
@@ -70,7 +67,7 @@ public class RecambioController {
 //	}
 //	
 //	@GetMapping(value="/deleteRecambio/{recambioId}")
-//	public String processDeleteVehiculo(@PathVariable("recambioId") int id, ModelMap model) {
+//	public String processDeleteRecambio(@PathVariable("recambioId") int id, ModelMap model) {
 //		String vista;
 //		Recambio r = recambioService.findRecambioById(id).get();
 //		System.out.println(r);
@@ -100,7 +97,7 @@ public class RecambioController {
 		return vista;
 	}
 	
-	
+
 	@GetMapping("/solicitud/terminarSolicitud/{id}")
 	public String terminarSolicitud(@PathVariable int id, ModelMap model) {
 		Optional<Solicitud> opt = solicitudService.findById(id);
@@ -113,7 +110,6 @@ public class RecambioController {
 		}
 		
 		return listadoRecambiosSolicitados(null, model);
-		
 	}
 	
 	
@@ -180,8 +176,5 @@ public class RecambioController {
 		return vista;
 		
 	}
-	
-	
-	
 	
 }

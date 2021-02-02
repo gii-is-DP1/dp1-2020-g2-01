@@ -8,25 +8,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
-import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.EjemplarRecambio;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.LineaFactura;
+import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
-import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
@@ -74,6 +73,9 @@ class LineaFacturaServiceTest {
 	protected RecambioService recambioService;
 	
 	@Autowired
+	protected ProveedorService proveedorService;
+	
+	@Autowired
 	protected EjemplarRecambioService ejemplarRecambioService;
 	
 	
@@ -91,6 +93,8 @@ class LineaFacturaServiceTest {
 		rec.setName("Neumáticos Pirelli");
 		rec.setCantidadActual(100);
 		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+		Optional<Proveedor> p = proveedorService.findProveedorById(201);
+		rec.setProveedor(p.get());
 		
 		recambioService.saveRecambio(rec);
 		
@@ -145,9 +149,9 @@ class LineaFacturaServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP2);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("298756432121");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -182,6 +186,8 @@ class LineaFacturaServiceTest {
 			rec.setName("Neumáticos Pirelli");
 			rec.setCantidadActual(100);
 			rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+			Optional<Proveedor> p = proveedorService.findProveedorById(201);
+			rec.setProveedor(p.get());
 			
 			recambioService.saveRecambio(rec);
 			
@@ -238,9 +244,9 @@ class LineaFacturaServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP2);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("345678901234");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -273,7 +279,8 @@ class LineaFacturaServiceTest {
 			rec.setName("Neumáticos Pirelli");
 			rec.setCantidadActual(100);
 			rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
-			
+			Optional<Proveedor> p = proveedorService.findProveedorById(201);
+			rec.setProveedor(p.get());
 			recambioService.saveRecambio(rec);
 			
 			EjemplarRecambio ej = new EjemplarRecambio();
@@ -327,9 +334,9 @@ class LineaFacturaServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP2);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("980635126487");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		

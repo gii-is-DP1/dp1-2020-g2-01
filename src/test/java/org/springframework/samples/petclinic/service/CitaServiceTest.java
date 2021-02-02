@@ -213,9 +213,9 @@ class CitaServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("234567820145");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		e1.setTaller(t2);
