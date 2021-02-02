@@ -6,6 +6,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+
 <petclinic:layout pageName="pedidosEmpleado">
 	<style>
 		.helper {
@@ -35,6 +36,9 @@
 
     <h2>Listado de recambios solicitados</h2>
     
+	<a href="/recambios/solicitud/new" class="btn btn-success">Crear solicitud</a>
+	<br/><br/>
+
     <a href="/recambios/listadoRecambiosSolicitados" class="btn btn-success">Todas las solicitudes</a>
     <a href="/recambios/listadoRecambiosSolicitados?terminadas=true" class="btn btn-success">Solicitudes terminadas</a>
     <a href="/recambios/listadoRecambiosSolicitados?terminadas=false" class="btn btn-success">Solicitudes no terminadas</a>
@@ -50,6 +54,8 @@
 	            <th>Cantidad</th>
 	            <th>Terminada</th>
 	            <th>Empleado que realizó la solicitud</th>
+	            <th></th>
+	            <th></th>
 	            <th></th>
 	        </tr>
         </thead>
@@ -73,10 +79,33 @@
 		        		<c:out value="${solicitud.empleado.nombre} ${solicitud.empleado.apellidos}" />	        	
 		        	</td>
 		        	
+		        	
 		        	<td>
-						<a href="/recambios/terminarSolicitud/${solicitud.id}" class="btn btn-success">Terminar</a>
+						<spring:url value="/recambios/solicitud/update/${solicitud.id}" var="solicitudUrl">
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(solicitudUrl)}">
+	                    	<span class="helper glyphicon glyphicon-pencil"></span>
+	                    </a>		        	
+	                </td>
+	                
+	                
+		        	<td>
+						<spring:url value="/recambios/solicitud/delete/${solicitud.id}" var="solicitudUrl">
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(solicitudUrl)}">
+	                    	<span class="helper glyphicon glyphicon-trash"></span>
+	                    </a>		        	
+	                </td>
+		        	
+		        	
+		        	<td>
+			        	<c:if test="${solicitud.terminada==false}">
+							<a href="/recambios/solicitud/terminarSolicitud/${solicitud.id}" class="btn btn-success">Terminar</a>
+			        	</c:if>
 		        	</td>
-		
+		        	
+	
+					
 		        </tr>
       		</c:forEach>
         </tbody>
