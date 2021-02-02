@@ -32,13 +32,5 @@ public class Recambio extends NamedEntity {
 	@NotNull
 	private Proveedor proveedor;
 	
-<<<<<<< Upstream, based on origin/master
 
-=======
-	
-<<<<<<< Upstream, based on origin/master
->>>>>>> 73e0f55 rn4
-	
-=======
->>>>>>> 31793a7 rn4
 }
