@@ -31,6 +31,4 @@ public class Recambio extends NamedEntity {
 	@ManyToOne
 	@NotNull
 	private Proveedor proveedor;
-	
-
 }

@@ -67,7 +67,6 @@ class CitaServiceTest {
 		CitaSinPresentarseException{
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
 		List<TipoCita> tipos = new ArrayList<TipoCita>();
@@ -269,6 +268,7 @@ class CitaServiceTest {
 	@Transactional
 	void shouldNotUpdateInvalidCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
 	CitaSinPresentarseException{
+
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		
@@ -307,6 +307,7 @@ class CitaServiceTest {
 	@Test
 	void shouldDeleteCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
 	CitaSinPresentarseException{
+
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		
@@ -340,6 +341,7 @@ class CitaServiceTest {
 	@Test
 	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotFoundException, 
 	NotAllowedException, CitaSinPresentarseException {
+
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		
