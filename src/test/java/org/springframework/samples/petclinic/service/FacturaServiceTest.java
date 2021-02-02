@@ -28,6 +28,8 @@ import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.model.Vehiculo;
+import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
@@ -81,7 +83,7 @@ class FacturaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldInsertFactura() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException{
+	void shouldInsertFactura() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException{
 		
 		Factura f = new Factura();
 		f.setDescuento(0);
@@ -185,7 +187,7 @@ class FacturaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotInsertFactura() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException{
+	void shouldNotInsertFactura() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException{
 		Factura f = new Factura();
 		//Sin valor de descuento
 		f.setFechaPago(LocalDate.now().plusDays(10));
@@ -285,7 +287,7 @@ class FacturaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldDeleteFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException{
+	void shouldDeleteFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException{
 		
 		Factura f = new Factura();
 		f.setDescuento(0);

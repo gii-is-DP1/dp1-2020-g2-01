@@ -23,6 +23,8 @@ import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.model.Vehiculo;
+import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
@@ -66,7 +68,7 @@ class ReparacionServiceTest {
 	protected UserService userService;
 	
 	@Test
-	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion");
@@ -131,7 +133,7 @@ class ReparacionServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotInsertReparacionInvalida() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldNotInsertReparacionInvalida() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		
 		Reparacion r = new Reparacion();
 
@@ -196,7 +198,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldNotInsertReparacionConFechasIncorrectas() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldNotInsertReparacionConFechasIncorrectas() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion hola que tal");
@@ -259,7 +261,7 @@ class ReparacionServiceTest {
 	
 	
 	@Test
-	void shouldNotInsertReparacionConEmpleadoCon3ReparacionesSimultaneas() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldNotInsertReparacionConEmpleadoCon3ReparacionesSimultaneas() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		//Setup inicial de reparacion (faltan cosas)
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Descripción de prueba"); 
@@ -403,7 +405,7 @@ class ReparacionServiceTest {
 	
 	
 	@Test
-	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
@@ -470,7 +472,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
@@ -543,7 +545,7 @@ class ReparacionServiceTest {
 	
 	
 	@Test
-	void shouldDeleteReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldDeleteReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion hola que tal");
@@ -609,7 +611,7 @@ class ReparacionServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldFinalizar() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException{
+	void shouldFinalizar() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException{
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(2));
@@ -673,7 +675,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldGetReparacionesCliente() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	void shouldGetReparacionesCliente() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));

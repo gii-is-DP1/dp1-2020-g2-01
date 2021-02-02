@@ -20,6 +20,7 @@ import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.TallerService;
 import org.springframework.samples.petclinic.service.TipoCitaService;
 import org.springframework.samples.petclinic.service.VehiculoService;
+import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
 import org.springframework.samples.petclinic.util.LoggedUser;
@@ -142,6 +143,8 @@ public class CitaController {
 				model.addAttribute("message", "El vehículo seleccionado no se encuentra");
 				model.addAttribute("messageType", "danger");
 				model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(c));
+			}catch(CitaSinPresentarseException e) {
+				model.addAttribute("message", "Ha sobrepasado el límite de citas sin asistir, por lo que no puede pedir más citas hasta dentro de 1 semana");
 			}
 			
 			vista = listadoCitas(model);
@@ -302,7 +305,8 @@ public class CitaController {
 	}
 	
 	@GetMapping(value="/noAtender/{citaId}")
-	public String eliminarEmpleadoDeCita(@PathVariable("citaId") int id, ModelMap model) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
+	public String eliminarEmpleadoDeCita(@PathVariable("citaId") int id, ModelMap model) throws DataAccessException, EmpleadoYCitaDistintoTallerException, 
+	NotAllowedException, CitaSinPresentarseException {
 		String vista = listadoCitas(model);
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);

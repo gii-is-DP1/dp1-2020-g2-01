@@ -14,6 +14,7 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.repository.CitaRepository;
+import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
 import org.springframework.stereotype.Service;
@@ -42,14 +43,31 @@ public class CitaService {
 	
 	
 	@Transactional
-	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException
+	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException
 	{	
 		List<Empleado> empleados = cita.getEmpleados();
+		List<Cita> citasNoReparacion = this.findCitaSinReparacion(); // Necesita el username
 		if(empleados!=null) {
 			for(Empleado e:empleados) {
 				if(!e.getTaller().equals(cita.getTaller())) {
 					throw new EmpleadoYCitaDistintoTallerException();
 				}
+			}
+		}
+		if(citasNoReparacion.size()>=3) {
+			int c = 0;
+			Boolean masDeUnaSemana = true;
+			for(Cita citaR: citasNoReparacion) {
+				if(citaR.getFecha().isBefore(LocalDate.now())) {
+					c++;
+					if(citaR.getFecha().isAfter(LocalDate.now().minusDays(7))) {
+						masDeUnaSemana = false;
+					}
+				}
+					
+			}
+			if(c>=3 && !masDeUnaSemana) {
+				throw new CitaSinPresentarseException();
 			}
 		}
 		
