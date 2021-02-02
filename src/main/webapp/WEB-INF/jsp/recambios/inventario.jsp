@@ -8,7 +8,7 @@
 <petclinic:layout pageName="recambios">
     <h2 class="col-sm-2">Inventario</h2>
         	
-		<a href="/recambios/addSolicitud" class="btn btn-success">Nueva solicitud de producto</a>
+		<a href="/solicitud/new" class="btn btn-success">Nueva solicitud de producto</a>
 		<a href="/recambios/listadoRecambiosSolicitados" class="btn btn-success">Registro de solicitudes</a>
 
     <div class="col-sm-12" style="height:5px"></div>
