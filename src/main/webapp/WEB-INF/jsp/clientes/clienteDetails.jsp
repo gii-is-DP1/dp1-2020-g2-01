@@ -22,7 +22,7 @@
     <h3 class="panel-title">Información de cliente</h3>
   </div>
   <div class="panel-body">
-    <label class="col-sm-4">Nombre y apellidos: </label>${cliente.nombre} ${cliente.apellidos}
+    <label class="col-sm-4">Nombre y apellidos: </label> ${cliente.nombre}&nbsp${cliente.apellidos}
   </div>
   <div class="panel-body">
     <label class="col-sm-4">DNI: </label>${cliente.dni}

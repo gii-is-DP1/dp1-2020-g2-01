@@ -28,12 +28,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RecambioController {
 
 	
+//	private static final String FORM_CONFIRM_DELETE_RECAMBIO = "recambios/confirmar_recambio_borrado";
+
 	@Autowired
 	private RecambioService recambioService;
 	
 	@Autowired
 	private SolicitudService solicitudService;
-	
+
 	@Autowired
 	private EmpleadoService empleadoService;
 	
@@ -49,8 +51,41 @@ public class RecambioController {
 		return (List<Recambio>) this.recambioService.findAll();
 	}
 	
+
+	@GetMapping(value="/listadoRecambios")
+	public String listadoInventario(ModelMap model) {
+		String vista="recambios/inventario";
+		Iterable<Recambio> recambios = recambioService.findAll();
+		model.put("recambios", recambios);
+		return vista;
+	}
+
+//	@GetMapping(value="/delete/{recambioId}")
+//	public String initDeleteRecambio(@PathVariable ("recambioId") int id, ModelMap model) {
+//		String vista;
+//		Recambio r = recambioService.findRecambioById(id).get();
+//		model.addAttribute("recambios", r);
+//		vista=FORM_CONFIRM_DELETE_RECAMBIO;
+//		return vista;
+//	}
+//	
+//	@GetMapping(value="/deleteRecambio/{recambioId}")
+//	public String processDeleteVehiculo(@PathVariable("recambioId") int id, ModelMap model) {
+//		String vista;
+//		Recambio r = recambioService.findRecambioById(id).get();
+//		System.out.println(r);
+//		try {
+//			recambioService.delete(r);
+//			model.addAttribute("message", "Recambio borrado correctamente.");
+//		}catch(Exception e) {
+//			model.addAttribute("message", "Error inesperado al borrar el recambio.");
+//			model.addAttribute("messageType", "danger");
+//		}
+//		vista=listadoInventario(model);
+//		return vista;
+//	}
 	
-	@GetMapping("/listadoRecambiosSolicitados")
+	@GetMapping(value="/listadoRecambiosSolicitados")
 	public String listadoRecambiosSolicitados(@RequestParam(required=false, name="terminadas") Boolean terminadas, ModelMap model) {
 		String vista = "recambios/listadoRecambiosSolicitados";
 		List<Solicitud> solicitudes;
@@ -63,7 +98,6 @@ public class RecambioController {
 		}
 		model.addAttribute("solicitudes", solicitudes);	
 		return vista;
-		
 	}
 	
 	

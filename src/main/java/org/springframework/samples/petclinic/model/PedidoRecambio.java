@@ -24,7 +24,6 @@ public class PedidoRecambio extends NamedEntity{
 	@Positive
 	private Integer cantidad;
 	
-	
 	@NotNull
 	@Positive
 	@NotEmpty
