@@ -41,5 +41,9 @@ public class RecambioService {
 		return recambioRepository.findRecambioByName(name);
 	}
 
+	@Transactional(readOnly=true)
+	public Optional<Recambio> findRecambioByName(String name) {
+		return recambioRepository.findRecambioByName(name);
+	}
 
 }

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Recambio;
@@ -19,6 +20,7 @@ import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedProveedorNifException;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -46,7 +48,14 @@ public class SolicitudServiceTests {
 	
 	
 	@BeforeAll
-	void setup() {
+	void setup() throws DataAccessException, DuplicatedProveedorNifException {
+		Proveedor p = new Proveedor();
+		p.setName("Norauto");
+		p.setNif("98765432A");
+		p.setTelefono("665112233");
+		p.setEmail("norauto@gmail.com");
+		proveedorService.saveProveedor(p);
+		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
 		taller.setName("test");
@@ -82,8 +91,7 @@ public class SolicitudServiceTests {
 		r1.setCantidadActual(5);
 		TipoVehiculo tipo = tipoVehiculoService.findByTipo("COCHE").get();
 		r1.setTipoVehiculo(tipo);
-		Optional<Proveedor> p = proveedorService.findProveedorById(201);
-		r1.setProveedor(p.get());
+		r1.setProveedor(p);
 		
 		
 		recambioService.saveRecambio(r1);
