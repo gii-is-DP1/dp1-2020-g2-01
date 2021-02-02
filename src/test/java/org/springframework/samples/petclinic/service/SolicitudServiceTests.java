@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Taller;
@@ -39,6 +41,9 @@ public class SolicitudServiceTests {
 	@Autowired
 	protected TipoVehiculoService tipoVehiculoService;
 	
+	@Autowired
+	protected ProveedorService proveedorService;
+	
 	
 	@BeforeAll
 	void setup() {
@@ -61,9 +66,9 @@ public class SolicitudServiceTests {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("244567890145");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -77,6 +82,8 @@ public class SolicitudServiceTests {
 		r1.setCantidadActual(5);
 		TipoVehiculo tipo = tipoVehiculoService.findByTipo("COCHE").get();
 		r1.setTipoVehiculo(tipo);
+		Optional<Proveedor> p = proveedorService.findProveedorById(201);
+		r1.setProveedor(p.get());
 		
 		
 		recambioService.saveRecambio(r1);

@@ -48,8 +48,8 @@ public class EmpleadoServiceTest {
 		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
 		e.setFechaNacimiento(LocalDate.now().minusYears(40));
 		e.setNombre("Laura");
-		e.setNum_seg_social("82938103-23183-21");
-		e.setSueldo(1098L);
+		e.setNum_seg_social("123456789074");
+		e.setSueldo(1098);
 		e.setTelefono("678456736");
 		e.setUsuario(userP);
 		
@@ -90,8 +90,8 @@ public class EmpleadoServiceTest {
 		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
 		e.setFechaNacimiento(LocalDate.now().minusYears(40));
 		e.setNombre("Laura");
-		e.setNum_seg_social("82938103-23183-21");
-		e.setSueldo(1098L);
+		e.setNum_seg_social("234567890123");
+		e.setSueldo(1098);
 		e.setTelefono("678456736");
 		e.setUsuario(userP);
 		
@@ -120,8 +120,8 @@ public class EmpleadoServiceTest {
 		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
 		e.setFechaNacimiento(LocalDate.now().minusYears(40));
 		e.setNombre("Laura");
-		e.setNum_seg_social("82938103-23183-21");
-		e.setSueldo(1098L);
+		e.setNum_seg_social("345678901234");
+		e.setSueldo(1099);
 		e.setTelefono("678456736");
 		e.setUsuario(userP);
 		
@@ -169,8 +169,8 @@ public class EmpleadoServiceTest {
 		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
 		e.setFechaNacimiento(LocalDate.now().minusYears(40));
 		e.setNombre("Laura");
-		e.setNum_seg_social("82938103-23183-21");
-		e.setSueldo(1098L);
+		e.setNum_seg_social("567890123413");
+		e.setSueldo(1098);
 		e.setTelefono("678456736");
 		e.setUsuario(userP);
 		
@@ -217,8 +217,8 @@ public class EmpleadoServiceTest {
 		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
 		e.setFechaNacimiento(LocalDate.now().minusYears(40));
 		e.setNombre("Laura");
-		e.setNum_seg_social("82938103-23183-21");
-		e.setSueldo(1098L);
+		e.setNum_seg_social("678901234567");
+		e.setSueldo(1098);
 		e.setTelefono("678456736");
 		e.setUsuario(userP);
 		

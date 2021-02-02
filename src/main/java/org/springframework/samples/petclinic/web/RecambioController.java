@@ -6,26 +6,24 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.RecambioService;
 import org.springframework.samples.petclinic.service.SolicitudService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 
 public class RecambioController {
-
-	
-private static final String FORMULARIO_ADD_UPDATE_SOLICITUD = "recambios/createOrUpdateSolicitud";
 
 
 	@Autowired
@@ -33,10 +31,6 @@ private static final String FORMULARIO_ADD_UPDATE_SOLICITUD = "recambios/createO
 	
 	@Autowired
 	private SolicitudService solicitudService;
-	
-	@Autowired
-	private EmpleadoService empleadoService;
-	
 
 	@GetMapping(value="/recambios/inventario")
 	public String listadoInventario(ModelMap model) {
@@ -64,7 +58,6 @@ private static final String FORMULARIO_ADD_UPDATE_SOLICITUD = "recambios/createO
 
 	@GetMapping("/recambios/terminarSolicitud/{id}")
 	public String terminarSolicitud(@PathVariable int id, ModelMap model) {
-		//Esta función debería añadir los datos a PedidoRecambio automáticamente. 
 		Optional<Solicitud> opt = solicitudService.findById(id);
 		if(opt.isPresent()) {
 			Solicitud s = opt.get();
@@ -76,29 +69,5 @@ private static final String FORMULARIO_ADD_UPDATE_SOLICITUD = "recambios/createO
 		
 		return listadoRecambiosSolicitados(null, model);
 		
-	}
-	
-	@GetMapping(value="/nuevaSolicitud")
-	public String initNuevaSolicitud(ModelMap model) {
-		Solicitud solicitud = new Solicitud();
-		model.addAttribute("solicitud", solicitud);
-		model.addAttribute("empleados", empleadoService.findAll());
-		model.addAttribute("recambios", recambioService.findAll());
-		return FORMULARIO_ADD_UPDATE_SOLICITUD;
-	}
-	
-	@PostMapping(value="/nuevaSolicitud")
-	public String processNuevaSolicitud(@Valid Solicitud solicitud, BindingResult result, ModelMap model) {
-		if(result.hasErrors()) {
-			return FORMULARIO_ADD_UPDATE_SOLICITUD;
-		}
-		else {
-			this.solicitudService.saveSolicitud(solicitud);
-			return listadoRecambiosSolicitados(null, model);
-		}
-	}
-	
-	
-	
-	
+	}	
 }

@@ -12,21 +12,17 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
-import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
-import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
@@ -114,9 +110,9 @@ class ReparacionServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("234567890145");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -181,9 +177,9 @@ class ReparacionServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("234567290145");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -245,9 +241,9 @@ class ReparacionServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("234567890141");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -311,9 +307,9 @@ class ReparacionServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("234567890140");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -450,9 +446,9 @@ class ReparacionServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("234567890144");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -517,9 +513,9 @@ class ReparacionServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("234567890345");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -591,9 +587,9 @@ class ReparacionServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("234567891145");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -656,9 +652,9 @@ class ReparacionServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP2);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("234567890148");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -721,9 +717,9 @@ class ReparacionServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("234567890345");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		

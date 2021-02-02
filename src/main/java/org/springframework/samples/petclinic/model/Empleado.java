@@ -8,9 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,11 +28,12 @@ public class Empleado extends Persona {
 	private LocalDate fecha_ini_contrato, fecha_fin_contrato;
 	
 	@NotNull
-	@DecimalMin(value="950")
-	private Long sueldo;
+	@Min(950)
+	private Integer sueldo;
 	
 	@NotNull
-	@NotEmpty
+	@Pattern(regexp = "^[0-9]{12}", 
+	message = "El Número de Seguridad Social debe seguir contener 12 dígitos. Patrón: 123456789012")
 	private String num_seg_social;
 	
 	@JoinColumn(name="username", referencedColumnName="username")
