@@ -152,12 +152,16 @@ INSERT INTO users(username,password,enabled) VALUES ('clienteEjemplo',@CONTRASEN
 INSERT INTO authorities(username,authority) VALUES ('clienteEjemplo','cliente');
 INSERT INTO clientes(id, dni, fecha_nacimiento, nombre, apellidos, telefono, email, username) VALUES (99, '12345678A','2000-02-20', 'Cliente', 'Ejemplo', '646123456', 'tallersevillacustoms@gmail.com', 'clienteEjemplo');
 
-INSERT INTO users(username,password,enabled) VALUES ('adminEjemplo', @CONTRASENA,true);
-INSERT INTO authorities(username,authority) VALUES ('adminEjemplo','admin');
+INSERT INTO users(username,password,enabled) VALUES ('admin', @CONTRASENA,true);
+INSERT INTO authorities(username,authority) VALUES ('admin','admin');
+INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
+				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (1, 'Páez García', '77838103F', 
+					'1982-09-13', 'Candela', 638184619, 'correodeadministrador@gmail.com', '2024-01-09', '2018-11-16', '111111111118', 1050, 'admin', 1);
+					
 
 
 INSERT INTO users(username,password,enabled) VALUES ('fraborcar', @CONTRASENA,true);
-INSERT INTO authorities(username,authority) VALUES ('fraborcar','admin');
+INSERT INTO authorities(username,authority) VALUES ('fraborcar','cliente');
 INSERT INTO clientes(id, dni, nombre, apellidos, telefono, fecha_nacimiento, email, username) VALUES (100, '34567890A','Francisco', 'Borrego', '646123456', '2000-02-20', 'tallersevillacustoms@gmail.com', 'fraborcar');
 
 
@@ -166,14 +170,13 @@ INSERT INTO clientes(id, dni, nombre, apellidos, telefono, fecha_nacimiento, ema
 INSERT INTO proveedores(id, name, nif, telefono, email) VALUES (201, 'Pablo', '12345678H', '665112233', 'gumersindo@gmail.com');
 
 INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual, proveedor_id) VALUES (100, 'Neumático Michelin', 1, 45, 201);
-INSERT INTO ejemplarrecambios (id, recambio_id, cantidad) VALUES (1, 100, 4);
+INSERT INTO ejemplarrecambios (id, recambio_id) VALUES (1, 100);
 
 
 INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 100);
 
 
 --
-
 
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1111AAB', 'VSSZZZ6KZ1R149943', 'Opel Corsa', 1, 100);
@@ -198,7 +201,7 @@ INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id) VALUES (201,'2021-10-
 INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
-INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, ejemplar_recambio_id) VALUES (360, 15, 1, 'Cambio 4 ruedas', 1);
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, ejemplar_recambio_id, cantidad) VALUES (360, 15, 1, 'Cambio 4 ruedas', 1, 4);
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion) VALUES (80, 0, 1,'2h de trabajo');
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);

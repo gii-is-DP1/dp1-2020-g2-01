@@ -8,28 +8,26 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
-import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.EjemplarRecambio;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Factura;
 import org.springframework.samples.petclinic.model.LineaFactura;
+import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
-import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
@@ -77,6 +75,9 @@ class FacturaServiceTest {
 	@Autowired
 	protected EjemplarRecambioService ejemplarRecambioService;
 	
+	@Autowired
+	protected ProveedorService proveedorService;
+	
 	
 	@Test
 	@Transactional
@@ -97,6 +98,8 @@ class FacturaServiceTest {
 		rec.setName("Neumáticos Pirelli");
 		rec.setCantidadActual(100);
 		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+		Optional<Proveedor> p = proveedorService.findProveedorById(201);
+		rec.setProveedor(p.get());
 		
 		recambioService.saveRecambio(rec);
 		
@@ -152,9 +155,9 @@ class FacturaServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP2);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("123456789056");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -169,6 +172,7 @@ class FacturaServiceTest {
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
 		lf.setEjemplarRecambio(ej);
+		lf.setCantidad(4);
 		lFService.saveLineaFactura(lf);
 		
 		lineas.add(lf);
@@ -198,6 +202,8 @@ class FacturaServiceTest {
 		rec.setName("Neumáticos Pirelli");
 		rec.setCantidadActual(100);
 		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+		Optional<Proveedor> p = proveedorService.findProveedorById(201);
+		rec.setProveedor(p.get());
 		
 		recambioService.saveRecambio(rec);
 		
@@ -252,9 +258,9 @@ class FacturaServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP2);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("987654321087");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -269,6 +275,7 @@ class FacturaServiceTest {
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
 		lf.setEjemplarRecambio(ej);
+		lf.setCantidad(4);
 		lFService.saveLineaFactura(lf);
 		
 		lineas.add(lf);
@@ -295,6 +302,8 @@ class FacturaServiceTest {
 		rec.setName("Neumáticos Pirelli");
 		rec.setCantidadActual(100);
 		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+		Optional<Proveedor> p = proveedorService.findProveedorById(201);
+		rec.setProveedor(p.get());
 		
 		recambioService.saveRecambio(rec);
 		
@@ -349,9 +358,9 @@ class FacturaServiceTest {
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000L);
+		e1.setSueldo(1000);
 		e1.setUsuario(userP2);
-		e1.setNum_seg_social("1");
+		e1.setNum_seg_social("657483920193");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
@@ -366,6 +375,7 @@ class FacturaServiceTest {
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
 		lf.setEjemplarRecambio(ej);
+		lf.setCantidad(4);
 		lFService.saveLineaFactura(lf);
 		
 		lineas.add(lf);
