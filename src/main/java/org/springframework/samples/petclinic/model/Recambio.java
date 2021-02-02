@@ -27,6 +27,4 @@ public class Recambio extends NamedEntity {
 	@JoinColumn(name="cantidad_actual")
 	private int cantidadActual;
 	
-	
-
 }

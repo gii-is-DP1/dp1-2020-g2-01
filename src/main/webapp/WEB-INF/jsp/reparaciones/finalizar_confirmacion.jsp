@@ -5,23 +5,24 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <petclinic:layout pageName="finalizar">
     <br>
     
     <div class="reparacion" align="center">
-    	<h4><strong>¿Está seguro de que desea dar por finalizada esta reparación?</strong></h4>
-    	<h5>Se sobreescribirá la fecha de finalización de esta reparación.</h5>
+    	<h4><strong>Â¿EstÃ¡ seguro de que desea dar por finalizada esta reparaciÃ³n?</strong></h4>
+    	<h5>Se sobreescribirÃ¡ la fecha de finalizaciÃ³n de esta reparaciÃ³n.</h5>
     	<br>
     	
     	<spring:url value="/reparaciones/finalizarReparacion/{reparacionId}" var="reparacionUrl">
     					<spring:param name="reparacionId" value="${reparacion.id}"/>
     	</spring:url>		
-    	<a href="${fn:escapeXml(reparacionUrl)}" class="btn btn-success btn-lg" type="submit">Sí, estoy seguro</a>
+    	<a href="${fn:escapeXml(reparacionUrl)}" class="btn btn-success btn-lg" type="submit">SÃ­, estoy seguro</a>
 		<a href="/reparaciones/listadoReparaciones" class="btn btn-default btn-lg" role="button" style="border-width: 1px">No, volver al listado</a>
 		<br><br>
-		<h5>Se enviará un correo electrónico al cliente de que su vehículo ya está reparado.</h5>
-    	<h5>Esta acción no se puede deshacer.</h5>
+		<h5>Se enviarÃ¡ un correo electrÃ³nico al cliente de que su vehÃ­culo ya estÃ¡ reparado.</h5>
+    	<h5>Esta acciÃ³n no se puede deshacer.</h5>
     	
     	
     	

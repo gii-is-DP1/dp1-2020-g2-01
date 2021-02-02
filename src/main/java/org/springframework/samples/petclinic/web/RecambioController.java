@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.PedidoRecambio;
+import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Solicitud;
+import org.springframework.samples.petclinic.service.PedidoRecambioService;
 import org.springframework.samples.petclinic.service.RecambioService;
 import org.springframework.samples.petclinic.service.SolicitudService;
 import org.springframework.stereotype.Controller;
@@ -24,6 +27,9 @@ public class RecambioController {
 	
 	@Autowired
 	private SolicitudService solicitudService;
+	
+	@Autowired
+	private PedidoRecambioService pedidoRecambioService;
 	
 	
 	@GetMapping("/listadoRecambiosSolicitados")
@@ -57,8 +63,36 @@ public class RecambioController {
 		return listadoRecambiosSolicitados(null, model);
 		
 	}
+
+	@GetMapping("/pedidosRecambio/listadoPedidosRecambio")
+	public String irListadoPedidos(ModelMap model) {
+		Iterable<PedidoRecambio> op = pedidoRecambioService.findAll();
+		model.addAttribute("pedidoRecambio",op);
+		return "pedidosRecambio/listadoPedidosRecambio";
+	}
 	
-	
-	
+	@GetMapping("/update/{id}")
+	public String actualizarStock(@PathVariable int id, ModelMap model) {
+		Optional<PedidoRecambio> opt = pedidoRecambioService.findById(id);
+		if(opt.isPresent()) {
+			PedidoRecambio s = opt.get();
+			String nombre = s.getName();
+			int cantidad = s.getCantidad();
+			s.setSeHaRecibido(true);
+			Optional<Recambio> opt1 = recambioService.findRecambioByNombre(nombre);
+			if(opt1.isPresent()) {
+				Recambio p = opt1.get();
+				int cantidadActual= p.getCantidadActual();
+				p.setCantidadActual(cantidadActual+cantidad);
+				recambioService.saveRecambio(p);
+			}else {
+				model.addAttribute("message", "No existe el recambio");
+			}
+		} else {
+			model.addAttribute("message", "No existe el pedido");
+		}
+		
+		return irListadoPedidos(model);
+	}
 	
 }

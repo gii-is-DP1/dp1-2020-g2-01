@@ -51,6 +51,10 @@ public class ProveedorService {
 	}
 	
 	
+	@Transactional(readOnly = true)
+	public Optional<Proveedor> findProveedorByName(String name) throws DataAccessException {
+		return proveedorRepository.findProveedorByName(name);
+	}
 	
 	
 }
