@@ -35,5 +35,9 @@ public class SolicitudService {
 	public Optional<Solicitud> findById(Integer id) {
 		return this.solicitudRepository.findById(id);
 	}
+	
+	public void delete(Solicitud s) {
+		this.solicitudRepository.delete(s);
+	}
 
 }

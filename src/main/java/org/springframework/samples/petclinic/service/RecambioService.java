@@ -36,5 +36,9 @@ public class RecambioService {
 		recambioRepository.delete(recambio);
 	}
 
+	@Transactional(readOnly=true)
+	public Optional<Recambio> findRecambioByName(String name) {
+		return recambioRepository.findRecambioByName(name);
+	}
 
 }
