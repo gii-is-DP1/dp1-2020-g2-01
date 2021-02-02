@@ -64,7 +64,6 @@ class CitaServiceTest {
 		CitaSinPresentarseException{
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-		
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
 		List<TipoCita> tipos = new ArrayList<TipoCita>();
@@ -155,7 +154,6 @@ class CitaServiceTest {
 		}
 		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c, "jesfunrud"));
 	}
-	
 	
 	@Test
 	@Transactional
