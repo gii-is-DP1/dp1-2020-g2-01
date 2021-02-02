@@ -50,11 +50,11 @@
     </p>
   </div>
   <div class="panel-body">
-<<<<<<< Upstream, based on origin/master
-    <label class="col-sm-4">Fecha estimada finalización: </label>
-=======
+
+    <label class="col-sm-4">Fecha estimada finalizaciï¿½n: </label>
+
     <label class="col-sm-4">Fecha de finalizaciÃ³n estimada: </label>
->>>>>>> 3db289a AÃ±adir H16 y H13
+
     <fmt:parseDate value="${reparacion.tiempoEstimado}" pattern="yyyy-MM-dd" 
                              var="parsedDate" type="date" />
 
@@ -98,7 +98,7 @@
 <div class="col-sm-6">
 <div class="panel panel-success">
   <div class="panel-heading">
-    <h3 class="panel-title">Líneas de factura</h3>
+    <h3 class="panel-title">Lï¿½neas de factura</h3>
   </div>
 	<table class="table table-striped">
        <thead>
