@@ -32,15 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javassist.NotFoundException;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-<<<<<<< Upstream, based on origin/master
-<<<<<<< Upstream, based on origin/master
-=======
-
->>>>>>> 6bc85ec m
-=======
-
-
->>>>>>> 1ed4e22 m
 class CitaServiceTest {
 	
 	@Autowired
@@ -122,8 +113,6 @@ class CitaServiceTest {
 		
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-<<<<<<< Upstream, based on origin/master
-<<<<<<< Upstream, based on origin/master
 		c.setFecha(LocalDate.now().plusDays(1));
 		c.setHora(10);
 		List<TipoCita> tipos = new ArrayList<TipoCita>();
@@ -144,14 +133,8 @@ class CitaServiceTest {
 		for(int i =1; i<4; i++) {
 			Cita c1 = new Cita();
 			TipoCita tipo1 = tipoCitaService.findById(1).get();
-<<<<<<< Upstream, based on origin/master
-			c1.setFecha(LocalDate.now().plusDays(i-15));
+			c1.setFecha(LocalDate.now().minusDays(15).plusDays(i));
 			c1.setHora(10);
-=======
-			TipoVehiculo tipoveh1 = tipoVehiculoService.findById(1).get();
-			c.setFecha(LocalDate.now().minusDays(15).plusDays(i));
-			c.setHora(10);
->>>>>>> 6bc85ec m
 			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
 			tipos.add(tipo1);
 			c1.setTiposCita(tipos1);
@@ -169,74 +152,10 @@ class CitaServiceTest {
 			c1.setTaller(t1);
 			
 			citaService.saveCita(c1, "jesfunrud");
-			
-		}
-		
-<<<<<<< Upstream, based on origin/master
-		citaService.saveCita(c, "jesfunrud");
-=======
->>>>>>> 6bc85ec m
-		
-		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c));
-	}
-=======
-		TipoVehiculo tipoveh = tipoVehiculoService.findById(1).get();
-=======
->>>>>>> 679bc5e m
-		c.setFecha(LocalDate.now().plusDays(1));
-		c.setHora(10);
-		List<TipoCita> tipos = new ArrayList<TipoCita>();
-		tipos.add(tipo);
-		c.setTiposCita(tipos);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
-		
-		Taller t = new Taller();
-		t.setCorreo("test@test.com");
-		t.setName("test");
-		t.setTelefono("123456789");
-		t.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t);
-		
-		c.setTaller(t);
-		
-		List<Cita> temp = new ArrayList<>();
-		for(int i =1; i<4; i++) {
-			Cita c1 = new Cita();
-			TipoCita tipo1 = tipoCitaService.findById(1).get();
-			c1.setFecha(LocalDate.now().minusDays(15).plusDays(i));
-			c1.setHora(10);
-			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
-			tipos1.add(tipo1);
-			c1.setTiposCita(tipos1);
-			
-<<<<<<< Upstream, based on origin/master
-			c.setVehiculo(vehiculoService.findVehiculoByMatricula("1111AAA").get());
-=======
-			c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
->>>>>>> 846261d sinterminar
-			
-			Taller t1 = new Taller();
-			t1.setCorreo("test@test.com");
-			t1.setName("test");
-			t1.setTelefono("123456789");
-			t1.setUbicacion("calle test");
-			
-			tallerService.saveTaller(t1);
-			
-			c1.setTaller(t1);
-			
-			temp.add(c1);
-		}
-		
-		for(Cita citaTemp: temp) {
-			citaService.saveCita(citaTemp, "jesfunrud");
 		}
 		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c, "jesfunrud"));
 	}
 	
->>>>>>> 31793a7 rn4
 	
 	@Test
 	@Transactional
