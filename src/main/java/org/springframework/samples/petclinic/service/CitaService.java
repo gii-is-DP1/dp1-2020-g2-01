@@ -46,7 +46,7 @@ public class CitaService {
 	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException
 	{	
 		List<Empleado> empleados = cita.getEmpleados();
-		List<Cita> citasNoReparacion = this.findCitaSinReparacion();
+		List<Cita> citasNoReparacion = this.findCitaSinReparacion(); // Necesita el username
 		if(empleados!=null) {
 			for(Empleado e:empleados) {
 				if(!e.getTaller().equals(cita.getTaller())) {
@@ -56,12 +56,17 @@ public class CitaService {
 		}
 		if(citasNoReparacion.size()>=3) {
 			int c = 0;
+			Boolean masDeUnaSemana = true;
 			for(Cita citaR: citasNoReparacion) {
-				if(citaR.getFecha().plusDays(7).isBefore(LocalDate.now())) {
+				if(citaR.getFecha().isBefore(LocalDate.now())) {
 					c++;
+					if(citaR.getFecha().isAfter(LocalDate.now().minusDays(7))) {
+						masDeUnaSemana = false;
+					}
 				}
+					
 			}
-			if(c>=3) {
+			if(c>=3 && !masDeUnaSemana) {
 				throw new CitaSinPresentarseException();
 			}
 		}

@@ -7,11 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -113,7 +116,7 @@ class CitaServiceTest {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		c.setFecha(LocalDate.now().plusDays(1));
-		c.setHora(10);
+		c.setHora(17);
 		List<TipoCita> tipos = new ArrayList<TipoCita>();
 		tipos.add(tipo);
 		c.setTiposCita(tipos);
@@ -128,14 +131,13 @@ class CitaServiceTest {
 		tallerService.saveTaller(t);
 		
 		c.setTaller(t);
-		
 		for(int i =1; i<4; i++) {
 			Cita c1 = new Cita();
 			TipoCita tipo1 = tipoCitaService.findById(1).get();
-			c1.setFecha(LocalDate.now().minusDays(15).plusDays(i));
+			c1.setFecha(LocalDate.now().plusDays(i));
 			c1.setHora(10);
 			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
-			tipos.add(tipo1);
+			tipos1.add(tipo1);
 			c1.setTiposCita(tipos1);
 			
 			c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
@@ -149,6 +151,7 @@ class CitaServiceTest {
 			tallerService.saveTaller(t1);
 			
 			c1.setTaller(t1);
+
 			
 			citaService.saveCita(c1, "jesfunrud");
 		}
