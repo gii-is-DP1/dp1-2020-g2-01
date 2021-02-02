@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <petclinic:layout pageName="reparaciones">
 	<style>
@@ -38,10 +39,10 @@
     <table id="reparacionesTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Descripción</th>
+            <th>DescripciÃ³n</th>
             <th>Dia de la cita</th>
             <th>Vehiculo</th>
-            <th>Fecha de finalización</th>
+            <th>Fecha de finalizaciÃ³n</th>
             <sec:authorize access="hasAuthority('admin')">
 	            <th>Cliente</th>
             </sec:authorize>

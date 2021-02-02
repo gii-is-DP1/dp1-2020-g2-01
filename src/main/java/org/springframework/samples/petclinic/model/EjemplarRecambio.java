@@ -18,4 +18,6 @@ public class EjemplarRecambio extends BaseEntity {
 	@JoinColumn(name="recambio_id")
 	@ManyToOne(optional=false)
 	private Recambio recambio;
+
 }
+	

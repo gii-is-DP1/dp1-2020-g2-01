@@ -30,6 +30,11 @@ public class RecambioService {
 	public Optional<Recambio> findRecambioById(int id) throws DataAccessException {
 		return recambioRepository.findById(id);
 	}
+	
+	@Transactional(readOnly = true)
+	public Optional<Recambio> findRecambioByNombre(String nombre) throws DataAccessException {
+		return recambioRepository.findRecambioByName(nombre);
+	}
 
 	@Transactional
 	public void delete(Recambio recambio) {

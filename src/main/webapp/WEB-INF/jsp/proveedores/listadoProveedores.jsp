@@ -8,7 +8,8 @@
 <petclinic:layout pageName="proveedores">
     <h2>Proveedores</h2>
     
-    <a class="btn btn-success" href="/proveedores/new"><span class="glyphicon glyphicon-plus"></span> Crear un nuevo proveedor</a>
+    <a class="btn btn-success col-sm-3" href="/proveedores/new"><span class="glyphicon glyphicon-plus"></span> Crear un nuevo proveedor</a>
+    <a class="btn btn-success col-sm-3 col-sm-offset-6" href="/pedidosRecambio/listadoPedidosRecambio"><span class="glyphicon glyphicon-th-list "></span> Listado de Pedidos a Proveedores</a>
     <table id="proveedoresTable" class="table table-striped">
         <thead>
         <tr>

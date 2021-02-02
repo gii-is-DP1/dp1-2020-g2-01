@@ -6,6 +6,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
 
@@ -24,12 +25,12 @@
     
     
     <jsp:body>
-        <h2>Reparación</h2>
+        <h2>ReparaciÃ³n</h2>
 
 
         <form:form action="/reparaciones/save" modelAttribute="reparacion" class="form-horizontal">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="Descripción" name="descripcion"/> 
+                <petclinic:inputField label="DescripciÃ³n" name="descripcion"/> 
                 <petclinic:inputField label="Tiempo estimado" name="tiempoEstimado"/> 
                	<petclinic:inputField label="Fecha de entrega" name="fechaEntrega"/> 
                	<petclinic:inputField label="Fecha de recogida" name="fechaRecogida"/>
@@ -71,7 +72,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${reparacion.id}"/>
-                    <button class="btn btn-default" type="submit">Guardar reparación</button>
+                    <button class="btn btn-default" type="submit">Guardar reparaciÃ³n</button>
                 </div>
             </div>
         </form:form>

@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.repository;
 
+import java.util.Optional;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -11,5 +13,7 @@ public interface ProveedorRepository extends CrudRepository<Proveedor, Integer> 
 	
 	@Query("SELECT p FROM Proveedor p WHERE p.nif LIKE :nif")
 	Proveedor findByNif(@Param("nif") String nif) throws DataAccessException;
+
+	Optional<Proveedor> findProveedorByName(String name) throws DataAccessException;
 
 }
