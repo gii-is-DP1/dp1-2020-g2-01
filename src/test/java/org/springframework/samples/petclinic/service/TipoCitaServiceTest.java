@@ -56,12 +56,21 @@ class TipoCitaServiceTest {
 	void e() throws FileNotFoundException, IOException {
 		String src = "./src/main/resources/static/resources/f.pdf";
 		String dest = "./src/main/resources/static/resources/f1.pdf";
+<<<<<<< Upstream, based on origin/master
 		PdfDocument pdfDoc = new PdfDocument(new PdfReader(src), new PdfWriter(dest));
         PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
         
         form.setGenerateAppearance(true);
         form.getField("direccion").setValue("uwu1");
         form.flattenFields();
+=======
+		PdfWriter writer = new PdfWriter(dest);
+		PdfDocument pdfDoc = new PdfDocument(new PdfReader(src), new PdfWriter(dest));
+        PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
+        
+        form.setGenerateAppearance(true);
+        form.getField("direccion").setValue("uwu");
+>>>>>>> cd2ac2d probando generar factura
         pdfDoc.close();
 	}
 
