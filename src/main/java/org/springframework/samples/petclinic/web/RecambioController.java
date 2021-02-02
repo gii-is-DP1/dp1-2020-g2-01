@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-
+@RequestMapping("/recambios")
 public class RecambioController {
 
 
@@ -35,6 +35,9 @@ public class RecambioController {
 
 	@Autowired
 	private EmpleadoService empleadoService;
+	
+	@Autowired
+	private PedidoRecambioService pedidoRecambioService;
 	
 	
 	@ModelAttribute("empleados")
@@ -127,6 +130,13 @@ public class RecambioController {
 		return vista;
 		
 	}
+
+	@GetMapping("/pedidosRecambio/listadoPedidosRecambio")
+	public String irListadoPedidos(ModelMap model) {
+		Iterable<PedidoRecambio> op = pedidoRecambioService.findAll();
+		model.addAttribute("pedidoRecambio",op);
+		return "pedidosRecambio/listadoPedidosRecambio";
+	}
 	
 
 	@PostMapping("/solicitud/save")
@@ -177,4 +187,27 @@ public class RecambioController {
 		
 	}
 	
+	@GetMapping("/update/{id}")
+	public String actualizarStock(@PathVariable int id, ModelMap model) {
+		Optional<PedidoRecambio> opt = pedidoRecambioService.findById(id);
+		if(opt.isPresent()) {
+			PedidoRecambio s = opt.get();
+			String nombre = s.getName();
+			int cantidad = s.getCantidad();
+			s.setSeHaRecibido(true);
+			Optional<Recambio> opt1 = recambioService.findRecambioByNombre(nombre);
+			if(opt1.isPresent()) {
+				Recambio p = opt1.get();
+				int cantidadActual= p.getCantidadActual();
+				p.setCantidadActual(cantidadActual+cantidad);
+				recambioService.saveRecambio(p);
+			}else {
+				model.addAttribute("message", "No existe el recambio");
+			}
+		} else {
+			model.addAttribute("message", "No existe el pedido");
+		}
+		
+		return irListadoPedidos(model);
+	}
 }

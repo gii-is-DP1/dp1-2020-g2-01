@@ -6,13 +6,14 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <petclinic:layout pageName="reparaciones">
 <div class="col-sm-12" style="margin-bottom: 20px">
 <div class="col-sm-6">
 <div class="panel panel-success">
   <div class="panel-heading">
-    <h3 class="panel-title">Datos de la reparaci髇<c:if test="${not empty reparacion.fechaFinalizacion}"> - Finalizada</c:if></h3>
+    <h3 class="panel-title">Datos de la reparaci贸n<c:if test="${not empty reparacion.fechaFinalizacion}"> - Finalizada</c:if></h3>
   </div>
   <div class="panel-body">
     <label class="col-sm-4">Descripcion: </label>${reparacion.descripcion}
@@ -49,7 +50,11 @@
     </p>
   </div>
   <div class="panel-body">
+<<<<<<< Upstream, based on origin/master
     <label class="col-sm-4">Fecha estimada finalizaci髇: </label>
+=======
+    <label class="col-sm-4">Fecha de finalizaci贸n estimada: </label>
+>>>>>>> 3db289a A帽adir H16 y H13
     <fmt:parseDate value="${reparacion.tiempoEstimado}" pattern="yyyy-MM-dd" 
                              var="parsedDate" type="date" />
 
@@ -58,7 +63,7 @@
     ${fecha}
   </div>
     <div class="panel-body">
-    <label class="col-sm-4">Fecha de finalizaci髇: </label>
+    <label class="col-sm-4">Fecha de finalizaci贸n: </label>
     <fmt:parseDate value="${reparacion.fechaFinalizacion}" pattern="yyyy-MM-dd" 
                              var="parsedDate" type="date" />
 
@@ -85,7 +90,7 @@
     ${fecha}
   </div>
 </div>
-<c:if test="${empty reparacion.fechaFinalizacion}"><a href="/reparaciones/update/${reparacion.id}" class="btn btn-success col-sm-4">Editar reparaci髇</a>
+<c:if test="${empty reparacion.fechaFinalizacion}"><a href="/reparaciones/update/${reparacion.id}" class="btn btn-success col-sm-4">Editar reparaci贸n</a>
 <a href="/reparaciones/finalizar/${reparacion.id}" class="btn btn-success col-sm-offset-6 col-sm-2">Finalizar</a></c:if>
 <c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/ver/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-4">Ver factura</a></c:if>
 <c:if test="${not empty reparacion.fechaFinalizacion and empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/generar/${reparacion.id}" class="btn btn-success col-sm-4">Generar Factura</a></c:if>
@@ -125,7 +130,7 @@
 	</tbody>
 	</table>
 </div>
-<c:if test="${empty reparacion.fechaFinalizacion}"><a href="/reparaciones/addRecambio" class="btn btn-success col-sm-offset-8 col-sm-4">A馻dir recambios</a></c:if>
+<c:if test="${empty reparacion.fechaFinalizacion}"><a href="/reparaciones/addRecambio" class="btn btn-success col-sm-offset-8 col-sm-4">A帽adir recambios</a></c:if>
 
 </div>
 </div>

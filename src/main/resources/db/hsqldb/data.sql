@@ -169,10 +169,13 @@ INSERT INTO clientes(id, dni, nombre, apellidos, telefono, fecha_nacimiento, ema
 
 INSERT INTO proveedores(id, name, nif, telefono, email) VALUES (201, 'Pablo', '12345678H', '665112233', 'gumersindo@gmail.com');
 
+<<<<<<< Upstream, based on origin/master
 INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual, proveedor_id) VALUES (100, 'Neumático Michelin', 1, 45, 201);
+=======
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (100, 'Neumático Michelin', 1, 10);
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (101, 'Tubo de escape H83LS', 1, 10);
+>>>>>>> 3db289a Añadir H16 y H13
 INSERT INTO ejemplarrecambios (id, recambio_id) VALUES (1, 100);
-
-
 INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 100);
 
 
@@ -211,6 +214,9 @@ INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación
 
 INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
 
+
+INSERT INTO pedidos(id, name, cantidad, precio_unidad, recibido, proveedor_id) VALUES (1, 'Tubo de escape H83LS', 3, 214.32, false, 201);
+INSERT INTO pedidos(id, name, cantidad, precio_unidad, recibido, proveedor_id) VALUES (2, 'Tubo de escape H83LS entregado', 3, 214.32, true, 201);
 
 
 -- Pruebas con solicitudes

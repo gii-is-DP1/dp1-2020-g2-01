@@ -28,7 +28,10 @@ public class Recambio extends NamedEntity {
 	@JoinColumn(name="cantidad_actual")
 	private int cantidadActual;
 	
+<<<<<<< Upstream, based on origin/master
 	@ManyToOne
 	@NotNull
 	private Proveedor proveedor;
+=======
+>>>>>>> 3db289a Añadir H16 y H13
 }
