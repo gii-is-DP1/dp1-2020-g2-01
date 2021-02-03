@@ -56,12 +56,12 @@ class TipoCitaServiceTest {
 	void e() throws FileNotFoundException, IOException {
 		String src = "./src/main/resources/static/resources/f.pdf";
 		String dest = "./src/main/resources/static/resources/f1.pdf";
-		PdfWriter writer = new PdfWriter(dest);
 		PdfDocument pdfDoc = new PdfDocument(new PdfReader(src), new PdfWriter(dest));
         PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
         
         form.setGenerateAppearance(true);
-        form.getField("direccion").setValue("uwu");
+        form.getField("direccion").setValue("uwu1");
+        form.flattenFields();
         pdfDoc.close();
 	}
 
