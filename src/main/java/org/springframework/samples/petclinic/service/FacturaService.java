@@ -34,5 +34,7 @@ public class FacturaService {
 	public void delete(Factura factura) {
 		facturaRepository.delete(factura);
 	}
+	
+	
 
 }
