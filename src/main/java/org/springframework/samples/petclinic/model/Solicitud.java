@@ -35,5 +35,11 @@ public class Solicitud extends BaseEntity {
 	@JoinColumn(name = "empleado_id")
 	private Empleado empleado;
 	
+	
+	@NotNull
+	@ManyToOne(optional=false)
+	@JoinColumn(name="reparacion_id")
+	private Reparacion reparacion;
+	
 
 }

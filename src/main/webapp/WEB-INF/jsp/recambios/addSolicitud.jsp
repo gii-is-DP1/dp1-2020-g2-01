@@ -15,15 +15,16 @@
     <jsp:body>
         <h2>Solicitud de recambio</h2>
 
-        <form:form action="/solicitud/save" modelAttribute="solicitud" class="form-horizontal">
+        <form:form action="/recambios/solicitud/save" modelAttribute="solicitud" class="form-horizontal">
             <div class="form-group has-feedback">
             	
-            	
+            	<petclinic:radioBoolField label="¿Está terminada?" name="terminada" />
            		<petclinic:select label="Recambio que se solicita" name="recambio" items="${recambios}"/>
                 <petclinic:inputField label="Cantidad" name="cantidad"/>
-                
                	<petclinic:inputField label="Empleado que realiza la petición" name="empleado" readonly="true" />
-               	<petclinic:radioBoolField label="¿Está terminada?" name="terminada" />
+               	<petclinic:select label="Reparación para que se solicita" name="reparacion" items="${reparaciones}"/>
+               	
+               	
                	
 
             </div>
