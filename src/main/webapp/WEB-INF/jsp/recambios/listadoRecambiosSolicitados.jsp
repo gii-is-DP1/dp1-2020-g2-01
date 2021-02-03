@@ -54,6 +54,7 @@
 	            <th>Cantidad</th>
 	            <th>Terminada</th>
 	            <th>Empleado que realizó la solicitud</th>
+	            <th>Reparacion</th>
 	            <th></th>
 	            <th></th>
 	            <th></th>
@@ -77,6 +78,10 @@
 		        	
 		        	<td>
 		        		<c:out value="${solicitud.empleado.nombre} ${solicitud.empleado.apellidos}" />	        	
+		        	</td>
+		        	
+		        	<td>
+		        		<c:out value="${solicitud.reparacion.id}" />	        	
 		        	</td>
 		        	
 		        	

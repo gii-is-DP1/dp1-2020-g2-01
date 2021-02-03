@@ -218,7 +218,7 @@ INSERT INTO pedidos(id, name, cantidad, precio_unidad, recibido, proveedor_id) V
 
 
 -- Pruebas con solicitudes
-INSERT INTO solicitudes(terminada, cantidad, recambio_id, empleado_id) VALUES (false, 5, 100, 101);
+INSERT INTO solicitudes(terminada, cantidad, recambio_id, empleado_id, reparacion_id) VALUES (false, 5, 100, 101, 1);
 
 
 -- 
