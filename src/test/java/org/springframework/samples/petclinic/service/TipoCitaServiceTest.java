@@ -4,8 +4,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +13,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.stereotype.Service;
-
-import com.itextpdf.forms.PdfAcroForm;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfReader;
-import com.itextpdf.kernel.pdf.PdfWriter;
 
 
 @DataJpaTest(includeFilters=@ComponentScan.Filter(Service.class))
@@ -50,19 +43,6 @@ class TipoCitaServiceTest {
 	void shouldFindTipoCita() {
 		String t=tipoCitaService.findById(3).get().getTipo();
 		assertEquals(t, "AIRE ACONDICIONADO");
-	}
-	
-	@Test
-	void e() throws FileNotFoundException, IOException {
-		String src = "./src/main/resources/static/resources/f.pdf";
-		String dest = "./src/main/resources/static/resources/f1.pdf";
-		PdfDocument pdfDoc = new PdfDocument(new PdfReader(src), new PdfWriter(dest));
-        PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
-        
-        form.setGenerateAppearance(true);
-        form.getField("direccion").setValue("uwu1");
-        form.flattenFields();
-        pdfDoc.close();
 	}
 
 }
