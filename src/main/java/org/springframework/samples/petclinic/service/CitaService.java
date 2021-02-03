@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -46,7 +47,9 @@ public class CitaService {
 	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException
 	{	
 		List<Empleado> empleados = cita.getEmpleados();
-		List<Cita> citasNoReparacion = this.findCitaSinReparacion(); // Necesita el username
+		List<Cita> citasNoReparacion = this.findByUsername(username)
+				.stream().filter(x->!x.isAsistido() && x.getFecha().isBefore(LocalDate.now()))
+				.collect(Collectors.toList()); // Necesita el username
 		if(empleados!=null) {
 			for(Empleado e:empleados) {
 				if(!e.getTaller().equals(cita.getTaller())) {
@@ -55,21 +58,17 @@ public class CitaService {
 			}
 		}
 		if(citasNoReparacion.size()>=3) {
-			int c = 0;
 			Boolean masDeUnaSemana = true;
-			for(Cita citaR: citasNoReparacion) {
-				if(citaR.getFecha().isBefore(LocalDate.now())) {
-					c++;
+				for(Cita citaR:citasNoReparacion) {
+					
 					if(citaR.getFecha().isAfter(LocalDate.now().minusDays(7))) {
 						masDeUnaSemana = false;
-					}
+						}
 				}
-					
+				if(!masDeUnaSemana) {
+					throw new CitaSinPresentarseException();
+				}
 			}
-			if(c>=3 && !masDeUnaSemana) {
-				throw new CitaSinPresentarseException();
-			}
-		}
 		
 		Optional<Cliente> c = clienteService.findClientesByUsername(username);
 		if(c.isPresent()) {
@@ -158,7 +157,12 @@ public class CitaService {
 
 	@Transactional(readOnly=true)
 	public List<Cita> findByCliente(Cliente cliente) throws DataAccessException{
-		return citaRepository.findByUsername(cliente, Sort.by(Sort.Direction.ASC, "fecha", "hora"));
+		return citaRepository.findByCliente(cliente, Sort.by(Sort.Direction.ASC, "fecha", "hora"));
+	}
+	
+	@Transactional(readOnly=true)
+	public List<Cita> findByUsername(String username) throws DataAccessException{
+		return citaRepository.findByUsername(username, Sort.by(Sort.Direction.ASC, "fecha", "hora"));
 	}
 	
 	

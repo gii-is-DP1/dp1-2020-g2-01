@@ -134,23 +134,29 @@ INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cli
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (102, '5678ABC', 'VSSZZZ6KZ1R149943', 'Citroen C3', 1, 1);
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (103, '5679ABC', 'VSSZZZ6KZ1R149943', 'Citroen C4', 1, 1);
 
-INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id) VALUES (100,'2021-10-22', 19, 100, 1);
+INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (100,'2021-10-22', 19, 100, 1, true);
 INSERT INTO citas_tipocita VALUES (100, 1);
 INSERT INTO citas_tipocita VALUES (100, 2);
-INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id) VALUES (101, 100, '2021-10-22', 20, 1);
+INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (101, 100, '2021-10-22', 20, 1, true);
 INSERT INTO citas_tipocita VALUES (101, 1);
-INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id) VALUES (102, 100, CURDATE(), 20, 2);
+INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (102, 100, CURDATE(), 20, 2, true);
 INSERT INTO citas_tipocita VALUES (102, 1);
-INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id) VALUES (103, 100, DATEADD(day, 14, CURDATE()), 17, 2);
+INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (103, 100, DATEADD(day, 14, CURDATE()), 17, 2, true);
 INSERT INTO citas_tipocita VALUES (103, 1);
-
-
-
 
 --
 INSERT INTO users(username,password,enabled) VALUES ('clienteEjemplo',@CONTRASENA ,true);
 INSERT INTO authorities(username,authority) VALUES ('clienteEjemplo','cliente');
 INSERT INTO clientes(id, dni, fecha_nacimiento, nombre, apellidos, telefono, email, username) VALUES (99, '12345678A','2000-02-20', 'Cliente', 'Ejemplo', '646123456', 'tallersevillacustoms@gmail.com', 'clienteEjemplo');
+
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (201, '2111AAB', 'VSSZZZ6KZ1R149944', 'Renault Clio', 1, 99);
+
+INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (104, 201, CURDATE()-3, 17, 2, false);
+INSERT INTO citas_tipocita VALUES (104, 1);
+INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (105, 201, CURDATE()-2, 17, 2, false);
+INSERT INTO citas_tipocita VALUES (105, 1);
+INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (106, 201, CURDATE()-1, 17, 2, false);
+INSERT INTO citas_tipocita VALUES (106, 1);
 
 INSERT INTO users(username,password,enabled) VALUES ('admin', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('admin','admin');
@@ -195,10 +201,10 @@ INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, em
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (101, 'Aguayo', '11111112A', 
 					'2000-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111111', 950, 'empleado2', 2);
 
-INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id) VALUES (200,'2021-10-23', 20, 200, 1);
+INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (200,'2021-10-23', 20, 200, 1, true);
 INSERT INTO citas_tipocita VALUES (200, 1);
 INSERT INTO citas_empleados VALUES (200, 100);
-INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id) VALUES (201,'2021-10-24', 20, 200, 2);
+INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (201,'2021-10-24', 20, 200, 2, true);
 INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
