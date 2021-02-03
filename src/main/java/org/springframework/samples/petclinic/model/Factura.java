@@ -1,18 +1,19 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
-
+import static java.time.temporal.ChronoUnit.DAYS;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +31,7 @@ public class Factura extends BaseEntity{
 	@Range(min = 0, max = 100)
 	@NotNull
 	@JoinColumn(name = "descuento")
+//	private Integer descuento = calcularDiasPasadasFechaEsperada()*10;
 	private Integer descuento;
 	
 	@OneToMany(mappedBy="factura")
@@ -49,4 +51,8 @@ public class Factura extends BaseEntity{
 		return resultado;
 	}
 
+	public Integer calcularDiasPasadasFechaEsperada() {
+		int i = (int) DAYS.between(lineaFactura.get(0).getReparacion().getFechaFinalizacion(), lineaFactura.get(0).getReparacion().getTiempoEstimado());
+		return i/10;
+	}
 }
