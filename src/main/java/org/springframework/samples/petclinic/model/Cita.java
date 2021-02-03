@@ -4,6 +4,7 @@ package org.springframework.samples.petclinic.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -61,4 +62,7 @@ public class Cita extends BaseEntity{
 
 	@JoinColumn(name="descripcion")
 	private String descripcion;
+	
+	@Column(name="asistido")
+	private boolean asistido;
 }

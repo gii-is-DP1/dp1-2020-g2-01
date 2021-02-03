@@ -7,14 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -121,7 +118,7 @@ class CitaServiceTest {
 		tipos.add(tipo);
 		c.setTiposCita(tipos);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("2111AAB").get());
 		
 		Taller t = new Taller();
 		t.setCorreo("test@test.com");
@@ -132,32 +129,8 @@ class CitaServiceTest {
 		tallerService.saveTaller(t);
 		
 		c.setTaller(t);
-		for(int i =1; i<4; i++) {
-			Cita c1 = new Cita();
-			TipoCita tipo1 = tipoCitaService.findById(1).get();
-			c1.setFecha(LocalDate.now().plusDays(i));
-			c1.setHora(10);
-			List<TipoCita> tipos1 = new ArrayList<TipoCita>();
-			tipos1.add(tipo1);
-			c1.setTiposCita(tipos1);
-			
-			c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-			
-			Taller t1 = new Taller();
-			t1.setCorreo("test@test.com");
-			t1.setName("test");
-			t1.setTelefono("123456789");
-			t1.setUbicacion("calle test");
-			
-			tallerService.saveTaller(t1);
-			
-			c1.setTaller(t1);
 
-			
-			citaService.saveCita(c1, "jesfunrud");
-		}
-		
-		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c, "jesfunrud"));
+		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c, "clienteEjemplo"));
 	}
 
 	@Test
@@ -411,4 +384,5 @@ class CitaServiceTest {
 		assertThrows(NotFoundException.class, () -> citaService.findCitaById(c.getId()));
 		assertThrows(NotFoundException.class, () -> citaService.findCitaById(c.getId()));
 	}
+	
 }
