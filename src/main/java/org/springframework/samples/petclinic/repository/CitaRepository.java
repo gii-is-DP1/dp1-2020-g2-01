@@ -11,6 +11,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.User;
 
 public interface CitaRepository extends CrudRepository<Cita, Integer> {
 	
@@ -26,7 +27,11 @@ public interface CitaRepository extends CrudRepository<Cita, Integer> {
 	List<Integer> findCitaIdSinReparacion();
 
 	@Query("SELECT cita FROM Cita cita WHERE cita.vehiculo.cliente LIKE :cliente")
-	List<Cita> findByUsername(@Param("cliente") Cliente cliente, Sort sort);
+	List<Cita> findByCliente(@Param("cliente") Cliente cliente, Sort sort);
 
 	List<Cita> findCitaByTallerUbicacion(String ubicacion, Sort sort) throws DataAccessException;
+	
+	@Query("SELECT cita FROM Cita cita WHERE cita.vehiculo.cliente.user.username LIKE :username")
+	List<Cita> findByUsername(@Param("username") String username, Sort sort);
+	
 }
