@@ -9,6 +9,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 
+
 <petclinic:layout pageName="citas">
 	<style>
     .helper {
@@ -17,7 +18,11 @@
     	vertical-align:middle;
 		}
     </style>
-    
+    <script>
+    $(function () {
+    	  $('[data-toggle="popover"]').popover()
+    })
+    </script>
 	
 	<div class="col-sm-12">
     <div class="col-sm-2"><h2>Citas</h2></div>
@@ -139,7 +144,7 @@
                 
                 
                  <td>
-                	<spring:url value="/citas/delete/{citaId}" var="citaUrl">
+                	<spring:url value="/citas/confirmDelete/{citaId}" var="citaUrl">
                         <spring:param name="citaId" value="${cita.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(citaUrl)}">

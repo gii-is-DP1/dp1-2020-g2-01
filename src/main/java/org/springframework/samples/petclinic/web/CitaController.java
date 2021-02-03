@@ -335,4 +335,10 @@ public class CitaController {
 		model.put("message", "Te has quitado correctamente");
 		return vista;
 	}
+	
+	@GetMapping(value="/confirmDelete/{citaId}")
+	public String confirmDelete(@PathVariable("citaId") int id, ModelMap model) {
+		model.addAttribute("id", id);
+		return "citas/confirmar_borrado_cita";
+	}
 }
