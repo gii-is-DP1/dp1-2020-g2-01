@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.HorasTrabajadas;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
@@ -65,6 +66,9 @@ public class SolicitudServiceTests {
 	@Autowired
 	protected CitaService citaService;
 	
+	@Autowired
+	protected HorasTrabajadasService horasTrabajadasService;
+	
 	
 	@BeforeEach
 	void setup() throws DataAccessException, DuplicatedProveedorNifException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
@@ -99,7 +103,6 @@ public class SolicitudServiceTests {
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
@@ -116,11 +119,21 @@ public class SolicitudServiceTests {
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-		empleados.add(e1);
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r);
 		

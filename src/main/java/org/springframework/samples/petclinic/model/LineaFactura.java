@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -45,9 +44,9 @@ public class LineaFactura extends BaseEntity{
 	@JoinColumn(name="descripcion")
 	private String descripcion;
 	
-	@OneToOne(optional=true)
-	@JoinColumn(name="ejemplar_recambio_id")
-	private EjemplarRecambio ejemplarRecambio; 
+	@ManyToOne
+	@JoinColumn(name="recambio_id")
+	private Recambio recambio; 
 	
 	@Min(0)
 	@Column(name="cantidad")
