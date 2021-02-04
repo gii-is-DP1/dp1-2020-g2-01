@@ -50,49 +50,8 @@
     </p>
   </div>
   <div class="panel-body">
-<<<<<<< Upstream, based on origin/master
-<<<<<<< Upstream, based on origin/master
-<<<<<<< Upstream, based on origin/master
 
     <label class="col-sm-4">Fecha estimada finalización: </label>
-
-=======
-=======
-<<<<<<< Upstream, based on origin/fraborcar
-<<<<<<< Upstream, based on origin/master
->>>>>>> 3cd483e Detalles de factura y descargar pdf hecho
-=======
-<<<<<<< Upstream, based on origin/fraborcar
->>>>>>> c2504d2 Detalles de factura y descargar pdf hecho
-=======
->>>>>>> bb2482a Generación de log y correcciones menores
-
-<<<<<<< Upstream, based on origin/master
-    <label class="col-sm-4">Fecha estimada finalizaci�n: </label>
-
-<<<<<<< Upstream, based on origin/master
->>>>>>> 1569c7e Cambio de modelado de datos
-=======
-=======
-=======
->>>>>>> bb2482a Generación de log y correcciones menores
-
-    <label class="col-sm-4">Fecha estimada finalización: </label>
-
-<<<<<<< Upstream, based on origin/master
->>>>>>> 0182ed4 Detalles de factura y descargar pdf hecho
-<<<<<<< Upstream, based on origin/master
->>>>>>> 3cd483e Detalles de factura y descargar pdf hecho
-=======
-=======
-
-    <label class="col-sm-4">Fecha estimada finalización: </label>
-
->>>>>>> f2af29a Detalles de factura y descargar pdf hecho
->>>>>>> c2504d2 Detalles de factura y descargar pdf hecho
-=======
->>>>>>> bb2482a Generación de log y correcciones menores
-    <label class="col-sm-4">Fecha de finalización estimada: </label>
 
     <fmt:parseDate value="${reparacion.tiempoEstimado}" pattern="yyyy-MM-dd" 
                              var="parsedDate" type="date" />
