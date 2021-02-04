@@ -200,6 +200,7 @@ INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
 <<<<<<< Upstream, based on origin/master
+<<<<<<< Upstream, based on origin/master
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (2,'Descripción', '2020-10-24', '2020-10-22', '2020-10-22', '2020-10-23', 201);
 INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
@@ -221,10 +222,13 @@ INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recam
 =======
 <<<<<<< Upstream, based on origin/master
 >>>>>>> 1b96e9a Merge
+=======
+>>>>>>> 629ca62 merge
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (2,'Descripción', '2020-10-24', '2020-10-22', '2020-10-22', '2020-10-23', 201);
 INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 2, 'Cambio 4 ruedas', 100, 4,1);
+<<<<<<< Upstream, based on origin/master
 <<<<<<< Upstream, based on origin/fraborcar
 >>>>>>> 44dd997 Añadido horas al pdf factura
 <<<<<<< Upstream, based on origin/master
@@ -239,10 +243,13 @@ INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recam
 >>>>>>> 9e1deb7 Merge
 >>>>>>> 1b96e9a Merge
 >>>>>>> 9f5e1df Merge
+=======
+>>>>>>> 629ca62 merge
 
 INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (10, 'Cambio de rueda', 10.5, 3, 100);
 INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (11, 'Cambio de frenos', 10.5, 4, 101);
 
+<<<<<<< Upstream, based on origin/master
 <<<<<<< Upstream, based on origin/master
 <<<<<<< Upstream, based on origin/master
 INSERT INTO horas_reparacion VALUES (2, 10);
@@ -276,8 +283,11 @@ INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
 =======
 <<<<<<< Upstream, based on origin/master
 >>>>>>> 1b96e9a Merge
+=======
+>>>>>>> 629ca62 merge
 INSERT INTO horas_reparacion VALUES (2, 10);
 INSERT INTO horas_reparacion VALUES (2, 11);
+<<<<<<< Upstream, based on origin/master
 <<<<<<< Upstream, based on origin/fraborcar
 >>>>>>> 44dd997 Añadido horas al pdf factura
 <<<<<<< Upstream, based on origin/master
@@ -303,6 +313,8 @@ INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, f
 >>>>>>> 9e1deb7 Merge
 >>>>>>> 1b96e9a Merge
 >>>>>>> 9f5e1df Merge
+=======
+>>>>>>> 629ca62 merge
 
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación espejo retrovisor izquierdo', 'Po lo hase así y asá');
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');
@@ -318,5 +330,6 @@ INSERT INTO solicitudes(terminada, cantidad, recambio_id, empleado_id, reparacio
 
 
 -- 
+
 
 
