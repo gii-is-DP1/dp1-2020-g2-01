@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -54,7 +55,8 @@ public class ReparacionService {
 			throw new FechasReparacionException();
 		}
 		
-		Collection<Empleado> empleados = reparacion.getEmpleados();
+		Collection<Empleado> empleados = reparacion.getHorasTrabajadas().stream().map(x->x.getEmpleado())
+																		.collect(Collectors.toList());
 		for(Empleado e:empleados) {
 			Integer repActivas = this.findReparacionesActivasEmpleado(e);
 			if(repActivas == 3) {
@@ -123,7 +125,7 @@ public class ReparacionService {
 	//Devuelve el número de reparaciones no finalizadas asociadas a dicho empleado
 	@Transactional(readOnly = true) 
 	public Integer findReparacionesActivasEmpleado(Empleado e) {
-		return reparacionRepository.findReparacionesActivasEmpleado(e);
+		return reparacionRepository.findReparacionesActivasEmpleado(e) - 1;
 	}
 	
 
