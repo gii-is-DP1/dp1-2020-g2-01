@@ -179,7 +179,6 @@ INSERT INTO proveedores(id, name, nif, telefono, email) VALUES (201, 'Pablo', '1
 INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual, proveedor_id) VALUES (100, 'Neumático Michelin', 1, 45, 201);
 INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual, proveedor_id) VALUES (101, 'Tubo de escape H83LS', 1, 10, 200);
 
-INSERT INTO ejemplarrecambios (id, recambio_id) VALUES (1, 100);
 INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 100);
 
 
@@ -209,10 +208,13 @@ INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
 INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
-INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, ejemplar_recambio_id, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 1, 4,1);
-INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion,factura) VALUES (80, 0, 1,'2h de trabajo',1);
-INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
-INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 100, 4,1);
+
+INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (10, 'Cambio de rueda', 10.5, 3, 100);
+INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (11, 'Cambio de frenos', 10.5, 4, 101);
+
+INSERT INTO horas_reparacion VALUES (1, 10);
+INSERT INTO horas_reparacion VALUES (1, 11);
 
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación espejo retrovisor izquierdo', 'Po lo hase así y asá');
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');
