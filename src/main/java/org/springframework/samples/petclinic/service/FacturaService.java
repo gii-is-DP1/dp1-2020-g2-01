@@ -60,6 +60,7 @@ public class FacturaService {
         
         form.setGenerateAppearance(true);
         Cliente cliente = factura.getLineaFactura().get(0).getReparacion().getCita().getVehiculo().getCliente();
+        form.getField("nombre").setValue(cliente.getNombre() + " " + cliente.getApellidos());
         form.getField("telefono").setValue(cliente.getTelefono());
         form.getField("correo").setValue(cliente.getEmail());
         form.getField("factura_id").setValue(factura.getId().toString());

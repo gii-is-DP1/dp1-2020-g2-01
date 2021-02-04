@@ -55,6 +55,6 @@ public class LineaFactura extends BaseEntity{
 
 	@Transient
 	public Double getPrecio() {
-		return Math.round(precioBase*(1-descuento/100.0)*100d)/100d;
+		return cantidad*Math.round(precioBase*(1-descuento/100.0)*100d)/100d;
 	}
 }
