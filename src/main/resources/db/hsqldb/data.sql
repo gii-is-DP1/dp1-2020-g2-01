@@ -224,6 +224,10 @@ INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 2, 'Cambio 4 ruedas', 100, 4,1);
 =======
 <<<<<<< Upstream, based on origin/fraborcar
+<<<<<<< Upstream, based on origin/fraborcar
+=======
+<<<<<<< Upstream, based on origin/master
+>>>>>>> c767211 RN5 realizada
 INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 100, 4,1);
 >>>>>>> 081bb00 RN5 realizada
