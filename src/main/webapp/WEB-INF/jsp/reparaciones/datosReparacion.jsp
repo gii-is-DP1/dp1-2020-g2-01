@@ -51,7 +51,6 @@
   </div>
   <div class="panel-body">
 
-
     <label class="col-sm-4">Fecha estimada finalización: </label>
 
     <label class="col-sm-4">Fecha de finalización estimada: </label>
