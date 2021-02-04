@@ -49,6 +49,9 @@ public class Factura extends BaseEntity{
 		for(LineaFactura linea:lineaFactura) {
 			resultado += linea.getPrecio();
 		}
+		for(HorasTrabajadas horas: lineaFactura.get(0).getReparacion().getHorasTrabajadas()) {
+			resultado += horas.getPrecioTotal();
+		}
 		return resultado;
 	}
 
