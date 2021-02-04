@@ -9,8 +9,6 @@ import org.springframework.samples.petclinic.repository.PedidoRecambioRepository
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sun.tools.sjavac.Log;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
