@@ -139,8 +139,7 @@ public class ReparacionController {
 						"Fechas incongruentes: la fecha de entrega debe ser anterior a la fecha de finalización y de recogida, y la fecha de finalización debe ser anterior a la de recogida.");
 				return "reparaciones/editReparacion";
 			} catch (Max3ReparacionesSimultaneasPorEmpleadoException e) {
-				log.warn("Excepción: uno de los empleados de " +  
-						reparacion.getEmpleados().stream().map(x->x.getNombre() + x.getApellidos()).toArray() + " tiene 3 reparaciones simultáneas");
+				log.warn("Excepción: uno o más de los empleados asignados ya tiene 3 reparaciones simultáneas ");
 				result.rejectValue("empleados", "Los empleados no pueden trabajar en más de 3 reparaciones simultáneas.", 
 						"Los empleados no pueden trabajar en más de 3 reparaciones simultáneas.");
 				return "reparaciones/editReparacion";
