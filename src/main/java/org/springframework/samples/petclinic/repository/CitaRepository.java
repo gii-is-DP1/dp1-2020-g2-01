@@ -11,7 +11,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.User;
 
 public interface CitaRepository extends CrudRepository<Cita, Integer> {
 	
