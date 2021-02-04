@@ -50,9 +50,15 @@
     </p>
   </div>
   <div class="panel-body">
+<<<<<<< Upstream, based on origin/master
 
     <label class="col-sm-4">Fecha estimada finalización: </label>
 
+=======
+
+    <label class="col-sm-4">Fecha estimada finalizaci�n: </label>
+
+>>>>>>> 1569c7e Cambio de modelado de datos
     <label class="col-sm-4">Fecha de finalización estimada: </label>
 
     <fmt:parseDate value="${reparacion.tiempoEstimado}" pattern="yyyy-MM-dd" 
