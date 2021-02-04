@@ -207,6 +207,7 @@ INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (201
 INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
+<<<<<<< Upstream, based on origin/fraborcar
 INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 100, 4,1);
 
@@ -215,6 +216,18 @@ INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajada
 
 INSERT INTO horas_reparacion VALUES (1, 10);
 INSERT INTO horas_reparacion VALUES (1, 11);
+=======
+INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
+		VALUES (2,'Descripción', '2020-10-24', '2020-12-23', '2020-10-10', '2020-12-25', 201);
+INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, ejemplar_recambio_id, cantidad,factura) VALUES (360, 15, 2, 'Cambio 4 ruedas', 1, 4,1);
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, cantidad,factura) VALUES (80, 0, 2,'2h de trabajo',1,1);
+INSERT INTO facturas(id, fecha_Pago) VALUES (2, '2020-12-25');
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, ejemplar_recambio_id, cantidad,factura) VALUES (360, 15, 2, 'Cambio 4 ruedas', 1, 4,2);
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, cantidad,factura) VALUES (80, 0, 2,'2h de trabajo',1,2);
+INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
+INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
+>>>>>>> 21df115 RN5 realizada
 
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación espejo retrovisor izquierdo', 'Po lo hase así y asá');
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');

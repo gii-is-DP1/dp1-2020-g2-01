@@ -73,7 +73,6 @@ public class FacturaController {
 		Reparacion reparacion = reparacionService.findReparacionById(id).get();
 		List<LineaFactura> lineaFactura = reparacion.getLineaFactura();
 		Factura factura = new Factura();
-		factura.setDescuento(0);
 		factura.setFechaPago(LocalDate.now());
 		factura.setLineaFactura(lineaFactura);
 		model.addAttribute("factura",factura);

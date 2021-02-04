@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.EmpleadoService;
+import org.springframework.samples.petclinic.service.RecambioService;
 import org.springframework.samples.petclinic.service.ReparacionService;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
@@ -60,7 +62,9 @@ public class ReparacionController {
 	
 	@Autowired
 	private ClienteService clienteService;
-
+	
+	@Autowired
+	private RecambioService recambiosService;
 	
 	@ModelAttribute("empleados")
 	public List<Empleado> empleados() {
@@ -71,6 +75,16 @@ public class ReparacionController {
 	@ModelAttribute("citas")
 	public List<Cita> citas() {
 		return this.citaService.findCitaSinReparacion();
+	}
+	
+	@ModelAttribute("reparaciones")
+	public List<Reparacion> reparaciones() {
+		return (List<Reparacion>) this.reparacionService.findAll();
+	}
+	
+	@ModelAttribute("recambios")
+	public List<Recambio> recambios() {
+		return (List<Recambio>) this.recambiosService.findAll();
 	}
 	
 	
