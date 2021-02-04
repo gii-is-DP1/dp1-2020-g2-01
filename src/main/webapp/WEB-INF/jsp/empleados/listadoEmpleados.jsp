@@ -79,10 +79,10 @@
                 
                 
                  <td>
-                	<spring:url value="/empleados/update/{empleadoId}" var="empleadoUrl">
-                        <spring:param name="empleadoId" value="${empleado.id}"/>
+                	<spring:url value="/empleados/empleadoDetails/{username}" var="empleadoUrl">
+                        <spring:param name="username" value="${empleado.usuario.username}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(empleadoUrl)}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="${fn:escapeXml(empleadoUrl)}"><span class="glyphicon glyphicon-eye-open"></span></a>
                 
                 </td>
            

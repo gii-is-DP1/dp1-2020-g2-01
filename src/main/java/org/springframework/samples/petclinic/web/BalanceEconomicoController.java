@@ -12,9 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/balanceEconomico")
 public class BalanceEconomicoController {
 	
 	
@@ -24,8 +26,7 @@ public class BalanceEconomicoController {
 	@Autowired
 	private FacturaRecambioService fRecambioService;
 	
-	
-	@GetMapping(value="/balanceEconomico")
+	@GetMapping()
 	public String listadoBalance(@RequestParam(required=false, name="gastos") Boolean gastos, ModelMap model) {
 		String vista;		
 		if(gastos==null || gastos==false) {
@@ -49,7 +50,7 @@ public class BalanceEconomicoController {
 		return vista;
 	}
 	
-	@GetMapping(value="/balanceEconomico/filtrado?mes={mes}&anyo={anyo}")
+	@GetMapping(value="/filtrado?mes={mes}&anyo={anyo}")
 	public String listadoBalanceFiltrado(@RequestParam(required=false, name="gastos") Boolean gastos,
 			@PathVariable("mes") Month mes, @PathVariable("anyo") int anyo, ModelMap model) {
 		String vista;

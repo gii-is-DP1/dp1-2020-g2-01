@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.TallerService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -46,17 +47,36 @@ public class EmpleadoController {
 	@PostMapping(value = "/save")
 	public String guardarEmpleado(@Valid Empleado empleado, BindingResult result, ModelMap model) {
 		String vista;
-		
 		if(result.hasErrors()) {
 			model.addAttribute("empleado", empleado);
 			model.addAttribute("talleres", tallerService.findAll());
 			vista = "empleados/editEmpleado";
 		} else {
 			empleadoService.saveEmpleado(empleado);
-			model.addAttribute("message", "Empleado created successfully");
-			vista = listadoEmpleados(model);
+			model.addAttribute("message", "Empleado creado con éxito.");
+			String username = empleado.getUsuario().getUsername();
+			vista = mostrarDetalles(username, model);
 		}
 		return vista;
+	}
+	
+	@GetMapping(value = "/empleadoDetails/{username}")
+	public String mostrarDetalles(@PathVariable("username") String username, ModelMap model) {
+		Optional<Empleado> empleado = this.empleadoService.findEmpleadoByUsuarioUsername(username);
+		if(!empleado.isPresent()) {
+			model.addAttribute("message", "Cliente no encontrado");
+			model.addAttribute("messageType", "danger");
+			return "/";
+		}
+		String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
+		String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		if(username.equals(username2) || auth.equals("admin")) {
+			model.addAttribute("empleado", empleado.get());
+
+			return "empleados/empleadoDetails";
+		}else {
+			return "redirect:/";
+		}
 	}
 	
 	
@@ -66,9 +86,9 @@ public class EmpleadoController {
 		Optional<Empleado> op = empleadoService.findById(id);
 		if(op.isPresent()) {
 			empleadoService.delete(op.get());
-			model.addAttribute("message", "Empleado deleted successfully");
+			model.addAttribute("message", "Empleado borrado con éxito.");
 		} else {
-			model.addAttribute("message", "Empleado not found");
+			model.addAttribute("message", "Empleado no encontrado.");
 			
 		}
 		vista = listadoEmpleados(model);
@@ -76,16 +96,22 @@ public class EmpleadoController {
 	}
 	
 	
-	@GetMapping(value = "/update/{empleadoId}")
-	public String editarEmpleado(@PathVariable("empleadoId") int id, ModelMap model) {
+	@GetMapping(value = "/update/{username}")
+	public String editarEmpleado(@PathVariable("username") String username, ModelMap model) {
 		String vista = "empleados/editEmpleado";
-		Optional<Empleado> empleado = empleadoService.findById(id);
+		String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
 		if(!empleado.isPresent()) {
-			model.addAttribute("message", "Empleado not found");
-			vista = listadoEmpleados(model);
+			model.addAttribute("message", "Empleado no encontrado.");
+			vista = "/";
 		} else {
-			model.addAttribute("talleres", tallerService.findAll());
-			model.addAttribute("empleado", empleado.get());
+			String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+			if(username.equals(username2) || auth.equals("admin")) {
+				model.addAttribute("talleres", tallerService.findAll());
+				model.addAttribute("empleado", empleado.get());
+			}else {
+				vista="/";
+			}
 		}
 		return vista;
 	}

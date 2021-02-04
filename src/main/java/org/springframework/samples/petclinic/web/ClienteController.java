@@ -60,7 +60,7 @@ public class ClienteController {
 	}
 	
 	@GetMapping(value = "/clienteDetails/{username}")
-	public String mostrasDetalles(@PathVariable("username") String username, Model model) {
+	public String mostrarDetalles(@PathVariable("username") String username, Model model) {
 		Optional<Cliente> cliente = this.clienteService.findClientesByUsername(username);
 		if(!cliente.isPresent()) {
 			model.addAttribute("cliente", new Cliente());
@@ -174,7 +174,7 @@ public class ClienteController {
 			cliente.setId(cliente1.getId());
 			this.clienteService.saveCliente(cliente);
 			
-			return mostrasDetalles(username, model);
+			return mostrarDetalles(username, model);
 		}
 	}
 	

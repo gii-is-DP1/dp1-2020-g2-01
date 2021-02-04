@@ -35,7 +35,7 @@
 	</style>
 
 
-    <h2>Ingresos (AÑADIR FILTRADO TEMPORAL??)</h2>
+    <h2>Gastos</h2>
     
     <a href="/balanceEconomico?gastos=false" class="btn btn-success">Ver ingresos</a>
     
@@ -69,10 +69,10 @@
 		        	</td>		        	
 		        	
 		        	<td>
-						<spring:url value="/" var="solicitudUrl">
+						<spring:url value="/" var="facturaRecambioUrl">
 	                    </spring:url>
-	                    <a href="${fn:escapeXml(solicitudUrl)}">
-	                    	<span class="helper glyphicon glyphicon-pencil"></span>
+	                    <a href="${fn:escapeXml(facturaRecambioUrl)}">
+	                    	<span class="glyphicon glyphicon-eye-open"></span>
 	                    </a>		        	
 	                </td>
 	                				

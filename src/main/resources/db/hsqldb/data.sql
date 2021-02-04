@@ -152,13 +152,15 @@ INSERT INTO users(username,password,enabled) VALUES ('clienteEjemplo',@CONTRASEN
 INSERT INTO authorities(username,authority) VALUES ('clienteEjemplo','cliente');
 INSERT INTO clientes(id, dni, fecha_nacimiento, nombre, apellidos, telefono, email, username) VALUES (99, '12345678A','2000-02-20', 'Cliente', 'Ejemplo', '646123456', 'tallersevillacustoms@gmail.com', 'clienteEjemplo');
 
-INSERT INTO users(username,password,enabled) VALUES ('admin', @CONTRASENA,true);
-INSERT INTO authorities(username,authority) VALUES ('admin','admin');
+INSERT INTO users(username,password,enabled) VALUES ('empleado', @CONTRASENA,true);
+INSERT INTO authorities(username,authority) VALUES ('empleado','empleado');
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (1, 'Páez García', '77838103F', 
-					'1982-09-13', 'Candela', 638184619, 'correodeadministrador@gmail.com', '2024-01-09', '2018-11-16', '111111111118', 1050, 'admin', 1);
+					'1982-09-13', 'Candela', 638184619, 'correodeempleado@gmail.com', '2024-01-09', '2018-11-16', '111111111118', 1050, 'empleado', 1);
 					
-
+INSERT INTO users(username,password,enabled) VALUES ('admin', @CONTRASENA,true);
+INSERT INTO authorities(username,authority) VALUES ('admin','admin');
+INSERT INTO administradores(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, num_seg_social, username) VALUES (1, 'Delgado Gutiérrez', '87361534W', '1974-04-12', 'Javier', 645183746, 'correodeadministrador@gmail.com','123456789009', 'admin');
 
 INSERT INTO users(username,password,enabled) VALUES ('fraborcar', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('fraborcar','cliente');
@@ -187,13 +189,13 @@ INSERT INTO users(username,password,enabled) VALUES ('empleado1', @CONTRASENA,tr
 INSERT INTO authorities(username,authority) VALUES ('empleado1','admin');
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (100, 'Sech', '11111111A', 
-					'2000-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111111', 950, 'empleado1', 1);
+					'2000-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111114', 950, 'empleado1', 1);
 					
 INSERT INTO users(username,password,enabled) VALUES ('empleado2', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('empleado2','admin');					
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (101, 'Aguayo', '11111112A', 
-					'2000-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111111', 950, 'empleado2', 2);
+					'2000-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111211', 950, 'empleado2', 2);
 
 INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id) VALUES (200,'2021-10-23', 20, 200, 1);
 INSERT INTO citas_tipocita VALUES (200, 1);
