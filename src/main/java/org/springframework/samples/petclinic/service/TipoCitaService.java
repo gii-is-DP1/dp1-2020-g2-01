@@ -15,12 +15,12 @@ public class TipoCitaService {
 	@Autowired
 	private TipoCitaRepository tipoCitaRep;
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<TipoCita> findAll() {
 		return tipoCitaRep.findAll();
 	}
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public Optional<TipoCita> findById(Integer id) {
 		return tipoCitaRep.findById(id);
 	}

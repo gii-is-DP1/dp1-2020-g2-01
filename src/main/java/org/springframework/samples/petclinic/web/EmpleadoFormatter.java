@@ -10,6 +10,9 @@ import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class EmpleadoFormatter implements Formatter<Empleado>{
 	
@@ -33,7 +36,9 @@ public class EmpleadoFormatter implements Formatter<Empleado>{
 				return e;
 			}
 		}
+		log.warn("Excepción: EmpleadoFormatter no ha podido pasar de " + text + " a objeto Empleado");
 		throw new ParseException("type not found: " + text, 0);
+
 	}
 
 }

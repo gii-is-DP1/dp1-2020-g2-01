@@ -11,6 +11,11 @@ import org.springframework.samples.petclinic.service.exceptions.DuplicatedProvee
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sun.tools.sjavac.Log;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ProveedorService {
 
@@ -31,6 +36,7 @@ public class ProveedorService {
 			throw new DuplicatedProveedorNifException();
 		} else {
 			proveedorRepository.save(proveedor);
+			log.info("Proveedor creado");
 		}	
 	}
 	
@@ -48,6 +54,7 @@ public class ProveedorService {
 	@Transactional
 	public void delete(Proveedor proveedor) {
 		proveedorRepository.delete(proveedor);
+		log.info("Proveedor con id " + proveedor.getId() + " borrado");
 	}
 	
 	

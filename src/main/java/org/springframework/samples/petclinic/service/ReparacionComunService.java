@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,9 @@ import org.springframework.samples.petclinic.repository.ReparacionComunRepositor
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ReparacionComunService {
 	
@@ -19,6 +23,7 @@ public class ReparacionComunService {
 	@Transactional
 	public void saveReparacionComun(ReparacionComun rc) {
 		reparacionComunRep.save(rc);
+		log.info("Reparación creada");
 	}
 	
 	@Transactional
@@ -34,6 +39,7 @@ public class ReparacionComunService {
 	@Transactional
 	public void delete(ReparacionComun rc) {
 		reparacionComunRep.delete(rc);
+		log.info("Reparacion con id " + rc.getId() + " borrada");
 	}
 	
 	@Transactional(readOnly = true)

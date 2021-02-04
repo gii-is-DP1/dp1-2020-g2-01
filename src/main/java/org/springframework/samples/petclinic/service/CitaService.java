@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javassist.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class CitaService {
 	
@@ -79,6 +81,8 @@ public class CitaService {
 		}
 		
 		citaRepository.save(cita);
+		log.info("Cita guardada");
+		
 	}
 	
 	@Transactional(readOnly = true)
@@ -105,6 +109,7 @@ public class CitaService {
 	@Transactional
 	public void delete(Cita cita) {
 		citaRepository.delete(cita);
+		log.info("Cita con id " + cita.getId() + " borrada");
 	}
 	
 	@Transactional
@@ -128,6 +133,7 @@ public class CitaService {
 				if(fecha.isAfter(inicioCuarentena) && fecha.isBefore(finCuarentena)) {
 					sendEmailService.sendEmail(to, subject, content);
 					this.delete(cita);
+					log.info("Cita con id " + cita.getId());
 					
 				}
 			}
@@ -139,7 +145,7 @@ public class CitaService {
 		return c;
 	}
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public Boolean hayCitaParaElDia(LocalDate fecha) {
 		List<Cita> cita = citaRepository.findCitasByFecha(fecha);
 		return cita.size() < 21 - 9; // El taller admite citas desde las 9 hasta las 21

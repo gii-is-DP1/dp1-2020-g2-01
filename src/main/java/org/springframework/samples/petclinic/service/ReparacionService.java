@@ -17,6 +17,10 @@ import org.springframework.samples.petclinic.service.exceptions.Max3Reparaciones
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ReparacionService {
 	
@@ -65,6 +69,7 @@ public class ReparacionService {
 		}
 		
 		reparacionRepository.save(reparacion);
+		log.info("Reparación creada");
 	}
 	
 	
@@ -82,6 +87,7 @@ public class ReparacionService {
 	@Transactional
 	public void delete(Reparacion reparacion) throws DataAccessException{
 		reparacionRepository.delete(reparacion);
+		log.info("Reparacion con id " + reparacion.getId() + " borrada");
 	}
 	
 	@Transactional

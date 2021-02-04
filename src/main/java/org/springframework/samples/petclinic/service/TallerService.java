@@ -9,6 +9,9 @@ import org.springframework.samples.petclinic.repository.TallerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class TallerService {
 
@@ -18,14 +21,15 @@ public class TallerService {
 	@Transactional
 	public void saveTaller(Taller taller) {
 		tallerRepository.save(taller);
+		log.info("Taller creado");
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public Iterable<Taller> findAll() {
 		return tallerRepository.findAll();
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public Optional<Taller> findById(Integer id) {
 		return tallerRepository.findById(id);
 	}
@@ -33,6 +37,7 @@ public class TallerService {
 	@Transactional
 	public void delete(Taller taller) {
 		tallerRepository.delete(taller);
+		log.info("Taller con id " + taller.getId() + " borrado");
 	}
 
 	@Transactional(readOnly = true)
