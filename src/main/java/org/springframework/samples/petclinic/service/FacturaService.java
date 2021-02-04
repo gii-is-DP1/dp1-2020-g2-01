@@ -116,7 +116,7 @@ public class FacturaService {
         for(HorasTrabajadas horas: factura.getLineaFactura().get(0).getReparacion().getHorasTrabajadas()) {
         	table.addCell(getBodyCell(horas.getTrabajoRealizado()));
         	table.addCell(getBodyCell(horas.getHorasTrabajadas().toString()));
-        	table.addCell(getBodyCell(horas.getHorasTrabajadas().toString() + "€"));
+        	table.addCell(getBodyCell(horas.getPrecioHora().toString() + "€"));
         	table.addCell(getBodyCell(horas.getEmpleado().getNombre() + " " + horas.getEmpleado().getApellidos()));
         	table.addCell(getBodyCell(horas.getPrecioTotal().toString() + "€"));
         }
