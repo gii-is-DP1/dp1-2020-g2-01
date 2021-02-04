@@ -224,6 +224,7 @@ INSERT INTO horas_reparacion VALUES (2, 11);
 <<<<<<< Upstream, based on origin/fraborcar
 <<<<<<< Upstream, based on origin/fraborcar
 <<<<<<< Upstream, based on origin/fraborcar
+<<<<<<< Upstream, based on origin/fraborcar
 =======
 <<<<<<< Upstream, based on origin/master
 >>>>>>> c767211 RN5 realizada
@@ -234,16 +235,32 @@ INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recam
 =======
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 100, 4,1);
 =======
+=======
+<<<<<<< Upstream, based on origin/master
+>>>>>>> 1b96e9a Merge
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (2,'Descripción', '2020-10-24', '2020-10-22', '2020-10-22', '2020-10-23', 201);
 INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 2, 'Cambio 4 ruedas', 100, 4,1);
+<<<<<<< Upstream, based on origin/fraborcar
 >>>>>>> 44dd997 Añadido horas al pdf factura
+<<<<<<< Upstream, based on origin/master
 >>>>>>> 0b75705 Añadido horas al pdf factura
+=======
+=======
+=======
+
+
+INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 100, 4,1);
+>>>>>>> 9e1deb7 Merge
+>>>>>>> 1b96e9a Merge
+>>>>>>> 9f5e1df Merge
 
 INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (10, 'Cambio de rueda', 10.5, 3, 100);
 INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (11, 'Cambio de frenos', 10.5, 4, 101);
 
+<<<<<<< Upstream, based on origin/fraborcar
 <<<<<<< Upstream, based on origin/fraborcar
 INSERT INTO horas_reparacion VALUES (1, 10);
 INSERT INTO horas_reparacion VALUES (1, 11);
@@ -263,10 +280,36 @@ INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
 =======
 >>>>>>> 21df115 RN5 realizada
 =======
+=======
+<<<<<<< Upstream, based on origin/master
+>>>>>>> 1b96e9a Merge
 INSERT INTO horas_reparacion VALUES (2, 10);
 INSERT INTO horas_reparacion VALUES (2, 11);
+<<<<<<< Upstream, based on origin/fraborcar
 >>>>>>> 44dd997 Añadido horas al pdf factura
+<<<<<<< Upstream, based on origin/master
 >>>>>>> 0b75705 Añadido horas al pdf factura
+=======
+=======
+=======
+INSERT INTO horas_reparacion VALUES (1, 10);
+INSERT INTO horas_reparacion VALUES (1, 11);
+
+INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
+		VALUES (2,'Descripción', '2020-10-24', '2020-12-23', '2020-10-10', '2020-12-25', 201);
+		
+--INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
+
+--INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, ejemplar_recambio_id, cantidad,factura) VALUES (360, 15, 2, 'Cambio 4 ruedas', 1, 4,1);
+--INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, cantidad,factura) VALUES (80, 0, 2,'2h de trabajo',1,1);
+--INSERT INTO facturas(id, fecha_Pago) VALUES (2, '2020-12-25');
+--INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, ejemplar_recambio_id, cantidad,factura) VALUES (360, 15, 2, 'Cambio 4 ruedas', 1, 4,2);
+--INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, cantidad,factura) VALUES (80, 0, 2,'2h de trabajo',1,2);
+--INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
+--INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
+>>>>>>> 9e1deb7 Merge
+>>>>>>> 1b96e9a Merge
+>>>>>>> 9f5e1df Merge
 
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación espejo retrovisor izquierdo', 'Po lo hase así y asá');
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');
