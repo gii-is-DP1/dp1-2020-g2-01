@@ -208,6 +208,10 @@ INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
 <<<<<<< Upstream, based on origin/fraborcar
+<<<<<<< Upstream, based on origin/fraborcar
+=======
+<<<<<<< Upstream, based on origin/master
+>>>>>>> c767211 RN5 realizada
 INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 100, 4,1);
 
