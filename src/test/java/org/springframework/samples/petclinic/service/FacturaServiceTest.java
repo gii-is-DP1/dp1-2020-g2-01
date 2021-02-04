@@ -88,7 +88,6 @@ class FacturaServiceTest {
 	void shouldInsertFactura() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException{
 		
 		Factura f = new Factura();
-		f.setDescuento(0);
 		f.setFechaPago(LocalDate.now().plusDays(10));
 		List<LineaFactura> lineas = new ArrayList<>();
 		
@@ -301,7 +300,6 @@ class FacturaServiceTest {
 	void shouldDeleteFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException{
 		
 		Factura f = new Factura();
-		f.setDescuento(0);
 		f.setFechaPago(LocalDate.now().plusDays(10));
 		List<LineaFactura> lineas = new ArrayList<>();
 		
@@ -407,7 +405,6 @@ class FacturaServiceTest {
 	@Test
 	public void generarPDF() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, FileNotFoundException, IOException {
 		Factura f = new Factura();
-		f.setDescuento(15);
 		f.setFechaPago(LocalDate.now().plusDays(10));
 		List<LineaFactura> lineas = new ArrayList<>();
 		
