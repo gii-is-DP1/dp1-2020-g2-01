@@ -19,7 +19,6 @@ public class ClienteService {
 	
 	private ClienteRepository clienteRepository;	
 	
-	
 	@Autowired
 	private AuthoritiesService authoritiesService;
 	

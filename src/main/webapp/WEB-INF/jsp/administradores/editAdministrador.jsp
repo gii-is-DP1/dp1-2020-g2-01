@@ -3,19 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
-<%@ page contentType="text/html; charset=UTF-8" %>
 
 
-
-<petclinic:layout pageName="empleados">
+<petclinic:layout pageName="administrador">
     
     
     <jsp:attribute name="customScript">
         <script>
             $(function () {
                 $("#fechaNacimiento").datepicker({dateFormat: 'dd/mm/yy'});
-                $("#fecha_ini_contrato").datepicker({dateFormat: 'dd/mm/yy'});
-                $("#fecha_fin_contrato").datepicker({dateFormat: 'dd/mm/yy'});
             });
         </script>
        </jsp:attribute>
@@ -23,46 +19,41 @@
     
     	
     	
-        <h2>Empleado</h2>
+        <h2>Administrador</h2>
 
         
 
-        <form:form action="/empleados/save" modelAttribute="empleado" class="form-horizontal">
+        <form:form action="/administradores/save" modelAttribute="administrador" class="form-horizontal">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Nombre" name="nombre"/>
                 <petclinic:inputField label="Apellidos" name="apellidos"/> 
                	<petclinic:inputField label="DNI" name="dni"/>
                	<petclinic:inputField label="Fecha de nacimiento" name="fechaNacimiento"/>
                	<petclinic:inputField label="E-mail" name="email"/>
-               	<petclinic:inputField label="TelÃ©fono" name="telefono"/>
-               	<petclinic:inputField label="Fecha inicio contrato" name="fecha_ini_contrato"/>
-               	<petclinic:inputField label="Fecha fin contrato" name="fecha_fin_contrato"/>
-               	<petclinic:inputField label="NÃºmero seguridad social" name="num_seg_social"/>
-               	<petclinic:inputField label="Sueldo" name="sueldo"/>
-               	<petclinic:select label="Taller" name="taller" items="${talleres}"/>
+               	<petclinic:inputField label="Teléfono" name="telefono"/>
+               	<petclinic:inputField label="Número seguridad social" name="num_seg_social"/>
+
                	<br>
+               	<!-- 
             	<c:choose>
-                    <c:when test="${empleado['new']}">
+                    <c:when test="${administrador['new']}">
                        <petclinic:inputField label="Usuario" name="usuario.username"/>
                     </c:when>
                     <c:otherwise>
+                    -->
                     	<petclinic:inputField label="Usuario" name="usuario.username" type="text" readonly="true"/>
+                   <!-- 
                     </c:otherwise>
              	</c:choose>
-             	<petclinic:inputField label="ContraseÃ±a" name="usuario.password" type="password"/>
+             	-->
+             	<petclinic:inputField label="Contraseña" name="usuario.password" type="password"/>
         	</div>
         	<div class="form-group">
             	<div class="col-sm-offset-2 col-sm-10">
-            		<input type="hidden" name="id" value="${empleado.id }">
-	                <c:choose>
-	                    <c:when test="${empleado['new']}">
-	                        <button class="btn btn-default" type="submit">AÃ±adir empleado</button>
-	                    </c:when>
-	                    <c:otherwise>
-	                        <button class="btn btn-default" type="submit">Actualizar empleado</button>
-	                    </c:otherwise>
-	                </c:choose>
-            	</div>
+            		<input type="hidden" name="id" value="${administrador.id}">
+	                
+	                        <button class="btn btn-default" type="submit">Actualizar administrador</button>
+	                    </div>
         	</div>
         </form:form>
 

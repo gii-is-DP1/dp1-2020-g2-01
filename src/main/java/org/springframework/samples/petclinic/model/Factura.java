@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
+
+import static java.time.temporal.ChronoUnit.DAYS;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,6 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;

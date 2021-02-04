@@ -140,6 +140,13 @@ INSERT INTO users(username,password,enabled) VALUES ('clienteEjemplo',@CONTRASEN
 INSERT INTO authorities(username,authority) VALUES ('clienteEjemplo','cliente');
 INSERT INTO clientes(id, dni, fecha_nacimiento, nombre, apellidos, telefono, email, username) VALUES (99, '12345678A','2000-02-20', 'Cliente', 'Ejemplo', '646123456', 'tallersevillacustoms@gmail.com', 'clienteEjemplo');
 
+
+INSERT INTO users(username,password,enabled) VALUES ('empleado', @CONTRASENA,true);
+INSERT INTO authorities(username,authority) VALUES ('empleado','empleado');
+INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
+				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (1, 'Páez García', '77838103F', 
+					'1982-09-13', 'Candela', 638184619, 'correodeempleado@gmail.com', '2024-01-09', '2018-11-16', '111111111118', 1050, 'empleado', 1);
+
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (201, '2111AAB', 'VSSZZZ6KZ1R149944', 'Renault Clio', 1, 99);
 
 INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (104, 201, CURDATE()-3, 17, 2, false);
@@ -149,13 +156,12 @@ INSERT INTO citas_tipocita VALUES (105, 1);
 INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (106, 201, CURDATE()-1, 17, 2, false);
 INSERT INTO citas_tipocita VALUES (106, 1);
 
+
+
+					
 INSERT INTO users(username,password,enabled) VALUES ('admin', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('admin','admin');
-INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
-				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (1, 'Páez García', '77838103F', 
-					'1982-09-13', 'Candela', 638184619, 'correodeadministrador@gmail.com', '2024-01-09', '2018-11-16', '111111111118', 1050, 'admin', 1);
-					
-
+INSERT INTO administradores(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, num_seg_social, username) VALUES (1, 'Delgado Gutiérrez', '87361534W', '1974-04-12', 'Javier', 645183746, 'correodeadministrador@gmail.com','123456789009', 'admin');
 
 INSERT INTO users(username,password,enabled) VALUES ('fraborcar', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('fraborcar','cliente');
@@ -183,13 +189,13 @@ INSERT INTO users(username,password,enabled) VALUES ('empleado1', @CONTRASENA,tr
 INSERT INTO authorities(username,authority) VALUES ('empleado1','admin');
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (100, 'Sech', '11111111A', 
-					'2000-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111111', 950, 'empleado1', 1);
+					'2000-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111114', 950, 'empleado1', 1);
 					
 INSERT INTO users(username,password,enabled) VALUES ('empleado2', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('empleado2','admin');					
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (101, 'Aguayo', '11111112A', 
-					'2000-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111111', 950, 'empleado2', 2);
+					'2000-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111211', 950, 'empleado2', 2);
 
 INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (200,'2021-10-23', 20, 200, 1, true);
 INSERT INTO citas_tipocita VALUES (200, 1);
@@ -199,16 +205,28 @@ INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
 
+INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
+INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (2, CURDATE(), 18);
+INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (3, DATEADD(day, 1, CURDATE()), 15);
+
+
+
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, ejemplar_recambio_id, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 1, 4,1);
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion,factura) VALUES (80, 0, 1,'2h de trabajo',1);
+INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);
+INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 101);
+
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (2,'Descripción', '2020-10-24', '2020-10-22', '2020-10-22', '2020-10-23', 201);
-INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
-INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 2, 'Cambio 4 ruedas', 100, 4,1);
+INSERT INTO facturas(id, fecha_Pago) VALUES (4, '2020-12-27');
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 2, 'Cambio 4 ruedas', 100, 4,4);
 
 INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (10, 'Cambio de rueda', 10.5, 3, 100);
 INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (11, 'Cambio de frenos', 10.5, 4, 101);
 
 INSERT INTO horas_reparacion VALUES (2, 10);
 INSERT INTO horas_reparacion VALUES (2, 11);
+
 
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación espejo retrovisor izquierdo', 'Po lo hase así y asá');
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');

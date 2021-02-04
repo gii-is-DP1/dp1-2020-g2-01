@@ -50,17 +50,13 @@
 	    </c:forEach>
     </p>
   </div>
-<<<<<<< HEAD
-  <div class="panel-body">
 
-    <label class="col-sm-4">Fecha estimada finalización: </label>
-=======
   <div class="panel-body">
 
     <label class="col-sm-4">Fecha estimada finalización: </label>
 
     <label class="col-sm-4">Fecha de finalización estimada: </label>
->>>>>>> branch 'fraborcar' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
+
 
     <fmt:parseDate value="${reparacion.tiempoEstimado}" pattern="yyyy-MM-dd" 
                              var="parsedDate" type="date" />

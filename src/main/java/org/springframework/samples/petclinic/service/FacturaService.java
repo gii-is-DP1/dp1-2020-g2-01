@@ -1,13 +1,24 @@
 package org.springframework.samples.petclinic.service;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.HashSet;
+import java.util.List;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+
+import org.springframework.data.domain.Sort;
+
 import org.springframework.samples.petclinic.model.Cliente;
+
 import org.springframework.samples.petclinic.model.Factura;
 import org.springframework.samples.petclinic.model.HorasTrabajadas;
 import org.springframework.samples.petclinic.model.LineaFactura;
@@ -47,8 +58,8 @@ public class FacturaService {
 	}
 
 	@Transactional(readOnly = true)
-	public Iterable<Factura> findAll() throws DataAccessException {
-		return facturaRepository.findAll();
+	public List<Factura> findAll() throws DataAccessException {
+		return facturaRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaPago"));
 	}
 
 	@Transactional(readOnly = true)
@@ -146,6 +157,7 @@ public class FacturaService {
 				.setVerticalAlignment(VerticalAlignment.MIDDLE)
 				.setBorder(Border.NO_BORDER);
 	}
+
 	
 	public void add4EmptyCells(Table table) {
         table.addCell(new Cell().setBorder(Border.NO_BORDER));

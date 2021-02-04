@@ -76,7 +76,9 @@
 					<li><a href="<c:url value="/login" />">Login</a></li>
 					<li><a href="<c:url value="/clientes/new" />">Register</a></li>
 				</sec:authorize>
+				
 				<sec:authorize access="isAuthenticated()">
+					<sec:authorize access="hasAuthority('cliente')">
 					<li class="dropdown ${name eq 'cliente' ? 'active' : ''}"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
 							<strong><sec:authentication property="name" /></strong> <span
@@ -110,22 +112,84 @@
 								</div>
 							</li>
 							<li class="divider"></li>
-<!-- 							
-                            <li> 
-								<div class="navbar-login navbar-login-session">
+
+						</ul></li>
+					</sec:authorize>	
+					<sec:authorize access="hasAuthority('admin')">
+					<li class="dropdown ${name eq 'administrador' ? 'active' : ''}"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
+							<strong><sec:authentication property="name" /></strong> <span
+							class="glyphicon glyphicon-chevron-down"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li>
+								<div class="navbar-login">
 									<div class="row">
-										<div class="col-lg-12">
-											<p>
-												<a href="#" class="btn btn-primary btn-block">My Profile</a>
-												<a href="#" class="btn btn-danger btn-block">Change
-													Password</a>
+										<div class="col-lg-4">
+											<p class="text-center">
+												<span class="glyphicon glyphicon-user icon-size"></span>
+											</p>
+										</div>
+										<div class="col-lg-8">
+											<p class="text-left">
+												<strong><sec:authentication property="name" /></strong>
+											</p>
+											<p class="text-left">
+												<sec:authentication property="name" var="username"/>
+												<a href="<c:url value="/administradores/administradorDetails/${username}"/>"
+													class="btn btn-primary btn-block btn-sm">Ver perfil</a>
+
+											</p>
+											<p class="text-left">
+												<a href="<c:url value="/logout" />"
+													class="btn btn-primary btn-block btn-sm">Logout</a>
 											</p>
 										</div>
 									</div>
 								</div>
 							</li>
--->
-						</ul></li>
+							<li class="divider"></li>
+						
+					</ul></li>
+					</sec:authorize>
+										<sec:authorize access="hasAuthority('empleado')">
+					<li class="dropdown ${name eq 'empleado' ? 'active' : ''}"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
+							<strong><sec:authentication property="name" /></strong> <span
+							class="glyphicon glyphicon-chevron-down"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li>
+								<div class="navbar-login">
+									<div class="row">
+										<div class="col-lg-4">
+											<p class="text-center">
+												<span class="glyphicon glyphicon-user icon-size"></span>
+											</p>
+										</div>
+										<div class="col-lg-8">
+											<p class="text-left">
+												<strong><sec:authentication property="name" /></strong>
+											</p>
+											<p class="text-left">
+												<sec:authentication property="name" var="username"/>
+												<a href="<c:url value="/empleados/empleadoDetails/${username}"/>"
+													class="btn btn-primary btn-block btn-sm">Ver perfil</a>
+
+											</p>
+											<p class="text-left">
+												<a href="<c:url value="/logout" />"
+													class="btn btn-primary btn-block btn-sm">Logout</a>
+											</p>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="divider"></li>
+						
+					</ul></li>
+					</sec:authorize>
+					
 				</sec:authorize>
 			</ul>
 		</div>
