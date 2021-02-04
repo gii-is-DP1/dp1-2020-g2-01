@@ -203,6 +203,11 @@ INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
 INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
+INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (2, CURDATE(), 18);
+INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (3, DATEADD(day, 1, CURDATE()), 15);
+
+
+
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, ejemplar_recambio_id, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 1, 4,1);
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion,factura) VALUES (80, 0, 1,'2h de trabajo',1);
 INSERT INTO reparaciones_empleados(REPARACION_ID, EMPLEADOS_ID) VALUES (1, 100);

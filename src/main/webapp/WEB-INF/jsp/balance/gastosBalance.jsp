@@ -5,9 +5,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 
-<petclinic:layout pageName="ingresos">
+
+<petclinic:layout pageName="balanceEconomico">
 	<style>
 		.helper {
 			display: inline-block;
@@ -33,23 +35,21 @@
 	</style>
 
 
-    <h2>Ingresos (AÑADIR FILTRADO TEMPORAL??)</h2>
+    <h2>Ingresos (AÃ‘ADIR FILTRADO TEMPORAL??)</h2>
     
-    <a href="/balanceEconomico?gastos=true" class="btn btn-success">Ver gastos</a>
+    <a href="/balanceEconomico?gastos=false" class="btn btn-success">Ver ingresos</a>
     
     
     <br/><br/>
     
     
-    <table id="ingresosTable" class="table table-striped">
+    <table id="gastosTable" class="table table-striped">
         <thead>
 	        <tr>
-	            <th>Número de factura</th>
+	            <th>NÃºmero de pedido</th>
 	            <th>Fecha</th>
-	            <th>Cantidad ingresada</th>
-
+	            <th>Cantidad gastada</th>
 	            <th></th>
-
 	        </tr>
         </thead>
         <tbody>
@@ -65,22 +65,19 @@
 		        	</td>
 		        	
 		        	<td>
-		        		<c:out value="${factura.precioConDescuento}" />		        	
-		        	</td>      	
+		        		<c:out value="-${factura.precioTotal} â‚¬" />		        	
+		        	</td>		        	
 		        	
 		        	<td>
-						<spring:url value="/" var="facturaUrl">
+						<spring:url value="/" var="solicitudUrl">
 	                    </spring:url>
-	                    <a href="${fn:escapeXml(facturaUrl)}">
-	                    	<span class="glyphicon glyphicon-eye-open"></span>
+	                    <a href="${fn:escapeXml(solicitudUrl)}">
+	                    	<span class="helper glyphicon glyphicon-pencil"></span>
 	                    </a>		        	
 	                </td>
-	            
-					
+	                				
 		        </tr>
       		</c:forEach>
         </tbody>
     </table>
-    
-
 </petclinic:layout>
