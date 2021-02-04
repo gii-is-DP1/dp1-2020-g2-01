@@ -19,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.HorasTrabajadas;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
@@ -66,6 +67,9 @@ class ReparacionServiceTest {
 	@Autowired
 	protected UserService userService;
 	
+	@Autowired
+	protected HorasTrabajadasService horasTrabajadasService;
+	
 	@Test
 	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		
@@ -100,7 +104,6 @@ class ReparacionServiceTest {
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
@@ -117,11 +120,21 @@ class ReparacionServiceTest {
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-		empleados.add(e1);
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r);
 		assertEquals(r, reparacionService.findReparacionById(r.getId()).get());
@@ -167,7 +180,6 @@ class ReparacionServiceTest {
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
@@ -183,14 +195,23 @@ class ReparacionServiceTest {
 		e1.setNum_seg_social("234567290145");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
-		
-		empleados.add(e1);
 
 		e1.setTaller(taller);
 		
 		empleadoService.saveEmpleado(e1);
 
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		assertThrows(ConstraintViolationException.class, () -> this.reparacionService.saveReparacion(r));
 		
@@ -231,7 +252,6 @@ class ReparacionServiceTest {
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
@@ -248,11 +268,21 @@ class ReparacionServiceTest {
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-		empleados.add(e1);
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		assertThrows(FechasReparacionException.class, () -> this.reparacionService.saveReparacion(r));
 		
@@ -297,24 +327,22 @@ class ReparacionServiceTest {
 		
 		//Añadir un empleado
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
-		userP.setUsername("nombreusuario1");
+		userP.setUsername("nombreusuario2");
 		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
-		e1.setNombre("Pepito");
-		e1.setApellidos("Grillo");
-		e1.setDni("89898988A");
+		e1.setNombre("Pepito1");
+		e1.setApellidos("Grillo1");
+		e1.setDni("89898983A");
 		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
 		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
 		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("234567890140");
+		e1.setNum_seg_social("234567890141");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-		empleados.add(e1);
 
 		e1.setTaller(taller);
 		
@@ -342,7 +370,18 @@ class ReparacionServiceTest {
 		
 		r1.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 10));
 		
-		r1.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r1.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r1);
 		
@@ -366,8 +405,7 @@ class ReparacionServiceTest {
 		
 		r2.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 11));
 		
-		
-		r2.setEmpleados(empleados);
+		r2.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r2);
 		
@@ -392,13 +430,11 @@ class ReparacionServiceTest {
 		
 		r3.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 12));
 		
-		r3.setEmpleados(empleados);
+		r3.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r3);
 		
-		
-		//Comprueba que se lanza la regla de negocio
-		r.setEmpleados(empleados);
+		r.setHorasTrabajadas(horas);
 		assertThrows(Max3ReparacionesSimultaneasPorEmpleadoException.class, () -> this.reparacionService.saveReparacion(r));
 	}
 	
@@ -436,7 +472,6 @@ class ReparacionServiceTest {
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
@@ -453,11 +488,21 @@ class ReparacionServiceTest {
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-		empleados.add(e1);
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 		
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r);
 		
@@ -503,7 +548,6 @@ class ReparacionServiceTest {
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
@@ -520,13 +564,22 @@ class ReparacionServiceTest {
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-		empleados.add(e1);
-		
 		e1.setTaller(taller);
 		
 		empleadoService.saveEmpleado(e1);
 
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r);
 		
@@ -577,7 +630,6 @@ class ReparacionServiceTest {
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
@@ -594,11 +646,21 @@ class ReparacionServiceTest {
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-		empleados.add(e1);
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r);
 		assertTrue(reparacionService.findReparacionById(r.getId()).isPresent());
@@ -642,7 +704,6 @@ class ReparacionServiceTest {
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP2 = new User();
 		userP2.setUsername("nombreusuario1");
 		userP2.setPassword("passdeprueba");
@@ -659,11 +720,21 @@ class ReparacionServiceTest {
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-		empleados.add(e1);
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r);
 		
@@ -726,11 +797,19 @@ class ReparacionServiceTest {
 		
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
-		
-		List<Empleado> empleados = new ArrayList<>();
-		empleados.add(e1);
 
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r);
 		

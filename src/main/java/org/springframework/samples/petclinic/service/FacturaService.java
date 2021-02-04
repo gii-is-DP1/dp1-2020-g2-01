@@ -78,7 +78,7 @@ public class FacturaService {
         table.setRelativePosition((float)2, (float)320, (float)0, (float)0);
         
         for(LineaFactura LFactura : factura.getLineaFactura()) {
-        	String nombre = LFactura.getEjemplarRecambio().getRecambio().getName();
+        	String nombre = LFactura.getRecambio().getName();
         	String cantidad = LFactura.getCantidad().toString();
         	String precioUnidad = LFactura.getPrecioBase().toString() + "€";
         	String descuento = LFactura.getDescuento().toString() + "%";
