@@ -18,8 +18,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
-import org.springframework.samples.petclinic.model.EjemplarRecambio;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.HorasTrabajadas;
 import org.springframework.samples.petclinic.model.LineaFactura;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Recambio;
@@ -27,7 +27,6 @@ import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
@@ -73,11 +72,10 @@ class LineaFacturaServiceTest {
 	protected RecambioService recambioService;
 	
 	@Autowired
-	protected ProveedorService proveedorService;
-	
+	protected ProveedorService proveedorService;	
+
 	@Autowired
-	protected EjemplarRecambioService ejemplarRecambioService;
-	
+	protected HorasTrabajadasService horasTrabajadasService;
 	
 	@Test
 	@Transactional
@@ -97,11 +95,6 @@ class LineaFacturaServiceTest {
 		rec.setProveedor(p.get());
 		
 		recambioService.saveRecambio(rec);
-		
-		EjemplarRecambio ej = new EjemplarRecambio();
-		ej.setRecambio(rec);
-		
-		ejemplarRecambioService.saveEjemplarRecambio(ej);
 		
 		
 	///////
@@ -138,7 +131,6 @@ class LineaFacturaServiceTest {
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP2 = new User();
 		userP2.setUsername("nombreusuario1");
 		userP2.setPassword("passdeprueba");
@@ -155,17 +147,27 @@ class LineaFacturaServiceTest {
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-		empleados.add(e1);
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r);
 		
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
-		lf.setEjemplarRecambio(ej);
+		lf.setRecambio(rec);
 		lfService.saveLineaFactura(lf);
 		
 		assertEquals(lf, lfService.findLineaFacturaById(lf.getId()).get());
@@ -191,11 +193,6 @@ class LineaFacturaServiceTest {
 			
 			recambioService.saveRecambio(rec);
 			
-			EjemplarRecambio ej = new EjemplarRecambio();
-			ej.setRecambio(rec);
-			
-			ejemplarRecambioService.saveEjemplarRecambio(ej);
-			
 			
 		///////
 		
@@ -233,7 +230,6 @@ class LineaFacturaServiceTest {
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP2 = new User();
 		userP2.setUsername("nombreusuario1");
 		userP2.setPassword("passdeprueba");
@@ -250,17 +246,27 @@ class LineaFacturaServiceTest {
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-		empleados.add(e1);
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r);
 		
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
-		lf.setEjemplarRecambio(ej);
+		lf.setRecambio(rec);
 
 		assertThrows(ConstraintViolationException.class, () -> this.lfService.saveLineaFactura(lf));
 	}
@@ -283,11 +289,6 @@ class LineaFacturaServiceTest {
 			rec.setProveedor(p.get());
 			recambioService.saveRecambio(rec);
 			
-			EjemplarRecambio ej = new EjemplarRecambio();
-			ej.setRecambio(rec);
-			
-			ejemplarRecambioService.saveEjemplarRecambio(ej);
-			
 			
 		///////
 		
@@ -323,7 +324,6 @@ class LineaFacturaServiceTest {
 		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
 		Empleado e1 = new Empleado();
-		List<Empleado> empleados = new ArrayList<>();
 		User userP2 = new User();
 		userP2.setUsername("nombreusuario1");
 		userP2.setPassword("passdeprueba");
@@ -340,17 +340,27 @@ class LineaFacturaServiceTest {
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-		empleados.add(e1);
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
-		r.setEmpleados(empleados);
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r);
 		
 		lf.setReparacion(r);
 		lf.setPrecioBase(20.03);
-		lf.setEjemplarRecambio(ej);
+		lf.setRecambio(rec);
 		lfService.saveLineaFactura(lf);
 		assertTrue(lfService.findLineaFacturaById(lf.getId()).isPresent());
 		

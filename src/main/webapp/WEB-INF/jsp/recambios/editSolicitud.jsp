@@ -20,9 +20,10 @@
             	
             	
            		<petclinic:radioBoolField label="¿Está terminada?" name="terminada" />
-                <petclinic:inputField label="Cantidad" name="cantidad"/>
                 <petclinic:select label="Recambio que se solicita" name="recambio" items="${recambios}"/>
+                <petclinic:inputField label="Cantidad" name="cantidad"/>
                	<petclinic:select label="Empleado que realiza la petición" name="empleado" items="${empleados}"/>
+               	<petclinic:select label="Reparación para que se solicita" name="reparacion" items="${reparaciones}"/>
                	
 
             </div>

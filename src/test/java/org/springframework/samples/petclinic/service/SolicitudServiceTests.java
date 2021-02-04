@@ -3,28 +3,36 @@ package org.springframework.samples.petclinic.service;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.HorasTrabajadas;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Recambio;
+import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.model.Taller;
+import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.TipoVehiculo;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedProveedorNifException;
+import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
+import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
+import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
+import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SolicitudServiceTests {
 	
 	@Autowired
@@ -46,15 +54,39 @@ public class SolicitudServiceTests {
 	@Autowired
 	protected ProveedorService proveedorService;
 	
+	@Autowired
+	protected ReparacionService reparacionService;
+
+	@Autowired
+	protected TipoCitaService tipoCitaService;
 	
-	@BeforeAll
-	void setup() throws DataAccessException, DuplicatedProveedorNifException {
-		Proveedor p = new Proveedor();
-		p.setName("Norauto");
-		p.setNif("98765432A");
-		p.setTelefono("665112233");
-		p.setEmail("norauto@gmail.com");
-		proveedorService.saveProveedor(p);
+	@Autowired
+	protected VehiculoService vehiculoService;
+	
+	@Autowired
+	protected CitaService citaService;
+	
+	@Autowired
+	protected HorasTrabajadasService horasTrabajadasService;
+	
+	
+	@BeforeEach
+	void setup() throws DataAccessException, DuplicatedProveedorNifException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+		Reparacion r = new Reparacion();
+		r.setDescripcion("Una descripcion");
+		r.setFechaEntrega(LocalDate.now().plusDays(7));
+		r.setTiempoEstimado(LocalDate.now().plusDays(8));
+		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
+		r.setFechaRecogida(LocalDate.now().plusDays(10));
+	
+		Cita c = new Cita();
+		TipoCita t = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos = new ArrayList<>();
+		tipos.add(t);
+		c.setFecha(LocalDate.now().plusDays(2));
+		c.setHora(18);
+		c.setTiposCita(tipos);
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
 		Taller taller = new Taller();
 		taller.setCorreo("test@test.com");
@@ -64,9 +96,15 @@ public class SolicitudServiceTests {
 		
 		tallerService.saveTaller(taller);
 		
+		c.setTaller(taller);
+		
+		citaService.saveCita(c, "admin");
+		
+		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
+		
 		Empleado e1 = new Empleado();
 		User userP = new User();
-		userP.setUsername("nombreusuario");
+		userP.setUsername("nombreusuario1");
 		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
@@ -77,14 +115,35 @@ public class SolicitudServiceTests {
 		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
 		e1.setSueldo(1000);
 		e1.setUsuario(userP);
-		e1.setNum_seg_social("244567890145");
+		e1.setNum_seg_social("234567890145");
 		e1.setEmail("prueba@prueba.com");
 		e1.setTelefono("777777777");
 		
-
 		e1.setTaller(taller);
-		
 		empleadoService.saveEmpleado(e1);
+
+		HorasTrabajadas hora = new HorasTrabajadas();
+		hora.setEmpleado(e1);
+		hora.setHorasTrabajadas(10);
+		hora.setPrecioHora(10.5);
+		hora.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas = new ArrayList<>();
+		horas.add(hora);
+		
+		horasTrabajadasService.save(hora);
+		
+		r.setHorasTrabajadas(horas);
+		
+		reparacionService.saveReparacion(r);
+		
+		
+		Proveedor p = new Proveedor();
+		p.setName("Norauto");
+		p.setNif("98765432A");
+		p.setTelefono("665112233");
+		p.setEmail("norauto@gmail.com");
+		proveedorService.saveProveedor(p);
 		
 		Recambio r1 = new Recambio();
 		r1.setName("Recambio prueba 1");
@@ -102,12 +161,14 @@ public class SolicitudServiceTests {
 		s1.setEmpleado(e1);
 		s1.setCantidad(10);
 		s1.setTerminada(true);
+		s1.setReparacion(r);
 		
 		Solicitud s2 = new Solicitud();
 		s2.setRecambio(r1);
 		s2.setEmpleado(e1);
 		s2.setCantidad(5);
 		s2.setTerminada(false);
+		s2.setReparacion(r);
 		
 		solicitudService.saveSolicitud(s1);
 		solicitudService.saveSolicitud(s2);

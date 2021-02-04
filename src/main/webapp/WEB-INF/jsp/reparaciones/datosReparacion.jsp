@@ -1,3 +1,4 @@
+  
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -42,18 +43,20 @@
     <label class="col-sm-4">Empleados: </label>
     <p>
 	    <c:set var="i" value="0"/>
-	    <c:forEach items="${reparacion.empleados}" var="empleado">
-	    <c:out value="${empleado.nombre} ${empleado.apellidos}"/>
+	    <c:forEach items="${reparacion.horasTrabajadas}" var="horas">
+	    <c:out value="${horas.empleado.nombre} ${horas.empleado.apellidos}"/>
 	    <c:set var="i" value="${i + 1}"/>
-	    <c:if test="${ fn:length(reparacion.empleados) > i}">, </c:if>
+	    <c:if test="${ fn:length(reparacion.horasTrabajadas) > i}">, </c:if>
 	    </c:forEach>
     </p>
   </div>
+
   <div class="panel-body">
 
-    <label class="col-sm-4">Fecha estimada finalizaci�n: </label>
+    <label class="col-sm-4">Fecha estimada finalización: </label>
 
     <label class="col-sm-4">Fecha de finalización estimada: </label>
+
 
     <fmt:parseDate value="${reparacion.tiempoEstimado}" pattern="yyyy-MM-dd" 
                              var="parsedDate" type="date" />
@@ -98,7 +101,7 @@
 <div class="col-sm-6">
 <div class="panel panel-success">
   <div class="panel-heading">
-    <h3 class="panel-title">L�neas de factura</h3>
+    <h3 class="panel-title">Líneas de factura</h3>
   </div>
 	<table class="table table-striped">
        <thead>
@@ -117,7 +120,7 @@
     <tbody>
 		<c:forEach var="lineaFactura" items="${reparacion.lineaFactura}">
 		<tr>
-			<td>${lineaFactura.ejemplarRecambio.recambio.name}</td>
+			<td>${lineaFactura.recambio.name}</td>
 			<td>${lineaFactura.cantidad}</td>
 			<td>${lineaFactura.descripcion}</td>
 			<td>${lineaFactura.precioBase}<span class="glyphicon glyphicon-eur"></span></td>

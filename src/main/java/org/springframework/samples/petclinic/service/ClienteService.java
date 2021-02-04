@@ -11,6 +11,9 @@ import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ClienteService {
 	
@@ -35,6 +38,7 @@ public class ClienteService {
 	@Transactional
 	public void delete(Cliente cliente) {
 		clienteRepository.delete(cliente);
+		log.info("Cliente con id " + cliente.getId() + " borrado");
 	}
 	
 	@Transactional(readOnly = true)
@@ -53,7 +57,7 @@ public class ClienteService {
 		clienteRepository.save(cliente);
 		userService.saveUser(cliente.getUser());		
 		authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
-		
+		log.info("Cliente y usuario con authorities de cliente creado");
 		
 	}
 

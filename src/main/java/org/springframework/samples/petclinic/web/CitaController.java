@@ -37,7 +37,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javassist.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/citas")
 public class CitaController {
@@ -134,16 +136,21 @@ public class CitaController {
 				model.addAttribute("message", "Cita guardada successfully");
 				
 			}catch(EmpleadoYCitaDistintoTallerException e) {
+				log.warn("Excepción: uno o más de los empleados está en un taller distinto a la de la cita, taller de la cita: " + cita.getTaller().getName()  
+			+ "talleres de los empleados: " + cita.getEmpleados().stream().map(x->x.getTaller().getName()).toArray());
+				
 				model.addAttribute("message", "La cita y los empleados deben estar asignados al mismo taller");
 				model.addAttribute("messageType", "danger");
 				
 			}catch(NotAllowedException e) { // Un usuario ha intentado usar un vehiculo que no le pertenece
-				String username = SecurityContextHolder.getContext().getAuthentication().getName();
+				String username = LoggedUser.getUsername();
+				log.warn("Excepción: el usuario con username " + username + " ha intentado usar un vehículo que no le pertenece");
 				Cliente c = clienteService.findClientesByUsername(username).get();
 				model.addAttribute("message", "El vehículo seleccionado no se encuentra");
 				model.addAttribute("messageType", "danger");
 				model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(c));
 			}catch(CitaSinPresentarseException e) {
+				log.warn("Excepción: el usuario con username " + LoggedUser.getUsername() +"ha sobrepasado el límite de citas sin asistir");
 				model.addAttribute("message", "Ha sobrepasado el límite de citas sin asistir, por lo que no puede pedir más citas hasta dentro de 1 semana");
 			}
 			
@@ -334,5 +341,11 @@ public class CitaController {
 		citaService.saveCita(c, LoggedUser.getUsername());
 		model.put("message", "Te has quitado correctamente");
 		return vista;
+	}
+	
+	@GetMapping(value="/confirmDelete/{citaId}")
+	public String confirmDelete(@PathVariable("citaId") int id, ModelMap model) {
+		model.addAttribute("id", id);
+		return "citas/confirmar_borrado_cita";
 	}
 }

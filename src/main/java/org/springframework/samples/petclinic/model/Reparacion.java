@@ -1,11 +1,10 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -53,11 +52,11 @@ public class Reparacion extends BaseEntity {
 	@OneToOne(optional=false)
 	private Cita cita;
 	
-	//Reparacioon->Empleado, ManyToMany
 	@NotNull
 	@NotEmpty
-	@ManyToMany
-	private Collection<Empleado> empleados;
+	@OneToMany
+	@JoinTable(name="horas_reparacion")
+	private List<HorasTrabajadas> horasTrabajadas;
 	
 	
 	@OneToMany(mappedBy="reparacion")

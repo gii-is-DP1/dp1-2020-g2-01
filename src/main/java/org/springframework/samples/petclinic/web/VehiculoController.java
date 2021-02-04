@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/vehiculos")
 public class VehiculoController {
@@ -91,6 +94,7 @@ public class VehiculoController {
 			try { //comprobar que la matrícula no está duplicada
 				vehiculoService.saveVehiculo(vehiculo);
 			} catch(DuplicatedMatriculaException ex) {
+				log.warn("Excepción: Ya existe un vehículo con la misma matrícula: " + vehiculo.getMatricula());
 				result.rejectValue("matricula", "Ya existe un vehículo con la misma matrícula", "Ya existe un vehículo con la misma matrícula");
 				return "vehiculos/editVehiculo";
 			}
@@ -130,6 +134,7 @@ public class VehiculoController {
 				vehiculoService.delete(v);
 				model.addAttribute("message", "Vehiculo borrado correctamente.");
 			}catch(Exception e) {
+				log.warn("Excepción: error inesperado al borrar el vehículo: " + v.toString());
 				model.addAttribute("message", "Error inesperado al borrar el vehículo.");
 				model.addAttribute("messageType", "danger");
 			}

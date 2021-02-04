@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /*
@@ -66,6 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/citas/new/**").hasAnyAuthority("admin")
 				.antMatchers("/citas/**").hasAnyAuthority("cliente","admin")
 				.antMatchers("/facturas/**").permitAll()
+				.antMatchers("/facturas/generarPDF/*").permitAll()
 				.antMatchers("/reparacionesComunes/**").permitAll()
 				.antMatchers("/recambios/**").hasAnyAuthority("admin", "empleado")
 				.antMatchers("/listadoRecambios/**").hasAnyAuthority("admin", "empleado")

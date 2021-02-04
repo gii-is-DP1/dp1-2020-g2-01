@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.PedidoRecambio;
 import org.springframework.samples.petclinic.model.Recambio;
+import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.PedidoRecambioService;
 import org.springframework.samples.petclinic.service.RecambioService;
+import org.springframework.samples.petclinic.service.ReparacionService;
 import org.springframework.samples.petclinic.service.SolicitudService;
 import org.springframework.samples.petclinic.util.LoggedUser;
 import org.springframework.stereotype.Controller;
@@ -42,6 +44,9 @@ public class RecambioController {
 	@Autowired
 	private PedidoRecambioService pedidoRecambioService;
 	
+	@Autowired
+	private ReparacionService reparacionService;
+	
 	
 	@ModelAttribute("empleados")
 	public List<Empleado> empleados() {
@@ -54,6 +59,12 @@ public class RecambioController {
 		return (List<Recambio>) this.recambioService.findAll();
 	}
 	
+	
+	@ModelAttribute("reparaciones")
+	public List<Reparacion> reparaciones() {
+		return (List<Reparacion>) this.reparacionService.findAll();
+	}
+	
 
 	@GetMapping(value="/listadoRecambios")
 	public String listadoInventario(ModelMap model) {
@@ -63,30 +74,6 @@ public class RecambioController {
 		return vista;
 	}
 
-//	@GetMapping(value="/delete/{recambioId}")
-//	public String initDeleteRecambio(@PathVariable ("recambioId") int id, ModelMap model) {
-//		String vista;
-//		Recambio r = recambioService.findRecambioById(id).get();
-//		model.addAttribute("recambios", r);
-//		vista=FORM_CONFIRM_DELETE_RECAMBIO;
-//		return vista;
-//	}
-//	
-//	@GetMapping(value="/deleteRecambio/{recambioId}")
-//	public String processDeleteRecambio(@PathVariable("recambioId") int id, ModelMap model) {
-//		String vista;
-//		Recambio r = recambioService.findRecambioById(id).get();
-//		System.out.println(r);
-//		try {
-//			recambioService.delete(r);
-//			model.addAttribute("message", "Recambio borrado correctamente.");
-//		}catch(Exception e) {
-//			model.addAttribute("message", "Error inesperado al borrar el recambio.");
-//			model.addAttribute("messageType", "danger");
-//		}
-//		vista=listadoInventario(model);
-//		return vista;
-//	}
 	
 	@GetMapping(value="/listadoRecambiosSolicitados")
 	public String listadoRecambiosSolicitados(@RequestParam(required=false, name="terminadas") Boolean terminadas, ModelMap model) {

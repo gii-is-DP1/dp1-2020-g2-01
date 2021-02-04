@@ -10,6 +10,9 @@ import org.springframework.samples.petclinic.repository.EmpleadoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class EmpleadoService {
 	
@@ -29,6 +32,7 @@ public class EmpleadoService {
 		empleadoRepository.save(empleado);
 		userService.saveUser(empleado.getUsuario());
 		authService.saveAuthorities(empleado.getUsuario().getUsername(), "empleado");
+		log.info("Empleado y usuario con authorities empleado creado");
 	}
 	
 	@Transactional
@@ -44,6 +48,7 @@ public class EmpleadoService {
 	@Transactional
 	public void delete(Empleado empleado) {
 		empleadoRepository.delete(empleado);
+		log.info("Empleado con id " + empleado.getId() + " borrado");
 	}
 	
 	@Transactional(readOnly = true)

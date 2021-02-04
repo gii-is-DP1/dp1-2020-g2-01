@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
-import static java.time.temporal.ChronoUnit.DAYS;
 
+import static java.time.temporal.ChronoUnit.DAYS;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,19 +30,14 @@ public class Factura extends BaseEntity{
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate fechaPago;
 		
-	@Range(min = 0, max = 100)
-	@NotNull
-	@JoinColumn(name = "descuento")
-//	private Integer descuento = calcularDiasPasadasFechaEsperada()*10;
-	private Integer descuento;
-	
 	@OneToMany(mappedBy="factura")
 	private List<LineaFactura> lineaFactura;
 	
 	@Transient
 	public Double getPrecioConDescuento() {
-		return (double)Math.round(getPrecioTotal()*(1-descuento/100.0)*100d)/100d;
+		return (double)Math.round(getPrecioTotal()*(1-getDescuento()/100.0)*100d)/100d;
 	}
+
 	
 	@Transient
 	public Double getPrecioTotal() {
@@ -49,11 +45,20 @@ public class Factura extends BaseEntity{
 		for(LineaFactura linea:lineaFactura) {
 			resultado += linea.getPrecio();
 		}
+		for(HorasTrabajadas horas: lineaFactura.get(0).getReparacion().getHorasTrabajadas()) {
+			resultado += horas.getPrecioTotal();
+		}
 		return resultado;
+	}
+	
+	@Transient
+	public Integer getDescuento() {
+		return Math.min(calcularDiasPasadasFechaEsperada()*10,50);
 	}
 
 	public Integer calcularDiasPasadasFechaEsperada() {
-		int i = (int) DAYS.between(lineaFactura.get(0).getReparacion().getFechaFinalizacion(), lineaFactura.get(0).getReparacion().getTiempoEstimado());
+		int i = (int) ((int) lineaFactura.get(0).getReparacion().getFechaFinalizacion().toEpochDay() - lineaFactura.get(0).getReparacion().getTiempoEstimado().toEpochDay());
 		return i/10;
 	}
+
 }

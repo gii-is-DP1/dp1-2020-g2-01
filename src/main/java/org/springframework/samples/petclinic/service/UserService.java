@@ -19,8 +19,6 @@ package org.springframework.samples.petclinic.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.UserRepository;
@@ -29,12 +27,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
  * for @Transactional and @Cacheable annotations
  *
  * @author Michael Isvy
  */
+@Slf4j
 @Service
 public class UserService {
 
@@ -53,8 +54,10 @@ public class UserService {
 		user.setEnabled(true);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
+		log.info("Usuario creado");
 	}
 	
+	@Transactional(readOnly = true)
 	public Optional<User> findUser(String username) {
 		return userRepository.findById(username);
 	}
@@ -62,5 +65,6 @@ public class UserService {
 	@Transactional
 	public void delete(User user) {
 		userRepository.delete(user);
+		log.info("Usuario con nombre " + user.getUsername() + " borrado");
 	}
 }

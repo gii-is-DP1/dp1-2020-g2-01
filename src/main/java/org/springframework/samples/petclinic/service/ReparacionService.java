@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -16,6 +17,10 @@ import org.springframework.samples.petclinic.service.exceptions.Max3Reparaciones
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ReparacionService {
 	
@@ -54,7 +59,8 @@ public class ReparacionService {
 			throw new FechasReparacionException();
 		}
 		
-		Collection<Empleado> empleados = reparacion.getEmpleados();
+		Collection<Empleado> empleados = reparacion.getHorasTrabajadas().stream().map(x->x.getEmpleado())
+																		.collect(Collectors.toList());
 		for(Empleado e:empleados) {
 			Integer repActivas = this.findReparacionesActivasEmpleado(e);
 			if(repActivas == 3) {
@@ -63,6 +69,7 @@ public class ReparacionService {
 		}
 		
 		reparacionRepository.save(reparacion);
+		log.info("Reparación creada");
 	}
 	
 	
@@ -80,6 +87,7 @@ public class ReparacionService {
 	@Transactional
 	public void delete(Reparacion reparacion) throws DataAccessException{
 		reparacionRepository.delete(reparacion);
+		log.info("Reparacion con id " + reparacion.getId() + " borrada");
 	}
 	
 	@Transactional
@@ -123,7 +131,7 @@ public class ReparacionService {
 	//Devuelve el número de reparaciones no finalizadas asociadas a dicho empleado
 	@Transactional(readOnly = true) 
 	public Integer findReparacionesActivasEmpleado(Empleado e) {
-		return reparacionRepository.findReparacionesActivasEmpleado(e);
+		return reparacionRepository.findReparacionesActivasEmpleado(e) - 1;
 	}
 	
 
