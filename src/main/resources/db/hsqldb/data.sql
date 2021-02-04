@@ -207,6 +207,7 @@ INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (201
 INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
+<<<<<<< HEAD
 <<<<<<< Upstream, based on origin/master
 INSERT INTO facturas(id, fecha_Pago, descuento) VALUES (1, '2020-12-27', 15);
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 100, 4,1);
@@ -217,6 +218,8 @@ INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajada
 INSERT INTO horas_reparacion VALUES (1, 10);
 INSERT INTO horas_reparacion VALUES (1, 11);
 =======
+=======
+>>>>>>> branch 'alemorgar4' of https://github.com/gii-is-DP1/dp1-2020-g2-01
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (2,'Descripción', '2020-10-24', '2020-12-23', '2020-10-10', '2020-12-25', 201);
 INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
