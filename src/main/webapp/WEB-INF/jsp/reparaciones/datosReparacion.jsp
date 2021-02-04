@@ -51,14 +51,26 @@
   </div>
   <div class="panel-body">
 <<<<<<< Upstream, based on origin/master
+<<<<<<< Upstream, based on origin/master
 
     <label class="col-sm-4">Fecha estimada finalización: </label>
 
 =======
+=======
+<<<<<<< Upstream, based on origin/fraborcar
+>>>>>>> 3cd483e Detalles de factura y descargar pdf hecho
 
     <label class="col-sm-4">Fecha estimada finalizaci�n: </label>
 
+<<<<<<< Upstream, based on origin/master
 >>>>>>> 1569c7e Cambio de modelado de datos
+=======
+=======
+
+    <label class="col-sm-4">Fecha estimada finalización: </label>
+
+>>>>>>> 0182ed4 Detalles de factura y descargar pdf hecho
+>>>>>>> 3cd483e Detalles de factura y descargar pdf hecho
     <label class="col-sm-4">Fecha de finalización estimada: </label>
 
     <fmt:parseDate value="${reparacion.tiempoEstimado}" pattern="yyyy-MM-dd" 
