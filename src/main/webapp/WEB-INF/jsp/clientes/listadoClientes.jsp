@@ -8,10 +8,14 @@
 <petclinic:layout pageName="clientes">
     <h2 class="col-sm-2">Clientes</h2>
     
+	<form action="" method="get" class="col-sm-4 col-sm-offset-2">
+	<input type="text" id="apellidos" name="apellidos" placeholder="Apellidos"/>
+	<input type="submit" value="Buscar" />
+	</form>
 
-    	<spring:url value="/clientes/new" var="clienteUrl">
-        </spring:url>
-       	<a class="btn btn-success col-sm-offset-8 col-sm-2" href="${fn:escapeXml(clienteUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cliente</a>
+   	<spring:url value="/clientes/new" var="clienteUrl">
+    </spring:url>
+   	<a class="btn btn-success col-sm-offset-2 col-sm-2" href="${fn:escapeXml(clienteUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cliente</a>
 
     <div class="col-sm-12" style="height:5px"></div>
     <table id="clientesTable" class="table table-striped">

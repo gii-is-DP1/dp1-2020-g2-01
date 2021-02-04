@@ -12,9 +12,11 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VehiculoService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/clientes")
@@ -45,6 +48,9 @@ public class ClienteController {
 	
 	@Autowired
 	private CitaService citaService;
+	
+	@Autowired
+	private EmpleadoService empleadoService;
 
 	@Autowired
 	public ClienteController(ClienteService clienteService, UserService userService, AuthoritiesService authoritiesService) {
@@ -52,9 +58,14 @@ public class ClienteController {
 	}
 	
 	@GetMapping(value = { "/listadoClientes" })
-	public String listadoClientes(ModelMap model) {
+	public String listadoClientes(@RequestParam(required = false) String apellidos, ModelMap model) {
 		String vista = "clientes/listadoClientes";
-		Iterable<Cliente> clientes = clienteService.findAll();
+		Collection<Cliente> clientes = null;
+		if(apellidos == null) {
+			clientes = (Collection<Cliente>) clienteService.findAll();
+		}else {
+			clientes = clienteService.findClientesByApellidos(apellidos);
+		}
 		model.put("clientes", clientes);
 		return vista;
 	}
@@ -154,10 +165,14 @@ public class ClienteController {
 		if(username.equals(username2)) {
 			model.addAttribute("cliente", cliente);
 			return FORMULARIO_ADD_UPDATE_CLIENTES;
-		}else {
-			return "redirect:/";
 		}
 
+		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
+		if(empleado.isPresent()) {
+			model.addAttribute("cliente", cliente);
+			return FORMULARIO_ADD_UPDATE_CLIENTES;
+		}
+		return "redirect:/";
 		
 	}
 
@@ -198,7 +213,7 @@ public class ClienteController {
 			model.addAttribute("message", "Error inesperado al borrar al cliente");
 			model.addAttribute("messageType", "danger");
 		}
-		return listadoClientes(model);
+		return listadoClientes(null, model);
 	}
 
 	

@@ -28,7 +28,7 @@
 					<span>Inicio</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'clientes'}" url="/clientes/find"
+				<petclinic:menuItem active="${name eq 'clientes'}" url="/clientes/listadoClientes"
 					title="find clientes">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Buscar Clientes</span>
