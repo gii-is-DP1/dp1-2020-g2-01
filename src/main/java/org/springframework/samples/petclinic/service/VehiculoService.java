@@ -17,6 +17,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class VehiculoService {
 
@@ -37,6 +40,7 @@ public class VehiculoService {
 			throw new DuplicatedMatriculaException();
 		} else {
 			vehiculoRepository.save(vehiculo);
+			log.info("Vehiculo creado");
 		}	
 	}
 	
@@ -50,7 +54,7 @@ public class VehiculoService {
 		return vehiculoRepository.findById(id);
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Vehiculo> findVehiculosCliente(Cliente cliente) throws DataAccessException {
 		return vehiculoRepository.findVehiculosByCliente(cliente);
 	}
@@ -58,6 +62,7 @@ public class VehiculoService {
 	@Transactional
 	public void delete(Vehiculo vehiculo) {
 		vehiculoRepository.delete(vehiculo);
+		log.info("Vehiculo con id " + vehiculo.getId() + " borrado");
 	}
 	
 	@Transactional(readOnly = true)

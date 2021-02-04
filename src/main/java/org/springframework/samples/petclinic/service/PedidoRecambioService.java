@@ -9,6 +9,9 @@ import org.springframework.samples.petclinic.repository.PedidoRecambioRepository
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class PedidoRecambioService {
 
@@ -18,6 +21,7 @@ public class PedidoRecambioService {
 		@Transactional
 		public void savePedidoRecambio(PedidoRecambio pedidoRecambio) {
 			pedidoRecambioRepository.save(pedidoRecambio);
+			log.info("Pedido recambio creado");
 		}
 
 		@Transactional(readOnly = true)
@@ -33,6 +37,7 @@ public class PedidoRecambioService {
 		@Transactional
 		public void delete(PedidoRecambio pedidoRecambio) {
 			pedidoRecambioRepository.delete(pedidoRecambio);
+			log.info("Pedido recambio con id " + pedidoRecambio.getId() + " borrado");
 		}
 		
 		@Transactional(readOnly= true)

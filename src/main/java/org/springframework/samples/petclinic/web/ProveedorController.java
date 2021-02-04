@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/proveedores")
 public class ProveedorController {
@@ -54,6 +56,7 @@ public class ProveedorController {
 			try {
 				proveedorService.saveProveedor(proveedor);
 			} catch(DuplicatedProveedorNifException ex) {
+				log.warn("Excepción: ya existe un proveedor con nif "+ proveedor.getNif());
 				result.rejectValue("nif", "duplicate", "Ya existe un proveedor con el mismo nif");
 				return "proveedores/editProveedor";
 			}

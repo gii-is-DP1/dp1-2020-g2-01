@@ -31,6 +31,9 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.layout.property.VerticalAlignment;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class FacturaService {
 
@@ -40,6 +43,7 @@ public class FacturaService {
 	@Transactional
 	public void saveFactura(Factura factura) {
 		this.facturaRepository.save(factura);
+		log.info("Factura creada");
 	}
 
 	@Transactional(readOnly = true)
@@ -55,6 +59,7 @@ public class FacturaService {
 	@Transactional
 	public void delete(Factura factura) {
 		facturaRepository.delete(factura);
+		log.info("Factura con id " + factura.getId() + " borrado");
 	}
 	
 	public String generarPDF(Factura factura) throws FileNotFoundException, IOException {
@@ -124,6 +129,7 @@ public class FacturaService {
         doc.add(table);
         doc.close();
         pdfDoc.close();
+        log.info("PDF generado para factura con id " + factura.getId());
 		return dest;
 	}
 	

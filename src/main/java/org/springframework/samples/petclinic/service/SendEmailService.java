@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.service;
 
 
 import java.util.Properties;
-
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,10 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
 @Service
 public class SendEmailService{
 	
@@ -33,6 +36,7 @@ public class SendEmailService{
 			 helper.setText(content);
 			 helper.setSubject(subject);
 			 jms.send(message);
+			 log.info("Email enviado a " + to);
 
 		 }catch(Exception e) {
 			 e.printStackTrace();

@@ -29,7 +29,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javassist.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/reparaciones")
 public class ReparacionController {
@@ -100,6 +102,7 @@ public class ReparacionController {
 				model.addAttribute("reparacion", reparacion);
 			}
 		}catch(NotFoundException e) {
+			log.warn("Excepción: cita no encontrada");
 			model.addAttribute("message", "Cita no encontrada");
 			model.addAttribute("messageType", "warning");
 			vista = listadoReparaciones(model);
@@ -127,10 +130,14 @@ public class ReparacionController {
 				reparacionService.saveReparacion(reparacion);
 			
 			} catch (FechasReparacionException e) {
+				log.warn("Excepción: fechas incongruentes; fecha de entrega: " +reparacion.getFechaEntrega().toString(), 
+						"; fecha de finalización: " + reparacion.getFechaFinalizacion().toString(),
+						"; fecha de recogida: " + reparacion.getFechaRecogida().toString());
 				result.rejectValue("fechaEntrega", "Fechas incongruentes: la fecha de entrega debe ser anterior a la fecha de finalización y de recogida, y la fecha de finalización debe ser anterior a la de recogida.", 
 						"Fechas incongruentes: la fecha de entrega debe ser anterior a la fecha de finalización y de recogida, y la fecha de finalización debe ser anterior a la de recogida.");
 				return "reparaciones/editReparacion";
 			} catch (Max3ReparacionesSimultaneasPorEmpleadoException e) {
+				log.warn("Excepción: uno o más de los empleados asignados ya tiene 3 reparaciones simultáneas ");
 				result.rejectValue("empleados", "Los empleados no pueden trabajar en más de 3 reparaciones simultáneas.", 
 						"Los empleados no pueden trabajar en más de 3 reparaciones simultáneas.");
 				return "reparaciones/editReparacion";
@@ -209,6 +216,7 @@ public class ReparacionController {
 			model.addAttribute("message", "Reparación "+rep.getId()+" finalizada correctamente");
 
 		}catch(Exception e){
+			log.warn("Excepción: error inesperado al finalizar la reparación");
 			model.addAttribute("message", "Error inesperado al finalizar la reparación "+rep.getId());
 			model.addAttribute("messageType", "danger");
 		}

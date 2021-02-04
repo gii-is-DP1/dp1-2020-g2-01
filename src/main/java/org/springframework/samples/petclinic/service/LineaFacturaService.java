@@ -9,6 +9,9 @@ import org.springframework.samples.petclinic.repository.LineaFacturaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class LineaFacturaService {
 
@@ -18,6 +21,7 @@ public class LineaFacturaService {
 	@Transactional
 	public void saveLineaFactura(LineaFactura lineafactura) {
 		lineafacturaRepository.save(lineafactura);
+		log.info("Linea factura creada");
 	}
 
 	@Transactional(readOnly = true)
@@ -33,6 +37,7 @@ public class LineaFacturaService {
 	@Transactional
 	public void delete(LineaFactura factura) {
 		lineafacturaRepository.delete(factura);
+		log.info("Linea factura con id " + factura.getId() + " borrada");
 	}
 
 }
