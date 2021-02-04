@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/facturas")
 public class FacturaController {
@@ -55,6 +58,7 @@ public class FacturaController {
 			model.addAttribute("message", "Factura "+factura.getId()+" generada correctamente");
 
 		}catch(Exception e){
+			log.warn("Excepción: error inesperado al finalizar la reparacion con id " + id );
 			model.addAttribute("message", "Error inesperado");
 			model.addAttribute("messageType", "danger");
 		}

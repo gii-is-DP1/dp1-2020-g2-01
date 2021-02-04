@@ -10,6 +10,9 @@ import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.service.ProveedorService;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ProveedorFormatter implements Formatter<Proveedor>{
 	
@@ -27,6 +30,7 @@ public class ProveedorFormatter implements Formatter<Proveedor>{
 		if(op.isPresent()) {
 			return op.get();
 		}
+		log.warn("Excepción: ProveedorFormatter no ha podido pasar de " + text + " a objeto Proveedor");
 		throw new ParseException("Proveedor not found: " + text, 0);
 	}
 

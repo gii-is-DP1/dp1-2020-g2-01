@@ -14,17 +14,17 @@ public class TipoVehiculoService {
 	@Autowired
 	private TipoVehiculoRepository tipoVehiculoRep;
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<TipoVehiculo> findAll() {
 		return tipoVehiculoRep.findAll();
 	}
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public Optional<TipoVehiculo> findById(Integer id) {
 		return tipoVehiculoRep.findById(id);
 	}
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public Optional<TipoVehiculo> findByTipo(String tipo) {
 		return tipoVehiculoRep.findByTipo(tipo);
 	}
