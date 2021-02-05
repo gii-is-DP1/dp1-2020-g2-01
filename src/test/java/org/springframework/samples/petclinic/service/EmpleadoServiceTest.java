@@ -120,9 +120,8 @@ public class EmpleadoServiceTest {
 	void shouldUpdateEmpleado() throws DataAccessException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
 		e1.setDni("36283951M");
-		
-		empleadoService.saveEmpleado(e1);
-		
+		e1.getUsuario().setPassword("passdeprueba1"); //la password viene codificada de base de datos
+		empleadoService.saveEmpleado(e1);		
 		assertTrue(empleadoService.findEmpleadoDni("36283951M").isPresent());
 		assertFalse(empleadoService.findEmpleadoDni("36283951R").isPresent());
 	}
@@ -133,6 +132,7 @@ public class EmpleadoServiceTest {
 		
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
 		e1.setDni("");
+		e1.getUsuario().setPassword("passdeprueba1"); //la password viene codificada de base de datos
 		assertThrows(ConstraintViolationException.class, () ->{
 			empleadoService.saveEmpleado(e1);
 			em.flush();
@@ -154,7 +154,8 @@ public class EmpleadoServiceTest {
 	
 	@Test 
 	@Transactional
-	void shouldNotInsertIfMenorDeEdad() throws NoMayorEdadEmpleadoException {		
+	void shouldNotInsertIfMenorDeEdad() throws NoMayorEdadEmpleadoException {
+		e.setFechaNacimiento(LocalDate.now().minusYears(10));
 		assertThrows(NoMayorEdadEmpleadoException.class, () -> this.empleadoService.saveEmpleado(e));
 	}	
 	
