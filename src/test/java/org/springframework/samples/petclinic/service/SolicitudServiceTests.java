@@ -72,10 +72,11 @@ public class SolicitudServiceTests {
 	
 	@Autowired
 	protected HorasTrabajadasService horasTrabajadasService;
-	
+
 	private Solicitud s1;
 	
 	private Solicitud s2;
+
 	
 	@BeforeEach
 	void setup() throws DataAccessException, DuplicatedProveedorNifException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
