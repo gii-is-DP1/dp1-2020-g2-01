@@ -128,7 +128,7 @@ public class EmpleadoServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotUpdateEmpleadoInvalido() {
+	void shouldNotUpdateEmpleadoInvalido() throws NoMayorEdadEmpleadoException, DataAccessException, InvalidPasswordException {
 		
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
 		e1.setDni("");
@@ -142,7 +142,7 @@ public class EmpleadoServiceTest {
 	
 	@Test 
 	@Transactional
-	void shoulDeleteEmplead() {
+	void shoulDeleteEmplead() throws NoMayorEdadEmpleadoException, DataAccessException, InvalidPasswordException {
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R").get());
 		
 		empleadoService.delete(e);
