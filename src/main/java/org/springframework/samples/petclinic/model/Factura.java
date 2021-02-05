@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,6 +26,7 @@ public class Factura extends BaseEntity{
 	@NotNull
 	@JoinColumn(name="fecha_Pago")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@PastOrPresent
 	private LocalDate fechaPago;
 		
 	@OneToMany(mappedBy="factura")

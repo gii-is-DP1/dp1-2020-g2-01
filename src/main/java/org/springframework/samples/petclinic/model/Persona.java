@@ -15,16 +15,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 @MappedSuperclass
 public class Persona extends BaseEntity{
 	
-	@Column(name="dni")
+	@Column(name="dni", unique=true)
 	@NotEmpty
-	@NotNull
 	@Pattern(regexp = "^[0-9]{8}[ABCDEFGHIJKLMNOPQRSTUVWXYZ]", 
 	message = "El DNI debe seguir tener 8 números y una letra. Patrón: 12345678K")
 	protected String dni;
 	
 	@Column(name="nombre")
 	@NotEmpty
-	@NotNull
 	protected String nombre;
 	
 	@Column(name="apellidos")
