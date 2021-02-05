@@ -12,11 +12,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
-import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VehiculoService;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
@@ -52,9 +50,6 @@ public class ClienteController {
 	
 	@Autowired
 	private CitaService citaService;
-	
-	@Autowired
-	private EmpleadoService empleadoService;
 
 	@Autowired
 	public ClienteController(ClienteService clienteService, UserService userService, AuthoritiesService authoritiesService) {
@@ -85,7 +80,7 @@ public class ClienteController {
 		}
 		String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
 		String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
-		if(username.equals(username2) || auth.equals("admin")) {
+		if(username.equals(username2) || auth.equals("admin") || auth.equals("empleado")) {
 			model.addAttribute("cliente", cliente.get());
 			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente.get()));
 			model.addAttribute("sinNombre", "sinNombre");
@@ -174,12 +169,14 @@ public class ClienteController {
 		Cliente cliente = this.clienteService.findClientesByUsername(username).get();
 		String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
 		if(username.equals(username2)) {
+			cliente.getUser().setPassword("");
 			model.addAttribute("cliente", cliente);
 			return FORMULARIO_ADD_UPDATE_CLIENTES;
 		}
 
-		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
-		if(empleado.isPresent()) {
+		String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		if(auth.equals("admin") || auth.equals("empleado")) {
+			cliente.getUser().setPassword("");
 			model.addAttribute("cliente", cliente);
 			return FORMULARIO_ADD_UPDATE_CLIENTES;
 		}

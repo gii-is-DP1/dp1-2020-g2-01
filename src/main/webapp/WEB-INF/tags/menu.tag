@@ -152,7 +152,7 @@
 						
 					</ul></li>
 					</sec:authorize>
-										<sec:authorize access="hasAuthority('empleado')">
+					<sec:authorize access="hasAuthority('empleado')">
 					<li class="dropdown ${name eq 'empleado' ? 'active' : ''}"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
 							<strong><sec:authentication property="name" /></strong> <span

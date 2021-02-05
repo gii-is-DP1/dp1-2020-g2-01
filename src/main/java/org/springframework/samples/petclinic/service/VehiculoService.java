@@ -100,7 +100,7 @@ public class VehiculoService {
 	
 	//Comprueba si el usuario logeado y el propietario del vehiculo que se quiere eliminar son el mismo
 	@Transactional(readOnly=true)
-	public Boolean comprobarUsuarioYPropietario(Integer vehiculoId, Vehiculo v) {
+	public Boolean comprobarUsuarioYPropietario(Vehiculo v) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		String propietario = v.getCliente().getUser().getUsername();
 		return username.equals(propietario);
