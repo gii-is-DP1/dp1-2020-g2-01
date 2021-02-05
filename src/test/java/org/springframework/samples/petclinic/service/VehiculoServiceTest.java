@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import javax.validation.ConstraintViolationException;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -27,32 +28,31 @@ class VehiculoServiceTest {
 	protected ClienteService clienteService;
 	
 	
+	public Vehiculo v;
 	
-	
-	
-	@Test
-	@Transactional
-	void shouldInsertVehiculo() throws DataAccessException, DuplicatedMatriculaException {
+	@BeforeEach
+	void insertVehiculo() throws DataAccessException, DuplicatedMatriculaException {
 		Vehiculo v = new Vehiculo();
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
 		v.setNumBastidor("VSSZZZ6KZ1R149943");
 		v.setTipoVehiculo(vehiculoService.findVehiculoTypes().get(0));
 		vehiculoService.saveVehiculo(v);
-		
+		this.v=v;
+	}
+	
+	
+	
+	@Test
+	@Transactional
+	void shouldInsertVehiculo() {
 		assertEquals(v, vehiculoService.findVehiculoByMatricula("1111AAA").get());
 	}
 	
 	@Test
 	@Transactional
 	void shouldNotInsertVehiculoMismaMatricula() throws DataAccessException, DuplicatedMatriculaException {
-		Vehiculo v = new Vehiculo();
-		v.setMatricula("1111AAA");
-		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(vehiculoService.findVehiculoTypes().get(0));
-		vehiculoService.saveVehiculo(v);
-		
+				
 		Vehiculo v1 = new Vehiculo();
 		v1.setMatricula("1111AAA");
 		v1.setModelo("Dacia Sandero");
@@ -65,27 +65,19 @@ class VehiculoServiceTest {
 
 	@Test
 	void shouldNotInsertVehiculoInvalido() {
-		Vehiculo v = new Vehiculo();
+		Vehiculo v1 = new Vehiculo();
 		
-		v.setMatricula("");
-		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(vehiculoService.findVehiculoTypes().get(0));
+		v1.setMatricula("");
+		v1.setModelo("Seat Ibiza");
+		v1.setNumBastidor("VSSZZZ6KZ1R149943");
+		v1.setTipoVehiculo(vehiculoService.findVehiculoTypes().get(0));
 		
-		assertThrows(ConstraintViolationException.class, () -> this.vehiculoService.saveVehiculo(v));
+		assertThrows(ConstraintViolationException.class, () -> this.vehiculoService.saveVehiculo(v1));
 	}
 	
 	@Test
 	@Transactional
 	void shoulDeleteVehiculo() throws DataAccessException, DuplicatedMatriculaException {
-		Vehiculo v = new Vehiculo();
-		
-		v.setMatricula("1111AAA");
-		v.setModelo("Seat Ibiza");
-		v.setNumBastidor("VSSZZZ6KZ1R149943");
-		v.setTipoVehiculo(vehiculoService.findVehiculoTypes().get(0));
-		vehiculoService.saveVehiculo(v);
-		
 		assertEquals(v, vehiculoService.findVehiculoByMatricula("1111AAA").get());
 		
 		vehiculoService.delete(v);
