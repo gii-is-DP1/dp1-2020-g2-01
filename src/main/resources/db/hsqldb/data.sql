@@ -161,15 +161,7 @@ INSERT INTO citas_tipocita VALUES (106, 1);
 					
 INSERT INTO users(username,password,enabled) VALUES ('admin', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('admin','admin');
-<<<<<<< Upstream, based on origin/master
 INSERT INTO administradores(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, num_seg_social, username) VALUES (1, 'Delgado Gutiérrez', '87361534W', '1974-04-12', 'Javier', 645183746, 'correodeadministrador@gmail.com','123456789009', 'admin');
-=======
-INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato,
-				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (1, 'Páez García', '77838103F', 
-					'1982-09-13', 'Candela', 638184619, 'correodeadministrador@gmail.com', '2024-01-09', '2018-11-16', '111111111118', 1050, 'admin', 1);
-					
-
->>>>>>> 8041202 empleado edit cliente
 
 INSERT INTO users(username,password,enabled) VALUES ('fraborcar', @CONTRASENA,true);
 INSERT INTO authorities(username,authority) VALUES ('fraborcar','cliente');
@@ -194,13 +186,13 @@ INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cli
 
 
 INSERT INTO users(username,password,enabled) VALUES ('empleado1', @CONTRASENA,true);
-INSERT INTO authorities(username,authority) VALUES ('empleado1','empleado');
+INSERT INTO authorities(username,authority) VALUES ('empleado1','admin');
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (100, 'Sech', '11111111A', 
 					'2000-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111114', 950, 'empleado1', 1);
 					
 INSERT INTO users(username,password,enabled) VALUES ('empleado2', @CONTRASENA,true);
-INSERT INTO authorities(username,authority) VALUES ('empleado2','empleado');					
+INSERT INTO authorities(username,authority) VALUES ('empleado2','admin');					
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (101, 'Aguayo', '11111112A', 
 					'2000-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111211', 950, 'empleado2', 2);
@@ -212,27 +204,10 @@ INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (201
 INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
-<<<<<<< Upstream, based on origin/master
-
-INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
-INSERT INTO facturas(id, fecha_Pago) VALUES (2, CURDATE());
-INSERT INTO facturas(id, fecha_Pago) VALUES (3, DATEADD(day, 1, CURDATE()));
-
-
-
-INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 4,1);
-INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion,factura) VALUES (80, 0, 1,'2h de trabajo',1);
-
-=======
-INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (9, 'Cambio de frenos', 10.5, 4, 101);
-
-INSERT INTO horas_reparacion VALUES (1, 9);
->>>>>>> dafd7ee Arreglado RN1
-
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (2,'Descripción', '2020-10-24', '2020-10-22', '2020-10-22', '2020-10-23', 201);
-INSERT INTO facturas(id, fecha_Pago) VALUES (4, '2020-12-27');
-INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 2, 'Cambio 4 ruedas', 100, 4,4);
+INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (360, 15, 2, 'Cambio 4 ruedas', 100, 4,1);
 
 INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (10, 'Cambio de rueda', 10.5, 3, 100);
 INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (11, 'Cambio de frenos', 10.5, 4, 101);
