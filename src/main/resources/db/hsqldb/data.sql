@@ -212,6 +212,7 @@ INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (201
 INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
+<<<<<<< Upstream, based on origin/master
 
 INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
 INSERT INTO facturas(id, fecha_Pago) VALUES (2, CURDATE());
@@ -222,6 +223,11 @@ INSERT INTO facturas(id, fecha_Pago) VALUES (3, DATEADD(day, 1, CURDATE()));
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, cantidad,factura) VALUES (360, 15, 1, 'Cambio 4 ruedas', 4,1);
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion,factura) VALUES (80, 0, 1,'2h de trabajo',1);
 
+=======
+INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (9, 'Cambio de frenos', 10.5, 4, 101);
+
+INSERT INTO horas_reparacion VALUES (1, 9);
+>>>>>>> dafd7ee Arreglado RN1
 
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (2,'Descripción', '2020-10-24', '2020-10-22', '2020-10-22', '2020-10-23', 201);

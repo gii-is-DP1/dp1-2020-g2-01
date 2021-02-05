@@ -72,6 +72,11 @@ public class ReparacionService {
 		log.info("Reparación creada");
 	}
 	
+	@Transactional
+	public List<Reparacion> m(Empleado e){
+		return reparacionRepository.findReparacionesActivasEmpleado1(e);
+	}
+	
 	
 	@Transactional(readOnly = true)
 	public Iterable<Reparacion> findAll() throws DataAccessException {
@@ -131,7 +136,7 @@ public class ReparacionService {
 	//Devuelve el número de reparaciones no finalizadas asociadas a dicho empleado
 	@Transactional(readOnly = true) 
 	public Integer findReparacionesActivasEmpleado(Empleado e) {
-		return reparacionRepository.findReparacionesActivasEmpleado(e) - 1;
+		return reparacionRepository.findReparacionesActivasEmpleado(e);
 	}
 	
 
