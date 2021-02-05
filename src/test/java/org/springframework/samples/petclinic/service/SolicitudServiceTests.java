@@ -68,14 +68,12 @@ public class SolicitudServiceTests {
 	@Autowired
 	protected CitaService citaService;
 	
-<<<<<<< Upstream, based on origin/master
 	@Autowired
 	protected HorasTrabajadasService horasTrabajadasService;
-=======
+
 	private Solicitud s1;
 	
 	private Solicitud s2;
->>>>>>> df66069 h14 controlador
 	
 	
 	@BeforeEach
