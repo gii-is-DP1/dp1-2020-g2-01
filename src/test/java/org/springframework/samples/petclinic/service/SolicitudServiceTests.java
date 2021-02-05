@@ -76,6 +76,7 @@ public class SolicitudServiceTests {
 	private Solicitud s1;
 	
 	private Solicitud s2;
+
 	
 	
 	@BeforeEach
