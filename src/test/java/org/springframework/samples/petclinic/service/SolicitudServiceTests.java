@@ -77,7 +77,6 @@ public class SolicitudServiceTests {
 	
 	private Solicitud s2;
 
-	
 	@BeforeEach
 	void setup() throws DataAccessException, DuplicatedProveedorNifException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Reparacion r = new Reparacion();
@@ -194,7 +193,7 @@ public class SolicitudServiceTests {
 		assertTrue(s1.getCantidad().equals(10));
 		assertFalse(s2.getEmpleado().getNombre().equals("Juan"));
 	}
-	
+
 	
 	@Test
 	void findSolicitudesTerminadas() {
