@@ -42,7 +42,7 @@ public class EmpleadoServiceTest {
 	void insertEmpleado() throws DataAccessException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		Empleado e = new Empleado();
 		
@@ -90,7 +90,7 @@ public class EmpleadoServiceTest {
 		
 		User userP1 = new User();
 		userP1.setUsername("nombreusuario1");
-		userP1.setPassword("passdeprueba");
+		userP1.setPassword("passdeprueba1");
 		userP1.setEnabled(true);
 		Empleado e1 = new Empleado();
 		
@@ -150,4 +150,13 @@ public class EmpleadoServiceTest {
 		assertFalse(empleadoService.findEmpleadoDni("36283951R").isPresent());
 
 	}
+	
+	
+	@Test 
+	@Transactional
+	void shouldNotInsertIfMenorDeEdad() throws NoMayorEdadEmpleadoException {		
+		assertThrows(NoMayorEdadEmpleadoException.class, () -> this.empleadoService.saveEmpleado(e));
+	}	
+	
+	
 }
