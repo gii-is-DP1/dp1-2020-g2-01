@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,15 +64,8 @@ public class VehiculoController {
 		
 	}
 	
-	@GetMapping(value = "/new")
-	public String crearVehiculo(ModelMap model) {
-		String vista = "vehiculos/editVehiculo";
-		model.addAttribute("vehiculo", new Vehiculo());
-		return vista;
-	}
-	
 	@GetMapping(value = "/new/{username}")
-	public String crearVehiculoParaCliente(ModelMap model, @PathVariable("username") String username) {
+	public String crearVehiculo(ModelMap model, @PathVariable("username") String username) {
 		String vista = "vehiculos/editVehiculo";
 		String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
 		if(!auth.equals("cliente")) {
@@ -80,18 +74,12 @@ public class VehiculoController {
 		model.addAttribute("vehiculo", new Vehiculo());
 		return vista;
 	}
-	
+
 	@PostMapping(value = "/save/{username}")
-	public String guardarVehiculoParaCliente(@PathVariable("username") String username, @Valid Vehiculo vehiculo, BindingResult result, ModelMap model) {
-		vehiculo.setCliente(clienteService.findClientesByUsername(username).get());
-		return guardarVehiculo(vehiculo, result, model);
-	}
-	@PostMapping(value = "/save")
-	public String guardarVehiculo(@Valid Vehiculo vehiculo, BindingResult result, ModelMap model) {
+	public String guardarVehiculo(@PathVariable("username") String usname, @Valid Vehiculo vehiculo, BindingResult result, ModelMap model) {
 		String vista;
 		if(result.hasErrors()) {
 			model.addAttribute("vehiculo", vehiculo);
-			model.addAttribute("nombreUsuario", vehiculo.getCliente().getUser().getUsername());	
 			vista = "vehiculos/editVehiculo";
 		} else {
 
@@ -106,6 +94,8 @@ public class VehiculoController {
 			
 			if(cliente.isPresent()) {
 				vehiculo.setCliente(cliente.get());
+			}else {
+				vehiculo.setCliente(clienteService.findClientesByUsername(usname).get());
 			}
 			
 			
