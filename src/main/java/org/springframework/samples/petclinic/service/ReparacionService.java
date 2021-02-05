@@ -1,22 +1,25 @@
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.HorasTrabajadas;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.repository.ReparacionRepository;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +36,9 @@ public class ReparacionService {
 	
 	@Autowired
 	private SendEmailService sendEmailService;
+	
+	@Autowired
+	private HorasTrabajadasService horasTrabajadasService;
 	
 //	@Autowired
 //	private RecambioService recambioService;
@@ -131,6 +137,17 @@ public class ReparacionService {
 	@Transactional(readOnly = true) 
 	public Integer findReparacionesActivasEmpleado(Empleado e) {
 		return reparacionRepository.findReparacionesActivasEmpleado(e);
+	}
+
+	public void setEmpleadosAReparacion(List<HorasTrabajadas> horas, @Valid Reparacion reparacion) {
+		for(HorasTrabajadas h : reparacion.getHorasTrabajadas()) {
+			horasTrabajadasService.delete(h);
+		}
+		reparacion.setHorasTrabajadas(new ArrayList<>());
+		for(HorasTrabajadas hora : horas) {
+			horasTrabajadasService.save(hora);
+		}
+		reparacion.getHorasTrabajadas().addAll(horas);
 	}
 	
 

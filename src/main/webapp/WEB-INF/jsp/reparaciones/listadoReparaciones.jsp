@@ -45,8 +45,12 @@
             <th>Fecha de finalización</th>
             <sec:authorize access="hasAuthority('admin')">
 	            <th>Cliente</th>
+	            <th></th>
+	            <th></th>
             </sec:authorize>
-            <sec:authorize access="hasAuthority('admin')">
+            
+            <sec:authorize access="hasAuthority('empleado')">
+	            <th>Cliente</th>
 	            <th></th>
 	            <th></th>
             </sec:authorize>
@@ -86,13 +90,33 @@
 	               		<p><c:out value="${reparacion.cita.vehiculo.cliente.nombre}"/></p>
                     	<p><small><c:out value="${reparacion.cita.vehiculo.cliente.apellidos}"/></small></p>
 	                </td>
-               </sec:authorize>
-               
-                
-               
-               
-               
-               <sec:authorize access="hasAuthority('admin')"> 
+					            
+	                <td>
+	                	<spring:url value="/reparaciones/getReparacion/{reparacionId}" var="reparacionUrl">
+	                        <spring:param name="reparacionId" value="${reparacion.id}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(reparacionUrl)}">
+	                    	<span class="helper glyphicon glyphicon-eye-open"></span>
+	                    </a>
+	                
+	                </td>
+	                
+	                <td>
+	                	<spring:url value="/reparaciones/delete/{reparacionId}" var="reparacionUrl">
+	                        <spring:param name="reparacionId" value="${reparacion.id}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(reparacionUrl)}">
+	                    	<span class="helper glyphicon glyphicon-trash"></span>
+	                    </a>
+	                
+	                </td>
+					
+                </sec:authorize>
+                                <sec:authorize access="hasAuthority('empleado')">
+	                <td class="textoTabla">
+	               		<p><c:out value="${reparacion.cita.vehiculo.cliente.nombre}"/></p>
+                    	<p><small><c:out value="${reparacion.cita.vehiculo.cliente.apellidos}"/></small></p>
+	                </td>
 					            
 	                <td>
 	                	<spring:url value="/reparaciones/getReparacion/{reparacionId}" var="reparacionUrl">

@@ -119,9 +119,9 @@
 			<td>${lineaFactura.recambio.name}</td>
 			<td>${lineaFactura.cantidad}</td>
 			<td>${lineaFactura.descripcion}</td>
-			<td>${lineaFactura.precioBase}<span class="glyphicon glyphicon-eur"></span></td>
+			<td>${lineaFactura.precioBase}€</td>
 			<td>${lineaFactura.descuento}%</td>
-			<td>${lineaFactura.precio}<span class="glyphicon glyphicon-eur"></span></td>
+			<td>${lineaFactura.precio}€</td>
 			<c:if test="${empty reparacion.fechaFinalizacion}"><td><span class="glyphicon glyphicon-pencil"></span></td>
 			<td><span class="glyphicon glyphicon-trash"></span></td></c:if>
 		</tr>
