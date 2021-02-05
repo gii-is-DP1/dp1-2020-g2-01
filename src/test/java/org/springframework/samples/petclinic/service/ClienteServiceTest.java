@@ -36,7 +36,7 @@ public class ClienteServiceTest {
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		cliente.setUser(userP);
 		cliente.setTelefono("111223344");
@@ -65,10 +65,10 @@ public class ClienteServiceTest {
 	}
 	
 	@Test
-	public void shouldDeleteCliente() {	
+	public void shouldDeleteCliente() {
 		clienteService.delete(cliente);
 		
-		assertFalse(clienteService.findClienteByDNI("11223346M").isPresent());
+		assertFalse(clienteService.findClienteByDNI("11223346X").isPresent());
 		
 	}
 }
