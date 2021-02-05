@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -20,13 +21,15 @@ public class ClienteServiceTest {
 	@Autowired
 	private ClienteService clienteService;
 	
-	@Test
-	public void shouldAddCliente() {
+	public Cliente cliente;
+	
+	@BeforeEach
+	void insertCliente() {
 		Cliente cliente = new Cliente();
 		
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344M");
+		cliente.setDni("88888888M");
 		cliente.setEmail("añoño@gmail.com");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
@@ -38,61 +41,32 @@ public class ClienteServiceTest {
 		
 		clienteService.saveCliente(cliente);
 		
-		assertEquals(cliente, clienteService.findClientesByUsername("nombreusuario").get());
+		this.cliente = cliente;
+	}
 	
+	@Test
+	public void shouldAddCliente() {
+		assertEquals(cliente, clienteService.findClientesByUsername("nombreusuario").get());
 	}
 	
 	@Test
 	public void shouldUpdateCliente() {
-		Cliente cliente = new Cliente();
-		
-		cliente.setNombre("Antonio");
-		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223345M");
-		cliente.setEmail("añoño@gmail.com");
-		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
-		userP.setEnabled(true);
-		cliente.setUser(userP);
-		cliente.setTelefono("111223344");
-		
-		clienteService.saveCliente(cliente);
-		
-		Cliente cliente1 = clienteService.findClienteByDNI("11223345M").get();
+		Cliente cliente1 = clienteService.findClienteByDNI("88888888M").get();
 		cliente1.setDni("34567890K");
 		
 		clienteService.saveCliente(cliente1);
 		
-		assertFalse(clienteService.findClienteByDNI("11223345M").isPresent());
+		assertFalse(clienteService.findClienteByDNI("88888888M").isPresent());
 		assertTrue(clienteService.findClienteByDNI("34567890K").isPresent());
 		
 	
 	}
 	
 	@Test
-	public void shouldDeleteCliente() {
-		Cliente cliente = new Cliente();
-		
-		cliente.setNombre("Antonio");
-		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223346M");
-		cliente.setEmail("añoño@gmail.com");
-		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
-		userP.setEnabled(true);
-		cliente.setUser(userP);
-		cliente.setTelefono("111223344");
-		
-		clienteService.saveCliente(cliente);
-		
+	public void shouldDeleteCliente() {	
 		clienteService.delete(cliente);
 		
 		assertFalse(clienteService.findClienteByDNI("11223346M").isPresent());
 		
-	
 	}
 }

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -31,10 +32,11 @@ public class EmpleadoServiceTest {
 	
 	@Autowired
 	protected EntityManager em;
-  
-	@Test
-	void shouldInsertEmpleado() {
-		
+	
+	public Empleado e;
+	
+	@BeforeEach
+	void insertEmpleado() {
 		User userP = new User();
 		userP.setUsername("nombreusuario");
 		userP.setPassword("passdeprueba");
@@ -70,6 +72,12 @@ public class EmpleadoServiceTest {
 		e.setTaller(t);
 		
 		empleadoService.saveEmpleado(e);
+		
+		this.e=e;
+	}
+  
+	@Test
+	void shouldInsertEmpleado() {
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R").get());
 	}
 	
@@ -77,72 +85,36 @@ public class EmpleadoServiceTest {
 	@Transactional
 	void shouldNotInsertEmpleadoInvalido() {
 		
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
-		userP.setEnabled(true);
-		Empleado e = new Empleado();
+		User userP1 = new User();
+		userP1.setUsername("nombreusuario1");
+		userP1.setPassword("passdeprueba");
+		userP1.setEnabled(true);
+		Empleado e1 = new Empleado();
 		
-		e.setApellidos("Ramirez Perez");
-		e.setEmail("laurita@gmail.com");
-		e.setDni("");
-		e.setFecha_fin_contrato(LocalDate.now().plusYears(10));
-		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
-		e.setFechaNacimiento(LocalDate.now().minusYears(40));
-		e.setNombre("Laura");
-		e.setNum_seg_social("234567890123");
-		e.setSueldo(1098);
-		e.setTelefono("678456736");
-		e.setUsuario(userP);
+		e1.setApellidos("Ramirez Perez");
+		e1.setEmail("laurita@gmail.com");
+		e1.setDni("");
+		e1.setFecha_fin_contrato(LocalDate.now().plusYears(10));
+		e1.setFecha_ini_contrato(LocalDate.now().minusYears(2));
+		e1.setFechaNacimiento(LocalDate.now().minusYears(40));
+		e1.setNombre("Laura");
+		e1.setNum_seg_social("234567898123");
+		e1.setSueldo(1098);
+		e1.setTelefono("678456736");
+		e1.setUsuario(userP1);
 		
-		User u = new User();
-		u.setUsername("Laurita");
-		u.setPassword("laura123");
+		User u1 = new User();
+		u1.setUsername("Laurita1");
+		u1.setPassword("laura123");
 		
-		e.setUsuario(u);
+		e1.setUsuario(u1);
 		
-		assertThrows(ConstraintViolationException.class, () -> empleadoService.saveEmpleado(e));
+		assertThrows(ConstraintViolationException.class, () -> empleadoService.saveEmpleado(e1));
 	}
 	
 	@Test
 	@Transactional
 	void shouldUpdateEmpleado() {
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
-		userP.setEnabled(true);
-		Empleado e = new Empleado();
-		
-		e.setApellidos("Ramirez Perez");
-		e.setEmail("laurita@gmail.com");
-		e.setDni("36283951R");
-		e.setFecha_fin_contrato(LocalDate.now().plusYears(10));
-		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
-		e.setFechaNacimiento(LocalDate.now().minusYears(40));
-		e.setNombre("Laura");
-		e.setNum_seg_social("345678901234");
-		e.setSueldo(1099);
-		e.setTelefono("678456736");
-		e.setUsuario(userP);
-		
-		User u = new User();
-		u.setUsername("Laurita");
-		u.setPassword("laura123");
-		
-		e.setUsuario(u);
-		
-		Taller t = new Taller();
-		t.setCorreo("test@test.com");
-		t.setName("test");
-		t.setTelefono("123456789");
-		t.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t);
-		
-		e.setTaller(t);
-		
-		empleadoService.saveEmpleado(e);
-		
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
 		e1.setDni("36283951M");
 		
@@ -155,42 +127,6 @@ public class EmpleadoServiceTest {
 	@Test
 	@Transactional
 	void shouldNotUpdateEmpleadoInvalido() {
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
-		userP.setEnabled(true);
-		
-		Empleado e = new Empleado();
-		
-		e.setApellidos("Ramirez Perez");
-		e.setEmail("laurita@gmail.com");
-		e.setDni("36283951R");
-		e.setFecha_fin_contrato(LocalDate.now().plusYears(10));
-		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
-		e.setFechaNacimiento(LocalDate.now().minusYears(40));
-		e.setNombre("Laura");
-		e.setNum_seg_social("567890123413");
-		e.setSueldo(1098);
-		e.setTelefono("678456736");
-		e.setUsuario(userP);
-		
-		User u = new User();
-		u.setUsername("Laurita");
-		u.setPassword("laura123");
-		
-		e.setUsuario(u);
-		
-		Taller t = new Taller();
-		t.setCorreo("test@test.com");
-		t.setName("test");
-		t.setTelefono("123456789");
-		t.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t);
-		
-		e.setTaller(t);
-		
-		empleadoService.saveEmpleado(e);
 		
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
 		e1.setDni("");
@@ -204,41 +140,6 @@ public class EmpleadoServiceTest {
 	@Test 
 	@Transactional
 	void shoulDeleteEmplead() {
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
-		userP.setEnabled(true);
-		Empleado e = new Empleado();
-		
-		e.setApellidos("Ramirez Perez");
-		e.setEmail("laurita@gmail.com");
-		e.setDni("36283951R");
-		e.setFecha_fin_contrato(LocalDate.now().plusYears(10));
-		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
-		e.setFechaNacimiento(LocalDate.now().minusYears(40));
-		e.setNombre("Laura");
-		e.setNum_seg_social("678901234567");
-		e.setSueldo(1098);
-		e.setTelefono("678456736");
-		e.setUsuario(userP);
-		
-		User u = new User();
-		u.setUsername("Laurita");
-		u.setPassword("laura123");
-		
-		e.setUsuario(u);
-		
-		Taller t = new Taller();
-		t.setCorreo("test@test.com");
-		t.setName("test");
-		t.setTelefono("123456789");
-		t.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t);
-		
-		e.setTaller(t);
-		
-		empleadoService.saveEmpleado(e);
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R").get());
 		
 		empleadoService.delete(e);
