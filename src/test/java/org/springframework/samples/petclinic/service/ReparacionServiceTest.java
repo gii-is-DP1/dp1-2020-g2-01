@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -72,9 +73,16 @@ class ReparacionServiceTest {
 	@Autowired
 	protected HorasTrabajadasService horasTrabajadasService;
 	
-	@Test
-	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
-		
+	public Reparacion r;
+	
+	public List<HorasTrabajadas> horas;
+	
+	public Taller taller;
+	
+	public Empleado e1;
+	
+	@BeforeEach
+	void insertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
@@ -98,6 +106,7 @@ class ReparacionServiceTest {
 		taller.setUbicacion("calle test");
 		
 		tallerService.saveTaller(taller);
+		this.taller=taller;
 		
 		c.setTaller(taller);
 		
@@ -108,7 +117,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba1");
+		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -124,6 +133,8 @@ class ReparacionServiceTest {
 		
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
+		
+		this.e1=e1;
 
 		HorasTrabajadas hora = new HorasTrabajadas();
 		hora.setEmpleado(e1);
@@ -136,219 +147,87 @@ class ReparacionServiceTest {
 		
 		horasTrabajadasService.save(hora);
 		
+		this.horas=horas;
+		
 		r.setHorasTrabajadas(horas);
 		
 		reparacionService.saveReparacion(r);
+		
+		this.r=r;
+	}
+	
+	@Test
+	void shouldInsertReparacion() {
 		assertEquals(r, reparacionService.findReparacionById(r.getId()).get());
-		
-		
 	}
 	
 	
 	@Test
 	@Transactional
-	void shouldNotInsertReparacionInvalida() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
+	void shouldNotInsertReparacionInvalida(){
 		
-		Reparacion r = new Reparacion();
+		Reparacion r1 = new Reparacion();
 
-		r.setDescripcion(""); //Descripción vacía
+		r1.setDescripcion(""); //Descripción vacía
 
-		r.setFechaEntrega(LocalDate.now().plusDays(7));
-		r.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
-		r.setFechaRecogida(LocalDate.now().plusDays(10));
-	
-		Cita c = new Cita();
-		TipoCita t = tipoCitaService.findById(1).get();
-		List<TipoCita> tipos = new ArrayList<>();
-		tipos.add(t);
-		c.setFecha(LocalDate.now().plusDays(2));
-		c.setHora(18);
-		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+		r1.setFechaEntrega(LocalDate.now().plusDays(7));
+		r1.setTiempoEstimado(LocalDate.now().plusDays(8));
+		r1.setFechaFinalizacion(LocalDate.now().plusDays(9));
+		r1.setFechaRecogida(LocalDate.now().plusDays(10));
 		
-		Taller taller = new Taller();
-		taller.setCorreo("test@test.com");
-		taller.setName("test");
-		taller.setTelefono("123456789");
-		taller.setUbicacion("calle test");
-		
-		tallerService.saveTaller(taller);
-		
-		c.setTaller(taller);
-		
-		citaService.saveCita(c, "jesfunrud");
-		
-		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
-		
-		Empleado e1 = new Empleado();
-		User userP = new User();
-		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba1");
-		userP.setEnabled(true);
-		e1.setNombre("Pepito");
-		e1.setApellidos("Grillo");
-		e1.setDni("89898988A");
-		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
-		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
-		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000);
-		e1.setUsuario(userP);
-		e1.setNum_seg_social("234567290145");
-		e1.setEmail("prueba@prueba.com");
-		e1.setTelefono("777777777");
+		r1.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 
-		e1.setTaller(taller);
 		
-		empleadoService.saveEmpleado(e1);
-
-		HorasTrabajadas hora = new HorasTrabajadas();
-		hora.setEmpleado(e1);
-		hora.setHorasTrabajadas(10);
-		hora.setPrecioHora(10.5);
-		hora.setTrabajoRealizado("Cambio de rueda");
+		r1.setHorasTrabajadas(horas);
 		
-		List<HorasTrabajadas> horas = new ArrayList<>();
-		horas.add(hora);
-		
-		horasTrabajadasService.save(hora);
-		
-		r.setHorasTrabajadas(horas);
-		
-		assertThrows(ConstraintViolationException.class, () -> this.reparacionService.saveReparacion(r));
+		assertThrows(ConstraintViolationException.class, () -> this.reparacionService.saveReparacion(r1));
 		
 	}
 	
 	@Test
-	void shouldNotInsertReparacionConFechasIncorrectas() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
-		
-		Reparacion r = new Reparacion();
-		r.setDescripcion("Una descripcion hola que tal");
-		r.setFechaEntrega(LocalDate.now().plusDays(7));
-		r.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r.setFechaFinalizacion(LocalDate.now().plusDays(11));
-		r.setFechaRecogida(LocalDate.now().plusDays(10));
+	void shouldNotInsertReparacionConFechasIncorrectas() {
+		Reparacion r1 = new Reparacion();
+		r1.setDescripcion("Una descripcion hola que tal");
+		r1.setFechaEntrega(LocalDate.now().plusDays(7));
+		r1.setTiempoEstimado(LocalDate.now().plusDays(8));
+		r1.setFechaFinalizacion(LocalDate.now().plusDays(11));
+		r1.setFechaRecogida(LocalDate.now().plusDays(10));
 	
-		Cita c = new Cita();
-		TipoCita t = tipoCitaService.findById(1).get();
-		List<TipoCita> tipos = new ArrayList<>();
-		tipos.add(t);
-		c.setFecha(LocalDate.now().plusDays(2));
-		c.setHora(18);
-		c.setTiposCita(tipos);
-
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+		r1.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
+				
+		r1.setHorasTrabajadas(horas);
 		
-		Taller taller = new Taller();
-		taller.setCorreo("test@test.com");
-		taller.setName("test");
-		taller.setTelefono("123456789");
-		taller.setUbicacion("calle test");
-		
-		tallerService.saveTaller(taller);
-		
-		c.setTaller(taller);
-		
-		citaService.saveCita(c, "jesfunrud");
-		
-		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
-		
-		Empleado e1 = new Empleado();
-		User userP = new User();
-		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba1");
-		userP.setEnabled(true);
-		e1.setNombre("Pepito");
-		e1.setApellidos("Grillo");
-		e1.setDni("89898988A");
-		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
-		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
-		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000);
-		e1.setUsuario(userP);
-		e1.setNum_seg_social("234567890141");
-		e1.setEmail("prueba@prueba.com");
-		e1.setTelefono("777777777");
-		
-		e1.setTaller(taller);
-		empleadoService.saveEmpleado(e1);
-
-		HorasTrabajadas hora = new HorasTrabajadas();
-		hora.setEmpleado(e1);
-		hora.setHorasTrabajadas(10);
-		hora.setPrecioHora(10.5);
-		hora.setTrabajoRealizado("Cambio de rueda");
-		
-		List<HorasTrabajadas> horas = new ArrayList<>();
-		horas.add(hora);
-		
-		horasTrabajadasService.save(hora);
-		
-		r.setHorasTrabajadas(horas);
-		
-		assertThrows(FechasReparacionException.class, () -> this.reparacionService.saveReparacion(r));
+		assertThrows(FechasReparacionException.class, () -> this.reparacionService.saveReparacion(r1));
 		
 	}
 	
 	
 	@Test
-	void shouldNotInsertReparacionConEmpleadoCon3ReparacionesSimultaneas() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
+	void shouldNotInsertReparacionConEmpleadoCon3ReparacionesSimultaneas() throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException{
 		//Setup inicial de reparacion (faltan cosas)
-		Reparacion r = new Reparacion();
-		r.setDescripcion("Descripción de prueba"); 
-		r.setFechaEntrega(LocalDate.now().plusDays(7));
-		r.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r.setFechaRecogida(LocalDate.now().plusDays(10));
+		Reparacion r4 = new Reparacion();
+		r4.setDescripcion("Descripción de prueba"); 
+		r4.setFechaEntrega(LocalDate.now().plusDays(7));
+		r4.setTiempoEstimado(LocalDate.now().plusDays(8));
+		r4.setFechaRecogida(LocalDate.now().plusDays(10));
 	
 		//Setup de reparacion y cita
-		Cita c = new Cita();
-		TipoCita t = tipoCitaService.findById(1).get();
-		List<TipoCita> tipos = new ArrayList<>();
-		tipos.add(t);
-		c.setFecha(LocalDate.now().plusDays(2));
-		c.setHora(18);
-		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+		Cita c4 = new Cita();
+		TipoCita t4 = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos1 = new ArrayList<>();
+		tipos1.add(t4);
+		c4.setFecha(LocalDate.now().plusDays(22));
+		c4.setHora(18);
+		c4.setTiposCita(tipos1);
+		c4.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+				
+		c4.setTaller(taller);
 		
-		//Setup de taller
-		Taller taller = new Taller();
-		taller.setCorreo("test@test.com");
-		taller.setName("test");
-		taller.setTelefono("123456789");
-		taller.setUbicacion("calle test");
-		
-		tallerService.saveTaller(taller);
-		
-		c.setTaller(taller);
-		
-		citaService.saveCita(c, "jesfunrud");
+		citaService.saveCita(c4, "jesfunrud1");
 		
 		//Asigna una cita a la reparacion
-		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
+		r4.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 		
-		//Añadir un empleado
-		Empleado e1 = new Empleado();
-		User userP = new User();
-		userP.setUsername("nombreusuario2");
-		userP.setPassword("passdeprueba1");
-		userP.setEnabled(true);
-		e1.setNombre("Pepito1");
-		e1.setApellidos("Grillo1");
-		e1.setDni("89898983A");
-		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
-		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
-		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000);
-		e1.setUsuario(userP);
-		e1.setNum_seg_social("234567890141");
-		e1.setEmail("prueba@prueba.com");
-		e1.setTelefono("777777777");
-		
-
-		e1.setTaller(taller);
-		
-		empleadoService.saveEmpleado(e1);
-
 		//Crear 3 reparaciones y asociarlas al empleado. Las reparaciones tienen mismo taller y vehiculo pero citas distintas
 		
 		//Reparacion 1
@@ -362,11 +241,11 @@ class ReparacionServiceTest {
 		Cita c1 = new Cita();
 		c1.setFecha(LocalDate.now().plusDays(2));
 		c1.setHora(10);
-		c1.setTiposCita(tipos);
+		c1.setTiposCita(tipos1);
 		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		c1.setTaller(taller);
 		
-		citaService.saveCita(c1, "jesfunrud");
+		citaService.saveCita(c1, "jesfunrud1");
 		
 		r1.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 10));
 		
@@ -396,11 +275,11 @@ class ReparacionServiceTest {
 		Cita c2 = new Cita();
 		c2.setFecha(LocalDate.now().plusDays(2));
 		c2.setHora(11);
-		c2.setTiposCita(tipos);
+		c2.setTiposCita(tipos1);
 		c2.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		c2.setTaller(taller);
 		
-		citaService.saveCita(c2, "jesfunrud");
+		citaService.saveCita(c2, "jesfunrud1");
 		
 		r2.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 11));
 		
@@ -431,11 +310,11 @@ class ReparacionServiceTest {
 		Cita c3 = new Cita();
 		c3.setFecha(LocalDate.now().plusDays(2));
 		c3.setHora(12);
-		c3.setTiposCita(tipos);
+		c3.setTiposCita(tipos1);
 		c3.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		c3.setTaller(taller);
 		
-		citaService.saveCita(c3, "jesfunrud");
+		citaService.saveCita(c3, "jesfunrud1");
 		
 		r3.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 12));
 		
@@ -454,77 +333,12 @@ class ReparacionServiceTest {
 		
 		reparacionService.saveReparacion(r3);
 		
-		r.setHorasTrabajadas(horas);
-		assertThrows(Max3ReparacionesSimultaneasPorEmpleadoException.class, () -> this.reparacionService.saveReparacion(r));
+		r4.setHorasTrabajadas(horas);
+		assertThrows(Max3ReparacionesSimultaneasPorEmpleadoException.class, () -> this.reparacionService.saveReparacion(r4));
 	}	
 	
 	@Test
-	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
-		Reparacion r = new Reparacion();
-		r.setDescripcion("Una descripcion hola que tal");
-		r.setFechaEntrega(LocalDate.now().plusDays(7));
-		r.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
-		r.setFechaRecogida(LocalDate.now().plusDays(10));
-	
-		Cita c = new Cita();
-		TipoCita t = tipoCitaService.findById(1).get();
-		List<TipoCita> tipos = new ArrayList<>();
-		tipos.add(t);
-		c.setFecha(LocalDate.now().plusDays(2));
-		c.setHora(18);
-		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-		
-		Taller taller = new Taller();
-		taller.setCorreo("test@test.com");
-		taller.setName("test");
-		taller.setTelefono("123456789");
-		taller.setUbicacion("calle test");
-		
-		tallerService.saveTaller(taller);
-		
-		c.setTaller(taller);
-		
-		citaService.saveCita(c, "jesfunrud");
-		
-		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
-		
-		Empleado e1 = new Empleado();
-		User userP = new User();
-		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba1");
-		userP.setEnabled(true);
-		e1.setNombre("Pepito");
-		e1.setApellidos("Grillo");
-		e1.setDni("89898988A");
-		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
-		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
-		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000);
-		e1.setUsuario(userP);
-		e1.setNum_seg_social("234567890144");
-		e1.setEmail("prueba@prueba.com");
-		e1.setTelefono("777777777");
-		
-		e1.setTaller(taller);
-		empleadoService.saveEmpleado(e1);
-		
-		HorasTrabajadas hora = new HorasTrabajadas();
-		hora.setEmpleado(e1);
-		hora.setHorasTrabajadas(10);
-		hora.setPrecioHora(10.5);
-		hora.setTrabajoRealizado("Cambio de rueda");
-		
-		List<HorasTrabajadas> horas = new ArrayList<>();
-		horas.add(hora);
-		
-		horasTrabajadasService.save(hora);
-		
-		r.setHorasTrabajadas(horas);
-		
-		reparacionService.saveReparacion(r);
-		
+	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
 		Reparacion r1 = reparacionService.findReparacionById(r.getId()).get();
 		r1.setDescripcion("Descripcion cambiada");
 		
@@ -535,77 +349,10 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
-		Reparacion r = new Reparacion();
-		r.setDescripcion("Una descripcion hola que tal");
-		r.setFechaEntrega(LocalDate.now().plusDays(7));
-		r.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
-		r.setFechaRecogida(LocalDate.now().plusDays(10));
-	
-		Cita c = new Cita();
-		TipoCita t = tipoCitaService.findById(1).get();
-		List<TipoCita> tipos = new ArrayList<>();
-		tipos.add(t);
-		c.setFecha(LocalDate.now().plusDays(2));
-		c.setHora(18);
-		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-		
-		Taller taller = new Taller();
-		taller.setCorreo("test@test.com");
-		taller.setName("test");
-		taller.setTelefono("123456789");
-		taller.setUbicacion("calle test");
-		
-		tallerService.saveTaller(taller);
-		
-		c.setTaller(taller);
-		
-		citaService.saveCita(c, "jesfunrud");
-		
-		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
-		
-		Empleado e1 = new Empleado();
-		User userP = new User();
-		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba1");
-		userP.setEnabled(true);
-		e1.setNombre("Pepito");
-		e1.setApellidos("Grillo");
-		e1.setDni("89898988A");
-		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
-		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
-		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000);
-		e1.setUsuario(userP);
-		e1.setNum_seg_social("234567890345");
-		e1.setEmail("prueba@prueba.com");
-		e1.setTelefono("777777777");
-		
-		e1.setTaller(taller);
-		
-		empleadoService.saveEmpleado(e1);
-
-		HorasTrabajadas hora = new HorasTrabajadas();
-		hora.setEmpleado(e1);
-		hora.setHorasTrabajadas(10);
-		hora.setPrecioHora(10.5);
-		hora.setTrabajoRealizado("Cambio de rueda");
-		
-		List<HorasTrabajadas> horas = new ArrayList<>();
-		horas.add(hora);
-		
-		horasTrabajadasService.save(hora);
-		
-		r.setHorasTrabajadas(horas);
-		
-		reparacionService.saveReparacion(r);
-		
+	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+			
 		Reparacion r1 = reparacionService.findReparacionById(r.getId()).get();
 		r1.setDescripcion("");
-		
-		
 		
 		assertThrows(ConstraintViolationException.class, () ->{
 			reparacionService.saveReparacion(r1);
@@ -616,72 +363,7 @@ class ReparacionServiceTest {
 	
 	
 	@Test
-	void shouldDeleteReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
-		
-		Reparacion r = new Reparacion();
-		r.setDescripcion("Una descripcion hola que tal");
-		r.setFechaEntrega(LocalDate.now().plusDays(7));
-		r.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
-		r.setFechaRecogida(LocalDate.now().plusDays(10));
-	
-		Cita c = new Cita();
-		TipoCita t = tipoCitaService.findById(1).get();
-		List<TipoCita> tipos = new ArrayList<>();
-		tipos.add(t);
-		c.setFecha(LocalDate.now().plusDays(2));
-		c.setHora(18);
-		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-		
-		Taller taller = new Taller();
-		taller.setCorreo("test@test.com");
-		taller.setName("test");
-		taller.setTelefono("123456789");
-		taller.setUbicacion("calle test");
-		
-		tallerService.saveTaller(taller);
-		
-		c.setTaller(taller);
-		
-		citaService.saveCita(c, "jesfunrud");
-		
-		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
-		
-		Empleado e1 = new Empleado();
-		User userP = new User();
-		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba1");
-		userP.setEnabled(true);
-		e1.setNombre("Pepito");
-		e1.setApellidos("Grillo");
-		e1.setDni("89898988A");
-		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
-		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
-		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000);
-		e1.setUsuario(userP);
-		e1.setNum_seg_social("234567891145");
-		e1.setEmail("prueba@prueba.com");
-		e1.setTelefono("777777777");
-		
-		e1.setTaller(taller);
-		empleadoService.saveEmpleado(e1);
-
-		HorasTrabajadas hora = new HorasTrabajadas();
-		hora.setEmpleado(e1);
-		hora.setHorasTrabajadas(10);
-		hora.setPrecioHora(10.5);
-		hora.setTrabajoRealizado("Cambio de rueda");
-		
-		List<HorasTrabajadas> horas = new ArrayList<>();
-		horas.add(hora);
-		
-		horasTrabajadasService.save(hora);
-		
-		r.setHorasTrabajadas(horas);
-		
-		reparacionService.saveReparacion(r);
+	void shouldDeleteReparacion() {
 		assertTrue(reparacionService.findReparacionById(r.getId()).isPresent());
 		
 		reparacionService.delete(r);
@@ -691,148 +373,9 @@ class ReparacionServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldFinalizar() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException{
-		Reparacion r = new Reparacion();
-		r.setDescripcion("Una descripcion hola que tal");
-		r.setFechaEntrega(LocalDate.now().plusDays(2));
-		r.setTiempoEstimado(LocalDate.now().plusDays(9));
-		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
-		r.setFechaRecogida(LocalDate.now().plusDays(11));
-		
-		Cita c = new Cita();
-		TipoCita t = tipoCitaService.findById(1).get();
-		List<TipoCita> tipos = new ArrayList<>();
-		tipos.add(t);
-		c.setFecha(LocalDate.now().plusDays(2));
-		c.setHora(18);
-		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-		
-		Taller taller = new Taller();
-		taller.setCorreo("test@test.com");
-		taller.setName("test");
-		taller.setTelefono("123456789");
-		taller.setUbicacion("calle test");
-		
-		tallerService.saveTaller(taller);
-		
-		c.setTaller(taller);
-		
-		citaService.saveCita(c, "jesfunrud");
-		
-		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
-		
-		Empleado e1 = new Empleado();
-		User userP2 = new User();
-		userP2.setUsername("nombreusuario1");
-		userP2.setPassword("passdeprueba1");
-		userP2.setEnabled(true);
-		e1.setNombre("Pepito");
-		e1.setApellidos("Grillo");
-		e1.setDni("89898988A");
-		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
-		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
-		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000);
-		e1.setUsuario(userP2);
-		e1.setNum_seg_social("234567890148");
-		e1.setEmail("prueba@prueba.com");
-		e1.setTelefono("777777777");
-		
-		e1.setTaller(taller);
-		empleadoService.saveEmpleado(e1);
-
-		HorasTrabajadas hora = new HorasTrabajadas();
-		hora.setEmpleado(e1);
-		hora.setHorasTrabajadas(10);
-		hora.setPrecioHora(10.5);
-		hora.setTrabajoRealizado("Cambio de rueda");
-		
-		List<HorasTrabajadas> horas = new ArrayList<>();
-		horas.add(hora);
-		
-		horasTrabajadasService.save(hora);
-		
-		r.setHorasTrabajadas(horas);
-		
-		reparacionService.saveReparacion(r);
-		
+	void shouldFinalizar() {
 		reparacionService.finalizar(r);
 		assertEquals(r.getFechaFinalizacion(), LocalDate.now());
-		
-
-	}
-	
-	@Test
-	void shouldGetReparacionesCliente() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
-		Reparacion r = new Reparacion();
-		r.setDescripcion("Una descripcion");
-		r.setFechaEntrega(LocalDate.now().plusDays(7));
-		r.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
-		r.setFechaRecogida(LocalDate.now().plusDays(10));
-	
-		Cita c = new Cita();
-		TipoCita t = tipoCitaService.findById(1).get();
-		List<TipoCita> tipos = new ArrayList<>();
-		tipos.add(t);
-		
-		c.setFecha(LocalDate.now().plusDays(2));
-		c.setHora(18);
-		c.setTiposCita(tipos);
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-		
-		Taller taller = new Taller();
-		taller.setCorreo("test@test.com");
-		taller.setName("test");
-		taller.setTelefono("123456789");
-		taller.setUbicacion("calle test");
-		
-		tallerService.saveTaller(taller);
-		
-		c.setTaller(taller);
-		
-		citaService.saveCita(c, "jesfunrud");
-		
-		r.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
-		
-		Empleado e1 = new Empleado();
-		
-		User userP = new User();
-		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba1");
-		userP.setEnabled(true);
-		e1.setNombre("Pepito");
-		e1.setApellidos("Grillo");
-		e1.setDni("89898988A");
-		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
-		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
-		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
-		e1.setSueldo(1000);
-		e1.setUsuario(userP);
-		e1.setNum_seg_social("234567890345");
-		e1.setEmail("prueba@prueba.com");
-		e1.setTelefono("777777777");
-		
-		e1.setTaller(taller);
-		empleadoService.saveEmpleado(e1);
-
-		HorasTrabajadas hora = new HorasTrabajadas();
-		hora.setEmpleado(e1);
-		hora.setHorasTrabajadas(10);
-		hora.setPrecioHora(10.5);
-		hora.setTrabajoRealizado("Cambio de rueda");
-		
-		List<HorasTrabajadas> horas = new ArrayList<>();
-		horas.add(hora);
-		
-		horasTrabajadasService.save(hora);
-		
-		r.setHorasTrabajadas(horas);
-		
-		reparacionService.saveReparacion(r);
-		
-		assertEquals(r, reparacionService.findReparacionById(r.getId()).get());
 	}
 	
 }

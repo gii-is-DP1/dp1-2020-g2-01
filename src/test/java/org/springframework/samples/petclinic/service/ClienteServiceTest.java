@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -22,80 +23,53 @@ public class ClienteServiceTest {
 	@Autowired
 	private ClienteService clienteService;
 	
-	@Test
-	public void shouldAddCliente() throws DataAccessException, InvalidPasswordException {
+	public Cliente cliente;
+	
+	@BeforeEach
+	void insertCliente() throws DataAccessException, InvalidPasswordException {
 		Cliente cliente = new Cliente();
 		
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344X");
+		cliente.setDni("88888888M");
 		cliente.setEmail("añoño@gmail.com");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba1");
+		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		cliente.setUser(userP);
 		cliente.setTelefono("111223344");
 		
 		clienteService.saveCliente(cliente);
 		
-		assertEquals(cliente, clienteService.findClientesByUsername("nombreusuario").get());
+		this.cliente = cliente;
+	}
 	
+	@Test
+	public void shouldAddCliente() {
+		assertEquals(cliente, clienteService.findClientesByUsername("nombreusuario").get());
 	}
 	
 	@Test
 	public void shouldUpdateCliente() throws DataAccessException, InvalidPasswordException {
-		Cliente cliente = new Cliente();
-		
-		cliente.setNombre("Antonio");
-		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223345M");
-		cliente.setEmail("añoño@gmail.com");
-		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba1");
-		userP.setEnabled(true);
-		cliente.setUser(userP);
-		cliente.setTelefono("111223344");
-		
-		clienteService.saveCliente(cliente);
-		
-		Cliente cliente1 = clienteService.findClienteByDNI("11223345M").get();
+		Cliente cliente1 = clienteService.findClienteByDNI("88888888M").get();
 		cliente1.setDni("34567890K");
-		cliente1.getUser().setPassword("passdeprueba1");
 		
 		clienteService.saveCliente(cliente1);
 		
-		assertFalse(clienteService.findClienteByDNI("11223345M").isPresent());
+		assertFalse(clienteService.findClienteByDNI("88888888M").isPresent());
 		assertTrue(clienteService.findClienteByDNI("34567890K").isPresent());
 		
 	
 	}
 	
 	@Test
-	public void shouldDeleteCliente() throws DataAccessException, InvalidPasswordException {
-		Cliente cliente = new Cliente();
-		
-		cliente.setNombre("Antonio");
-		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223346M");
-		cliente.setEmail("añoño@gmail.com");
-		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba1");
-		userP.setEnabled(true);
-		cliente.setUser(userP);
-		cliente.setTelefono("111223344");
-		
-		clienteService.saveCliente(cliente);
-		
+	public void shouldDeleteCliente() {	
 		clienteService.delete(cliente);
 		
 		assertFalse(clienteService.findClienteByDNI("11223346M").isPresent());
 		
-	
 	}
 }
+

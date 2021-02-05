@@ -11,7 +11,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
 
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -61,10 +61,23 @@ class CitaServiceTest {
 	@Autowired
 	protected EmpleadoService empleadoService;
 	
-	@Test
-	@Transactional
-	void shouldInsertCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
-		CitaSinPresentarseException{
+	public Taller t;
+	
+	@BeforeEach
+	void insertTaller() {
+		Taller t = new Taller();
+		t.setCorreo("test@test.com");
+		t.setName("test");
+		t.setTelefono("123456789");
+		t.setUbicacion("calle test");
+		tallerService.saveTaller(t);
+		this.t=t;
+	}
+	
+	public Cita c;
+	
+	@BeforeEach
+	void insertCita() throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		c.setFecha(LocalDate.now().plusDays(1));
@@ -75,99 +88,59 @@ class CitaServiceTest {
 		
 		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		
-		Taller t = new Taller();
-		t.setCorreo("test@test.com");
-		t.setName("test");
-		t.setTelefono("123456789");
-		t.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t);
-		
 		c.setTaller(t);
 		
 		citaService.saveCita(c, "jesfunrud");
 		
-
-		
+		this.c = c;
+	}
+	
+	
+	@Test
+	@Transactional
+	void shouldInsertCita(){
 		assertEquals(c, citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10));
 	}
 	
 	@Test
 	@Transactional
 	void shouldNotInsertCitaInvalida() throws DataAccessException, DuplicatedMatriculaException {
-		Cita c = new Cita();
+		Cita c1 = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-	
-		
-		c.setFecha(LocalDate.now());
-		c.setHora(10);
+		c1.setFecha(LocalDate.now());
+		c1.setHora(10);
 		List<TipoCita> tipos = new ArrayList<TipoCita>();
 		tipos.add(tipo);
-		c.setTiposCita(tipos);
+		c1.setTiposCita(tipos);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-		assertThrows(ConstraintViolationException.class, () -> this.citaService.saveCita(c, "jesfunrud"));
+		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+		assertThrows(ConstraintViolationException.class, () -> this.citaService.saveCita(c1, "jesfunrud"));
 	}
 	
 	@Test
 	@Transactional
 	void shouldNotInsertCitaSinPresentarse() throws DataAccessException, CitaSinPresentarseException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException {
 		
-		Cita c = new Cita();
+		Cita c1 = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
-		c.setFecha(LocalDate.now().plusDays(1));
-		c.setHora(17);
+		c1.setFecha(LocalDate.now().plusDays(1));
+		c1.setHora(17);
 		List<TipoCita> tipos = new ArrayList<TipoCita>();
 		tipos.add(tipo);
-		c.setTiposCita(tipos);
+		c1.setTiposCita(tipos);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("2111AAB").get());
+		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("2111AAB").get());
 		
-		Taller t = new Taller();
-		t.setCorreo("test@test.com");
-		t.setName("test");
-		t.setTelefono("123456789");
-		t.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t);
-		
-		c.setTaller(t);
+		c1.setTaller(t);
 
-		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c, "clienteEjemplo"));
+		assertThrows(CitaSinPresentarseException.class, () -> this.citaService.saveCita(c1, "clienteEjemplo"));
 	}
 
 	@Test
 	@Transactional
 	void shouldNotInsertCitaYEmpleadoDistintoTaller() throws DataAccessException, DuplicatedMatriculaException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		
-		//Setup inicial de cita
-		Cita c = new Cita();
-		TipoCita tipo = tipoCitaService.findById(1).get();
-	
-		
-		c.setFecha(LocalDate.now());
-		c.setHora(10);
-		List<TipoCita> tipos = new ArrayList<TipoCita>();
-		tipos.add(tipo);
-		c.setTiposCita(tipos);
-		
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-	
-		
-		//Setup de 2 talleres distintos. Asigno t1 a cita y t2 al empleado
-		Taller t1 = new Taller();
-		t1.setCorreo("test@test.com");
-		t1.setName("test");
-		t1.setTelefono("123456789");
-		t1.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t1);
-		
-		
-		c.setTaller(t1); 
-		
-		
+
 		Taller t2 = new Taller();
 		t2.setCorreo("test2@test.com");
 		t2.setName("test2");
@@ -181,7 +154,7 @@ class CitaServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba1");
+		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -211,28 +184,7 @@ class CitaServiceTest {
 	@Transactional
 	void shouldUpdateCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
 		CitaSinPresentarseException{
-		Cita c = new Cita();
-		TipoCita tipo = tipoCitaService.findById(1).get();
 		
-		c.setFecha(LocalDate.now().plusDays(1));
-		c.setHora(10);
-		List<TipoCita> tipos = new ArrayList<TipoCita>();
-		tipos.add(tipo);
-		c.setTiposCita(tipos);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-		
-		Taller t = new Taller();
-		t.setCorreo("test@test.com");
-		t.setName("test");
-		t.setTelefono("123456789");
-		t.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t);
-		
-		c.setTaller(t);
-		
-		citaService.saveCita(c, "jesfunrud");
 		Cita c1 = citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10);
 		
 		c1.setFecha(LocalDate.now().plusDays(3));
@@ -244,33 +196,14 @@ class CitaServiceTest {
 	@Transactional
 	void shouldNotUpdateInvalidCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
 	CitaSinPresentarseException{
-
-		Cita c = new Cita();
-		TipoCita tipo = tipoCitaService.findById(1).get();
-		
-		c.setFecha(LocalDate.now().plusDays(1));
-		c.setHora(10);
-		List<TipoCita> tipos = new ArrayList<TipoCita>();
-		tipos.add(tipo);
-		c.setTiposCita(tipos);
-		
-		Taller t = new Taller();
-		t.setCorreo("test@test.com");
-		t.setName("test");
-		t.setTelefono("123456789");
-		t.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t);
-		
-		c.setTaller(t);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-		citaService.saveCita(c, "jesfunrud");
-		
+	
 		Cita c1 = new Cita();
 		c1.setId(c.getId());
 
 		c1.setHora(10);
+		TipoCita tipo = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos = new ArrayList<TipoCita>();
+		tipos.add(tipo);
 		c.setTiposCita(tipos);
 		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
 		c1.setFecha(LocalDate.now());
@@ -283,30 +216,7 @@ class CitaServiceTest {
 	@Test
 	void shouldDeleteCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
 	CitaSinPresentarseException{
-
-		Cita c = new Cita();
-		TipoCita tipo = tipoCitaService.findById(1).get();
-		
-		c.setFecha(LocalDate.now().plusDays(1));
-		c.setHora(10);
-		List<TipoCita> tipos = new ArrayList<TipoCita>();
-		tipos.add(tipo);
-		c.setTiposCita(tipos);
-		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-		
-		Taller t = new Taller();
-		t.setCorreo("test@test.com");
-		t.setName("test");
-		t.setTelefono("123456789");
-		t.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t);
-		
-		c.setTaller(t);
-		
-		citaService.saveCita(c, "jesfunrud");
-		
+	
 		assertEquals(c, citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10));
 		
 		citaService.delete(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10));
@@ -315,48 +225,26 @@ class CitaServiceTest {
 	}
 	
 	@Test
-	@Disabled
 	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotFoundException, 
 	NotAllowedException, CitaSinPresentarseException, InvalidPasswordException {
 
-		Cita c = new Cita();
-		TipoCita tipo = tipoCitaService.findById(1).get();
-		
-		c.setFecha(LocalDate.now().plusDays(1));
-		c.setHora(10);
-		List<TipoCita> tipos = new ArrayList<TipoCita>();
-		tipos.add(tipo);
-		c.setTiposCita(tipos);
-		
+			
 		Cliente cliente = new Cliente();
 		
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344X");
+		cliente.setDni("11223344M");
 		cliente.setEmail("sevillacustoms@gmail.com");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba1");
+		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		cliente.setUser(userP);
 		cliente.setTelefono("111223344");
 		
 		clienteService.saveCliente(cliente);
 		
-		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-		
-		Taller t = new Taller();
-		t.setCorreo("test@test.com");
-		t.setName("test");
-		t.setTelefono("123456789");
-		t.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t);
-		
-		c.setTaller(t);
-		
-		citaService.saveCita(c, "jesfunrud");
 		
 		Cita c1 = new Cita();
 		TipoCita tipo1 = tipoCitaService.findById(1).get();
