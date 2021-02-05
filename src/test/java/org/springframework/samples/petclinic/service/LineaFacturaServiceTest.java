@@ -141,7 +141,7 @@ class LineaFacturaServiceTest {
 		Empleado e1 = new Empleado();
 		User userP2 = new User();
 		userP2.setUsername("nombreusuario1");
-		userP2.setPassword("passdeprueba1");
+		userP2.setPassword("passdeprueba");
 		userP2.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -192,7 +192,7 @@ class LineaFacturaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotLineaFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException{
+	void shouldNotLineaFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException{
 		
 
 		LineaFactura lf1 = new LineaFactura();
@@ -217,3 +217,4 @@ class LineaFacturaServiceTest {
 	}
 	
 }
+

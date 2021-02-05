@@ -94,7 +94,7 @@ class FacturaServiceTest {
 	@BeforeEach
 	void insertFactura() throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Factura f = new Factura();
-		f.setFechaPago(LocalDate.now().minusDays(10));
+		f.setFechaPago(LocalDate.now().plusDays(10));
 		List<LineaFactura> lineas = new ArrayList<>();
 		
 		LineaFactura lf = new LineaFactura();
@@ -150,7 +150,7 @@ class FacturaServiceTest {
 		Empleado e1 = new Empleado();
 		User userP2 = new User();
 		userP2.setUsername("nombreusuario1");
-		userP2.setPassword("passdeprueba1");
+		userP2.setPassword("passdeprueba");
 		userP2.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
