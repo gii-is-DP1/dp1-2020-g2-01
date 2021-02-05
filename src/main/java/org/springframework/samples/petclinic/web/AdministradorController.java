@@ -96,6 +96,7 @@ public class AdministradorController {
 			model.addAttribute("message", "Administrador no encontrado");
 			vista = "/";
 		} else {
+			admin.get().getUsuario().setPassword("");
 			model.addAttribute("administrador", admin.get());
 		}
 		return vista;

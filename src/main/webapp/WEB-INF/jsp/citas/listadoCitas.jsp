@@ -31,6 +31,11 @@
     </spring:url>
     <a class="btn btn-success col-sm-offset-7 col-sm-3" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-asterisk"></span> Cancelar citas por COVID</a>
 	</sec:authorize>
+	    <sec:authorize access="hasAuthority('empleado')">
+    <spring:url value="/citas/covid" var="citaUrl">
+    </spring:url>
+    <a class="btn btn-success col-sm-offset-7 col-sm-3" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-asterisk"></span> Cancelar citas por COVID</a>
+	</sec:authorize>
 	<sec:authorize access="hasAuthority('cliente')">
     <spring:url value="/citas/new" var="citaUrl">
     </spring:url>
@@ -46,13 +51,14 @@
         	<sec:authorize access="hasAuthority('admin')">
                 <th>Nombre</th>
 			</sec:authorize>
-            <th>Modelo</th>
+			<sec:authorize access="hasAuthority('empleado')">
+                <th>Nombre</th>
+			</sec:authorize>
+            <th>Coche</th>
             <th>Tipo de cita</th>
 			<th>Taller</th>
-        	<sec:authorize access="hasAuthority('admin')">
+        	<sec:authorize access="hasAuthority('empleado')">
                 <th></th>
-			</sec:authorize>
-			<sec:authorize access="hasAuthority('admin')">
                 <th></th>
 			</sec:authorize>
             <th></th>
@@ -86,6 +92,17 @@
                     <p><small><c:out value="${cita.vehiculo.cliente.apellidos}"/></small></p>
                 </td>
 				</sec:authorize>
+				<sec:authorize access="hasAuthority('empleado')">
+                <td>
+                    <c:out value="${cita.vehiculo.cliente.nombre}"/>
+	               		<spring:url value="/clientes/clienteDetails/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${cita.vehiculo.cliente.user.username}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(clienteUrl)}">
+                    	<span class="glyphicon glyphicon-eye-open"></span></a>
+                    <p><small><c:out value="${cita.vehiculo.cliente.apellidos}"/></small></p>
+                </td>
+				</sec:authorize>
             
                 <td>
                     <p><c:out value="${cita.vehiculo.modelo}"/></p>
@@ -107,7 +124,7 @@
                 <span class="helper"></span>
                 	<p><c:out value="${cita.taller.ubicacion}"/></p>
                 </td>
-                <sec:authorize access="hasAuthority('admin')">
+                <sec:authorize access="hasAuthority('empleado')">
                 <td>
 					<sec:authentication property="name" var="username"/>
 					<c:set var="empleadoEnCita" value="false"/>
@@ -126,8 +143,6 @@
 						</c:otherwise>
 					</c:choose>
                 </td>
-				</sec:authorize>
-                <sec:authorize access="hasAuthority('admin')">
                 <td>
                 	<a href="/reparaciones/new/${cita.id}">Crear reparación</a>
                 </td>

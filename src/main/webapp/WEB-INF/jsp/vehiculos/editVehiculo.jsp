@@ -6,14 +6,14 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 
-<petclinic:layout pageName="vehiculos">
+<petclinic:layout pageName="vehiculo">
     
     
     
     <jsp:body>
         <h2>Vehiculo</h2>
-
-        <form:form action="/vehiculos/save" modelAttribute="vehiculo" class="form-horizontal">
+		<c:set var="usuario" value="${not empty nombreUsuario ? '/' : ''}${nombreUsuario}"></c:set>
+        <form:form action="/vehiculos/save${not empty nombreUsuario ? usuario : ''}" modelAttribute="vehiculo" class="form-horizontal">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Matricula" name="matricula"/>
                 <petclinic:inputField label="Modelo" name="modelo"/> 

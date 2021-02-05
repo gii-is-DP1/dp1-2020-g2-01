@@ -35,8 +35,8 @@
                	<petclinic:inputField label="Fecha de entrega" name="fechaEntrega"/> 
                	<petclinic:inputField label="Fecha de recogida" name="fechaRecogida"/>
                	<petclinic:inputField label="Cita asociada" name="cita" readonly="true"/>
-               	<petclinic:selectFieldEmpleados label="Empleados asignados (usar CTRL para seleccionar varios)" 
-               	name="empleados" size="5"  names="${empleados}" noglyphicon="true"/>
+               	<petclinic:selectFieldMultiple label="Empleados asignados (usar CTRL para seleccionar varios)" 
+               	name="horasTrabajadas" size="5"  names="${empleados}"/>
 				<label class="col-sm-2 control-label">Recambios</label>
         		<div class="col-sm-10">
 				<c:if test="${ not (fn:length(reparacion.lineaFactura) == 0)}">

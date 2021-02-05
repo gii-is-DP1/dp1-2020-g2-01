@@ -186,13 +186,13 @@ INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cli
 
 
 INSERT INTO users(username,password,enabled) VALUES ('empleado1', @CONTRASENA,true);
-INSERT INTO authorities(username,authority) VALUES ('empleado1','admin');
+INSERT INTO authorities(username,authority) VALUES ('empleado1','empleado');
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (100, 'Sech', '11111111A', 
 					'2000-11-16', 'Ete', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111114', 950, 'empleado1', 1);
 					
 INSERT INTO users(username,password,enabled) VALUES ('empleado2', @CONTRASENA,true);
-INSERT INTO authorities(username,authority) VALUES ('empleado2','admin');					
+INSERT INTO authorities(username,authority) VALUES ('empleado2','empleado');					
 INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, email, fecha_fin_contrato, 
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (101, 'Aguayo', '11111112A', 
 					'2000-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111211', 950, 'empleado2', 2);
