@@ -70,18 +70,7 @@ public class ReparacionService {
 		
 		reparacionRepository.save(reparacion);
 		log.info("Reparación creada");
-	}
-	
-	@Transactional
-	public List<Reparacion> m(Empleado e){
-		return reparacionRepository.findReparacionesActivasEmpleado1(e);
-	}
-	
-	@Transactional
-	public List<Reparacion> m(Empleado e){
-		return reparacionRepository.findReparacionesActivasEmpleado1(e);
-	}
-	
+	}	
 	
 	@Transactional(readOnly = true)
 	public Iterable<Reparacion> findAll() throws DataAccessException {
