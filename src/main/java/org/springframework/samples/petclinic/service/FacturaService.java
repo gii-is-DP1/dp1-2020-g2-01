@@ -1,24 +1,20 @@
 package org.springframework.samples.petclinic.service;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.HashSet;
-import java.util.List;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
-
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-
 import org.springframework.data.domain.Sort;
-
 import org.springframework.samples.petclinic.model.Cliente;
-
 import org.springframework.samples.petclinic.model.Factura;
 import org.springframework.samples.petclinic.model.HorasTrabajadas;
 import org.springframework.samples.petclinic.model.LineaFactura;
@@ -164,6 +160,34 @@ public class FacturaService {
         table.addCell(new Cell().setBorder(Border.NO_BORDER));
         table.addCell(new Cell().setBorder(Border.NO_BORDER));
         table.addCell(new Cell().setBorder(Border.NO_BORDER));
+	}
+	
+	@Transactional
+	public List<Integer> getAnyosFactura(){
+		Set<Integer> anyos = new HashSet<>();
+		List<Factura> facturas = this.findAll();
+		for(Factura factura:facturas) {
+			anyos.add(factura.getFechaPago().getYear());
+		}
+		return anyos.stream().collect(Collectors.toList());
+	}
+	
+	@Transactional
+	public List<Month> getMesesFactura(){
+		Set<Month> meses = new HashSet<>();
+		List<Factura> facturas = this.findAll();
+		for(Factura factura:facturas) {
+			meses.add(factura.getFechaPago().getMonth());
+		}
+		return meses.stream().collect(Collectors.toList());
+	}
+	
+	@Transactional
+	public List<Factura> findFacturasMesAnyo(Month m, int y){
+		LocalDate iniMes = LocalDate.of(y, m.getValue(), 1);
+		LocalDate finMes = LocalDate.of(y, m.getValue(), m.maxLength());
+		List<Factura> res = this.facturaRepository.findFacturaByFechaPagoAfterAndFechaPagoBefore(iniMes, finMes, Sort.by(Sort.Direction.DESC, "fechaPago"));
+		return res;
 	}
 
 }
