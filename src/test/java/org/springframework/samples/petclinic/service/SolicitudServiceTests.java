@@ -194,6 +194,7 @@ public class SolicitudServiceTests {
 		assertTrue(s1.getCantidad().equals(10));
 		assertFalse(s2.getEmpleado().getNombre().equals("Juan"));
 	}
+
 	
 	@Test
 	void findSolicitudesTerminadas() {
