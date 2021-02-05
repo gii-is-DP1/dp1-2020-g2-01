@@ -36,7 +36,7 @@ public class ClienteServiceTest {
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		cliente.setUser(userP);
 		cliente.setTelefono("111223344");

@@ -154,7 +154,7 @@ class CitaServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -233,12 +233,12 @@ class CitaServiceTest {
 		
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344M");
+		cliente.setDni("11223344X");
 		cliente.setEmail("sevillacustoms@gmail.com");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		cliente.setUser(userP);
 		cliente.setTelefono("111223344");
