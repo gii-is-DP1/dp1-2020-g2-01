@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -66,8 +68,14 @@ public class SolicitudServiceTests {
 	@Autowired
 	protected CitaService citaService;
 	
+<<<<<<< Upstream, based on origin/master
 	@Autowired
 	protected HorasTrabajadasService horasTrabajadasService;
+=======
+	private Solicitud s1;
+	
+	private Solicitud s2;
+>>>>>>> df66069 h14 controlador
 	
 	
 	@BeforeEach
@@ -163,6 +171,8 @@ public class SolicitudServiceTests {
 		s1.setTerminada(true);
 		s1.setReparacion(r);
 		
+		this.s1 = s1;
+		
 		Solicitud s2 = new Solicitud();
 		s2.setRecambio(r1);
 		s2.setEmpleado(e1);
@@ -170,13 +180,20 @@ public class SolicitudServiceTests {
 		s2.setTerminada(false);
 		s2.setReparacion(r);
 		
+		this.s2 = s2;
+		
 		solicitudService.saveSolicitud(s1);
 		solicitudService.saveSolicitud(s2);
 
 		
 	}
 	
-	
+	@Test
+	void shouldInsertSolicitud() {
+		
+		assertTrue(s1.getCantidad().equals(10));
+		assertFalse(s2.getEmpleado().getNombre().equals("Juan"));
+	}
 	
 	@Test
 	void findSolicitudesTerminadas() {
