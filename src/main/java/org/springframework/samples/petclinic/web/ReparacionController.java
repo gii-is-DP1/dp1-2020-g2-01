@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.HorasTrabajadas;
 import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.service.CitaService;
@@ -22,11 +23,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -85,7 +89,6 @@ public class ReparacionController {
 		return (List<Recambio>) this.recambiosService.findAll();
 	}
 	
-	
 	@GetMapping(value = "/new/{citaId}")
 	public String crearReparacion(@PathVariable("citaId") int id, ModelMap model) {
 		String vista = "reparaciones/editReparacion";
@@ -112,21 +115,19 @@ public class ReparacionController {
 	}
 
 	@PostMapping(value = "/save")
-	public String guardarReparacion(@Valid Reparacion reparacion, BindingResult result, ModelMap model) {
+	public String guardarReparacion(@RequestParam("horasTrabajadas") List<HorasTrabajadas> horas, @Valid Reparacion reparacion, BindingResult result, ModelMap model) {
 		String vista;
-		
-		//Al hacer RequestParam con la lista vacía da null, como se añade los empleados a mano a la reparación @Valid no comprueba el @NotNull
-		//de empleados
+
 		if(result.hasErrors()) { 
-//			if(empleados==null) {
-//				result.rejectValue("empleados", "Se debe escoger al menos un empleado", "Se debe escoger al menos un empleado");
-//			}
+			if(horas==null) {
+				result.rejectValue("empleados", "Se debe escoger al menos un empleado", "Se debe escoger al menos un empleado");
+			}
 			model.addAttribute("reparacion", reparacion);
 			vista = "reparaciones/editReparacion";
 		
 		} else {
 			try {
-//				reparacion.setEmpleados(empleados);
+				reparacionService.setEmpleadosAReparacion(horas, reparacion);
 				reparacionService.saveReparacion(reparacion);
 			
 			} catch (FechasReparacionException e) {
