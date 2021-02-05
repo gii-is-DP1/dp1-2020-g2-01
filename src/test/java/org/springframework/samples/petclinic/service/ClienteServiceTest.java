@@ -55,6 +55,7 @@ public class ClienteServiceTest {
 	public void shouldUpdateCliente() throws DataAccessException, InvalidPasswordException {
 		Cliente cliente1 = clienteService.findClienteByDNI("88888888M").get();
 		cliente1.setDni("34567890K");
+		cliente1.getUser().setPassword("passdeprueba1"); //la password viene codificada de base de datos
 		
 		clienteService.saveCliente(cliente1);
 		
