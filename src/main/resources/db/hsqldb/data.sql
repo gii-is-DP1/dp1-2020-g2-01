@@ -207,6 +207,10 @@ INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (201
 INSERT INTO citas_tipocita VALUES (201, 1);
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', '2021-10-23', 200);
+INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (9, 'Cambio de frenos', 10.5, 4, 101);
+
+INSERT INTO horas_reparacion VALUES (1, 9);
+
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (2,'Descripción', '2020-10-24', '2020-10-22', '2020-10-22', '2020-10-23', 201);
 INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');

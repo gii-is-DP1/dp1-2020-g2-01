@@ -296,7 +296,6 @@ class ReparacionServiceTest {
 		r.setDescripcion("Descripción de prueba"); 
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r.setFechaRecogida(LocalDate.now().plusDays(10));
 	
 		//Setup de reparacion y cita
@@ -355,7 +354,6 @@ class ReparacionServiceTest {
 		r1.setDescripcion("Descripción de prueba"); 
 		r1.setFechaEntrega(LocalDate.now().plusDays(7));
 		r1.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r1.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r1.setFechaRecogida(LocalDate.now().plusDays(10));
 	
 		//CUIDADO CON PONER MISMA FECHA Y HORA QUE EL RESTO DE CITAS
@@ -390,7 +388,6 @@ class ReparacionServiceTest {
 		r2.setDescripcion("Descripción de prueba"); 
 		r2.setFechaEntrega(LocalDate.now().plusDays(7));
 		r2.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r2.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r2.setFechaRecogida(LocalDate.now().plusDays(10));
 	
 	
@@ -405,7 +402,18 @@ class ReparacionServiceTest {
 		
 		r2.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 11));
 		
-		r2.setHorasTrabajadas(horas);
+		HorasTrabajadas hora1 = new HorasTrabajadas();
+		hora1.setEmpleado(e1);
+		hora1.setHorasTrabajadas(10);
+		hora1.setPrecioHora(10.5);
+		hora1.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas1 = new ArrayList<>();
+		horas1.add(hora1);
+		
+		horasTrabajadasService.save(hora1);
+		
+		r2.setHorasTrabajadas(horas1);
 		
 		reparacionService.saveReparacion(r2);
 		
@@ -415,7 +423,6 @@ class ReparacionServiceTest {
 		r3.setDescripcion("Descripción de prueba"); 
 		r3.setFechaEntrega(LocalDate.now().plusDays(7));
 		r3.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r3.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r3.setFechaRecogida(LocalDate.now().plusDays(10));
 	
 	
@@ -430,12 +437,109 @@ class ReparacionServiceTest {
 		
 		r3.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 12));
 		
-		r3.setHorasTrabajadas(horas);
+		HorasTrabajadas hora2 = new HorasTrabajadas();
+		hora2.setEmpleado(e1);
+		hora2.setHorasTrabajadas(10);
+		hora2.setPrecioHora(10.5);
+		hora2.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas2 = new ArrayList<>();
+		horas2.add(hora2);
+		
+		horasTrabajadasService.save(hora2);
+		
+		r3.setHorasTrabajadas(horas2);
 		
 		reparacionService.saveReparacion(r3);
 		
 		r.setHorasTrabajadas(horas);
 		assertThrows(Max3ReparacionesSimultaneasPorEmpleadoException.class, () -> this.reparacionService.saveReparacion(r));
+	}
+	
+	@Test
+	void m() throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
+		//Setup de reparacion y cita
+		Cita c = new Cita();
+		TipoCita t = tipoCitaService.findById(1).get();
+		List<TipoCita> tipos = new ArrayList<>();
+		tipos.add(t);
+		c.setFecha(LocalDate.now().plusDays(2));
+		c.setHora(18);
+		c.setTiposCita(tipos);
+		c.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+		
+		//Setup de taller
+		Taller taller = new Taller();
+		taller.setCorreo("test@test.com");
+		taller.setName("test");
+		taller.setTelefono("123456789");
+		taller.setUbicacion("calle test");
+		
+		tallerService.saveTaller(taller);
+		
+		c.setTaller(taller);
+		
+		citaService.saveCita(c, "jesfunrud");
+		
+		//Asigna una cita a la reparacion
+		//Añadir un empleado
+		Empleado e1 = new Empleado();
+		User userP = new User();
+		userP.setUsername("nombreusuario2");
+		userP.setPassword("passdeprueba");
+		userP.setEnabled(true);
+		e1.setNombre("Pepito1");
+		e1.setApellidos("Grillo1");
+		e1.setDni("89898983A");
+		e1.setFechaNacimiento(LocalDate.now().minusYears(20));
+		e1.setFecha_ini_contrato(LocalDate.now().minusDays(10));
+		e1.setFecha_fin_contrato(LocalDate.now().plusYears(1));
+		e1.setSueldo(1000);
+		e1.setUsuario(userP);
+		e1.setNum_seg_social("234567890141");
+		e1.setEmail("prueba@prueba.com");
+		e1.setTelefono("777777777");
+		
+
+		e1.setTaller(taller);
+		
+		empleadoService.saveEmpleado(e1);
+		//Reparacion 1
+				Reparacion r1 = new Reparacion();
+				r1.setDescripcion("Descripción de prueba"); 
+				r1.setFechaEntrega(LocalDate.now().plusDays(7));
+				r1.setTiempoEstimado(LocalDate.now().plusDays(8));
+				r1.setFechaRecogida(LocalDate.now().plusDays(10));
+			
+				//CUIDADO CON PONER MISMA FECHA Y HORA QUE EL RESTO DE CITAS
+				Cita c1 = new Cita();
+				c1.setFecha(LocalDate.now().plusDays(2));
+				c1.setHora(10);
+				c1.setTiposCita(tipos);
+				c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
+				c1.setTaller(taller);
+				
+				citaService.saveCita(c1, "jesfunrud");
+				
+				r1.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 10));
+				
+				HorasTrabajadas hora = new HorasTrabajadas();
+				hora.setEmpleado(e1);
+				hora.setHorasTrabajadas(10);
+				hora.setPrecioHora(10.5);
+				hora.setTrabajoRealizado("Cambio de rueda");
+				
+				List<HorasTrabajadas> horas = new ArrayList<>();
+				horas.add(hora);
+				
+				horasTrabajadasService.save(hora);
+				
+				r1.setHorasTrabajadas(horas);
+				
+				reparacionService.saveReparacion(r1);
+				
+				List<Reparacion> u = reparacionService.m(e1);
+//				Reparacion w = reparacionService.m(e1).get(1);
 	}
 	
 	
