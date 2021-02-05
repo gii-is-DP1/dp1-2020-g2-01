@@ -77,6 +77,7 @@ public class SolicitudServiceTests {
 
 	private Solicitud s2;
 
+
 	@BeforeEach
 	void setup() throws DataAccessException, DuplicatedProveedorNifException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Reparacion r = new Reparacion();
