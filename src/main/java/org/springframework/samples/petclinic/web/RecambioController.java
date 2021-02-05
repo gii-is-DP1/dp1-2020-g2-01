@@ -17,6 +17,7 @@ import org.springframework.samples.petclinic.service.RecambioService;
 import org.springframework.samples.petclinic.service.ReparacionService;
 import org.springframework.samples.petclinic.service.SolicitudService;
 import org.springframework.samples.petclinic.util.LoggedUser;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -78,6 +79,13 @@ public class RecambioController {
 	@GetMapping(value="/listadoRecambiosSolicitados")
 	public String listadoRecambiosSolicitados(@RequestParam(required=false, name="terminadas") Boolean terminadas, ModelMap model) {
 		String vista = "recambios/listadoRecambiosSolicitados";
+		
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		Optional<Empleado> opt = empleadoService.findEmpleadoByUsuarioUsername(username);
+		if(opt.isPresent()) {
+			return "welcome";
+		}
 		List<Solicitud> solicitudes;
 		if (terminadas==null) {
 			 solicitudes = this.solicitudService.findAll();
