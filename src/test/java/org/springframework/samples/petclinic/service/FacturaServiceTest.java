@@ -192,10 +192,9 @@ class FacturaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotInsertFactura() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException{
+	void shouldNotInsertFacturaSinFechaPago() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException{
 		Factura f = new Factura();
-		//Sin valor de descuento
-		f.setFechaPago(LocalDate.now().plusDays(10));
+		//Sin valor de fecha pago
 		List<LineaFactura> lineas = new ArrayList<>();
 		
 		LineaFactura lf = new LineaFactura();

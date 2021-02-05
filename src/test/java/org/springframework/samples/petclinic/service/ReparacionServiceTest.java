@@ -296,7 +296,6 @@ class ReparacionServiceTest {
 		r.setDescripcion("Descripción de prueba"); 
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
 		r.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r.setFechaRecogida(LocalDate.now().plusDays(10));
 	
 		//Setup de reparacion y cita
@@ -355,7 +354,6 @@ class ReparacionServiceTest {
 		r1.setDescripcion("Descripción de prueba"); 
 		r1.setFechaEntrega(LocalDate.now().plusDays(7));
 		r1.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r1.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r1.setFechaRecogida(LocalDate.now().plusDays(10));
 	
 		//CUIDADO CON PONER MISMA FECHA Y HORA QUE EL RESTO DE CITAS
@@ -390,7 +388,6 @@ class ReparacionServiceTest {
 		r2.setDescripcion("Descripción de prueba"); 
 		r2.setFechaEntrega(LocalDate.now().plusDays(7));
 		r2.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r2.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r2.setFechaRecogida(LocalDate.now().plusDays(10));
 	
 	
@@ -405,7 +402,18 @@ class ReparacionServiceTest {
 		
 		r2.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 11));
 		
-		r2.setHorasTrabajadas(horas);
+		HorasTrabajadas hora1 = new HorasTrabajadas();
+		hora1.setEmpleado(e1);
+		hora1.setHorasTrabajadas(10);
+		hora1.setPrecioHora(10.5);
+		hora1.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas1 = new ArrayList<>();
+		horas1.add(hora1);
+		
+		horasTrabajadasService.save(hora1);
+		
+		r2.setHorasTrabajadas(horas1);
 		
 		reparacionService.saveReparacion(r2);
 		
@@ -415,7 +423,6 @@ class ReparacionServiceTest {
 		r3.setDescripcion("Descripción de prueba"); 
 		r3.setFechaEntrega(LocalDate.now().plusDays(7));
 		r3.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r3.setFechaFinalizacion(LocalDate.now().plusDays(9));
 		r3.setFechaRecogida(LocalDate.now().plusDays(10));
 	
 	
@@ -430,14 +437,24 @@ class ReparacionServiceTest {
 		
 		r3.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 12));
 		
-		r3.setHorasTrabajadas(horas);
+		HorasTrabajadas hora2 = new HorasTrabajadas();
+		hora2.setEmpleado(e1);
+		hora2.setHorasTrabajadas(10);
+		hora2.setPrecioHora(10.5);
+		hora2.setTrabajoRealizado("Cambio de rueda");
+		
+		List<HorasTrabajadas> horas2 = new ArrayList<>();
+		horas2.add(hora2);
+		
+		horasTrabajadasService.save(hora2);
+		
+		r3.setHorasTrabajadas(horas2);
 		
 		reparacionService.saveReparacion(r3);
 		
 		r.setHorasTrabajadas(horas);
 		assertThrows(Max3ReparacionesSimultaneasPorEmpleadoException.class, () -> this.reparacionService.saveReparacion(r));
-	}
-	
+	}	
 	
 	@Test
 	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
