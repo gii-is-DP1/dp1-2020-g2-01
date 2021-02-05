@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,33 +64,40 @@ public class VehiculoController {
 		
 	}
 	
-	@GetMapping(value = "/new")
-	public String crearVehiculo(ModelMap model) {
+	@GetMapping(value = "/new/{username}")
+	public String crearVehiculo(ModelMap model, @PathVariable("username") String username) {
 		String vista = "vehiculos/editVehiculo";
+		String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		if(!auth.equals("cliente")) {
+			model.addAttribute("nombreUsuario", username);			
+		}
 		model.addAttribute("vehiculo", new Vehiculo());
 		return vista;
 	}
 
-	@PostMapping(value = "/save")
-	public String guardarVehiculo(@Valid Vehiculo vehiculo, BindingResult result, ModelMap model) {
+	@PostMapping(value = "/save/{username}")
+	public String guardarVehiculo(@PathVariable("username") String usname, @Valid Vehiculo vehiculo, BindingResult result, ModelMap model) {
 		String vista;
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
 		if(result.hasErrors()) {
 			model.addAttribute("vehiculo", vehiculo);
 			vista = "vehiculos/editVehiculo";
 		} else {
-			
-			//Ahora mismo no deja añadir o editar como administrador
-			
-			if(!cliente.isPresent()) {  
+
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
+			String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+			if(!cliente.isPresent() && auth.equals("cliente")) {  
 				model.addAttribute("message", "Ha habido un error con el cliente");
 				vista = listadoVehiculos(model);
 				return vista;
 			} 
 			
+			if(cliente.isPresent()) {
+				vehiculo.setCliente(cliente.get());
+			}else {
+				vehiculo.setCliente(clienteService.findClientesByUsername(usname).get());
+			}
 			
-			vehiculo.setCliente(cliente.get());
 			
 			try { //comprobar que la matrícula no está duplicada
 				vehiculoService.saveVehiculo(vehiculo);
@@ -109,7 +117,7 @@ public class VehiculoController {
 	public String initDeleteVehiculo(@PathVariable ("vehiculoId") int id, ModelMap model) {
 		String vista;
 		Vehiculo v = vehiculoService.findVehiculoById(id).get();
-		if(this.vehiculoService.comprobarUsuarioYPropietario(id, v)) {
+		if(this.vehiculoService.comprobarUsuarioYPropietario(v)) {
 			if(!v.getCitas().isEmpty()) {
 				model.addAttribute("message", "No se puede borrar un vehículo con una cita asociada");
 				model.addAttribute("messageType", "danger");
@@ -129,7 +137,7 @@ public class VehiculoController {
 	public String processDeleteVehiculo(@PathVariable("vehiculoId") int id, ModelMap model) {
 		String vista;
 		Vehiculo v = vehiculoService.findVehiculoById(id).get();
-		if(this.vehiculoService.comprobarUsuarioYPropietario(id, v)) {
+		if(this.vehiculoService.comprobarUsuarioYPropietario(v)) {
 			try {
 				vehiculoService.delete(v);
 				model.addAttribute("message", "Vehiculo borrado correctamente.");
@@ -158,7 +166,10 @@ public class VehiculoController {
 			model.addAttribute("message", "Vehiculo no encontrado");
 			vista = listadoVehiculos(model);
 		} else {
-			if(this.vehiculoService.comprobarUsuarioYPropietario(id, vehiculo.get())) {
+			String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+			if(this.vehiculoService.comprobarUsuarioYPropietario(vehiculo.get()) 
+					|| auth.equals("admin") || auth.equals("empleado")) {
+				model.addAttribute("nombreUsuario", vehiculo.get().getCliente().getUser().getUsername());	
 				model.addAttribute("vehiculo", vehiculo.get());				
 			} else {
 				model.addAttribute("message", "No eres propietario del vehiculo seleccionado");
