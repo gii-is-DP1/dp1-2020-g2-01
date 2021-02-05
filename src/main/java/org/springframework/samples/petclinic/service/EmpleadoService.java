@@ -8,18 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.repository.EmpleadoRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
-import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
-import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

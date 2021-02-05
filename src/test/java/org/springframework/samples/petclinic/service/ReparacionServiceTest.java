@@ -178,7 +178,7 @@ class ReparacionServiceTest {
 		r1.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 
 		r1.setHorasTrabajadas(horas);
-		
+
 		assertThrows(ConstraintViolationException.class, () -> this.reparacionService.saveReparacion(r1));
 		
 	}
@@ -197,6 +197,7 @@ class ReparacionServiceTest {
 		r1.setHorasTrabajadas(horas);
 		
 		assertThrows(FechasReparacionException.class, () -> this.reparacionService.saveReparacion(r1));
+
 	}
 	
 	
@@ -376,3 +377,4 @@ class ReparacionServiceTest {
 	}
 	
 }
+
