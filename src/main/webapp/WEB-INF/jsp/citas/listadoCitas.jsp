@@ -54,7 +54,7 @@
 			<sec:authorize access="hasAuthority('empleado')">
                 <th>Nombre</th>
 			</sec:authorize>
-            <th>Modelo</th>
+            <th>Coche</th>
             <th>Tipo de cita</th>
 			<th>Taller</th>
         	<sec:authorize access="hasAuthority('empleado')">
