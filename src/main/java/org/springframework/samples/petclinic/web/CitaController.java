@@ -108,10 +108,8 @@ public class CitaController {
 			Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
 			if(empleado.isPresent()) {
 				ubicacion = empleado.get().getTaller().getUbicacion();
-			}else {
-				// Es un administrador y se buscará mediante el administradorService
+				model.put("citas", citaService.findCitaByTallerUbicacion(ubicacion)); 
 			}
-			model.put("citas", citaService.findCitaByTallerUbicacion(ubicacion)); 
 		}
 		return vista;
 	}
