@@ -44,12 +44,14 @@ public class ClienteServiceTest {
 		clienteService.saveCliente(cliente);
 		
 		this.cliente = cliente;
+
 	}
 	
 	@Test
 	public void shouldAddCliente() {
 		assertEquals(cliente, clienteService.findClientesByUsername("nombreusuario").get());
 	}
+
 	
 	@Test
 	public void shouldUpdateCliente() throws DataAccessException, InvalidPasswordException {
