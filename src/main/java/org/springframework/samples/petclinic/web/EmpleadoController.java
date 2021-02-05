@@ -104,15 +104,16 @@ public class EmpleadoController {
 		if(!empleado.isPresent()) {
 			model.addAttribute("message", "Empleado no encontrado.");
 			vista = "/";
-		} else {
-			String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
-			if(username.equals(username2) || auth.equals("admin")) {
-				model.addAttribute("talleres", tallerService.findAll());
-				model.addAttribute("empleado", empleado.get());
-			}else {
-				vista="/";
-			}
 		}
+		String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		if(username.equals(username2) || auth.equals("admin")) {
+			empleado.get().getUsuario().setPassword("");
+			model.addAttribute("talleres", tallerService.findAll());
+			model.addAttribute("empleado", empleado.get());
+		}else {
+			vista="/";
+		}
+		
 		return vista;
 	}
 	

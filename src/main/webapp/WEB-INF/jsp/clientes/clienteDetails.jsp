@@ -104,14 +104,29 @@
 	</div>
 </c:if>
 <sec:authorize access="hasAuthority('cliente')">
-		<a class="col-sm-4 btn btn-success" href="/vehiculos/new"><span class="glyphicon glyphicon-plus"></span> Añadir vehiculo</a>
+		<a class="col-sm-4 btn btn-success" href="/vehiculos/new/c"><span class="glyphicon glyphicon-plus"></span> Añadir vehiculo</a>
        	<a class="col-sm-offset-4 col-sm-4 btn btn-success" href="/citas/new"><span class="glyphicon glyphicon-plus"></span> Añadir cita</a>
 </sec:authorize>
 <sec:authorize access="hasAuthority('admin')">
+		<spring:url value="/vehiculos/new/{username}" var="vUrl">
+        <spring:param name="username" value="${cliente.user.username}"/>
+        </spring:url>
+		<a class="col-sm-4 btn btn-success" href="${fn:escapeXml(vUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir vehiculo</a>
 		<spring:url value="/citas/new/{username}" var="citaUrl">
         <spring:param name="username" value="${cliente.user.username}"/>
         </spring:url>
-        <a class="col-sm-offset-8 col-sm-4 btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cita
+        <a class="col-sm-offset-4 col-sm-4 btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cita
+		</a>
+</sec:authorize>
+<sec:authorize access="hasAuthority('empleado')">
+		<spring:url value="/vehiculos/new/{username}" var="vUrl">
+        <spring:param name="username" value="${cliente.user.username}"/>
+        </spring:url>
+		<a class="col-sm-4 btn btn-success" href="${fn:escapeXml(vUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir vehiculo</a>
+		<spring:url value="/citas/new/{username}" var="citaUrl">
+        <spring:param name="username" value="${cliente.user.username}"/>
+        </spring:url>
+        <a class="col-sm-offset-4 col-sm-4 btn btn-success" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-plus"></span> Añadir cita
 		</a>
 </sec:authorize>
 </div>

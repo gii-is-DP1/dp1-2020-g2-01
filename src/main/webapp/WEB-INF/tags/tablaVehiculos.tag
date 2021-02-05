@@ -16,12 +16,13 @@
             <sec:authorize access="hasAuthority('admin')">
             <th>Cliente</th>
             </sec:authorize>
+            <sec:authorize access="hasAuthority('empleado')">
+            <th>Cliente</th>
+            </sec:authorize>
             </c:if>
             <th>Número de bastidor</th>
-            <sec:authorize access="hasAuthority('cliente')">
             <th></th>
             <th></th>
-            </sec:authorize>
             
         </tr>
         </thead>
@@ -55,13 +56,25 @@
                     	<p><small><c:out value="${vehiculo.cliente.apellidos}"/></small></p>
 	                </td>
                	</sec:authorize>
+               	<sec:authorize access="hasAuthority('empleado')">
+	             	<td class="textoTabla">
+	             		
+	               		<c:out value="${vehiculo.cliente.nombre}"/>
+	               		<spring:url value="/clientes/clienteDetails/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${vehiculo.cliente.user.username}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(clienteUrl)}">
+                    	<span class="glyphicon glyphicon-eye-open"></span></a>
+	               		
+                    	<p><small><c:out value="${vehiculo.cliente.apellidos}"/></small></p>
+	                </td>
+               	</sec:authorize>
                	</c:if>
                 
                 <td>
                    <c:out value="${vehiculo.numBastidor}"/>
                 </td>
                 
-                <sec:authorize access="hasAuthority('cliente')">
 	                <td>
 	                	<spring:url value="/vehiculos/update/{vehiculoId}" var="vehiculoUrl">
 	                        <spring:param name="vehiculoId" value="${vehiculo.id}"/>
@@ -78,7 +91,6 @@
 	                    <a href="${fn:escapeXml(vehiculoUrl)}"><span class="glyphicon glyphicon-trash"></span></a>
 	                
 	                </td>
-                </sec:authorize>        
                 
             </tr>
         </c:forEach>
