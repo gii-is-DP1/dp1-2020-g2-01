@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Administrador;
 import org.springframework.samples.petclinic.repository.AdministradorRespository;
+import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ public class AdministradorService {
 	private AuthoritiesService authService;
 	
 	@Transactional
-	public void saveAdministrador(Administrador admin) throws DataAccessException {
+	public void saveAdministrador(Administrador admin) throws DataAccessException, InvalidPasswordException {
 		
 		admin.getUsuario().setAuthorities(new ArrayList<>());
 		adminRepository.save(admin);
@@ -50,4 +51,11 @@ public class AdministradorService {
 	public Optional<Administrador> findAdministradorByUsuarioUsername(String username) throws DataAccessException {
 		return adminRepository.findAdministradorByUsuarioUsername(username);
 	}
+	
+	
+	@Transactional(readOnly = true)
+	public Optional<Administrador> findAdministradorByDni(String dni) throws DataAccessException {
+		return adminRepository.findByDNI(dni);
+	}
+	
 }

@@ -17,11 +17,13 @@ package org.springframework.samples.petclinic.service;
 
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.UserRepository;
+import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,7 +52,12 @@ public class UserService {
 	}
 
 	@Transactional
-	public void saveUser(User user) throws DataAccessException {
+	public void saveUser(User user) throws DataAccessException, InvalidPasswordException {
+		String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$";
+		if (!Pattern.matches(regex, user.getPassword())) {
+			throw new InvalidPasswordException();
+		}
+		
 		user.setEnabled(true);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);

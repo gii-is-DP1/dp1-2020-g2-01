@@ -10,8 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -21,17 +23,17 @@ public class ClienteServiceTest {
 	private ClienteService clienteService;
 	
 	@Test
-	public void shouldAddCliente() {
+	public void shouldAddCliente() throws DataAccessException, InvalidPasswordException {
 		Cliente cliente = new Cliente();
 		
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Vargas Ruda");
-		cliente.setDni("11223344M");
+		cliente.setDni("11223344X");
 		cliente.setEmail("añoño@gmail.com");
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		cliente.setUser(userP);
 		cliente.setTelefono("111223344");
@@ -43,7 +45,7 @@ public class ClienteServiceTest {
 	}
 	
 	@Test
-	public void shouldUpdateCliente() {
+	public void shouldUpdateCliente() throws DataAccessException, InvalidPasswordException {
 		Cliente cliente = new Cliente();
 		
 		cliente.setNombre("Antonio");
@@ -53,7 +55,7 @@ public class ClienteServiceTest {
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		cliente.setUser(userP);
 		cliente.setTelefono("111223344");
@@ -62,6 +64,7 @@ public class ClienteServiceTest {
 		
 		Cliente cliente1 = clienteService.findClienteByDNI("11223345M").get();
 		cliente1.setDni("34567890K");
+		cliente1.getUser().setPassword("passdeprueba1");
 		
 		clienteService.saveCliente(cliente1);
 		
@@ -72,7 +75,7 @@ public class ClienteServiceTest {
 	}
 	
 	@Test
-	public void shouldDeleteCliente() {
+	public void shouldDeleteCliente() throws DataAccessException, InvalidPasswordException {
 		Cliente cliente = new Cliente();
 		
 		cliente.setNombre("Antonio");
@@ -82,7 +85,7 @@ public class ClienteServiceTest {
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		cliente.setUser(userP);
 		cliente.setTelefono("111223344");

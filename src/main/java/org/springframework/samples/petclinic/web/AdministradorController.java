@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Administrador;
 import org.springframework.samples.petclinic.service.AdministradorService;
+import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/administradores")
 public class AdministradorController {
@@ -44,7 +48,15 @@ public class AdministradorController {
 			model.addAttribute("administrador", admin);
 			return  "administradores/editAdministrador";
 		} else {
-			adminService.saveAdministrador(admin);
+			try {
+				adminService.saveAdministrador(admin);
+			} catch (InvalidPasswordException e) {
+				log.warn("Excepción: contraseña no cumple el patrón (6-20 caracteres, al menos un número y una letra");
+				result.rejectValue("usuario.password", "La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra", 
+						"La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra");
+				model.addAttribute("administrador", admin);
+				return "administradores/editAdministrador";
+			}
 			model.addAttribute("message", "Administrador actualizado con éxito");
 			String username = admin.getUsuario().getUsername();
 			return mostrasDetalles(username, model);

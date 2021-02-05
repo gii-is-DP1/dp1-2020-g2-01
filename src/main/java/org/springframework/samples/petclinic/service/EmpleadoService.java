@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.repository.EmpleadoRepository;
+import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
+import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +28,13 @@ public class EmpleadoService {
 	@Autowired
 	private AuthoritiesService authService;
 	
+	
 	@Transactional
-	public void saveEmpleado(Empleado empleado) throws DataAccessException {
+	public void saveEmpleado(Empleado empleado) throws NoMayorEdadEmpleadoException, DataAccessException, InvalidPasswordException {
+		LocalDate fechaMin = LocalDate.now().minusYears(18);
+		if(empleado.getFechaNacimiento().isAfter(fechaMin)) {
+			throw new NoMayorEdadEmpleadoException();
+		}
 		
 		empleado.getUsuario().setAuthorities(new ArrayList<>());
 		empleadoRepository.save(empleado);

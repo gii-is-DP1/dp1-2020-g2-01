@@ -19,6 +19,7 @@ import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VehiculoService;
+import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/clientes")
 public class ClienteController {
@@ -118,7 +122,14 @@ public class ClienteController {
 			return FORMULARIO_ADD_UPDATE_CLIENTES;
 		}
 		else {
-			this.clienteService.saveCliente(cliente);
+			try {
+				this.clienteService.saveCliente(cliente);
+			} catch (InvalidPasswordException e) {
+				log.warn("Excepción: contraseña no cumple el patrón (6-20 caracteres, al menos un número y una letra");
+				result.rejectValue("user.password", "La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra", 
+						"La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra");
+				return FORMULARIO_ADD_UPDATE_CLIENTES;
+			}
 			
 			return "redirect:/login";
 		}
@@ -187,7 +198,14 @@ public class ClienteController {
 			// Si se modifica el nombre de usuario en el form, no se valida y sigue, de momento he puesto la siguiente linea
 			cliente.getUser().setUsername(username);
 			cliente.setId(cliente1.getId());
-			this.clienteService.saveCliente(cliente);
+			try {
+				this.clienteService.saveCliente(cliente);
+			} catch (InvalidPasswordException e) {
+				log.warn("Excepción: contraseña no cumple el patrón (6-20 caracteres, al menos un número y una letra");
+				result.rejectValue("user.password", "La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra", 
+						"La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra");
+				return FORMULARIO_ADD_UPDATE_CLIENTES;
+			}
 			
 			return mostrarDetalles(username, model);
 		}

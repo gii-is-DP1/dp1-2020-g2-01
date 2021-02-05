@@ -28,7 +28,9 @@ import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentar
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
+import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
+import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,7 +73,7 @@ class ReparacionServiceTest {
 	protected HorasTrabajadasService horasTrabajadasService;
 	
 	@Test
-	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	void shouldInsertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion");
@@ -106,7 +108,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -145,7 +147,7 @@ class ReparacionServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotInsertReparacionInvalida() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	void shouldNotInsertReparacionInvalida() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		
 		Reparacion r = new Reparacion();
 
@@ -182,7 +184,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -218,7 +220,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldNotInsertReparacionConFechasIncorrectas() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	void shouldNotInsertReparacionConFechasIncorrectas() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion hola que tal");
@@ -254,7 +256,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -290,7 +292,7 @@ class ReparacionServiceTest {
 	
 	
 	@Test
-	void shouldNotInsertReparacionConEmpleadoCon3ReparacionesSimultaneas() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	void shouldNotInsertReparacionConEmpleadoCon3ReparacionesSimultaneas() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		//Setup inicial de reparacion (faltan cosas)
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Descripción de prueba"); 
@@ -328,7 +330,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario2");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito1");
 		e1.setApellidos("Grillo1");
@@ -457,7 +459,7 @@ class ReparacionServiceTest {
 	}	
 	
 	@Test
-	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	void shouldUpdateReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
@@ -491,7 +493,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -533,7 +535,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
@@ -567,7 +569,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -614,7 +616,7 @@ class ReparacionServiceTest {
 	
 	
 	@Test
-	void shouldDeleteReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	void shouldDeleteReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion hola que tal");
@@ -649,7 +651,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -689,7 +691,7 @@ class ReparacionServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldFinalizar() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException{
+	void shouldFinalizar() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException{
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion hola que tal");
 		r.setFechaEntrega(LocalDate.now().plusDays(2));
@@ -723,7 +725,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		User userP2 = new User();
 		userP2.setUsername("nombreusuario1");
-		userP2.setPassword("passdeprueba");
+		userP2.setPassword("passdeprueba1");
 		userP2.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -762,7 +764,7 @@ class ReparacionServiceTest {
 	}
 	
 	@Test
-	void shouldGetReparacionesCliente() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	void shouldGetReparacionesCliente() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
@@ -798,7 +800,7 @@ class ReparacionServiceTest {
 		
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
