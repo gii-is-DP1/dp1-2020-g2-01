@@ -15,9 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
+import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,10 +39,10 @@ public class EmpleadoServiceTest {
 	public Empleado e;
 	
 	@BeforeEach
-	void insertEmpleado() {
+	void insertEmpleado() throws DataAccessException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		Empleado e = new Empleado();
 		
@@ -87,7 +90,7 @@ public class EmpleadoServiceTest {
 		
 		User userP1 = new User();
 		userP1.setUsername("nombreusuario1");
-		userP1.setPassword("passdeprueba");
+		userP1.setPassword("passdeprueba1");
 		userP1.setEnabled(true);
 		Empleado e1 = new Empleado();
 		
@@ -114,22 +117,22 @@ public class EmpleadoServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldUpdateEmpleado() {
+	void shouldUpdateEmpleado() throws DataAccessException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
 		e1.setDni("36283951M");
-		
-		empleadoService.saveEmpleado(e1);
-		
+		e1.getUsuario().setPassword("passdeprueba1"); //la password viene codificada de base de datos
+		empleadoService.saveEmpleado(e1);		
 		assertTrue(empleadoService.findEmpleadoDni("36283951M").isPresent());
 		assertFalse(empleadoService.findEmpleadoDni("36283951R").isPresent());
 	}
 	
 	@Test
 	@Transactional
-	void shouldNotUpdateEmpleadoInvalido() {
+	void shouldNotUpdateEmpleadoInvalido() throws NoMayorEdadEmpleadoException, DataAccessException, InvalidPasswordException {
 		
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
 		e1.setDni("");
+		e1.getUsuario().setPassword("passdeprueba1"); //la password viene codificada de base de datos
 		assertThrows(ConstraintViolationException.class, () ->{
 			empleadoService.saveEmpleado(e1);
 			em.flush();
@@ -147,4 +150,14 @@ public class EmpleadoServiceTest {
 		assertFalse(empleadoService.findEmpleadoDni("36283951R").isPresent());
 
 	}
+	
+	
+	@Test 
+	@Transactional
+	void shouldNotInsertIfMenorDeEdad() throws NoMayorEdadEmpleadoException {
+		e.setFechaNacimiento(LocalDate.now().minusYears(10));
+		assertThrows(NoMayorEdadEmpleadoException.class, () -> this.empleadoService.saveEmpleado(e));
+	}	
+	
+	
 }

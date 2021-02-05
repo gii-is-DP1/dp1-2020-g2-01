@@ -29,7 +29,9 @@ import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentar
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
+import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
+import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,7 +82,7 @@ class ReparacionServiceTest {
 	public Empleado e1;
 	
 	@BeforeEach
-	void insertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	void insertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));
@@ -115,7 +117,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba");
+		userP.setPassword("passdeprueba1");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -175,9 +177,8 @@ class ReparacionServiceTest {
 		
 		r1.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 18));
 
-		
 		r1.setHorasTrabajadas(horas);
-		
+
 		assertThrows(ConstraintViolationException.class, () -> this.reparacionService.saveReparacion(r1));
 		
 	}
@@ -196,7 +197,7 @@ class ReparacionServiceTest {
 		r1.setHorasTrabajadas(horas);
 		
 		assertThrows(FechasReparacionException.class, () -> this.reparacionService.saveReparacion(r1));
-		
+
 	}
 	
 	
@@ -348,7 +349,6 @@ class ReparacionServiceTest {
 	
 	@Test
 	void shouldNotUpdateReparacionInvalida() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
-			
 		Reparacion r1 = reparacionService.findReparacionById(r.getId()).get();
 		r1.setDescripcion("");
 		
@@ -377,3 +377,4 @@ class ReparacionServiceTest {
 	}
 	
 }
+

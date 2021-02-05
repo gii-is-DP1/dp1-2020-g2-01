@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.TallerService;
+import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
+import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,6 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/empleados")
 public class EmpleadoController {
@@ -52,10 +57,25 @@ public class EmpleadoController {
 			model.addAttribute("talleres", tallerService.findAll());
 			vista = "empleados/editEmpleado";
 		} else {
-			empleadoService.saveEmpleado(empleado);
-			model.addAttribute("message", "Empleado creado con éxito.");
-			String username = empleado.getUsuario().getUsername();
-			vista = mostrarDetalles(username, model);
+			try {
+				empleadoService.saveEmpleado(empleado);
+				model.addAttribute("message", "Empleado creado con éxito.");
+				String username = empleado.getUsuario().getUsername();
+				vista = mostrarDetalles(username, model);
+			} catch (NoMayorEdadEmpleadoException e) {
+				log.warn("Excepción: el empleado debe ser mayor de edad");
+				result.rejectValue("fecha_nacimiento", "El empleado debe ser mayor de edad", "El empleado debe ser mayor de edad");
+				model.addAttribute("empleado", empleado);
+				model.addAttribute("talleres", tallerService.findAll());
+				vista = "empleados/editEmpleado";
+			} catch (InvalidPasswordException e) {
+				log.warn("Excepción: contraseña no cumple el patrón (6-20 caracteres, al menos un número y una letra");
+				result.rejectValue("usuario.password", "La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra", 
+						"La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra");
+				model.addAttribute("empleado", empleado);
+				model.addAttribute("talleres", tallerService.findAll());
+				vista = "empleados/editEmpleado";
+			}
 		}
 		return vista;
 	}

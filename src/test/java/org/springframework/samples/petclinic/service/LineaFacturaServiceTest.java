@@ -32,7 +32,9 @@ import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentar
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
+import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
+import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,7 +87,7 @@ class LineaFacturaServiceTest {
 	public Reparacion r;
 	
 	@BeforeEach
-	void insertLineaFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	void insertLineaFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		LineaFactura lf = new LineaFactura();
 		lf.setDescuento(0);
 		lf.setDescripcion("Descripcion de prueba de una factura");
@@ -139,7 +141,7 @@ class LineaFacturaServiceTest {
 		Empleado e1 = new Empleado();
 		User userP2 = new User();
 		userP2.setUsername("nombreusuario1");
-		userP2.setPassword("passdeprueba");
+		userP2.setPassword("passdeprueba1");
 		userP2.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -190,7 +192,7 @@ class LineaFacturaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotLineaFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException{
+	void shouldNotLineaFactura() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException{
 		
 
 		LineaFactura lf1 = new LineaFactura();
