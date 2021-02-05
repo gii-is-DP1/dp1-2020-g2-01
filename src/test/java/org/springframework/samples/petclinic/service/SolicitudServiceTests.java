@@ -74,7 +74,7 @@ public class SolicitudServiceTests {
 	protected HorasTrabajadasService horasTrabajadasService;
 
 	private Solicitud s1;
-	
+
 	private Solicitud s2;
 
 	@BeforeEach
