@@ -117,7 +117,7 @@ class ReparacionServiceTest {
 		Empleado e1 = new Empleado();
 		User userP = new User();
 		userP.setUsername("nombreusuario1");
-		userP.setPassword("passdeprueba1");
+		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		e1.setNombre("Pepito");
 		e1.setApellidos("Grillo");
@@ -374,7 +374,5 @@ class ReparacionServiceTest {
 		reparacionService.finalizar(r);
 		assertEquals(r.getFechaFinalizacion(), LocalDate.now());
 	}
-	
-
 	
 }

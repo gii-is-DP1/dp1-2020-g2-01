@@ -27,7 +27,6 @@ public class ClienteServiceTest {
 	
 	@BeforeEach
 	void insertCliente() throws DataAccessException, InvalidPasswordException {
-
 		Cliente cliente = new Cliente();
 		
 		cliente.setNombre("Antonio");
@@ -37,7 +36,7 @@ public class ClienteServiceTest {
 		cliente.setFechaNacimiento(LocalDate.now().minusDays(1));
 		User userP = new User();
 		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba1");
+		userP.setPassword("passdeprueba");
 		userP.setEnabled(true);
 		cliente.setUser(userP);
 		cliente.setTelefono("111223344");
@@ -56,7 +55,6 @@ public class ClienteServiceTest {
 	public void shouldUpdateCliente() throws DataAccessException, InvalidPasswordException {
 		Cliente cliente1 = clienteService.findClienteByDNI("88888888M").get();
 		cliente1.setDni("34567890K");
-		cliente1.getUser().setPassword("passdeprueba1");
 		
 		clienteService.saveCliente(cliente1);
 		
@@ -74,3 +72,4 @@ public class ClienteServiceTest {
 		
 	}
 }
+

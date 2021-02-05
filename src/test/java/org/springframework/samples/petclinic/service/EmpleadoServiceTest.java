@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
-import java.util.regex.Pattern;
 
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
@@ -120,7 +119,6 @@ public class EmpleadoServiceTest {
 	@Transactional
 	void shouldUpdateEmpleado() throws DataAccessException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
-		e1.getUsuario().setPassword("laura123");  //la contraseña viene codificada de base de datos
 		e1.setDni("36283951M");
 		
 		empleadoService.saveEmpleado(e1);
@@ -134,7 +132,6 @@ public class EmpleadoServiceTest {
 	void shouldNotUpdateEmpleadoInvalido() {
 		
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
-		e1.getUsuario().setPassword("laura123"); //la contraseña viene codificada
 		e1.setDni("");
 		assertThrows(ConstraintViolationException.class, () ->{
 			empleadoService.saveEmpleado(e1);
@@ -153,53 +150,4 @@ public class EmpleadoServiceTest {
 		assertFalse(empleadoService.findEmpleadoDni("36283951R").isPresent());
 
 	}
-	
-	
-	@Test 
-	@Transactional
-	void shouldNotInsertIfMenorDeEdad() throws NoMayorEdadEmpleadoException {
-		Empleado e = new Empleado();
-		
-		e.setApellidos("Ramirez Perez");
-		e.setEmail("laurita@gmail.com");
-		e.setDni("36283951R");
-		e.setFecha_fin_contrato(LocalDate.now().plusYears(10));
-		e.setFecha_ini_contrato(LocalDate.now().minusYears(2));
-		e.setFechaNacimiento(LocalDate.now().minusYears(10)); //menor de edad
-		e.setNombre("Laura");
-		e.setNum_seg_social("678901234567");
-		e.setSueldo(1098);
-		e.setTelefono("678456736");
-		
-		User u = new User();
-		u.setUsername("Laurita");
-		u.setPassword("laura123");
-		
-		e.setUsuario(u);
-		
-		Taller t = new Taller();
-		t.setCorreo("test@test.com");
-		t.setName("test");
-		t.setTelefono("123456789");
-		t.setUbicacion("calle test");
-		
-		tallerService.saveTaller(t);
-		
-		e.setTaller(t);
-		
-		assertThrows(NoMayorEdadEmpleadoException.class, () -> this.empleadoService.saveEmpleado(e));
-		
-
-	}
-	
-	@Test
-	void prueba() throws InvalidPasswordException {
-		String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$";
-		if (!Pattern.matches(regex, "laura123")) {
-			throw new InvalidPasswordException();
-		}
-		
-	}
-	
-	
 }
