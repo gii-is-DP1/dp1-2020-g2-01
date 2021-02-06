@@ -75,7 +75,7 @@ public class ReparacionService {
 		if(reparacion.getHorasTrabajadas() == null) {
 			reparacion.setHorasTrabajadas(new ArrayList<>());
 		}
-
+		
 		Collection<Empleado> empleados = reparacion.getHorasTrabajadas().stream().map(x->x.getEmpleado())
 																		.collect(Collectors.toList());
 		for(Empleado e:empleados) {
