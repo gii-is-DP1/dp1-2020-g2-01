@@ -371,7 +371,7 @@ class ReparacionServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldFinalizar() {
+	void shouldFinalizar() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
 		reparacionService.finalizar(r);
 		assertEquals(r.getFechaFinalizacion(), LocalDate.now());
 	}

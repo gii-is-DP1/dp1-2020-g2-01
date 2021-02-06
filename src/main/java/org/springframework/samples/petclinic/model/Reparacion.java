@@ -27,20 +27,17 @@ import lombok.Setter;
 public class Reparacion extends BaseEntity {
 	
 	@NotNull
-	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate tiempoEstimado;
 	
 	@Nullable
-	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaFinalizacion;
 	
-	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaEntrega;
 	
-	@FutureOrPresent
+	@Nullable
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaRecogida;
 	
@@ -51,9 +48,7 @@ public class Reparacion extends BaseEntity {
 	@NotNull
 	@OneToOne(optional=false)
 	private Cita cita;
-	
-	@NotNull
-	@NotEmpty
+
 	@OneToMany
 	@JoinTable(name="horas_reparacion")
 	private List<HorasTrabajadas> horasTrabajadas;

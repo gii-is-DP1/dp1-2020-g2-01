@@ -33,7 +33,7 @@
                 <petclinic:inputField label="Descripción" name="descripcion"/> 
                 <petclinic:inputField label="Tiempo estimado" name="tiempoEstimado"/> 
                	<petclinic:inputField label="Fecha de entrega" name="fechaEntrega"/> 
-               	<petclinic:inputField label="Fecha de recogida" name="fechaRecogida"/>
+               	<!-- <petclinic:inputField label="Fecha de recogida" name="fechaRecogida"/>-->
                	<petclinic:inputField label="Cita asociada" name="cita" readonly="true"/>
                	<petclinic:selectFieldMultiple label="Empleados asignados (usar CTRL para seleccionar varios)" 
                	name="horasTrabajadas" size="5"  names="${empleados}"/>
