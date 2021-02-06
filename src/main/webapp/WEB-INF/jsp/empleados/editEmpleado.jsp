@@ -4,6 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 
 
@@ -14,8 +16,10 @@
         <script>
             $(function () {
                 $("#fechaNacimiento").datepicker({dateFormat: 'dd/mm/yy'});
+                <sec:authorize access="hasAuthority('admin')">
                 $("#fecha_ini_contrato").datepicker({dateFormat: 'dd/mm/yy'});
                 $("#fecha_fin_contrato").datepicker({dateFormat: 'dd/mm/yy'});
+                </sec:authorize>
             });
         </script>
        </jsp:attribute>
@@ -35,11 +39,18 @@
                	<petclinic:inputField label="Fecha de nacimiento" name="fechaNacimiento"/>
                	<petclinic:inputField label="E-mail" name="email"/>
                	<petclinic:inputField label="Teléfono" name="telefono"/>
+               	<petclinic:inputField label="Número seguridad social" name="num_seg_social"/>
+               	<petclinic:select label="Taller" name="taller" items="${talleres}"/>
+               	<sec:authorize access="hasAuthority('admin')">
                	<petclinic:inputField label="Fecha inicio contrato" name="fecha_ini_contrato"/>
                	<petclinic:inputField label="Fecha fin contrato" name="fecha_fin_contrato"/>
-               	<petclinic:inputField label="Número seguridad social" name="num_seg_social"/>
                	<petclinic:inputField label="Sueldo" name="sueldo"/>
-               	<petclinic:select label="Taller" name="taller" items="${talleres}"/>
+               	</sec:authorize>
+               	<sec:authorize access="hasAuthority('empleado')">
+               	<petclinic:inputField label="Fecha inicio contrato" name="fecha_ini_contrato" readonly="true"/>
+               	<petclinic:inputField label="Fecha fin contrato" name="fecha_fin_contrato" readonly="true"/>
+               	<petclinic:inputField label="Sueldo" name="sueldo" readonly="true"/>
+               	</sec:authorize>
                	<br>
             	<c:choose>
                     <c:when test="${empleado['new']}">

@@ -40,6 +40,7 @@ public class Reparacion extends BaseEntity {
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaEntrega;
 	
+	@Nullable
 	@FutureOrPresent
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaRecogida;
@@ -52,8 +53,7 @@ public class Reparacion extends BaseEntity {
 	@OneToOne(optional=false)
 	private Cita cita;
 	
-	@NotNull
-	@NotEmpty
+	@Nullable
 	@OneToMany
 	@JoinTable(name="horas_reparacion")
 	private List<HoraTrabajada> horasTrabajadas;
