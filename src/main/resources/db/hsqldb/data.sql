@@ -204,11 +204,7 @@ INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (201
 INSERT INTO citas_tipocita VALUES (201, 1);
 
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
-<<<<<<< HEAD
 		VALUES (1,'Descripción', CURDATE()-1, null, CURDATE()-3, null, 200);
-=======
-		VALUES (1,'Descripción', '2021-10-24', null, '2021-10-22', null, 200);
->>>>>>> branch 'serarirud' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
 
 INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (8, 'Cambio de rueda', 10.5, 3, 100);
 INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (9, 'Cambio de frenos', 10.5, 4, 101);
