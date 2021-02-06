@@ -13,6 +13,12 @@ import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,6 +29,7 @@ import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.repository.CitaRepository;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
@@ -34,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javassist.NotFoundException;
 
+@ExtendWith(MockitoExtension.class)
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class CitaServiceTest {
 	
@@ -60,6 +68,13 @@ class CitaServiceTest {
 	
 	@Autowired
 	protected EmpleadoService empleadoService;
+	
+	@Mock
+	protected SendEmailService mock;
+	
+	@Autowired
+	protected CitaRepository citaRepository;
+	
 	
 	public Taller t;
 	
@@ -93,6 +108,8 @@ class CitaServiceTest {
 		citaService.saveCita(c, "jesfunrud");
 		
 		this.c = c;
+		
+		
 	}
 	
 	
@@ -227,7 +244,6 @@ class CitaServiceTest {
 	@Test
 	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotFoundException, 
 	NotAllowedException, CitaSinPresentarseException, InvalidPasswordException {
-
 			
 		Cliente cliente = new Cliente();
 		
@@ -269,10 +285,13 @@ class CitaServiceTest {
 		
 		citaService.saveCita(c1, "jesfunrud");
 		
+		
 		assertEquals(c, citaService.findCitaById(c.getId()));
 		assertEquals(c1, citaService.findCitaById(c1.getId()));
 		
+		citaService = new CitaService(citaRepository, mock, clienteService, vehiculoService);
 		citaService.deleteCOVID();
+		verify(mock, times(4)).sendEmail(any(String.class), any(String.class), any(String.class));
 		assertThrows(NotFoundException.class, () -> citaService.findCitaById(c.getId()));
 		assertThrows(NotFoundException.class, () -> citaService.findCitaById(c.getId()));
 	}
