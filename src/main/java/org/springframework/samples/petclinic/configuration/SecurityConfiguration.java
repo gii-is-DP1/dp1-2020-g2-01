@@ -72,13 +72,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/solicitud/**").hasAnyAuthority("empleado", "admin")
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/balance/**").hasAnyAuthority("admin")				
-<<<<<<< Upstream, based on origin/master
 				.antMatchers("/balanceEconomico/**").hasAnyAuthority("admin")				
 				.antMatchers("/administradores/**").hasAnyAuthority("admin")
-=======
-				.antMatchers("/balanceEconomico/**").hasAnyAuthority("admin")							
-				.antMatchers("/administradores/**").hasAnyAuthority("admin")				
->>>>>>> 1acebdf Historia 17 completa
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
