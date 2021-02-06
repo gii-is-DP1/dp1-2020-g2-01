@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
@@ -20,7 +20,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.Factura;
 import org.springframework.samples.petclinic.model.HoraTrabajada;
+import org.springframework.samples.petclinic.model.LineaFactura;
+import org.springframework.samples.petclinic.model.Proveedor;
+import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
@@ -32,6 +36,7 @@ import org.springframework.samples.petclinic.service.exceptions.FechasReparacion
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
 import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
+import org.springframework.samples.petclinic.service.exceptions.NoRecogidaSinPagoException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,6 +78,19 @@ class ReparacionServiceTest {
 	@Autowired
 	protected HorasTrabajadasService horasTrabajadasService;
 	
+	@Autowired
+	protected ProveedorService proveedorService;
+	
+	@Autowired
+	protected RecambioService recambioService;
+	
+	@Autowired
+	protected LineaFacturaService LFService;
+	
+	@Autowired
+	protected FacturaService facturaService;
+	
+	
 	public Reparacion r;
 	
 	public List<HoraTrabajada> horas;
@@ -85,10 +103,9 @@ class ReparacionServiceTest {
 	void insertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion");
-		r.setFechaEntrega(LocalDate.now().plusDays(7));
-		r.setTiempoEstimado(LocalDate.now().plusDays(8));
-		r.setFechaFinalizacion(LocalDate.now().plusDays(9));
-		r.setFechaRecogida(LocalDate.now().plusDays(10));
+		r.setFechaEntrega(LocalDate.now());
+		r.setTiempoEstimado(LocalDate.now());
+		r.setFechaFinalizacion(LocalDate.now());
 	
 		Cita c = new Cita();
 		TipoCita t = tipoCitaService.findById(1).get();
@@ -375,6 +392,99 @@ class ReparacionServiceTest {
 		reparacionService.finalizar(r);
 		assertEquals(r.getFechaFinalizacion(), LocalDate.now());
 	}
+	
+	//RN-3
+	@Test
+	void shouldRecoger() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, NoMayorEdadEmpleadoException, InvalidPasswordException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoRecogidaSinPagoException {	
+		Factura f = new Factura();
+		f.setFechaPago(LocalDate.now());
+		List<LineaFactura> lineas = new ArrayList<>();
+		
+		LineaFactura lf = new LineaFactura();
+		lf.setDescuento(0);
+		lf.setDescripcion("Descripcion de prueba de una factura");
+		
+		///////
+		
+		Recambio rec = new Recambio();
+		rec.setName("Neumáticos Pirelli");
+		rec.setCantidadActual(100);
+		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+		Optional<Proveedor> p = proveedorService.findProveedorById(201);
+		rec.setProveedor(p.get());
+		
+		recambioService.saveRecambio(rec);
+		
+		///////
+		
+		lf.setReparacion(r);
+		lf.setPrecioBase(20.03);
+		lf.setRecambio(rec);
+		lf.setCantidad(4);
+		LFService.saveLineaFactura(lf);
+		
+		lineas.add(lf);
+		f.setLineaFactura(lineas);
+		facturaService.saveFactura(f);
+		
+		lf.setFactura(f);
+		LFService.saveLineaFactura(lf);
+		
+		r.setLineaFactura(lineas);
+		reparacionService.saveReparacion(r);
+		
+		
+		reparacionService.recoger(r);
+		assertEquals(LocalDate.now(), reparacionService.findReparacionById(r.getId()).get().getFechaRecogida());
+	}
+	
+	
+	
+	
+	//RN-3
+	@Test
+	void shouldNotRecoger() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, NoMayorEdadEmpleadoException, InvalidPasswordException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+		Factura f = new Factura();
+		List<LineaFactura> lineas = new ArrayList<>();
+		
+		LineaFactura lf = new LineaFactura();
+		lf.setDescuento(0);
+		lf.setDescripcion("Descripcion de prueba de una factura");
+		
+		///////
+		
+		Recambio rec = new Recambio();
+		rec.setName("Neumáticos Pirelli");
+		rec.setCantidadActual(100);
+		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
+		Optional<Proveedor> p = proveedorService.findProveedorById(201);
+		rec.setProveedor(p.get());
+		
+		recambioService.saveRecambio(rec);
+		
+		///////
+		
+		lf.setReparacion(r);
+		lf.setPrecioBase(20.03);
+		lf.setRecambio(rec);
+		lf.setCantidad(4);
+		LFService.saveLineaFactura(lf);
+		
+		lineas.add(lf);
+		f.setLineaFactura(lineas);
+		facturaService.saveFactura(f);
+		
+		lf.setFactura(f);
+		LFService.saveLineaFactura(lf);
+		
+		r.setLineaFactura(lineas);
+		reparacionService.saveReparacion(r);
+		
+		
+		assertThrows(NoRecogidaSinPagoException.class, () -> reparacionService.recoger(r));
+	}
+	
+	
 	
 }
 
