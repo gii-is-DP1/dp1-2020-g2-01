@@ -103,7 +103,7 @@ public class CitaService {
 	
 	@Transactional(readOnly = true)
 	public List<Cita> findCitaByTallerUbicacion(String ubicacion) throws DataAccessException {
-		return citaRepository.findCitaByTallerUbicacion(ubicacion, Sort.by(Sort.Direction.ASC, "fecha", "hora"));
+		return citaRepository.findCitaByTallerUbicacionAndFechaAfter(ubicacion, Sort.by(Sort.Direction.ASC, "fecha", "hora"), LocalDate.now());
 	}
 	
 	@Transactional
@@ -163,7 +163,7 @@ public class CitaService {
 
 	@Transactional(readOnly=true)
 	public List<Cita> findByCliente(Cliente cliente) throws DataAccessException{
-		return citaRepository.findByCliente(cliente, Sort.by(Sort.Direction.ASC, "fecha", "hora"));
+		return citaRepository.findCitaByClienteAndFechaAfter(cliente, LocalDate.now(), Sort.by(Sort.Direction.ASC, "fecha", "hora"));
 	}
 	
 	@Transactional(readOnly=true)
@@ -171,5 +171,10 @@ public class CitaService {
 		return citaRepository.findByUsername(username, Sort.by(Sort.Direction.ASC, "fecha", "hora"));
 	}
 	
+	
+	@Transactional(readOnly=true)
+	public List<Cita> findCitasFuturas() {
+		return citaRepository.findCitasByFechaAfter(LocalDate.now());
+	}
 	
 }
