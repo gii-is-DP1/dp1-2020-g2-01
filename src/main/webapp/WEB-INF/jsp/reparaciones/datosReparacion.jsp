@@ -42,10 +42,10 @@
     <label class="col-sm-4">Empleados: </label>
     <p>
 	    <c:set var="i" value="0"/>
-	    <c:forEach items="${reparacion.horasTrabajadas}" var="horas">
-	    <c:out value="${horas.empleado.nombre} ${horas.empleado.apellidos}"/>
+	    <c:forEach items="${empleados}" var="empleado">
+	    <c:out value="${empleado.nombre} ${empleado.apellidos}"/>
 	    <c:set var="i" value="${i + 1}"/>
-	    <c:if test="${ fn:length(reparacion.horasTrabajadas) > i}">, </c:if>
+	    <c:if test="${ fn:length(empleados) > i}">, </c:if>
 	    </c:forEach>
     </p>
   </div>
@@ -130,8 +130,45 @@
 	</tbody>
 	</table>
 </div>
-<c:if test="${empty reparacion.fechaFinalizacion}"><a href="/reparaciones/addRecambio" class="btn btn-success col-sm-offset-8 col-sm-4">Añadir recambios</a></c:if>
 
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">Horas Trabajadas</h3>
+  </div>
+	<table class="table table-striped">
+       <thead>
+       <tr>
+      	   <th>Trabajo</th>
+      	   <th>Horas</th>
+           <th>Precio hora</th>
+           <th>Empleado</th>
+           <th>Precio final</th>
+           <c:if test="${empty reparacion.fechaFinalizacion}">
+           <th></th>
+           <th></th>
+           </c:if>
+
+       </tr>
+       </thead>
+    <tbody>
+		<c:forEach var="horasTrabajadas" items="${reparacion.horasTrabajadas}">
+		<tr>
+			<td>${horasTrabajadas.trabajoRealizado}</td>
+			<td>${horasTrabajadas.horasTrabajadas}</td>
+			<td>${horasTrabajadas.precioHora}€</td>
+			<td>${horasTrabajadas.empleado.nombre}</td>
+			<td>${horasTrabajadas.precioTotal}€</td>
+			<c:if test="${empty reparacion.fechaFinalizacion}">
+			<td><a href="/horas/editHora/${horasTrabajadas.id}/${reparacion.id}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+			<td><a href="/horas/deleteHora/${horasTrabajadas.id}/${reparacion.id}"><span class="glyphicon glyphicon-trash"></span></a></td>
+			</c:if>
+		</tr>
+		</c:forEach>
+	</tbody>
+	</table>
+</div>
+<c:if test="${empty reparacion.fechaFinalizacion}"><a href="/reparaciones/addRecambio" class="btn btn-success col-sm-4">Añadir recambios</a></c:if>
+<c:if test="${empty reparacion.fechaFinalizacion}"><a href="/horas/addHora/${reparacion.id}" class="btn btn-success col-sm-offset-4 col-sm-4">Añadir hora</a></c:if>
 </div>
 </div>
 </petclinic:layout>

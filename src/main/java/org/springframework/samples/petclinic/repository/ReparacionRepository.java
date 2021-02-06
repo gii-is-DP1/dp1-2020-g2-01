@@ -14,6 +14,6 @@ public interface ReparacionRepository extends CrudRepository<Reparacion, Integer
 	@Query("SELECT r FROM Reparacion r WHERE r.cita.vehiculo.cliente LIKE :cliente")
 	List<Reparacion> findReparacionesByCliente(@Param("cliente") Cliente cliente);
 
-	@Query("SELECT count(r) FROM Reparacion r WHERE (r.fechaFinalizacion IS NULL) AND (:empleado IN (SELECT h.empleado FROM HorasTrabajadas h WHERE h MEMBER OF r.horasTrabajadas))")
+	@Query("SELECT count(r) FROM Reparacion r WHERE (r.fechaFinalizacion IS NULL) AND (:empleado IN (SELECT h.empleado FROM HoraTrabajada h WHERE h MEMBER OF r.horasTrabajadas))")
 	Integer findReparacionesActivasEmpleado(@Param("empleado") Empleado empleado);
 }

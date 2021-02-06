@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
-import org.springframework.samples.petclinic.model.HorasTrabajadas;
+import org.springframework.samples.petclinic.model.HoraTrabajada;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.repository.ReparacionRepository;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
@@ -139,12 +139,12 @@ public class ReparacionService {
 		return reparacionRepository.findReparacionesActivasEmpleado(e);
 	}
 
-	public void setEmpleadosAReparacion(List<HorasTrabajadas> horas, @Valid Reparacion reparacion) {
-		for(HorasTrabajadas h : reparacion.getHorasTrabajadas()) {
+	public void setEmpleadosAReparacion(List<HoraTrabajada> horas, @Valid Reparacion reparacion) {
+		for(HoraTrabajada h : reparacion.getHorasTrabajadas()) {
 			horasTrabajadasService.delete(h);
 		}
 		reparacion.setHorasTrabajadas(new ArrayList<>());
-		for(HorasTrabajadas hora : horas) {
+		for(HoraTrabajada hora : horas) {
 			horasTrabajadasService.save(hora);
 		}
 		reparacion.getHorasTrabajadas().addAll(horas);

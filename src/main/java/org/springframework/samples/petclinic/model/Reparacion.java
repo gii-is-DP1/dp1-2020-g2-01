@@ -56,7 +56,7 @@ public class Reparacion extends BaseEntity {
 	@NotEmpty
 	@OneToMany
 	@JoinTable(name="horas_reparacion")
-	private List<HorasTrabajadas> horasTrabajadas;
+	private List<HoraTrabajada> horasTrabajadas;
 	
 	
 	@OneToMany(mappedBy="reparacion")

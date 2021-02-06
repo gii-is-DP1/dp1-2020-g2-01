@@ -20,7 +20,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Empleado;
-import org.springframework.samples.petclinic.model.HorasTrabajadas;
+import org.springframework.samples.petclinic.model.HoraTrabajada;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
@@ -75,7 +75,7 @@ class ReparacionServiceTest {
 	
 	public Reparacion r;
 	
-	public List<HorasTrabajadas> horas;
+	public List<HoraTrabajada> horas;
 	
 	public Taller taller;
 	
@@ -136,13 +136,13 @@ class ReparacionServiceTest {
 		
 		this.e1=e1;
 
-		HorasTrabajadas hora = new HorasTrabajadas();
+		HoraTrabajada hora = new HoraTrabajada();
 		hora.setEmpleado(e1);
 		hora.setHorasTrabajadas(10);
 		hora.setPrecioHora(10.5);
 		hora.setTrabajoRealizado("Cambio de rueda");
 		
-		List<HorasTrabajadas> horas = new ArrayList<>();
+		List<HoraTrabajada> horas = new ArrayList<>();
 		horas.add(hora);
 		
 		horasTrabajadasService.save(hora);
@@ -248,13 +248,13 @@ class ReparacionServiceTest {
 		
 		r1.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 10));
 		
-		HorasTrabajadas hora = new HorasTrabajadas();
+		HoraTrabajada hora = new HoraTrabajada();
 		hora.setEmpleado(e1);
 		hora.setHorasTrabajadas(10);
 		hora.setPrecioHora(10.5);
 		hora.setTrabajoRealizado("Cambio de rueda");
 		
-		List<HorasTrabajadas> horas = new ArrayList<>();
+		List<HoraTrabajada> horas = new ArrayList<>();
 		horas.add(hora);
 		
 		horasTrabajadasService.save(hora);
@@ -282,13 +282,13 @@ class ReparacionServiceTest {
 		
 		r2.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 11));
 		
-		HorasTrabajadas hora1 = new HorasTrabajadas();
+		HoraTrabajada hora1 = new HoraTrabajada();
 		hora1.setEmpleado(e1);
 		hora1.setHorasTrabajadas(10);
 		hora1.setPrecioHora(10.5);
 		hora1.setTrabajoRealizado("Cambio de rueda");
 		
-		List<HorasTrabajadas> horas1 = new ArrayList<>();
+		List<HoraTrabajada> horas1 = new ArrayList<>();
 		horas1.add(hora1);
 		
 		horasTrabajadasService.save(hora1);
@@ -317,13 +317,13 @@ class ReparacionServiceTest {
 		
 		r3.setCita(citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(2), 12));
 		
-		HorasTrabajadas hora2 = new HorasTrabajadas();
+		HoraTrabajada hora2 = new HoraTrabajada();
 		hora2.setEmpleado(e1);
 		hora2.setHorasTrabajadas(10);
 		hora2.setPrecioHora(10.5);
 		hora2.setTrabajoRealizado("Cambio de rueda");
 		
-		List<HorasTrabajadas> horas2 = new ArrayList<>();
+		List<HoraTrabajada> horas2 = new ArrayList<>();
 		horas2.add(hora2);
 		
 		horasTrabajadasService.save(hora2);

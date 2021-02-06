@@ -16,7 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Empleado;
-import org.springframework.samples.petclinic.model.HorasTrabajadas;
+import org.springframework.samples.petclinic.model.HoraTrabajada;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
@@ -130,13 +130,13 @@ public class SolicitudServiceTests {
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
-		HorasTrabajadas hora = new HorasTrabajadas();
+		HoraTrabajada hora = new HoraTrabajada();
 		hora.setEmpleado(e1);
 		hora.setHorasTrabajadas(10);
 		hora.setPrecioHora(10.5);
 		hora.setTrabajoRealizado("Cambio de rueda");
 		
-		List<HorasTrabajadas> horas = new ArrayList<>();
+		List<HoraTrabajada> horas = new ArrayList<>();
 		horas.add(hora);
 		
 		horasTrabajadasService.save(hora);
