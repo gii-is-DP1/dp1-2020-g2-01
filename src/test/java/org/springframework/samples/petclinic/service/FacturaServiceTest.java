@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -238,6 +239,8 @@ class FacturaServiceTest {
 	
 	@Test
 	public void generarPDF() throws FileNotFoundException, IOException{	
-		facturaService.generarPDF(f);
+		String archivo = facturaService.generarPDF(f);
+		File myObj = new File(archivo); 
+	    assertTrue(myObj.delete());
 	}
 }
