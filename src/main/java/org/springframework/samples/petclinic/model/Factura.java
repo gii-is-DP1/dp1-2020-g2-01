@@ -23,7 +23,6 @@ import lombok.Setter;
 @Table(name="facturas")
 public class Factura extends BaseEntity{
 	
-	@NotNull
 	@JoinColumn(name="fecha_Pago")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@PastOrPresent

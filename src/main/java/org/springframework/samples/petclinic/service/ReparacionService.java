@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.Factura;
 import org.springframework.samples.petclinic.model.HoraTrabajada;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.repository.ReparacionRepository;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
+import org.springframework.samples.petclinic.service.exceptions.NoRecogidaSinPagoException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -156,7 +158,18 @@ public class ReparacionService {
 	}
 
 	@Transactional
-	public void recoger(Reparacion rep) throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException{
+	public void recoger(Reparacion rep) throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, NoRecogidaSinPagoException{
+		//PUEDE QUE HAYA QUE MODIFICAR
+		
+		if (!rep.getLineaFactura().isEmpty()) {
+			Factura f = rep.getLineaFactura().get(0).getFactura();
+			if(f.getFechaPago()==null) {
+				throw new NoRecogidaSinPagoException();
+			}
+		}
+		
+		//
+		
 		LocalDate fechaActual = LocalDate.now();
 		rep.setFechaRecogida(fechaActual);
 		this.saveReparacion(rep);

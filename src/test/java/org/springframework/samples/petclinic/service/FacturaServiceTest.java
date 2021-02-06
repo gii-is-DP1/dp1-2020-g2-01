@@ -208,9 +208,9 @@ class FacturaServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldNotInsertFacturaSinFechaPago() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
+	void shouldNotInsertFactura() throws DataAccessException, DuplicatedMatriculaException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
 		Factura f1 = new Factura();
-		//Sin valor de fecha pago
+		f1.setFechaPago(LocalDate.now().plusDays(10));
 		List<LineaFactura> lineas1 = new ArrayList<>();
 		
 		LineaFactura lf1 = new LineaFactura();
