@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
@@ -16,5 +17,7 @@ public interface EmpleadoRepository extends CrudRepository<Empleado, Integer> {
 	Optional<Empleado> findEmpleadoDNI(@Param("dni") String dni) throws DataAccessException;
 	
 	Optional<Empleado> findEmpleadoByUsuarioUsername(String username) throws DataAccessException;
+
+	List<Empleado> findEmpleadoByTallerUbicacion(String ubicacion);
 	
 }
