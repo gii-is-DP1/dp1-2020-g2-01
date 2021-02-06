@@ -95,11 +95,13 @@
 <c:if test="${empty reparacion.fechaFinalizacion}"><a href="/reparaciones/update/${reparacion.id}" class="btn btn-success col-sm-4">Editar reparación</a>
 <a href="/reparaciones/finalizar/${reparacion.id}" class="btn btn-success col-sm-offset-6 col-sm-2">Finalizar</a></c:if>
 
+
 <c:if test="${empty reparacion.fechaRecogida and not empty reparacion.fechaFinalizacion}">
 <a href="/reparaciones/recoger/${reparacion.id}" class="btn btn-success col-sm-offset-6 col-sm-4">Marcar como recogido</a></c:if>
 
 <c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.fechaRecogida and not empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/ver/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-4">Ver factura</a></c:if>
 <c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.fechaRecogida and empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/generar/${reparacion.id}" class="btn btn-success col-sm-4">Generar Factura</a></c:if>
+
 </div>
 <div class="col-sm-6">
 <div class="panel panel-success">

@@ -202,10 +202,18 @@ INSERT INTO citas_tipocita VALUES (200, 1);
 INSERT INTO citas_empleados VALUES (200, 100);
 INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (201,'2021-10-24', 20, 200, 2, true);
 INSERT INTO citas_tipocita VALUES (201, 1);
-INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, cita_id) 
-		VALUES (1,'Descripción', CURDATE()-1, null, CURDATE()-3, 104);
-INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, cita_id) 
-		VALUES (2,'Descripción', CURDATE()-1, null, CURDATE()-2, 105);
+
+INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
+		VALUES (1,'Descripción', CURDATE()-1, null, CURDATE()-3, null, 200);
+
+INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (8, 'Cambio de rueda', 10.5, 3, 100);
+INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (9, 'Cambio de frenos', 10.5, 4, 101);
+
+INSERT INTO horas_reparacion VALUES (1, 8);
+INSERT INTO horas_reparacion VALUES (1, 9);
+		
+INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
+		VALUES (2,'Descripción', '2020-10-24', '2020-10-22', '2020-10-22', '2020-10-23', 201);
 INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (90, 15, 2, 'Cambio 4 ruedas', 100, 4,1);
 

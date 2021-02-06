@@ -5,6 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="cliente">
     <jsp:attribute name="customScript">
@@ -35,7 +37,9 @@
                     	<petclinic:inputField label="Usuario" name="user.username" type="text" readonly="true"/>
                     </c:otherwise>
              </c:choose>
+             <sec:authorize access="hasAuthority('user')">
              <petclinic:inputField label="Contraseña" name="user.password" type="password"/>
+             </sec:authorize>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

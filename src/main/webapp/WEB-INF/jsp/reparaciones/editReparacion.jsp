@@ -33,13 +33,18 @@
                 <petclinic:inputField label="Descripción" name="descripcion"/> 
                 <petclinic:inputField label="Tiempo estimado" name="tiempoEstimado"/> 
                	<petclinic:inputField label="Fecha de entrega" name="fechaEntrega"/> 
+<<<<<<< HEAD
                	<!-- <petclinic:inputField label="Fecha de recogida" name="fechaRecogida"/>-->
+=======
+               	<!-- <petclinic:inputField label="Fecha de recogida" name="fechaRecogida"/> -->
+>>>>>>> branch 'serarirud' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
                	<petclinic:inputField label="Cita asociada" name="cita" readonly="true"/>
-               	<petclinic:selectFieldMultiple label="Empleados asignados (usar CTRL para seleccionar varios)" 
-               	name="horasTrabajadas" size="5"  names="${empleados}"/>
+               	<!-- <petclinic:selectFieldMultiple label="Empleados asignados (usar CTRL para seleccionar varios)" 
+               	name="horasTrabajadas" size="5"  names="${empleados}"/> -->
+				
+				<c:if test="${ not (fn:length(reparacion.lineaFactura) == 0)}">
 				<label class="col-sm-2 control-label">Recambios</label>
         		<div class="col-sm-10">
-				<c:if test="${ not (fn:length(reparacion.lineaFactura) == 0)}">
 				<table id="FacturasTable" class="table table-striped">
 			        <thead>
 			        <tr>
@@ -65,8 +70,8 @@
 				</c:forEach>
 				</tbody>
 				</table>
-				</c:if>
         		</div>
+				</c:if>
             </div>
 
             <div class="form-group">

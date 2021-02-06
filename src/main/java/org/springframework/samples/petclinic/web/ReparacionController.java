@@ -24,7 +24,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -115,13 +117,13 @@ public class ReparacionController {
 	}
 
 	@PostMapping(value = "/save")
-	public String guardarReparacion(@RequestParam("horasTrabajadas") List<HoraTrabajada> horas, @Valid Reparacion reparacion, BindingResult result, ModelMap model) {
+	public String guardarReparacion(@Valid Reparacion reparacion, BindingResult result, ModelMap model) {
 		String vista;
 
 		if(result.hasErrors()) { 
-			if(horas==null) {
-				result.rejectValue("empleados", "Se debe escoger al menos un empleado", "Se debe escoger al menos un empleado");
-			}
+//			if(horas==null) {
+//				result.rejectValue("empleados", "Se debe escoger al menos un empleado", "Se debe escoger al menos un empleado");
+//			}
 			model.addAttribute("reparacion", reparacion);
 			vista = "reparaciones/editReparacion";
 		
@@ -130,8 +132,9 @@ public class ReparacionController {
 				vista = verReparacion(reparacion.getId(), model);
 				if(reparacion.getId() != null) {
 					vista = "redirect:/reparaciones/getReparacion/" + reparacion.getId().toString();
+					reparacion.setHorasTrabajadas(reparacionService.findReparacionById(reparacion.getId()).get().getHorasTrabajadas());
 				}
-				reparacionService.setEmpleadosAReparacion(horas, reparacion);
+//				reparacionService.setEmpleadosAReparacion(horas, reparacion);
 				reparacionService.saveReparacion(reparacion);
 			
 			} catch (FechasReparacionException e) {
