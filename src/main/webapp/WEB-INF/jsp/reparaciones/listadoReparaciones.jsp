@@ -43,6 +43,7 @@
             <th>Dia de la cita</th>
             <th>Vehiculo</th>
             <th>Fecha de finalización</th>
+            <th>Fecha de recogida</th>
             <sec:authorize access="hasAuthority('admin')">
 	            <th>Cliente</th>
 	            <th></th>
@@ -83,6 +84,13 @@
                 	<c:set var = "monthParsed" value = "${fn:substring(reparacion.fechaFinalizacion.month, 0, 3)}" />
                 	<p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
                 	<p class="text-center"  style="margin: 0"><strong>${reparacion.fechaFinalizacion.dayOfMonth}</strong></p>
+                </td>
+                
+                <td class="fechaTabla">
+                   	<p class="text-center" style="font-size: 65%; margin: 0">${reparacion.fechaRecogida.year}</p>
+                	<c:set var = "monthParsed" value = "${fn:substring(reparacion.fechaRecogida.month, 0, 3)}" />
+                	<p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
+                	<p class="text-center"  style="margin: 0"><strong>${reparacion.fechaRecogida.dayOfMonth}</strong></p>
                 </td>
                 
                 <sec:authorize access="hasAuthority('admin')">

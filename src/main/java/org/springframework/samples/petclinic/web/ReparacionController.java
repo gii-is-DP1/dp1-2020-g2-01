@@ -41,6 +41,7 @@ public class ReparacionController {
 
 		
 	private static final String FORMULARIO_REPARACION_FINALIZADA = "reparaciones/finalizar_confirmacion";
+	private static final String FORMULARIO_REPARACION_RECOGIDA = "reparaciones/recoger_confirmacion";
 
 //	@InitBinder("reparacion")
 //	public void initReparacionBinder(WebDataBinder dataBinder) {
@@ -202,6 +203,29 @@ public class ReparacionController {
 		return vista;
 	}
 	
+	@GetMapping(value="/recoger/{reparacionId}")
+	public String initRecogidaReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
+		Reparacion reparacion = reparacionService.findReparacionById(id).get();
+		model.addAttribute("reparacion", reparacion);
+		return FORMULARIO_REPARACION_RECOGIDA;
+	}
+	
+	@GetMapping(value="/recogerReparacion/{reparacionId}")
+	public String processRecogidaReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
+		String vista = "";
+		Reparacion rep = this.reparacionService.findReparacionById(id).get();
+		try {
+			reparacionService.recoger(rep);
+			model.addAttribute("message", "Reparación "+rep.getId()+" recogida correctamente");
+
+		}catch(Exception e){
+			log.warn("Excepción: error inesperado al recoger la reparación");
+			model.addAttribute("message", "Error inesperado al recoger la reparación "+rep.getId());
+			model.addAttribute("messageType", "danger");
+		}
+		vista=listadoReparaciones(model);
+		return vista;
+	}
 	
 	
 	@GetMapping(value="/finalizar/{reparacionId}")
@@ -220,7 +244,7 @@ public class ReparacionController {
 			model.addAttribute("message", "Reparación "+rep.getId()+" finalizada correctamente");
 
 		}catch(Exception e){
-			log.warn("Excepción: error inesperado al finalizar la reparación");
+			log.warn("Excepción: error inesperado al finalizar la reparación"+ e.getMessage());
 			model.addAttribute("message", "Error inesperado al finalizar la reparación "+rep.getId());
 			model.addAttribute("messageType", "danger");
 		}

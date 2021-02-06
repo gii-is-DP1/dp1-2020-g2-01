@@ -52,6 +52,7 @@ public class ReparacionService {
 		LocalDate fechaEntrega = reparacion.getFechaEntrega();
 		LocalDate fechaRecogida = reparacion.getFechaRecogida();
 		LocalDate fechaFinalizacion = reparacion.getFechaFinalizacion();
+		LocalDate actual = LocalDate.now();
 		
 		if(fechaEntrega != null && fechaRecogida != null && fechaEntrega.isAfter(fechaRecogida)) {
 			throw new FechasReparacionException();
@@ -62,6 +63,10 @@ public class ReparacionService {
 		}
 		
 		if(fechaFinalizacion != null && fechaRecogida != null && fechaFinalizacion.isAfter(fechaRecogida)) {
+			throw new FechasReparacionException();
+		}
+		
+		if(reparacion.getId()==null && fechaEntrega.isBefore(actual)) {
 			throw new FechasReparacionException();
 		}
 		
@@ -96,10 +101,10 @@ public class ReparacionService {
 	}
 	
 	@Transactional
-	public void finalizar(Reparacion reparacion) throws DataAccessException{
+	public void finalizar(Reparacion reparacion) throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException{
 		LocalDate fechaActual = LocalDate.now();
 		reparacion.setFechaFinalizacion(fechaActual);
-		reparacionRepository.save(reparacion);
+		this.saveReparacion(reparacion);
 		String to = reparacion.getCita().getVehiculo().getCliente().getEmail();
 		String subject = "Reparación de su vehículo finalizada";
 		String content = "Estimado cliente,\nSirva este correo para informarle de que se ha finalizado "
@@ -148,6 +153,13 @@ public class ReparacionService {
 			horasTrabajadasService.save(hora);
 		}
 		reparacion.getHorasTrabajadas().addAll(horas);
+	}
+
+	@Transactional
+	public void recoger(Reparacion rep) throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException{
+		LocalDate fechaActual = LocalDate.now();
+		rep.setFechaRecogida(fechaActual);
+		this.saveReparacion(rep);
 	}
 	
 
