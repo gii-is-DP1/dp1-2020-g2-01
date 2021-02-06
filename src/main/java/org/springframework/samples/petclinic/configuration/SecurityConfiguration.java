@@ -72,13 +72,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/solicitud/**").hasAnyAuthority("empleado", "admin")
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/balance/**").hasAnyAuthority("admin")				
-<<<<<<< HEAD
 				.antMatchers("/balanceEconomico/**").hasAnyAuthority("admin")				
 				.antMatchers("/administradores/**").hasAnyAuthority("admin")
-=======
-				.antMatchers("/balanceEconomico/**").hasAnyAuthority("admin")							
-				.antMatchers("/administradores/**").hasAnyAuthority("admin")				
->>>>>>> branch 'antfunmej' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
