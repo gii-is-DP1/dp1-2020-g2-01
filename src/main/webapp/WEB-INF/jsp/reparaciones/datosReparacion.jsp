@@ -102,7 +102,6 @@
 <c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.fechaRecogida and not empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/ver/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-4">Ver factura</a></c:if>
 <c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.fechaRecogida and empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/generar/${reparacion.id}" class="btn btn-success col-sm-4">Generar Factura</a></c:if>
 
-
 </div>
 <div class="col-sm-6">
 <div class="panel panel-success">
