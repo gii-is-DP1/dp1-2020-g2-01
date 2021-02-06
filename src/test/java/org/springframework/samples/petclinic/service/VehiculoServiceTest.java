@@ -26,10 +26,6 @@ class VehiculoServiceTest {
 	@Autowired
 	protected ClienteService clienteService;
 	
-	
-	
-	
-	
 	@Test
 	@Transactional
 	void shouldInsertVehiculo() throws DataAccessException, DuplicatedMatriculaException {

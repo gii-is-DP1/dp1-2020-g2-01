@@ -35,10 +35,29 @@
 	</style>
 
 
-    <h2>Gastos</h2>
+    <h2>Gastos ${mesElegido}&nbsp${anyoElegido}</h2>
     
-    <a href="/balanceEconomico?gastos=false" class="btn btn-success">Ver ingresos</a>
+    <a href="/balanceEconomico" class="btn btn-success col-sm-2">Ver balances mensuales</a>
+    <a href="/balanceEconomico/sinFiltro?gastos=false" class="btn btn-success col-sm-2">Ver todos los ingresos</a>
+    <a href="/balanceEconomico/sinFiltro?gastos=true" class="btn btn-success col-sm-2">Ver todos los gastos</a>
     
+    <form action="/balanceEconomico/filtradoGastos" method="get" class="col-sm-6">
+                <label class="col-sm-1 col-sm-offset-2">Mes</label><select name="mes" id="mes" class="col-sm-3">
+                	<c:forEach var="mes" items="${meses}">
+                		<option id="mes" value="${mes}">${mes}</option>
+        			</c:forEach>
+                </select>
+                
+                <label class="col-sm-1">Año</label><select name="anyo" id="anyo" class="col-sm-2">
+                	<c:forEach var="anyo" items="${anyos}">
+                		<option id="anyo" value="${anyo}">${anyo}</option>
+        			</c:forEach>
+                </select>
+                <div class="col-sm-1"></div>
+           <button class="btn btn-success col-sm-2" type="submit">Filtrar</button>
+
+
+     </form>
     
     <br/><br/>
     
@@ -69,6 +88,7 @@
 		        	</td>		        	
 		        	
 		        	<td>
+		        	<!-- HAY QUE PONER LA URL DE LA FACTURARECAMBIO CUANDO SE HAGA -->
 						<spring:url value="/" var="facturaRecambioUrl">
 	                    </spring:url>
 	                    <a href="${fn:escapeXml(facturaRecambioUrl)}">
