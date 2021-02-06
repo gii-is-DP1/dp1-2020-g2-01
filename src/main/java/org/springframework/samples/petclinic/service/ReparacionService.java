@@ -65,7 +65,6 @@ public class ReparacionService {
 		if(fechaFinalizacion != null && fechaRecogida != null && fechaFinalizacion.isAfter(fechaRecogida)) {
 			throw new FechasReparacionException();
 		}
-<<<<<<< HEAD
 		
 		if(reparacion.getId()==null && fechaEntrega.isBefore(actual)) {
 			throw new FechasReparacionException();
@@ -74,12 +73,7 @@ public class ReparacionService {
 		if(reparacion.getHorasTrabajadas() == null) {
 			reparacion.setHorasTrabajadas(new ArrayList<>());
 		}
-		
-=======
-		if(reparacion.getHorasTrabajadas() == null) {
-			reparacion.setHorasTrabajadas(new ArrayList<>());
-		}
->>>>>>> branch 'serarirud' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
+			
 		Collection<Empleado> empleados = reparacion.getHorasTrabajadas().stream().map(x->x.getEmpleado())
 																		.collect(Collectors.toList());
 		for(Empleado e:empleados) {
