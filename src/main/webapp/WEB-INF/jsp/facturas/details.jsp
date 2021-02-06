@@ -80,10 +80,10 @@
 		<c:forEach var="horas" items="${factura.lineaFactura[0].reparacion.horasTrabajadas}">
 		<tr>
 			<td>${horas.trabajoRealizado}</td>
-			<td>${horas.precioHora}</td>
+			<td>${horas.precioHora}€</td>
 			<td>${horas.horasTrabajadas}</td>
 			<td><c:out value="${horas.empleado.nombre} ${horas.empleado.apellidos}"/></td>
-			<td>${horas.precioTotal}</td>
+			<td>${horas.precioTotal}€</td>
 		</tr>
 		</c:forEach>
 	</tbody>
