@@ -72,6 +72,10 @@ public class ReparacionService {
 			throw new FechasReparacionException();
 		}
 		
+		if(reparacion.getHorasTrabajadas() == null) {
+			reparacion.setHorasTrabajadas(new ArrayList<>());
+		}
+		
 		Collection<Empleado> empleados = reparacion.getHorasTrabajadas().stream().map(x->x.getEmpleado())
 																		.collect(Collectors.toList());
 		for(Empleado e:empleados) {
@@ -148,9 +152,12 @@ public class ReparacionService {
 
 	public void setEmpleadosAReparacion(List<HoraTrabajada> horas, @Valid Reparacion reparacion) {
 		for(HoraTrabajada h : reparacion.getHorasTrabajadas()) {
-			horasTrabajadasService.delete(h);
+			if(h.getHorasTrabajadas().equals(0)) {
+				reparacion.getHorasTrabajadas().remove(h);
+				horasTrabajadasService.delete(h);
+			}
 		}
-		reparacion.setHorasTrabajadas(new ArrayList<>());
+
 		for(HoraTrabajada hora : horas) {
 			horasTrabajadasService.save(hora);
 		}

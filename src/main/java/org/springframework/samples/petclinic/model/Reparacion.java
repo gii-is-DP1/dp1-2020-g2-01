@@ -48,7 +48,8 @@ public class Reparacion extends BaseEntity {
 	@NotNull
 	@OneToOne(optional=false)
 	private Cita cita;
-
+	
+	@Nullable
 	@OneToMany
 	@JoinTable(name="horas_reparacion")
 	private List<HoraTrabajada> horasTrabajadas;

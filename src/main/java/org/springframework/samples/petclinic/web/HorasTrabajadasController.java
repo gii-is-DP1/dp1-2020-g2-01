@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.HoraTrabajada;
 import org.springframework.samples.petclinic.model.Reparacion;
+import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.HorasTrabajadasService;
 import org.springframework.samples.petclinic.service.ReparacionService;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
@@ -37,6 +38,9 @@ public class HorasTrabajadasController {
 	@Autowired
 	private ReparacionController reparacionController;
 	
+	@Autowired
+	private EmpleadoService empleadoService;
+	
 	@GetMapping("/addHora/{reparacionId}")
 	public String addHoraAReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
 		Optional<Reparacion> reparacion = reparacionService.findReparacionById(id);
@@ -48,8 +52,8 @@ public class HorasTrabajadasController {
 
 		model.addAttribute("horaTrabajada", new HoraTrabajada());
 		model.addAttribute("reparacion", reparacion.get());
-		model.addAttribute("empleados", reparacion.get().getHorasTrabajadas().stream()
-				.map(x->x.getEmpleado()).collect(Collectors.toList()));
+		model.addAttribute("empleados", empleadoService.findEmpleadoByTaller(reparacion
+				.get().getCita().getTaller().getUbicacion()));
 		return "horas/editHora";
 	}
 	
@@ -64,8 +68,8 @@ public class HorasTrabajadasController {
 		if(result.hasErrors()) {
 			model.addAttribute("horaTrabajada", hora);
 			model.addAttribute("reparacion", reparacion.get());
-			model.addAttribute("empleados", reparacion.get().getHorasTrabajadas().stream()
-					.map(x->x.getEmpleado()).distinct().collect(Collectors.toList()));
+			model.addAttribute("empleados", empleadoService.findEmpleadoByTaller(reparacion
+					.get().getCita().getTaller().getUbicacion()));
 			return "horas/editHora";
 		}
 		
@@ -80,8 +84,8 @@ public class HorasTrabajadasController {
 			model.addAttribute("message", e.getMessage());
 			model.addAttribute("horaTrabajada", hora);
 			model.addAttribute("reparacion", reparacion.get());
-			model.addAttribute("empleados", reparacion.get().getHorasTrabajadas().stream()
-					.map(x->x.getEmpleado()).distinct().collect(Collectors.toList()));
+			model.addAttribute("empleados", empleadoService.findEmpleadoByTaller(reparacion
+					.get().getCita().getTaller().getUbicacion()));
 			return "horas/editHora";
 		}
 		
@@ -99,8 +103,8 @@ public class HorasTrabajadasController {
 		}
 		model.addAttribute("horaTrabajada", hora.get());
 		model.addAttribute("reparacion", reparacion.get());
-		model.addAttribute("empleados", reparacion.get().getHorasTrabajadas().stream()
-				.map(x->x.getEmpleado()).distinct().collect(Collectors.toList()));
+		model.addAttribute("empleados", empleadoService.findEmpleadoByTaller(reparacion
+				.get().getCita().getTaller().getUbicacion()));
 		return "horas/editHora";
 	}
 	

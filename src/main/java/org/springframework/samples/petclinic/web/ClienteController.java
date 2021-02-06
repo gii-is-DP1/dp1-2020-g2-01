@@ -56,6 +56,12 @@ public class ClienteController {
 		this.clienteService = clienteService;
 	}
 	
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id");
+		dataBinder.setDisallowedFields("user.password");
+	}
+	
 	@GetMapping(value = { "/listadoClientes" })
 	public String listadoClientes(@RequestParam(required = false) String apellidos, ModelMap model) {
 		String vista = "clientes/listadoClientes";
@@ -96,12 +102,6 @@ public class ClienteController {
 		}else {
 			return "redirect:/";
 		}
-	}
-	
-	
-	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
 	}
 	
 	@GetMapping(value = "/new")
