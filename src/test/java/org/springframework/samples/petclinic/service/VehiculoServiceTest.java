@@ -27,17 +27,17 @@ class VehiculoServiceTest {
 	@Autowired
 	protected ClienteService clienteService;
 	
-<<<<<<< Upstream, based on origin/master
+
 	
 	public Vehiculo v;
 	
 	@BeforeEach
 	void insertVehiculo() throws DataAccessException, DuplicatedMatriculaException {
-=======
+
 	@Test
 	@Transactional
 	void shouldInsertVehiculo() throws DataAccessException, DuplicatedMatriculaException {
->>>>>>> 1acebdf Historia 17 completa
+
 		Vehiculo v = new Vehiculo();
 		v.setMatricula("1111AAA");
 		v.setModelo("Seat Ibiza");
