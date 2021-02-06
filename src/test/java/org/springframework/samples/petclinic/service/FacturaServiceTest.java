@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Factura;
-import org.springframework.samples.petclinic.model.HorasTrabajadas;
+import org.springframework.samples.petclinic.model.HoraTrabajada;
 import org.springframework.samples.petclinic.model.LineaFactura;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Recambio;
@@ -167,13 +168,13 @@ class FacturaServiceTest {
 		e1.setTaller(taller);
 		empleadoService.saveEmpleado(e1);
 
-		HorasTrabajadas hora = new HorasTrabajadas();
+		HoraTrabajada hora = new HoraTrabajada();
 		hora.setEmpleado(e1);
 		hora.setHorasTrabajadas(10);
 		hora.setPrecioHora(10.5);
 		hora.setTrabajoRealizado("Cambio de rueda");
 		
-		List<HorasTrabajadas> horas = new ArrayList<>();
+		List<HoraTrabajada> horas = new ArrayList<>();
 		horas.add(hora);
 		
 		horasTrabajadasService.save(hora);
@@ -238,6 +239,8 @@ class FacturaServiceTest {
 	
 	@Test
 	public void generarPDF() throws FileNotFoundException, IOException{	
-		facturaService.generarPDF(f);
+		String archivo = facturaService.generarPDF(f);
+		File myObj = new File(archivo); 
+	    assertTrue(myObj.delete());
 	}
 }

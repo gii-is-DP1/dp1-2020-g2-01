@@ -16,7 +16,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Factura;
-import org.springframework.samples.petclinic.model.HorasTrabajadas;
+import org.springframework.samples.petclinic.model.HoraTrabajada;
 import org.springframework.samples.petclinic.model.LineaFactura;
 import org.springframework.samples.petclinic.repository.FacturaRepository;
 import org.springframework.stereotype.Service;
@@ -113,7 +113,7 @@ public class FacturaService {
         table.addCell(getTitleCell("EMPLEADO", 0.5f));
         table.addCell(getTitleCell("TOTAL", 0.5f));
         
-        for(HorasTrabajadas horas: factura.getLineaFactura().get(0).getReparacion().getHorasTrabajadas()) {
+        for(HoraTrabajada horas: factura.getLineaFactura().get(0).getReparacion().getHorasTrabajadas()) {
         	table.addCell(getBodyCell(horas.getTrabajoRealizado()));
         	table.addCell(getBodyCell(horas.getHorasTrabajadas().toString()));
         	table.addCell(getBodyCell(horas.getPrecioHora().toString() + "€"));
