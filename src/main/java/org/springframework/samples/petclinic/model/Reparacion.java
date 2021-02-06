@@ -38,10 +38,6 @@ public class Reparacion extends BaseEntity {
 	private LocalDate fechaEntrega;
 	
 	@Nullable
-<<<<<<< HEAD
-=======
-	@FutureOrPresent
->>>>>>> branch 'serarirud' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate fechaRecogida;
 	
@@ -52,11 +48,7 @@ public class Reparacion extends BaseEntity {
 	@NotNull
 	@OneToOne(optional=false)
 	private Cita cita;
-<<<<<<< HEAD
-
-=======
 	
->>>>>>> branch 'serarirud' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
 	@Nullable
 	@OneToMany
 	@JoinTable(name="horas_reparacion")
