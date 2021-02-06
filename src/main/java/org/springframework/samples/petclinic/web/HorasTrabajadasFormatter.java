@@ -7,7 +7,7 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.samples.petclinic.model.Empleado;
-import org.springframework.samples.petclinic.model.HorasTrabajadas;
+import org.springframework.samples.petclinic.model.HoraTrabajada;
 import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.stereotype.Component;
 
@@ -15,20 +15,20 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class HorasTrabajadasFormatter implements Formatter<HorasTrabajadas> {	
+public class HorasTrabajadasFormatter implements Formatter<HoraTrabajada> {	
 
 	@Autowired
 	private EmpleadoService empleadoService;
 	
 	@Override
-	public String print(HorasTrabajadas object, Locale locale) {
+	public String print(HoraTrabajada object, Locale locale) {
 		return object.getEmpleado().getNombre() + "," + object.getEmpleado().getApellidos();
 	}
 
 	@Override
-	public HorasTrabajadas parse(String h, Locale locale) throws ParseException {
+	public HoraTrabajada parse(String h, Locale locale) throws ParseException {
 		try {
-			HorasTrabajadas hora = new HorasTrabajadas();
+			HoraTrabajada hora = new HoraTrabajada();
 			hora.setEmpleado(empleadoParse(h, locale));
 			hora.setHorasTrabajadas(0);
 			hora.setPrecioHora(0.);

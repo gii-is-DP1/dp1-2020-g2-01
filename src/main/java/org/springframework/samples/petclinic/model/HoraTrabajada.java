@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "horas_trabajadas")
-public class HorasTrabajadas extends BaseEntity{
+public class HoraTrabajada extends BaseEntity{
 	
 	@NotNull
 	@NotEmpty
