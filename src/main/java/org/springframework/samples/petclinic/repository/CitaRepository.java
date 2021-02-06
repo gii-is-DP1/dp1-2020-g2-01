@@ -25,12 +25,14 @@ public interface CitaRepository extends CrudRepository<Cita, Integer> {
 	@Query(value = "SELECT id FROM CITAS EXCEPT (SELECT CITA_ID FROM REPARACIONES)", nativeQuery = true)
 	List<Integer> findCitaIdSinReparacion();
 
-	@Query("SELECT cita FROM Cita cita WHERE cita.vehiculo.cliente LIKE :cliente")
-	List<Cita> findByCliente(@Param("cliente") Cliente cliente, Sort sort);
+	@Query("SELECT cita FROM Cita cita WHERE (cita.vehiculo.cliente LIKE :cliente) AND (cita.fecha > :today)")
+	List<Cita> findCitaByClienteAndFechaAfter(@Param("cliente") Cliente cliente, @Param("today") LocalDate today, Sort sort);
 
-	List<Cita> findCitaByTallerUbicacion(String ubicacion, Sort sort) throws DataAccessException;
+	List<Cita> findCitaByTallerUbicacionAndFechaAfter(String ubicacion, Sort sort, LocalDate today) throws DataAccessException;
 	
 	@Query("SELECT cita FROM Cita cita WHERE cita.vehiculo.cliente.user.username LIKE :username")
 	List<Cita> findByUsername(@Param("username") String username, Sort sort);
+
+	List<Cita> findCitasByFechaAfter(LocalDate today);
 	
 }

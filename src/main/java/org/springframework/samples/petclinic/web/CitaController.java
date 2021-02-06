@@ -82,7 +82,7 @@ public class CitaController {
 	
 	@ModelAttribute("citas")
 	public List<Cita> citas(){
-		return citaService.findAll();
+		return citaService.findCitasFuturas();
 	}
 	
 	@ModelAttribute("talleres")
