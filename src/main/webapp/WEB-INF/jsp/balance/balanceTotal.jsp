@@ -11,7 +11,7 @@
 
 
 
-<petclinic:layout pageName="ingresos">
+<petclinic:layout pageName="balance">
 	<style>
 		.helper {
 			display: inline-block;
@@ -32,21 +32,19 @@
 			text-align: center;
 			
 		}
-
+		
+	
 	</style>
 
-    <h2>Ingresos ${mesElegido}&nbsp${anyoElegido}</h2>
+
+    <h2>Balances por meses</h2>
     
+ 
     <a href="/balanceEconomico" class="btn btn-success col-sm-2">Ver balances mensuales</a>
     <a href="/balanceEconomico/sinFiltro?gastos=false" class="btn btn-success col-sm-2">Ver todos los ingresos</a>
     <a href="/balanceEconomico/sinFiltro?gastos=true" class="btn btn-success col-sm-2">Ver todos los gastos</a>
-    
-    <form action="/balanceEconomico/filtradoIngresos" method="get" class="col-sm-6">
-                <label class="col-sm-1 col-sm-offset-2">Mes</label><select name="mes" id="mes" class="col-sm-3">
-                	<c:forEach var="mes" items="${meses}">
-                		<option id="mes" value="${mes}">${mes}</option>
-        			</c:forEach>
-                </select>
+   
+    <form action="/balanceEconomico/balanceFiltradoAnyo" method="get" class="col-sm-6">
                 
                 <label class="col-sm-1">Año</label><select name="anyo" id="anyo" class="col-sm-2">
                 	<c:forEach var="anyo" items="${anyos}">
@@ -58,44 +56,42 @@
 
 
      </form>
+   
+   <br/><br/>
     
-    <br/><br/>
-    
-    
-    <table id="ingresosTable" class="table table-striped">
+    <table id="balanceTable" class="table table-striped">
         <thead>
 	        <tr>
-	            <th>Número de factura</th>
-	            <th>Fecha</th>
-	            <th>Cantidad ingresada</th>
-
-	            <th></th>
+	            <th>Año</th>
+	            <th>Mes</th>
+	            <th>Ingresado</th>
+	            <th>Gastado</th>
+	            <th>Resultado ejercicio mensual</th>
 
 	        </tr>
         </thead>
         <tbody>
-        	<c:forEach items="${facturas}" var="factura">
+        	<c:forEach items="${balances}" var="balance">
 		        <tr>
 		        
 		        	<td>
-		        		<c:out value="${factura.id}" />
+		        		<c:out value="${balance.anyo}" />
 		        	</td>
 		        	
 		        	<td>
-		        		<c:out value="${factura.fechaPago}" />
+		        		<c:out value="${balance.mes}" />
 		        	</td>
 		        	
 		        	<td>
-		        		<c:out value="${factura.precioConDescuento} €" />		        	
+		        		<c:out value="${balance.ingresosMensuales} €" />		        	
 		        	</td>      	
-		        	
 		        	<td>
-						<spring:url value="/facturas/info/${factura.id}" var="facturaUrl">
-	                    </spring:url>
-	                    <a href="${fn:escapeXml(facturaUrl)}">
-	                    	<span class="glyphicon glyphicon-eye-open"></span>
-	                    </a>		        	
-	                </td>
+		        		<c:out value="-${balance.gastosMensuales} €" />		        	
+		        	</td>      	
+		        	<td>
+		        		<c:out value="${balance.balanceMensual} €" />		        	
+		        	</td>      	
+
 		        </tr>
       		</c:forEach>
         </tbody>
