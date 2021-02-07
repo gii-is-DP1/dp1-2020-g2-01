@@ -11,6 +11,8 @@ public interface TallerRepository extends CrudRepository<Taller, Integer> {
 
 	Optional<Taller> findByUbicacion(String ubicacion) throws DataAccessException;
 	
+
 	List<Taller> findAll() throws DataAccessException;
+
 }
 

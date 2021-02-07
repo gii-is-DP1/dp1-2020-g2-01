@@ -123,7 +123,10 @@ public class CitaController {
 				model.put("citas", citaService.findCitaByTallerUbicacion(ubicacion)); 
 			}
 			else {
-				model.addAttribute("citas", citaService.findAll());
+
+				model.addAttribute(citasHoy());
+				model.addAttribute(citas());
+
 			}
 		}
 		return vista;

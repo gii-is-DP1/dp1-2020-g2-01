@@ -126,8 +126,7 @@ public class CitaService {
 				+ "Sentimos todas las molestias que esto pudiera ocasionar,\nEl jefe del taller.";
 		
 		List<Cita> citas = this.findCitaByTallerUbicacion(ubicacion);
-		System.out.println(citas);
-			for(int i=0;i<citas.size();i++) {
+		for(int i=0;i<citas.size();i++) {
 				Cita cita = citas.get(i);
 				String to = cita.getVehiculo().getCliente().getEmail();
 				LocalDate fecha = cita.getFecha();
