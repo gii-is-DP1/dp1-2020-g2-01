@@ -33,6 +33,10 @@ public interface CitaRepository extends CrudRepository<Cita, Integer> {
 	@Query("SELECT cita FROM Cita cita WHERE cita.vehiculo.cliente.user.username LIKE :username")
 	List<Cita> findByUsername(@Param("username") String username, Sort sort);
 
-	List<Cita> findCitasByFechaAfter(LocalDate today);
+	List<Cita> findCitasByFechaAfter(LocalDate today, Sort sort);
+
+	List<Cita> findCitasByFechaBefore(LocalDate today, Sort sort);
+
+	List<Cita> findCitasByFechaEquals(LocalDate now, Sort by);
 	
 }

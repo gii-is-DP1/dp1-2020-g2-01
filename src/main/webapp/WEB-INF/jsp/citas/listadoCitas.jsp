@@ -25,7 +25,7 @@
     </script>
 	
 	<div class="col-sm-12">
-    <div class="col-sm-2"><h2>Citas</h2></div>
+    <div class="col-sm-2"><h2>Citas hoy</h2></div>
     <sec:authorize access="hasAuthority('admin')">
     <spring:url value="/citas/covid" var="citaUrl">
     </spring:url>
@@ -43,6 +43,136 @@
 
     </sec:authorize>
     <div class="col-sm-12" style="height:5px"></div>
+    <table id="citasTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th class = "text-center">Fecha</th>
+            <th>Hora</th>
+        	<sec:authorize access="hasAuthority('admin')">
+                <th>Nombre</th>
+			</sec:authorize>
+			<sec:authorize access="hasAuthority('empleado')">
+                <th>Nombre</th>
+			</sec:authorize>
+            <th>Coche</th>
+            <th>Tipo de cita</th>
+			<th>Taller</th>
+        	<sec:authorize access="hasAuthority('empleado')">
+                <th></th>
+                <th></th>
+			</sec:authorize>
+            <th></th>
+            <th></th>
+            
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${citasHoy}" var="cita">
+            <tr>
+                
+                <td>
+                <p class="text-center" style="font-size: 65%; margin: 0">${cita.fecha.year}</p>
+                <c:set var = "monthParsed" value = "${fn:substring(cita.fecha.month, 0, 3)}" />
+                <p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
+                <p class="text-center"  style="margin: 0"><strong>${cita.fecha.dayOfMonth}</strong></p>
+                </td>
+                
+                <td>
+                <span class="helper"></span>
+                   <p><strong>${cita.hora}:00</strong></p>
+                </td>
+                <sec:authorize access="hasAuthority('admin')">
+                <td>
+                    <c:out value="${cita.vehiculo.cliente.nombre}"/>
+	               		<spring:url value="/clientes/clienteDetails/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${cita.vehiculo.cliente.user.username}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(clienteUrl)}">
+                    	<span class="glyphicon glyphicon-eye-open"></span></a>
+                    <p><small><c:out value="${cita.vehiculo.cliente.apellidos}"/></small></p>
+                </td>
+				</sec:authorize>
+				<sec:authorize access="hasAuthority('empleado')">
+                <td>
+                    <c:out value="${cita.vehiculo.cliente.nombre}"/>
+	               		<spring:url value="/clientes/clienteDetails/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${cita.vehiculo.cliente.user.username}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(clienteUrl)}">
+                    	<span class="glyphicon glyphicon-eye-open"></span></a>
+                    <p><small><c:out value="${cita.vehiculo.cliente.apellidos}"/></small></p>
+                </td>
+				</sec:authorize>
+            
+                <td>
+                    <p><c:out value="${cita.vehiculo.modelo}"/></p>
+                    <p><small><c:out value="${cita.vehiculo.matricula}"/></small></p>
+                </td>
+                
+                <td>
+                <span class="helper"></span>
+                   <p>
+                   <c:set var="i" value="0"/>
+                   <c:forEach items="${cita.tiposCita}" var="tipo">
+                   <c:out value="${tipo.tipo}"/>
+                   <c:set var="i" value="${i + 1}"/>
+                   <c:if test="${ fn:length(cita.tiposCita) > i}">, </c:if>
+                   </c:forEach>
+                   </p>
+                </td>
+                <td>
+                <span class="helper"></span>
+                	<p><c:out value="${cita.taller.ubicacion}"/></p>
+                </td>
+                <sec:authorize access="hasAuthority('empleado')">
+                <td>
+					<sec:authentication property="name" var="username"/>
+					<c:set var="empleadoEnCita" value="false"/>
+					<c:forEach var="empleado" items="${cita.empleados}">
+						<c:if test="${empleado.usuario.username == username}">
+							<c:set var="empleadoEnCita" value="true"/>							
+						</c:if>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${empleadoEnCita}">
+							<strong>Atiendes esta cita</strong></br>
+							<a href="/citas/noAtender/${cita.id}">No puedo atender</a>	
+						</c:when>
+						<c:otherwise>
+							<a href="/citas/atender/${cita.id}">Atender la cita</a>
+						</c:otherwise>
+					</c:choose>
+                </td>
+                <td>
+                	<a href="/reparaciones/new/${cita.id}">Crear reparación</a>
+                </td>
+                </sec:authorize>
+                <td>
+                	<spring:url value="/citas/update/{citaId}" var="citaUrl">
+                        <spring:param name="citaId" value="${cita.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(citaUrl)}">
+                    	<span class="helper glyphicon glyphicon-pencil"></span>
+                    </a>
+                
+                </td>
+                
+                
+                 <td>
+                	<spring:url value="/citas/confirmDelete/{citaId}" var="citaUrl">
+                        <spring:param name="citaId" value="${cita.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(citaUrl)}">
+						<span class="helper glyphicon glyphicon-trash"></span>
+					</a>
+                
+                </td>
+                
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+    <div class="col-sm-2"><h2>Proximas citas</h2></div>
     <table id="citasTable" class="table table-striped">
         <thead>
         <tr>
@@ -167,6 +297,96 @@
 					</a>
                 
                 </td>
+                
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+    <div class="col-sm-2"><h2>Citas pasadas</h2></div>
+        <table id="citasTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th class = "text-center">Fecha</th>
+            <th>Hora</th>
+        	<sec:authorize access="hasAuthority('admin')">
+                <th>Nombre</th>
+			</sec:authorize>
+			<sec:authorize access="hasAuthority('empleado')">
+                <th>Nombre</th>
+			</sec:authorize>
+            <th>Coche</th>
+            <th>Tipo de cita</th>
+			<th>Taller</th>
+        	<sec:authorize access="hasAuthority('empleado')">
+                <th></th>
+			</sec:authorize>
+            
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${citasPasadas}" var="cita">
+            <tr>
+                
+                <td>
+                <p class="text-center" style="font-size: 65%; margin: 0">${cita.fecha.year}</p>
+                <c:set var = "monthParsed" value = "${fn:substring(cita.fecha.month, 0, 3)}" />
+                <p class = "text-center" style="color: DarkGray"><strong><small>${monthParsed}</small></strong></p>
+                <p class="text-center"  style="margin: 0"><strong>${cita.fecha.dayOfMonth}</strong></p>
+                </td>
+                
+                <td>
+                <span class="helper"></span>
+                   <p><strong>${cita.hora}:00</strong></p>
+                </td>
+                <sec:authorize access="hasAuthority('admin')">
+                <td>
+                    <c:out value="${cita.vehiculo.cliente.nombre}"/>
+	               		<spring:url value="/clientes/clienteDetails/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${cita.vehiculo.cliente.user.username}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(clienteUrl)}">
+                    	<span class="glyphicon glyphicon-eye-open"></span></a>
+                    <p><small><c:out value="${cita.vehiculo.cliente.apellidos}"/></small></p>
+                </td>
+				</sec:authorize>
+				<sec:authorize access="hasAuthority('empleado')">
+                <td>
+                    <c:out value="${cita.vehiculo.cliente.nombre}"/>
+	               		<spring:url value="/clientes/clienteDetails/{username}" var="clienteUrl">
+                        <spring:param name="username" value="${cita.vehiculo.cliente.user.username}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(clienteUrl)}">
+                    	<span class="glyphicon glyphicon-eye-open"></span></a>
+                    <p><small><c:out value="${cita.vehiculo.cliente.apellidos}"/></small></p>
+                </td>
+				</sec:authorize>
+            
+                <td>
+                    <p><c:out value="${cita.vehiculo.modelo}"/></p>
+                    <p><small><c:out value="${cita.vehiculo.matricula}"/></small></p>
+                </td>
+                
+                <td>
+                <span class="helper"></span>
+                   <p>
+                   <c:set var="i" value="0"/>
+                   <c:forEach items="${cita.tiposCita}" var="tipo">
+                   <c:out value="${tipo.tipo}"/>
+                   <c:set var="i" value="${i + 1}"/>
+                   <c:if test="${ fn:length(cita.tiposCita) > i}">, </c:if>
+                   </c:forEach>
+                   </p>
+                </td>
+                <td>
+                <span class="helper"></span>
+                	<p><c:out value="${cita.taller.ubicacion}"/></p>
+                </td>
+                <sec:authorize access="hasAuthority('empleado')">
+                <td>
+                	<c:if test="${not cita.tieneReparacion}"><a href="/reparaciones/new/${cita.id}">Crear reparación</a></c:if>
+                	
+                </td>
+                </sec:authorize>
                 
             </tr>
         </c:forEach>

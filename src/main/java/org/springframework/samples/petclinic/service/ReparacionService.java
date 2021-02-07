@@ -168,18 +168,22 @@ public class ReparacionService {
 	public void recoger(Reparacion rep) throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, NoRecogidaSinPagoException{
 		//PUEDE QUE HAYA QUE MODIFICAR
 		
-		if (!rep.getLineaFactura().isEmpty()) {
-			Factura f = rep.getLineaFactura().get(0).getFactura();
-			if(f.getFechaPago()==null) {
-				throw new NoRecogidaSinPagoException();
-			}
-		}
+//		if (!rep.getLineaFactura().isEmpty()) {
+//			Factura f = rep.getLineaFactura().get(0).getFactura();
+//			if(f.getFechaPago()==null) {
+//				throw new NoRecogidaSinPagoException();
+//			}
+//		}
 		
 		//
 		
 		LocalDate fechaActual = LocalDate.now();
 		rep.setFechaRecogida(fechaActual);
 		this.saveReparacion(rep);
+	}
+
+	public List<Reparacion> findReparacionByEmpleadoAndReparacionActiva(Empleado empleado) {
+		return reparacionRepository.findReparacionByEmpleadoAndReparacionActiva(empleado);
 	}
 	
 

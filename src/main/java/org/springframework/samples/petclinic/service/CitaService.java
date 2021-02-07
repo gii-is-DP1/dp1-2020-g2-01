@@ -174,7 +174,17 @@ public class CitaService {
 	
 	@Transactional(readOnly=true)
 	public List<Cita> findCitasFuturas() {
-		return citaRepository.findCitasByFechaAfter(LocalDate.now());
+		return citaRepository.findCitasByFechaAfter(LocalDate.now(), Sort.by(Sort.Direction.ASC, "fecha", "hora"));
+	}
+
+	@Transactional(readOnly=true)
+	public List<Cita> findCitasHoy() {
+		return citaRepository.findCitasByFechaEquals(LocalDate.now(), Sort.by(Sort.Direction.ASC, "fecha", "hora"));
+	}
+
+	@Transactional(readOnly=true)
+	public List<Cita> findCitasPasadas() {
+		return citaRepository.findCitasByFechaBefore(LocalDate.now(), Sort.by(Sort.Direction.DESC, "fecha", "hora"));
 	}
 	
 }

@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.web;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -75,9 +74,8 @@ public class FacturaController {
 			model.addAttribute("messageType", "danger");
 		}
 		
-		vista=listadoFacturas(model);
-	
-		return vista;
+
+		return "redirect:/reparaciones/getReparacion/" + reparacionService.findReparacionById(id).get().getId().toString();
 	}
 	
 	@GetMapping(value="/generar/{reparacionId}")
@@ -85,11 +83,18 @@ public class FacturaController {
 		Reparacion reparacion = reparacionService.findReparacionById(id).get();
 		List<LineaFactura> lineaFactura = reparacion.getLineaFactura();
 		Factura factura = new Factura();
-		factura.setFechaPago(LocalDate.now());
 		factura.setLineaFactura(lineaFactura);
 		model.addAttribute("factura",factura);
 		model.addAttribute("reparacion", reparacion);
 		return "facturas/generar_factura";
+	}
+	
+	@GetMapping("/marcarPagado/{facturaId}")
+	public String marcarComoPagado(@PathVariable("facturaId") int id, ModelMap model) {
+		Factura f = facturaService.findFacturaById(id).get();
+		f.setFechaPago(LocalDate.now());
+		facturaService.saveFactura(f);
+		return "redirect:/reparaciones/getReparacion/" + f.getLineaFactura().get(0).getReparacion().getId().toString();
 	}
 
 	@GetMapping(value="/info/{facturaId}")

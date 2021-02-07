@@ -31,13 +31,9 @@
         <form:form action="/reparaciones/save" modelAttribute="reparacion" class="form-horizontal">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Descripción" name="descripcion"/> 
-                <petclinic:inputField label="Tiempo estimado" name="tiempoEstimado"/> 
-               	<petclinic:inputField label="Fecha de entrega" name="fechaEntrega"/> 
-<<<<<<< HEAD
+                <petclinic:inputField label="Tiempo estimado" name="tiempoEstimado" autocomplete="off"/> 
+               	<petclinic:inputField label="Fecha de entrega" name="fechaEntrega" autocomplete="off"/> 
                	<!-- <petclinic:inputField label="Fecha de recogida" name="fechaRecogida"/>-->
-=======
-               	<!-- <petclinic:inputField label="Fecha de recogida" name="fechaRecogida"/> -->
->>>>>>> branch 'serarirud' of https://github.com/gii-is-DP1/dp1-2020-g2-01.git
                	<petclinic:inputField label="Cita asociada" name="cita" readonly="true"/>
                	<!-- <petclinic:selectFieldMultiple label="Empleados asignados (usar CTRL para seleccionar varios)" 
                	name="horasTrabajadas" size="5"  names="${empleados}"/> -->
