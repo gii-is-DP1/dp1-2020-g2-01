@@ -1,13 +1,12 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,15 +25,11 @@ public class FacturaRecambio extends BaseEntity{
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate fechaPago;
 	
-	@OneToMany
-	private List<PedidoRecambio> lineaPedido;
+	@OneToOne
+	@JoinColumn(name = "pedido_recambio")
+	private PedidoRecambio PedidoRecambio;
 	
-	@Transient
-	public Double getPrecioTotal() {
-		Double res=0.;
-		for(PedidoRecambio pedido:lineaPedido) {
-			res+=pedido.getPrecio();
-		}
-		return res;
-	}
+	@NotNull
+	@Column(name="precio")
+	private Double precioTotal;
 }

@@ -1,12 +1,18 @@
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.FacturaRecambio;
 import org.springframework.samples.petclinic.model.PedidoRecambio;
 import org.springframework.samples.petclinic.model.Proveedor;
+import org.springframework.samples.petclinic.model.Solicitud;
+import org.springframework.samples.petclinic.service.FacturaRecambioService;
+import org.springframework.samples.petclinic.service.FacturaService;
 import org.springframework.samples.petclinic.service.PedidoRecambioService;
 import org.springframework.samples.petclinic.service.ProveedorService;
 import org.springframework.samples.petclinic.service.RecambioService;
@@ -15,6 +21,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,6 +39,9 @@ public class PedidoRecambioController {
 	
 	@Autowired
 	private RecambioService recambioService;
+	
+	@Autowired
+	private FacturaRecambioService facturaRecambioService;
 	
 	@ModelAttribute("proveedores")
 	public List<Proveedor> listaProveedores(){
@@ -65,11 +75,32 @@ public class PedidoRecambioController {
 			vista = "pedidosRecambio/newPedidosRecambio";
 		} else {
 			pedidoRecambioService.savePedidoRecambio(pedidoRecambio);
-//			model.addAttribute("message", "Pedido Recambio created successfully");
-//			vista = listadoPedidoRecambio(model);
+			LocalDate fecha = LocalDate.now();
+			Double precio = pedidoRecambio.getPrecio();
+			FacturaRecambio facturaRecambio = new FacturaRecambio();
+			facturaRecambio.setFechaPago(fecha);
+			facturaRecambio.setPedidoRecambio(pedidoRecambio);
+			facturaRecambio.setPrecioTotal(precio);
+			facturaRecambioService.saveFacturaRecambio(facturaRecambio);
 			vista = "redirect:/pedidosRecambio/listadoPedidosRecambio";
 		}
 		return vista;
+	}
+	
+	@GetMapping("/delete/{id}")
+	public String borrarPedidosRecambio(@PathVariable("id") int id, ModelMap model) {
+		String vista;
+		Optional<PedidoRecambio> s = pedidoRecambioService.findById(id);
+		if(!s.isPresent()) {
+			model.addAttribute("message", "No existe la solicitud dada");
+		} else {
+			
+			pedidoRecambioService.delete(s.get());
+			model.addAttribute("message", "Pedido borrado con éxito");
+		}
+		vista = listadoPedidoRecambio(model);
+		return vista;
+		
 	}
 
 
