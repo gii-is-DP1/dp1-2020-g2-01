@@ -76,11 +76,11 @@ public class PedidoRecambioController {
 		} else {
 			pedidoRecambioService.savePedidoRecambio(pedidoRecambio);
 			LocalDate fecha = LocalDate.now();
-			Double precio = pedidoRecambio.getPrecio();
+//			Double precio = pedidoRecambio.getPrecio();
 			FacturaRecambio facturaRecambio = new FacturaRecambio();
 			facturaRecambio.setFechaPago(fecha);
 			facturaRecambio.setPedidoRecambio(pedidoRecambio);
-			facturaRecambio.setPrecioTotal(precio);
+//			facturaRecambio.setPrecioTotal(precio);
 			facturaRecambioService.saveFacturaRecambio(facturaRecambio);
 			vista = "redirect:/pedidosRecambio/listadoPedidosRecambio";
 		}

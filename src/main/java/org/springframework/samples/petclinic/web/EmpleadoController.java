@@ -84,7 +84,7 @@ public class EmpleadoController {
 	public String mostrarDetalles(@PathVariable("username") String username, ModelMap model) {
 		Optional<Empleado> empleado = this.empleadoService.findEmpleadoByUsuarioUsername(username);
 		if(!empleado.isPresent()) {
-			model.addAttribute("message", "Cliente no encontrado");
+			model.addAttribute("message", "Empleado no encontrado");
 			model.addAttribute("messageType", "danger");
 			return "/";
 		}

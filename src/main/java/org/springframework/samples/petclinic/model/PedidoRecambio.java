@@ -40,7 +40,7 @@ public class PedidoRecambio extends NamedEntity{
 	@JoinColumn(name="proveedor_id")
 	private Proveedor proveedor;
 	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "PedidoRecambio", fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedidoRecambio", fetch = FetchType.EAGER)
 	private FacturaRecambio facturaRecambio;
 	
 	@Transient
