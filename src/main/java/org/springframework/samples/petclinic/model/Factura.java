@@ -34,7 +34,7 @@ public class Factura extends BaseEntity{
 	
 	@Transient
 	public Double getPrecioConDescuento() {
-		return (double)Math.round(getPrecioTotal()*(1-getDescuento()/100.0)*100d)/100d;
+		return (double)Math.round(getPrecioTotal()*(1-getDescuento()/100.0)*100d)/100d + getCargaExtraMonetaria();
 	}
 
 	
@@ -54,9 +54,24 @@ public class Factura extends BaseEntity{
 	public Integer getDescuento() {
 		return Math.min(calcularDiasPasadasFechaEsperada()*10,50);
 	}
+	
+	@Transient
+	public Integer getCargaExtraMonetaria() {
+		Integer res=0;
+		if(calcularDiasPasadasFechaRecogida()>10) {
+			Integer dias = calcularDiasPasadasFechaRecogida()-10;
+			res=dias*20; //RN4
+		}
+		return res;
+	}
 
 	public Integer calcularDiasPasadasFechaEsperada() {
 		int i = (int) ((int) lineaFactura.get(0).getReparacion().getFechaFinalizacion().toEpochDay() - lineaFactura.get(0).getReparacion().getTiempoEstimado().toEpochDay());
+		return i/10;
+	}
+	
+	public Integer calcularDiasPasadasFechaRecogida() {
+		int i = (int) ((int) lineaFactura.get(0).getReparacion().getFechaRecogida().toEpochDay() - lineaFactura.get(0).getReparacion().getFechaFinalizacion().toEpochDay());
 		return i/10;
 	}
 
