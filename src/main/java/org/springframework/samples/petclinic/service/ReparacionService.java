@@ -31,16 +31,21 @@ public class ReparacionService {
 	
 	private ReparacionRepository reparacionRepository;
 	
-	@Autowired
-	public ReparacionService(ReparacionRepository reparacionRepository) {
-		this.reparacionRepository = reparacionRepository;
-	}
-	
-	@Autowired
+
 	private SendEmailService sendEmailService;
 	
-	@Autowired
+	
 	private HorasTrabajadasService horasTrabajadasService;
+	
+	@Autowired
+	public ReparacionService(ReparacionRepository reparacionRepository, SendEmailService sendEmailService, 
+			HorasTrabajadasService horasTrabajadasService) {
+		this.reparacionRepository = reparacionRepository;
+		this.sendEmailService = sendEmailService;
+		this.horasTrabajadasService = horasTrabajadasService;
+	}
+	
+
 	
 //	@Autowired
 //	private RecambioService recambioService;

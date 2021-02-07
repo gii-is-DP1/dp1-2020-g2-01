@@ -9,11 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.any;
+
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -29,6 +36,7 @@ import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.TipoCita;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.repository.ReparacionRepository;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
@@ -41,13 +49,14 @@ import org.springframework.samples.petclinic.service.exceptions.NotAllowedExcept
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@ExtendWith(MockitoExtension.class)
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class ReparacionServiceTest {
 	
 
 	@Autowired
 	protected ReparacionService reparacionService;
-	
+
 	@Autowired
 	protected CitaService citaService;
 	
@@ -89,6 +98,12 @@ class ReparacionServiceTest {
 	
 	@Autowired
 	protected FacturaService facturaService;
+	
+	@Autowired
+	protected ReparacionRepository reparacionRepository;
+	
+	@Mock
+	protected SendEmailService mock;
 	
 	
 	public Reparacion r;
@@ -385,11 +400,13 @@ class ReparacionServiceTest {
 		assertFalse(reparacionService.findReparacionById(r.getId()).isPresent());
 		
 	}
-	
+		
 	@Test
 	@Transactional
 	void shouldFinalizar() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException {
+		reparacionService = new ReparacionService(reparacionRepository, mock, horasTrabajadasService); 
 		reparacionService.finalizar(r);
+		verify(mock, times(1)).sendEmail(any(String.class), any(String.class), any(String.class));
 		assertEquals(r.getFechaFinalizacion(), LocalDate.now());
 	}
 	
