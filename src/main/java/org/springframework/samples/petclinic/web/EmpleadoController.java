@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.service.EmpleadoService;
+import org.springframework.samples.petclinic.service.ReparacionService;
 import org.springframework.samples.petclinic.service.TallerService;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
@@ -31,6 +32,9 @@ public class EmpleadoController {
 	
 	@Autowired
 	private TallerService tallerService;
+	
+	@Autowired
+	private ReparacionService reparacionService;
 	
 	@GetMapping(value = "/listadoEmpleados")
 	public String listadoEmpleados(ModelMap m) {
@@ -92,7 +96,7 @@ public class EmpleadoController {
 		String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
 		if(username.equals(username2) || auth.equals("admin")) {
 			model.addAttribute("empleado", empleado.get());
-
+			model.addAttribute("reparaciones", reparacionService.findReparacionByEmpleadoAndReparacionActiva(empleado.get()));
 			return "empleados/empleadoDetails";
 		}else {
 			return "redirect:/";

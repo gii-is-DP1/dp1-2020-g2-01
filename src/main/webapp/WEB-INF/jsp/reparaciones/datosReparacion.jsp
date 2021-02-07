@@ -96,11 +96,14 @@
 <a href="/reparaciones/finalizar/${reparacion.id}" class="btn btn-success col-sm-offset-6 col-sm-2">Finalizar</a></c:if>
 
 
-<c:if test="${empty reparacion.fechaRecogida and not empty reparacion.fechaFinalizacion}">
-<a href="/reparaciones/recoger/${reparacion.id}" class="btn btn-success col-sm-offset-6 col-sm-4">Marcar como recogido</a></c:if>
 
-<c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.fechaRecogida and not empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/ver/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-4">Ver factura</a></c:if>
+
+<c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.fechaRecogida and not empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/info/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-4">Ver factura</a></c:if>
 <c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.fechaRecogida and empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/generar/${reparacion.id}" class="btn btn-success col-sm-4">Generar Factura</a></c:if>
+<c:if test="${not empty reparacion.fechaRecogida and not empty reparacion.fechaFinalizacion and empty reparacion.lineaFactura[0].factura.fechaPago and not empty reparacion.lineaFactura[0].factura.id}">
+<a href="/facturas/marcarPagado/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-offset-4 col-sm-4">Marcar como pagado</a></c:if>
+<c:if test="${empty reparacion.fechaRecogida and not empty reparacion.fechaFinalizacion}">
+<a href="/reparaciones/recoger/${reparacion.id}" class="btn btn-success col-sm-offset-8 col-sm-4">Marcar como recogido</a></c:if>
 
 </div>
 <div class="col-sm-6">
@@ -117,8 +120,6 @@
            <th>Precio base</th>
            <th>Descuento</th>
            <th>Precio final</th>
-           <c:if test="${empty reparacion.fechaFinalizacion}"><th></th>
-           <th></th></c:if>
 
        </tr>
        </thead>
@@ -131,8 +132,6 @@
 			<td>${lineaFactura.precioBase}€</td>
 			<td>${lineaFactura.descuento}%</td>
 			<td>${lineaFactura.precio}€</td>
-			<c:if test="${empty reparacion.fechaFinalizacion}"><td><span class="glyphicon glyphicon-pencil"></span></td>
-			<td><span class="glyphicon glyphicon-trash"></span></td></c:if>
 		</tr>
 		</c:forEach>
 	</tbody>
@@ -175,7 +174,7 @@
 	</tbody>
 	</table>
 </div>
-<c:if test="${empty reparacion.fechaFinalizacion}"><a href="/reparaciones/addRecambio" class="btn btn-success col-sm-4">Añadir recambios</a></c:if>
+<c:if test="${empty reparacion.fechaFinalizacion}"><a href="/reparaciones/addRecambio/${reparacion.id}" class="btn btn-success col-sm-4">Modificar recambios</a></c:if>
 <c:if test="${empty reparacion.fechaFinalizacion}"><a href="/horas/addHora/${reparacion.id}" class="btn btn-success col-sm-offset-4 col-sm-4">Añadir hora</a></c:if>
 </div>
 </div>

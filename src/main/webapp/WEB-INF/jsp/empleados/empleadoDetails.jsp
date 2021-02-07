@@ -55,9 +55,70 @@
    </spring:url>
        	<a href="${fn:escapeXml(empleadoUrl)}" class="btn btn-success">Editar perfil</a>
 </div>
+<div class="col-sm-6">
+<c:if test="${not empty reparaciones}">
+	<div class="panel panel-success">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Reparaciones</h3>
+	  </div>
+		  <table id="reparacionesTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Descripción</th>
+            <th>Vehículo</th>
+            <th>Cliente</th>
+            <th></th>
+            <th></th>
+            
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${reparaciones}" var="reparacion">
+            <tr>
+            
+                <td>
+                	<c:out value="${reparacion.descripcion}"></c:out>
+                </td>
+                
+                <td>
+                   <c:out value="${reparacion.cita.vehiculo.modelo}"/>
+                </td>
+                
+                <td>
+                	<c:out value="${reparacion.cita.vehiculo.cliente.nombre}"/>
+               		<spring:url value="/clientes/clienteDetails/{username}" var="clienteUrl">
+                       <spring:param name="username" value="${reparacion.cita.vehiculo.cliente.user.username}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(clienteUrl)}">
+                   	<span class="glyphicon glyphicon-eye-open"></span></a>
+               		
+                   	<p><small><c:out value="${reparacion.cita.vehiculo.cliente.apellidos}"/></small></p>
+                </td>
+                
+                <td>
+                	<spring:url value="/reparaciones/update/{reparacionId}" var="reparacionUrl">
+                        <spring:param name="reparacionId" value="${reparacion.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(reparacionUrl)}"><span class="glyphicon glyphicon-pencil"></span></a>
+	                
+                </td>
+	             
+	             
+            	<td>
+                	<spring:url value="/reparaciones/getReparacion/{reparacionId}" var="reparacionUrl">
+                        <spring:param name="reparacionId" value="${reparacion.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(reparacionUrl)}"><span class="glyphicon glyphicon-eye-open"></span></a>
+	                
+                </td>
+                
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+	</div>
+</c:if>
 </div>
-
-	
-	<!-- AÑADIR REPARACIONES?? -->
+</div>
 
 </petclinic:layout>

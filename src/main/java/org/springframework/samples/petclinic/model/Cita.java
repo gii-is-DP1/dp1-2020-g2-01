@@ -65,4 +65,7 @@ public class Cita extends BaseEntity{
 	
 	@Column(name="asistido")
 	private boolean asistido;
+	
+	@Column(name="tiene_reparacion")
+	private Boolean tieneReparacion;
 }

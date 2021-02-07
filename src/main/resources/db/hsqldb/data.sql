@@ -125,10 +125,10 @@ INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cli
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (102, '5678ABC', 'VSSZZZ6KZ1R149943', 'Citroen C3', 1, 1);
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (103, '5679ABC', 'VSSZZZ6KZ1R149943', 'Citroen C4', 1, 1);
 
-INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (100,'2021-10-22', 19, 100, 1, true);
+INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (100,CURDATE(), 19, 100, 1, true);
 INSERT INTO citas_tipocita VALUES (100, 1);
 INSERT INTO citas_tipocita VALUES (100, 2);
-INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (101, 100, '2021-10-22', 20, 1, true);
+INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (101, 100, CURDATE(), 18, 1, true);
 INSERT INTO citas_tipocita VALUES (101, 1);
 INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (102, 100, CURDATE(), 20, 2, true);
 INSERT INTO citas_tipocita VALUES (102, 1);
@@ -197,10 +197,13 @@ INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, em
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (101, 'Aguayo', '11111112A', 
 					'2000-11-16', 'Javi', 666666666, 'correo@correo.com', '2021-11-16', '2020-11-16', '11111111211', 950, 'empleado2', 2);
 
-INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (200,'2021-10-23', 20, 200, 1, true);
+INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido, tiene_reparacion) VALUES (200,CURDATE()-1, 20, 200, 1, true, true);
 INSERT INTO citas_tipocita VALUES (200, 1);
 INSERT INTO citas_empleados VALUES (200, 100);
-INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (201,'2021-10-24', 20, 200, 2, true);
+INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido, tiene_reparacion) VALUES (201,CURDATE()-2, 20, 200, 2, true, true);
+INSERT INTO citas_tipocita VALUES (201, 1);
+
+INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido, tiene_reparacion) VALUES (202,CURDATE()+2, 20, 200, 1, true, false);
 INSERT INTO citas_tipocita VALUES (201, 1);
 
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
