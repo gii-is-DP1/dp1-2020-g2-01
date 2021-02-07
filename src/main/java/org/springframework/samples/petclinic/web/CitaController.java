@@ -86,6 +86,17 @@ public class CitaController {
 		return citaService.findCitasFuturas();
 	}
 	
+	@ModelAttribute("citasPasadas")
+	public List<Cita> citasPasadas(){
+		List<Cita> citasPasadas = citaService.findCitasPasadas();
+		return citasPasadas.subList(0, Math.min(10, citasPasadas.size()));
+	}
+	
+	@ModelAttribute("citasHoy")
+	public List<Cita> citasHoy(){
+		return citaService.findCitasHoy();
+	}
+	
 	@ModelAttribute("talleres")
 	public List<Taller> talleres(){
 		return (List<Taller>) tallerService.findAll();

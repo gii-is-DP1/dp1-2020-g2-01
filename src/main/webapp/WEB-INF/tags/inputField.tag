@@ -12,7 +12,9 @@
               description="" %>
 <%@ attribute name="noglyphicon" required="false" rtexprvalue="true"
               description="" %>
-              
+<%@ attribute name="autocomplete" required="false" rtexprvalue="true"
+              description="" %>
+                            
 <spring:bind path="${name}">
     <c:set var="cssGroup" value="form-group ${status.error ? 'has-error' : '' }"/>
     <c:set var="valid" value="${not status.error and not empty status.actualValue}"/>
@@ -20,7 +22,8 @@
         <label class="col-sm-2 control-label">${label}</label>
 
         <div class="col-sm-10">
-            <form:input type="${type}" readonly="${readonly}" class="form-control" path="${name}" id="${name}"/>
+        	<c:set var="autocomplete" value="${(empty autocomplete) ? 'on' : autocomplete}" />
+            <form:input autocomplete="${autocomplete}" type="${type}" readonly="${readonly}" class="form-control" path="${name}" id="${name}"/>
             <c:if test="${valid}">
             	<c:set var="icon" value="glyphicon glyphicon-ok"></c:set>
             	<c:if test="${noglyphicon}"><c:set var="icon" value=""></c:set></c:if>

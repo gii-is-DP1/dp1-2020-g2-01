@@ -7,26 +7,29 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
-import org.springframework.samples.petclinic.model.HoraTrabajada;
+import org.springframework.samples.petclinic.model.LineaFactura;
 import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.EmpleadoService;
+import org.springframework.samples.petclinic.service.LineaFacturaService;
 import org.springframework.samples.petclinic.service.RecambioService;
 import org.springframework.samples.petclinic.service.ReparacionService;
+import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
+import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
+import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,6 +72,9 @@ public class ReparacionController {
 	
 	@Autowired
 	private RecambioService recambiosService;
+	
+	@Autowired
+	private LineaFacturaService lineaFacturaService;
 	
 	@ModelAttribute("empleados")
 	public List<Empleado> empleados() {
@@ -117,7 +123,7 @@ public class ReparacionController {
 	}
 
 	@PostMapping(value = "/save")
-	public String guardarReparacion(@Valid Reparacion reparacion, BindingResult result, ModelMap model) {
+	public String guardarReparacion(@Valid Reparacion reparacion, BindingResult result, ModelMap model) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
 		String vista;
 
 		if(result.hasErrors()) { 
@@ -129,13 +135,19 @@ public class ReparacionController {
 		
 		} else {
 			try {
-				vista = verReparacion(reparacion.getId(), model);
+				
 				if(reparacion.getId() != null) {
 					vista = "redirect:/reparaciones/getReparacion/" + reparacion.getId().toString();
 					reparacion.setHorasTrabajadas(reparacionService.findReparacionById(reparacion.getId()).get().getHorasTrabajadas());
+					reparacionService.saveReparacion(reparacion);
+				}else {
+					reparacionService.saveReparacion(reparacion);
+					Cita c = reparacion.getCita();
+					c.setTieneReparacion(true);
+					vista = verReparacion(reparacion.getId(), model);
 				}
 //				reparacionService.setEmpleadosAReparacion(horas, reparacion);
-				reparacionService.saveReparacion(reparacion);
+				
 			
 			} catch (FechasReparacionException e) {
 				log.warn("Excepción: fechas incongruentes; fecha de entrega: " +reparacion.getFechaEntrega().toString(), 
@@ -223,7 +235,7 @@ public class ReparacionController {
 
 		}catch(Exception e){
 			log.warn("Excepción: error inesperado al recoger la reparación");
-			model.addAttribute("message", "Error inesperado al recoger la reparación "+rep.getId());
+			model.addAttribute("message", "Error inesperado al recoger la reparación "+rep.getId() + " | " + e.getMessage());
 			model.addAttribute("messageType", "danger");
 		}
 		vista=listadoReparaciones(model);
@@ -274,5 +286,141 @@ public class ReparacionController {
 		return vista;
 	}
 	
+	@GetMapping("/addRecambio/{reparacionId}")
+	public String mostrarRecambios(@PathVariable("reparacionId") int id, ModelMap model, String busqueda) {
+		Optional<Reparacion> reparacion = reparacionService.findReparacionById(id);
+		if(!reparacion.isPresent()) {
+			model.put("message", "Reparación no encontrada");
+			model.put("messageType", "warning");
+			return listadoReparaciones(model);
+		}
+		busqueda = busqueda == null ? "" : busqueda;
+		List<Recambio> recambios = recambiosService.findRecambioNotInReparacion(reparacion.get(), busqueda);
+		List<Recambio> recambiosDeReparacion = reparacion.get().getLineaFactura().stream()
+				.map(x->x.getRecambio()).collect(Collectors.toList());
+		
+		model.addAttribute("recambios", recambios);
+		model.addAttribute("recambiosDeReparacion", recambiosDeReparacion);
+		model.addAttribute("reparacion", reparacion.get());
+		return "reparaciones/addRecambio";
+	}
+	
+	@GetMapping("/addRecambio/{reparacionId}/buscar")
+	public String buscarRecambio(@PathVariable("reparacionId") int id, @RequestParam("busqueda") String busqueda, ModelMap model) {
+		return mostrarRecambios(id, model, busqueda);
+	}
+	
+	@GetMapping("/addRecambio/{reparacionId}/{recambioId}")
+	public String addRecambio(@PathVariable("reparacionId") int repId, @PathVariable("recambioId") int recId, ModelMap model) {
+		String vista = "redirect:/reparaciones/addRecambio/" + String.valueOf(repId);
+		Optional<Reparacion> reparacion = reparacionService.findReparacionById(repId);
+		Optional<Recambio> recambio = recambiosService.findRecambioById(recId);
+		
+		if(!reparacion.isPresent()) {
+			model.put("message", "Reparación no encontrada");
+			model.put("messageType", "warning");
+			return listadoReparaciones(model);
+		}
+		
+		if(!recambio.isPresent()) {
+			model.put("message", "Recambio no encontrado");
+			model.put("messageType", "warning");
+			return mostrarRecambios(repId, model, "");
+		}
+		
+		LineaFactura ln = new LineaFactura();
+		ln.setCantidad(0);
+		ln.setDescripcion("Añade aqui la descripción");
+		ln.setDescuento(0);
+		ln.setPrecioBase(0.);
+		ln.setRecambio(recambio.get());
+		ln.setReparacion(reparacion.get());
+		
+		try {
+			lineaFacturaService.saveLineaFactura(ln);
+			reparacion.get().getLineaFactura().add(ln);
+			reparacionService.saveReparacion(reparacion.get());
+		}catch(Exception e) {
+			model.put("message", "Fallo al añadir el recambio");
+			model.put("messageType", "danger");
+			return mostrarRecambios(repId, model, "");
+		}
+		
+		return vista;
+	}
+	
+	@PostMapping("/addRecambio/{reparacionId}/{lnId}")
+	public String actualizarLineaFactura(@PathVariable("reparacionId") int id, @PathVariable("lnId") int lnId, @Valid LineaFactura ln, ModelMap model
+			, BindingResult result) {
+		String vista = "redirect:/reparaciones/addRecambio/" + String.valueOf(id);
+		Optional<Reparacion> reparacion = reparacionService.findReparacionById(id);
+		if(!reparacion.isPresent()) {
+			model.put("message", "Reparación no encontrada");
+			model.put("messageType", "warning");
+			return listadoReparaciones(model);
+		}
+		
+		if(result.hasErrors()) {
+			model.put("message", "Introduce datos válidos");
+			model.put("messageType", "warning");
+			return mostrarRecambios(id, model, "");
+		}
 
+		Integer cantidadAnterior = lineaFacturaService.findLineaFacturaById(lnId).get().getCantidad();
+		if(ln.getCantidad() > ln.getRecambio().getCantidadActual() + cantidadAnterior) {
+			ln.setCantidad(ln.getRecambio().getCantidadActual() + cantidadAnterior);
+		}
+		
+		try {
+			ln.setId(lnId);
+			lineaFacturaService.saveLineaFactura(ln);
+			Recambio r = ln.getRecambio();
+			r.setCantidadActual(r.getCantidadActual()-ln.getCantidad()+cantidadAnterior);
+			recambiosService.saveRecambio(r);
+		}catch(Exception e) {
+			model.put("message", "Fallo al guardar los datos");
+			model.put("messageType", "danger");
+			return mostrarRecambios(id, model, "");
+		}
+		
+		return vista;
+	}
+	
+	@GetMapping("/editRecambio/{repId}/{lnId}")
+	public String editRecambio(@PathVariable("repId") int id, @PathVariable("lnId") int lnId, ModelMap model) {
+		model.addAttribute("edit", lnId);
+		return mostrarRecambios(id, model, "");
+	}
+
+	@GetMapping("/deleteRecambio/{repId}/{lnId}")
+	public String deleteRecambio(@PathVariable("repId") int id, @PathVariable("lnId") int lnId, ModelMap model) {
+		Optional<Reparacion> reparacion = reparacionService.findReparacionById(id);
+		Optional<LineaFactura> ln = lineaFacturaService.findLineaFacturaById(lnId);
+		
+		if(!reparacion.isPresent()) {
+			model.put("message", "Reparación no encontrada");
+			model.put("messageType", "warning");
+			return listadoReparaciones(model);
+		}
+		
+		if(!ln.isPresent()) {
+			model.put("message", "Linea de factura no encontrada");
+			model.put("messageType", "warning");
+			return mostrarRecambios(id, model, "");
+		}
+		
+		try {
+			lineaFacturaService.delete(ln.get());
+
+			Recambio r = ln.get().getRecambio();
+			r.setCantidadActual(r.getCantidadActual()+ln.get().getCantidad());
+			recambiosService.saveRecambio(r);
+		}catch(Exception e) {
+			model.put("message", "Fallo al eliminar la linea de factura");
+			model.put("messageType", "danger");
+			return mostrarRecambios(id, model, "");
+		}
+		
+		return "redirect:/reparaciones/addRecambio/" + String.valueOf(id);
+	}
 }

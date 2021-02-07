@@ -1,12 +1,16 @@
 package org.springframework.samples.petclinic.model;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.lang.Nullable;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +40,7 @@ public class Solicitud extends BaseEntity {
 	private Empleado empleado;
 	
 	
-	@NotNull
+	@Nullable
 	@ManyToOne(optional=false)
 	@JoinColumn(name="reparacion_id")
 	private Reparacion reparacion;
