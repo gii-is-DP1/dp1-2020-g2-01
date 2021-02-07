@@ -9,6 +9,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
@@ -27,9 +28,12 @@ public class FacturaRecambio extends BaseEntity{
 	
 	@OneToOne
 	@JoinColumn(name = "pedido_recambio")
-	private PedidoRecambio PedidoRecambio;
+	private PedidoRecambio pedidoRecambio;
 	
+	@Transient
 	@NotNull
 	@Column(name="precio")
-	private Double precioTotal;
+	public Double getPrecioTotal() {
+		return pedidoRecambio.getPrecio();
+	}
 }

@@ -214,7 +214,7 @@ INSERT INTO horas_reparacion VALUES (1, 9);
 		
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (2,'Descripción', '2020-10-24', '2020-10-22', '2020-10-22', '2020-10-23', 201);
-INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2020-12-27');
+INSERT INTO facturas(id, fecha_Pago) VALUES (1, '2021-02-27');
 INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad,factura) VALUES (90, 15, 2, 'Cambio 4 ruedas', 100, 4,1);
 
 INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (10, 'Cambio de rueda', 10.5, 3, 100);
@@ -228,9 +228,8 @@ INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');
 
 
-
-INSERT INTO pedidos(id, name, cantidad, precio_unidad, recibido, proveedor_id) VALUES (1, 'Tubo de escape H83LS', 3, 214.32, false, 201);
-INSERT INTO pedidos(id, name, cantidad, precio_unidad, recibido, proveedor_id) VALUES (2, 'Tubo de escape H83LS entregado', 3, 214.32, true, 201);
+INSERT INTO pedidos(id, name, cantidad, precio_unidad, recibido, proveedor_id) VALUES (1, 'Batería INNPO Lcpower 74Ah 640A', 2, 175.02, true, 201);
+INSERT INTO pedidos(id, name, cantidad, precio_unidad, recibido, proveedor_id) VALUES (2, 'Tubo de escape H83LS', 1, 214.32, true, 201);
 
 
 -- Pruebas con solicitudes
@@ -238,5 +237,6 @@ INSERT INTO solicitudes(terminada, cantidad, recambio_id, empleado_id, reparacio
 
 
 -- 
-
+INSERT INTO facturas_recambios(id, fecha_pago, pedido_recambio) VALUES (1, '2021-02-12', 1);
+INSERT INTO facturas_recambios(id, fecha_pago, pedido_recambio) VALUES (2, '2021-02-23', 2);
 

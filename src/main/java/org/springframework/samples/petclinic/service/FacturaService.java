@@ -182,10 +182,16 @@ public class FacturaService {
 		return meses.stream().collect(Collectors.toList());
 	}
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Factura> findFacturasMesAnyo(Month m, int y){
 		LocalDate iniMes = LocalDate.of(y, m.getValue(), 1);
-		LocalDate finMes = LocalDate.of(y, m.getValue(), m.maxLength());
+		LocalDate finMes;
+		if(iniMes.isLeapYear()) {
+			finMes = LocalDate.of(y, m.getValue(), m.maxLength());
+		}
+		else {
+			finMes = LocalDate.of(y, m.getValue(), m.minLength());
+		}
 		List<Factura> res = this.facturaRepository.findFacturaByFechaPagoAfterAndFechaPagoBefore(iniMes, finMes, Sort.by(Sort.Direction.DESC, "fechaPago"));
 		return res;
 	}
