@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.service.FacturaRecambioService;
 import org.springframework.samples.petclinic.service.PedidoRecambioService;
 import org.springframework.samples.petclinic.service.ProveedorService;
 import org.springframework.samples.petclinic.service.RecambioService;
@@ -38,6 +39,9 @@ class PedidoRecambioControllerTests {
 	
 	@MockBean
 	private RecambioService recambioService;
+	
+	@MockBean
+	private FacturaRecambioService facturaRecambioService;
 	
 	@Autowired
 	private MockMvc mockMvc;
