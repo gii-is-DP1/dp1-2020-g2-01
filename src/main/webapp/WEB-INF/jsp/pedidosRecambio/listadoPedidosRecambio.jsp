@@ -60,6 +60,14 @@
                     	<p> Entregado </p>
                     </c:if>
                 </td>
+                
+                <td>
+                	<spring:url value="/pedidosRecambio/delete/${pedidoRecambio.id}" var="pedidoRecambioUrl">
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(pedidoRecambioUrl)}">
+	                    	<span class="glyphicon glyphicon-trash"></span>
+	                    </a>
+                </td>
             </tr>
           
             

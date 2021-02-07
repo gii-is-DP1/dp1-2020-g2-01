@@ -1,9 +1,12 @@
 package org.springframework.samples.petclinic.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -36,6 +39,9 @@ public class PedidoRecambio extends NamedEntity{
 	@ManyToOne
 	@JoinColumn(name="proveedor_id")
 	private Proveedor proveedor;
+	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "PedidoRecambio", fetch = FetchType.EAGER)
+	private FacturaRecambio facturaRecambio;
 	
 	@Transient
 	public Double getPrecio() {
