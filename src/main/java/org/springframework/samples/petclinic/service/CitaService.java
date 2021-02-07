@@ -113,7 +113,7 @@ public class CitaService {
 	}
 	
 	@Transactional
-	public void deleteCOVID() throws DataAccessException{
+	public void deleteCOVID(String ubicacion) throws DataAccessException{
 		LocalDate inicioCuarentena = LocalDate.now().minusDays(1);
 		LocalDate finCuarentena = LocalDate.now().plusDays(15);
 		String subject="Cancelación de su cita a causa del COVID-19";
@@ -125,7 +125,8 @@ public class CitaService {
 				+ finCuarentena.toString()+".\n\n"
 				+ "Sentimos todas las molestias que esto pudiera ocasionar,\nEl jefe del taller.";
 		
-		List<Cita> citas = this.findAll();
+		List<Cita> citas = this.findCitaByTallerUbicacion(ubicacion);
+		System.out.println(citas);
 			for(int i=0;i<citas.size();i++) {
 				Cita cita = citas.get(i);
 				String to = cita.getVehiculo().getCliente().getEmail();
@@ -133,7 +134,7 @@ public class CitaService {
 				if(fecha.isAfter(inicioCuarentena) && fecha.isBefore(finCuarentena)) {
 					sendEmailService.sendEmail(to, subject, content);
 					this.delete(cita);
-					log.info("Cita con id " + cita.getId());
+					log.info("Borrada cita con id " + cita.getId());
 					
 				}
 			}

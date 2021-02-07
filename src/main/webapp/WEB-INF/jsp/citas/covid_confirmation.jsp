@@ -10,10 +10,22 @@
     normas sanitarias, se deben cancelar todas las citas.</h3>
     <br>
     <div class="covid" align="center">
-    	<h4><strong>¿Está seguro de que desea cancelar todas las citas previstas para las próximas dos semanas?</strong></h4>
+    	<h4><strong>Para cancelar las citas de los próximos 14 días, seleccione el taller donde se ha dado el caso positivo:</strong></h4>
     	<br>
-    	<a href="/citas/eliminarCitasCovid" class="btn btn-success btn-lg" role="button">Sí, estoy seguro</a>
-		<a href="/citas/listadoCitas" class="btn btn-default btn-lg" role="button" style="border-width: 1px">No, volver al listado</a>
+    	
+    	<form action="/citas/eliminarCitasCovid" method="get" class="col-sm-6">
+                
+                <label class="col-sm-2">Taller</label><select name="taller" id="taller" class="col-sm-6">
+                	<c:forEach var="taller" items="${talleres}">
+                		<option id="taller" value="${taller.ubicacion}">${taller.ubicacion}</option>
+        			</c:forEach>
+                </select>
+                <div class="col-sm-1"></div>
+           <button class="btn btn-success col-sm-8" type="submit">Cancelar citas para las próximas dos semanas</button>
+
+
+     </form>
+		<a href="/citas/listadoCitas" class="btn btn-default" role="button" style="border-width: 1px">Volver al listado</a>
 		<br><br>
 		<h5>Se enviará un correo electrónico anunciado la cancelación a todos los clientes afectados de forma automática</h5>
     	<h5>Esta acción no se puede deshacer.</h5>

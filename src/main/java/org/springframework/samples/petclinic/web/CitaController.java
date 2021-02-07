@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -109,6 +110,9 @@ public class CitaController {
 			if(empleado.isPresent()) {
 				ubicacion = empleado.get().getTaller().getUbicacion();
 				model.put("citas", citaService.findCitaByTallerUbicacion(ubicacion)); 
+			}
+			else {
+				model.addAttribute("citas", citaService.findAll());
 			}
 		}
 		return vista;
@@ -247,14 +251,16 @@ public class CitaController {
 	
 	@GetMapping(value="/covid")
 	public String initDeleteCitasCOVID(ModelMap model) {
+		List<Taller> talleres = tallerService.findAll();
+		model.addAttribute("talleres", talleres);
 		return FORMULARIO_CITA_COVID;
 	}
 	
 	@GetMapping(value="/eliminarCitasCovid")
-	public String processDeleteCitasCovid(ModelMap model) {
+	public String processDeleteCitasCovid(@RequestParam(required=false) String taller, ModelMap model) {
 		String vista = "";
 		try {
-			citaService.deleteCOVID();
+			citaService.deleteCOVID(taller);
 			model.addAttribute("message", "Citas canceladas correctamente");
 
 		}catch(Exception e){

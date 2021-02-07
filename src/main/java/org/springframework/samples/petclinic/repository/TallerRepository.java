@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
@@ -10,5 +11,6 @@ public interface TallerRepository extends CrudRepository<Taller, Integer> {
 
 	Optional<Taller> findByUbicacion(String ubicacion) throws DataAccessException;
 	
+	List<Taller> findAll() throws DataAccessException;
 }
 
