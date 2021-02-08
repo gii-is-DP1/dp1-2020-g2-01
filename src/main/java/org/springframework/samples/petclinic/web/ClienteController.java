@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cita;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
@@ -17,6 +18,7 @@ import org.springframework.samples.petclinic.service.CitaService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VehiculoService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedUsernameException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -125,6 +127,13 @@ public class ClienteController {
 				result.rejectValue("user.password", "La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra", 
 						"La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra");
 				return FORMULARIO_ADD_UPDATE_CLIENTES;
+			} catch (DataAccessException e) {
+				
+			} catch (DuplicatedUsernameException e) {
+				log.warn("Excepción: Nombres de usuarios duplicados");
+				result.rejectValue("user.username", "El nombre de usuario ya existe", 
+						"El nombre de usuario ya existe");
+				return FORMULARIO_ADD_UPDATE_CLIENTES;
 			}
 			
 			return "redirect:/login";
@@ -187,7 +196,7 @@ public class ClienteController {
 
 	@PostMapping(value = "/update/{username}")
 	public String processUpdateClienteForm(@Valid Cliente cliente, BindingResult result,
-			@PathVariable("username") String username, Model model) {
+			@PathVariable("username") String username, Model model) throws DuplicatedUsernameException {
 		if (result.hasErrors()) {
 			return FORMULARIO_ADD_UPDATE_CLIENTES;
 		}
@@ -203,6 +212,8 @@ public class ClienteController {
 				result.rejectValue("user.password", "La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra", 
 						"La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra");
 				return FORMULARIO_ADD_UPDATE_CLIENTES;
+			} catch (DataAccessException e) {
+				
 			}
 			
 			return mostrarDetalles(username, model);

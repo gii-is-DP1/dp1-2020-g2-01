@@ -57,7 +57,7 @@ public class UserService {
 		if (!Pattern.matches(regex, user.getPassword())) {
 			throw new InvalidPasswordException();
 		}
-		
+//		user.setUsername(user.getUsername());
 		user.setEnabled(true);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);

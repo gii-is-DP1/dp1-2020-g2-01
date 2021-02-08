@@ -32,6 +32,7 @@ import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.CitaRepository;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedUsernameException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
 import org.springframework.samples.petclinic.service.exceptions.FechasFuturaException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
@@ -156,7 +157,7 @@ class CitaServiceTest {
 
 	@Test
 	@Transactional
-	void shouldNotInsertCitaYEmpleadoDistintoTaller() throws DataAccessException, DuplicatedMatriculaException, NoMayorEdadEmpleadoException, InvalidPasswordException {
+	void shouldNotInsertCitaYEmpleadoDistintoTaller() throws DataAccessException, DuplicatedMatriculaException, NoMayorEdadEmpleadoException, InvalidPasswordException, DuplicatedUsernameException {
 		
 
 		Taller t2 = new Taller();
@@ -244,7 +245,7 @@ class CitaServiceTest {
 	
 	@Test
 	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotFoundException, 
-	NotAllowedException, CitaSinPresentarseException, InvalidPasswordException, FechasFuturaException {
+	NotAllowedException, CitaSinPresentarseException, InvalidPasswordException, FechasFuturaException, DuplicatedUsernameException {
 			
 		Cliente cliente = new Cliente();
 		
