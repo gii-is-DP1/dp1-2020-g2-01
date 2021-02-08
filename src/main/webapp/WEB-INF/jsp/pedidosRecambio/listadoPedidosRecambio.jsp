@@ -31,7 +31,7 @@
                 
             
                 <td>
-                    <c:out value="${pedidoRecambio.name}"/>
+                    <c:out value="${pedidoRecambio.recambio.name}"/>
                 </td>
                 
 

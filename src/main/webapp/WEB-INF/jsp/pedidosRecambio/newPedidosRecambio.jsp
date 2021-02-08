@@ -18,7 +18,7 @@
 
         <form:form action="/pedidosRecambio/save" modelAttribute="pedidosRecambio" class="form-horizontal">
             <div class="form-group has-feedback">
-                <petclinic:select label="Nombre" name="name" items="${nombres}"/>
+                <petclinic:select label="Nombre" name="recambio" items="${recambios}"/>
                 <petclinic:inputField label="Precio Unitario" name="precioPorUnidad"/> 
                	<petclinic:inputField label="Cantidad" name="cantidad"/>
                	<petclinic:select label="Proveedor" name="proveedor" items="${proveedores}"/>

@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "pedidos")
-public class PedidoRecambio extends NamedEntity{
+public class PedidoRecambio extends BaseEntity{
 	
 	@NotNull
 	@Column (name="cantidad")
@@ -48,8 +48,8 @@ public class PedidoRecambio extends NamedEntity{
 		return precioPorUnidad*cantidad;
 	}
 	
-//	@NotNull
-//	@OneToMany(mappedBy = "pedidoRecambio")
-//	@JoinColumn(name="ejemplar_id")
-//	private EjemplarRecambio ejemplarRecambio;
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name="recambio")
+	private Recambio recambio;
 }
