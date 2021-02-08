@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Administrador;
 import org.springframework.samples.petclinic.service.AdministradorService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedUsernameException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -55,6 +56,11 @@ public class AdministradorController {
 				result.rejectValue("usuario.password", "La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra", 
 						"La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra");
 				model.addAttribute("administrador", admin);
+				return "administradores/editAdministrador";
+			} catch (DuplicatedUsernameException e) {
+				log.warn("Excepción: Nombres de usuarios duplicados");
+				result.rejectValue("usuario.username", "El nombre de usuario ya existe", 
+						"El nombre de usuario ya existe");
 				return "administradores/editAdministrador";
 			}
 			model.addAttribute("message", "Administrador actualizado con éxito");

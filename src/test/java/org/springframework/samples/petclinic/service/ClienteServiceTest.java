@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedUsernameException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class ClienteServiceTest {
 	public Cliente cliente;
 	
 	@BeforeEach
-	void insertCliente() throws DataAccessException, InvalidPasswordException {
+	void insertCliente() throws DataAccessException, InvalidPasswordException, DuplicatedUsernameException {
 		Cliente cliente = new Cliente();
 		
 		cliente.setNombre("Antonio");
@@ -54,7 +55,7 @@ public class ClienteServiceTest {
 
 	
 	@Test
-	public void shouldUpdateCliente() throws DataAccessException, InvalidPasswordException {
+	public void shouldUpdateCliente() throws DataAccessException, InvalidPasswordException, DuplicatedUsernameException {
 		Cliente cliente1 = clienteService.findClienteByDNI("88888888M").get();
 		cliente1.setDni("34567890K");
 		cliente1.getUser().setPassword("passdeprueba1"); //la password viene codificada de base de datos

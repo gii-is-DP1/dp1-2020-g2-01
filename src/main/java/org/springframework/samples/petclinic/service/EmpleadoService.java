@@ -8,9 +8,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Empleado;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.EmpleadoRepository;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedUsernameException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
+import org.springframework.samples.petclinic.util.UtilUser;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,11 +36,14 @@ public class EmpleadoService {
 	
 	
 	@Transactional
-	public void saveEmpleado(Empleado empleado) throws NoMayorEdadEmpleadoException, DataAccessException, InvalidPasswordException {
+	public void saveEmpleado(Empleado empleado) throws NoMayorEdadEmpleadoException, DataAccessException, InvalidPasswordException, DuplicatedUsernameException {
 		LocalDate fechaMin = LocalDate.now().minusYears(18);
 		if(empleado.getFechaNacimiento().isAfter(fechaMin)) {
 			throw new NoMayorEdadEmpleadoException();
 		}
+		
+		Optional<User> user = userService.findUser(empleado.getUsuario().getUsername());
+		UtilUser.compruebaRestricciones(user, empleado, empleado.getUsuario().getPassword());
 		
 		empleado.getUsuario().setAuthorities(new ArrayList<>());
 		empleadoRepository.save(empleado);

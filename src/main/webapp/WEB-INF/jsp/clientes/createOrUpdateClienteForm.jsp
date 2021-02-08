@@ -32,12 +32,12 @@
             <c:choose>
                     <c:when test="${cliente['new']}">
                        <petclinic:inputField label="Usuario" name="user.username"/>
-                       <petclinic:inputField label="Contraseña" name="user.password" type="password"/>
                     </c:when>
                     <c:otherwise>
                     	<petclinic:inputField label="Usuario" name="user.username" type="text" readonly="true"/>
                     </c:otherwise>
              </c:choose>
+             <petclinic:inputField label="Contraseña" name="user.password" type="password"/>
 
         </div>
         <div class="form-group">

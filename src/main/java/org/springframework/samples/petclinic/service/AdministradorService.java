@@ -6,8 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Administrador;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.AdministradorRespository;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedUsernameException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
+import org.springframework.samples.petclinic.util.UtilUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +27,10 @@ public class AdministradorService {
 	private AuthoritiesService authService;
 	
 	@Transactional
-	public void saveAdministrador(Administrador admin) throws DataAccessException, InvalidPasswordException {
+	public void saveAdministrador(Administrador admin) throws DataAccessException, InvalidPasswordException, DuplicatedUsernameException {
+		
+		Optional<User> user = userService.findUser(admin.getUsuario().getUsername());
+		UtilUser.compruebaRestricciones(user, admin, admin.getUsuario().getPassword());
 		
 		admin.getUsuario().setAuthorities(new ArrayList<>());
 		adminRepository.save(admin);

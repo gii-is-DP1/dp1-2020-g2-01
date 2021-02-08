@@ -19,6 +19,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Taller;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedUsernameException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class EmpleadoServiceTest {
 	public Empleado e;
 	
 	@BeforeEach
-	void insertEmpleado() throws DataAccessException, NoMayorEdadEmpleadoException, InvalidPasswordException {
+	void insertEmpleado() throws DataAccessException, NoMayorEdadEmpleadoException, InvalidPasswordException, DuplicatedUsernameException {
 		User userP = new User();
 		userP.setUsername("nombreusuario");
 		userP.setPassword("passdeprueba1");
@@ -117,7 +118,7 @@ public class EmpleadoServiceTest {
 	
 	@Test
 	@Transactional
-	void shouldUpdateEmpleado() throws DataAccessException, NoMayorEdadEmpleadoException, InvalidPasswordException {
+	void shouldUpdateEmpleado() throws DataAccessException, NoMayorEdadEmpleadoException, InvalidPasswordException, DuplicatedUsernameException {
 		Empleado e1 = empleadoService.findEmpleadoDni("36283951R").get();
 		e1.setDni("36283951M");
 		e1.getUsuario().setPassword("passdeprueba1"); //la password viene codificada de base de datos
