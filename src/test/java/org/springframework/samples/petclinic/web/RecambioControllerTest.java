@@ -47,9 +47,6 @@ class RecambioControllerTest {
 	private static final int TEST_REPARACION_ID = 1;
 
 
-	@Autowired
-	private RecambioController recambioController;
-	
 	@MockBean
 	private SolicitudService solicitudService;
 	
