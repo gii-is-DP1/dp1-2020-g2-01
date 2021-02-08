@@ -106,6 +106,22 @@ public class PedidoRecambioController {
 		return vista;
 		
 	}
+	
+	
+
+	@GetMapping(value = {"/factura/{id}"})
+	public String verFacturaRecambio(@PathVariable("id") int id, ModelMap model) {
+		String vista;
+		Optional<FacturaRecambio> factura = facturaRecambioService.findFacturaRecambioById(id);
+		if (!factura.isPresent()) {
+			model.addAttribute("message", "No existe una factura con el identificador dado");
+			vista = listadoPedidoRecambio(model);
+		} else {
+			model.addAttribute("factura", factura.get());
+			vista = "facturasRecambio/details";
+		}
+		return vista;
+	}
 
 
 }
