@@ -46,6 +46,10 @@
     <label class="col-sm-4">E-mail: </label>${empleado.email}
   </div>
   <div class="panel-body">
+    <label class="col-sm-4">Taller: </label>${empleado.taller.ubicacion}
+  </div>
+  
+  <div class="panel-body">
     <label class="col-sm-4">Usuario: </label>${empleado.usuario.username}
   </div>
 </div>

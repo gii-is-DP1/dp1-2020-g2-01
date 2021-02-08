@@ -40,13 +40,14 @@
                	<petclinic:inputField label="E-mail" name="email"/>
                	<petclinic:inputField label="Teléfono" name="telefono"/>
                	<petclinic:inputField label="Número seguridad social" name="num_seg_social"/>
-               	<petclinic:select label="Taller" name="taller" items="${talleres}"/>
                	<sec:authorize access="hasAuthority('admin')">
+               	<petclinic:select label="Taller" name="taller" items="${talleres}"/>
                	<petclinic:inputField label="Fecha inicio contrato" name="fecha_ini_contrato"/>
                	<petclinic:inputField label="Fecha fin contrato" name="fecha_fin_contrato"/>
                	<petclinic:inputField label="Sueldo" name="sueldo"/>
                	</sec:authorize>
                	<sec:authorize access="hasAuthority('empleado')">
+               	<petclinic:inputField label="Taller" name="taller" readonly="true"/>
                	<petclinic:inputField label="Fecha inicio contrato" name="fecha_ini_contrato" readonly="true"/>
                	<petclinic:inputField label="Fecha fin contrato" name="fecha_fin_contrato" readonly="true"/>
                	<petclinic:inputField label="Sueldo" name="sueldo" readonly="true"/>
@@ -55,16 +56,17 @@
             	<c:choose>
                     <c:when test="${empleado['new']}">
                        <petclinic:inputField label="Usuario" name="usuario.username"/>
+                       <petclinic:inputField label="Contraseña" name="usuario.password" type="password"/>
                     </c:when>
                     <c:otherwise>
-                    	<petclinic:inputField label="Usuario" name="usuario.username" type="text" readonly="true"/>
+                    	<petclinic:inputField label="Usuario" name="usuario.username" type="text" readonly="true"/>                    	
                     </c:otherwise>
              	</c:choose>
-             	<petclinic:inputField label="Contraseña" name="usuario.password" type="password"/>
+             	
         	</div>
         	<div class="form-group">
             	<div class="col-sm-offset-2 col-sm-10">
-            		<input type="hidden" name="id" value="${empleado.id }">
+            		<input type="hidden" name="id" value="${empleado.id}">
 	                <c:choose>
 	                    <c:when test="${empleado['new']}">
 	                        <button class="btn btn-default" type="submit">Añadir empleado</button>
