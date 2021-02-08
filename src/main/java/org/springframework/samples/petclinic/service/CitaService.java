@@ -116,6 +116,7 @@ public class CitaService {
 		return citaRepository.findCitaByTallerUbicacionAndFechaAfterOrFechaEquals(ubicacion, LocalDate.now(), LocalDate.now());	
 	}
 
+
 	@Transactional
 	public void delete(Cita cita) {
 		citaRepository.delete(cita);
