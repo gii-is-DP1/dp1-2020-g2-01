@@ -291,8 +291,9 @@ class CitaServiceTest {
 		assertEquals(c1, citaService.findCitaById(c1.getId()));
 		
 		citaService = new CitaService(citaRepository, mock, clienteService, vehiculoService);
+		Integer numeroCitas = citaService.findCitaByTallerUbicacionFuturasYHoy(t1.getUbicacion()).size();
 		citaService.deleteCOVID(t1.getUbicacion());
-		verify(mock, times(2)).sendEmail(any(String.class), any(String.class), any(String.class));
+		verify(mock, times(numeroCitas)).sendEmail(any(String.class), any(String.class), any(String.class));
 		assertThrows(NotFoundException.class, () -> citaService.findCitaById(c.getId()));
 		assertThrows(NotFoundException.class, () -> citaService.findCitaById(c.getId()));
 	}

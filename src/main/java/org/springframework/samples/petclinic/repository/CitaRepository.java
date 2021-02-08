@@ -46,8 +46,7 @@ public interface CitaRepository extends CrudRepository<Cita, Integer> {
 	List<Cita> findCitaByVehiculoClienteAndFechaBefore(Cliente cliente, LocalDate now, Sort by);
 
 	List<Cita> findCitaByVehiculoClienteAndFechaEquals(Cliente cliente, LocalDate now, Sort by);
-
+	
 	List<Cita> findCitaByTallerUbicacionAndFechaAfterOrFechaEquals(String ubicacion, LocalDate now, LocalDate now2);
-
 	
 }
