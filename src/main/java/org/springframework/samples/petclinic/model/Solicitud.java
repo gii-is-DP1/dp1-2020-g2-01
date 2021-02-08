@@ -41,7 +41,7 @@ public class Solicitud extends BaseEntity {
 	
 	
 	@Nullable
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=true)
 	@JoinColumn(name="reparacion_id")
 	private Reparacion reparacion;
 	

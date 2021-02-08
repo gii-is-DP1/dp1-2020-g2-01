@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -17,12 +18,15 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Factura;
 import org.springframework.samples.petclinic.model.LineaFactura;
 import org.springframework.samples.petclinic.model.Reparacion;
+import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.samples.petclinic.service.FacturaService;
 import org.springframework.samples.petclinic.service.LineaFacturaService;
 import org.springframework.samples.petclinic.service.ReparacionService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,19 +50,33 @@ public class FacturaController {
 	
 	@Autowired
 	private LineaFacturaService lineaFacturaService;
+	
+	@Autowired
+	private ReparacionController reparacionController;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
 
 
 	@GetMapping(value = { "/listadoFacturas" })
 	public String listadoFacturas(ModelMap model) {
 		String vista = "facturas/listadoFacturas";
-		Iterable<Factura> facturas = facturaService.findAll();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Cliente> cliente = clienteRepository.findByUsername(username);
+		Iterable<Factura> facturas = null;
+		if(cliente.isPresent()) {
+			facturas = facturaService.findFacturaByCliente(cliente.get());
+		}else {
+			facturas = facturaService.findAll();
+		}
+		
 		model.put("facturas", facturas);
 		return vista;
 	}
 	
 	@PostMapping(value="/generar/{reparacionId}")
 	public String processFinalizarReparacion(@PathVariable("reparacionId") int id, @Valid Factura factura, ModelMap model) {
-		String vista = "";
+
 		try {
 			facturaService.saveFactura(factura);
 
@@ -72,6 +90,7 @@ public class FacturaController {
 			log.warn("Excepción: error inesperado al finalizar la reparacion con id " + id );
 			model.addAttribute("message", "Error inesperado");
 			model.addAttribute("messageType", "danger");
+			return reparacionController.verReparacion(id, model);
 		}
 		
 
@@ -80,13 +99,29 @@ public class FacturaController {
 	
 	@GetMapping(value="/generar/{reparacionId}")
 	public String initFinalizarReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
-		Reparacion reparacion = reparacionService.findReparacionById(id).get();
-		List<LineaFactura> lineaFactura = reparacion.getLineaFactura();
+		
+		Optional<Reparacion> reparacion = reparacionService.findReparacionById(id);
+		if(!reparacion.isPresent()) {
+			model.addAttribute("message", "Reparacion not found");
+			return reparacionController.listadoReparaciones(model);
+		}
+		
+		List<LineaFactura> lineaFactura = reparacion.get().getLineaFactura().stream().collect(Collectors.toList());
 		Factura factura = new Factura();
 		factura.setLineaFactura(lineaFactura);
-		model.addAttribute("factura",factura);
-		model.addAttribute("reparacion", reparacion);
-		return "facturas/generar_factura";
+		try {
+			facturaService.saveFactura(factura);
+			for(LineaFactura l: factura.getLineaFactura()) {
+				l.setFactura(factura);
+				lineaFacturaService.saveLineaFactura(l);
+			}
+		}catch(Exception e){
+			log.warn("Excepción: error inesperado al generar la factura: " + e.getMessage());
+			model.addAttribute("message", "Error inesperado: " + e.getMessage());
+			model.addAttribute("messageType", "danger");
+			return reparacionController.verReparacion(id, model);
+		}
+		return "redirect:/reparaciones/getReparacion/" + String.valueOf(id);
 	}
 	
 	@GetMapping("/marcarPagado/{facturaId}")

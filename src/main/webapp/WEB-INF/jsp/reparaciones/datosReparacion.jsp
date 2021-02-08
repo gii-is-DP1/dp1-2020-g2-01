@@ -98,12 +98,12 @@
 
 
 
-<c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.fechaRecogida and not empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/info/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-4">Ver factura</a></c:if>
-<c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.fechaRecogida and empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/generar/${reparacion.id}" class="btn btn-success col-sm-4">Generar Factura</a></c:if>
-<c:if test="${not empty reparacion.fechaRecogida and not empty reparacion.fechaFinalizacion and empty reparacion.lineaFactura[0].factura.fechaPago and not empty reparacion.lineaFactura[0].factura.id}">
+<c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/info/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-4">Ver factura</a></c:if>
+<c:if test="${not empty reparacion.fechaFinalizacion and empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/generar/${reparacion.id}" class="btn btn-success col-sm-4">Generar Factura</a></c:if>
+<c:if test="${empty reparacion.fechaRecogida and not empty reparacion.fechaFinalizacion and empty reparacion.lineaFactura[0].factura.fechaPago and not empty reparacion.lineaFactura[0].factura.id}">
 <a href="/facturas/marcarPagado/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-offset-4 col-sm-4">Marcar como pagado</a></c:if>
-<c:if test="${empty reparacion.fechaRecogida and not empty reparacion.fechaFinalizacion}">
-<a href="/reparaciones/recoger/${reparacion.id}" class="btn btn-success col-sm-offset-8 col-sm-4">Marcar como recogido</a></c:if>
+<c:if test="${empty reparacion.fechaRecogida and not empty reparacion.fechaFinalizacion and not empty reparacion.lineaFactura[0].factura.fechaPago }">
+<a href="/reparaciones/recoger/${reparacion.id}" class="btn btn-success col-sm-offset-4 col-sm-4">Marcar como recogido</a></c:if>
 
 </div>
 <div class="col-sm-6">
