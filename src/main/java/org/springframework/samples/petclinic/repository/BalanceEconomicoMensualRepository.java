@@ -15,6 +15,5 @@ public interface BalanceEconomicoMensualRepository extends CrudRepository<Balanc
 	
 	@Query("SELECT balanceEconomicoMensual FROM BalanceEconomicoMensual balanceEconomicoMensual WHERE balanceEconomicoMensual.anyo LIKE :anyo")
 	List<BalanceEconomicoMensual> findBalanceEconomicoMensualByAnyo(@Param("anyo") int y) throws DataAccessException;
-	
-	
+
 }
