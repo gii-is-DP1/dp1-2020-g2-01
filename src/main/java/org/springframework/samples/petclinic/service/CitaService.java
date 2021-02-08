@@ -111,6 +111,11 @@ public class CitaService {
 		return citaRepository.findCitaByTallerUbicacionAndFechaAfter(ubicacion, LocalDate.now(), Sort.by(Sort.Direction.ASC, "fecha", "hora"));
 	}
 	
+	@Transactional(readOnly = true)
+	public List<Cita> findCitaByTallerUbicacionFuturasYHoy(String ubicacion) throws DataAccessException {
+		return citaRepository.findCitaByTallerUbicacionAndFechaAfterOrFechaEquals(ubicacion, LocalDate.now(), LocalDate.now());
+	}
+	
 	@Transactional
 	public void delete(Cita cita) {
 		citaRepository.delete(cita);
@@ -130,7 +135,7 @@ public class CitaService {
 				+ finCuarentena.toString()+".\n\n"
 				+ "Sentimos todas las molestias que esto pudiera ocasionar,\nEl jefe del taller.";
 		
-		List<Cita> citas = this.findCitaByTallerUbicacion(ubicacion);
+		List<Cita> citas = this.findCitaByTallerUbicacionFuturasYHoy(ubicacion);
 		for(int i=0;i<citas.size();i++) {
 				Cita cita = citas.get(i);
 				String to = cita.getVehiculo().getCliente().getEmail();

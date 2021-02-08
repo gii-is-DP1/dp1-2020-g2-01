@@ -34,19 +34,15 @@
                	<petclinic:inputField label="Número seguridad social" name="num_seg_social"/>
 
                	<br>
-               	<!-- 
             	<c:choose>
                     <c:when test="${administrador['new']}">
                        <petclinic:inputField label="Usuario" name="usuario.username"/>
+                       <petclinic:inputField label="Contraseña" name="usuario.password" type="password"/>
                     </c:when>
                     <c:otherwise>
-                    -->
                     	<petclinic:inputField label="Usuario" name="usuario.username" type="text" readonly="true"/>
-                   <!-- 
                     </c:otherwise>
              	</c:choose>
-             	-->
-             	<petclinic:inputField label="Contraseña" name="usuario.password" type="password"/>
         	</div>
         	<div class="form-group">
             	<div class="col-sm-offset-2 col-sm-10">
