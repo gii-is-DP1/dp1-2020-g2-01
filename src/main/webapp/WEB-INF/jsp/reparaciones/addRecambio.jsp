@@ -34,7 +34,7 @@
     
     	<tr>
     	<td>
-    	<c:out value="${recambio.name}"></c:out>
+    	<c:out value="${recambio.name}"></c:out></br><a target="_blank" href="/recambios/solicitud/new/${recambio.id}/${reparacion.id}">Solicitar</a>
     	</td>
     	<td>
     	<c:out value="${recambio.cantidadActual}"></c:out>
@@ -94,7 +94,7 @@
 		</form:form>
 		</c:when>
 		<c:otherwise>
-			<td>${ln.recambio.name}</td>
+			<td>${ln.recambio.name}</br><a target="_blank" href="/recambios/solicitud/new/${recambio.id}/${reparacion.id}">Solicitar</a></td>
 			<td>${ln.descripcion}</td>
 			<td>${ln.cantidad}/${ln.recambio.cantidadActual+ln.cantidad}</td>
 			<td>${ln.precioBase}€</td>

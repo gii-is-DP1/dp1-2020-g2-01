@@ -22,6 +22,7 @@ import org.springframework.samples.petclinic.service.RecambioService;
 import org.springframework.samples.petclinic.service.ReparacionService;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
+import org.springframework.samples.petclinic.service.exceptions.FechasFuturaException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
@@ -89,7 +90,7 @@ public class ReparacionController {
 	
 	@ModelAttribute("reparaciones")
 	public List<Reparacion> reparaciones() {
-		return (List<Reparacion>) this.reparacionService.findAll();
+		return (List<Reparacion>) this.reparacionService.findAllSorted();
 	}
 	
 	@ModelAttribute("recambios")
@@ -123,7 +124,7 @@ public class ReparacionController {
 	}
 
 	@PostMapping(value = "/save")
-	public String guardarReparacion(@Valid Reparacion reparacion, BindingResult result, ModelMap model) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	public String guardarReparacion(@Valid Reparacion reparacion, BindingResult result, ModelMap model) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, FechasFuturaException {
 		String vista;
 
 		if(result.hasErrors()) { 
@@ -144,15 +145,14 @@ public class ReparacionController {
 					reparacionService.saveReparacion(reparacion);
 					Cita c = reparacion.getCita();
 					c.setTieneReparacion(true);
+					citaService.saveCita(c, c.getVehiculo().getCliente().getUser().getUsername());
 					vista = verReparacion(reparacion.getId(), model);
 				}
 //				reparacionService.setEmpleadosAReparacion(horas, reparacion);
 				
 			
 			} catch (FechasReparacionException e) {
-				log.warn("Excepción: fechas incongruentes; fecha de entrega: " +reparacion.getFechaEntrega().toString(), 
-						"; fecha de finalización: " + reparacion.getFechaFinalizacion().toString(),
-						"; fecha de recogida: " + reparacion.getFechaRecogida().toString());
+				log.warn("Excepción: fechas incongruentes");
 				result.rejectValue("fechaEntrega", "Fechas incongruentes: la fecha de entrega debe ser anterior a la fecha de finalización y de recogida, y la fecha de finalización debe ser anterior a la de recogida.", 
 						"Fechas incongruentes: la fecha de entrega debe ser anterior a la fecha de finalización y de recogida, y la fecha de finalización debe ser anterior a la de recogida.");
 				return "reparaciones/editReparacion";
@@ -206,15 +206,16 @@ public class ReparacionController {
 		String vista = "reparaciones/listadoReparaciones";
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
+		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
 		List<Reparacion> reparaciones = null;
 		if(cliente.isPresent()) {
 			reparaciones = reparacionService.findReparacionesCliente(cliente.get());
 			model.put("reparaciones", reparaciones);
-		}else { //como se obliga a loguearse, si no es cliente debe ser admin, luego poder ver todas las reparaciones
-			reparaciones = (List<Reparacion>) reparacionService.findAll();
+		}else if(empleado.isPresent()){
+			reparaciones = reparacionService.findReparacionByUbicacion(empleado.get().getTaller().getUbicacion());
 			model.put("reparaciones", reparaciones);
 		}
-		model.put("reparaciones", reparaciones);
+		
 		return vista;
 	}
 	
@@ -245,8 +246,22 @@ public class ReparacionController {
 	
 	@GetMapping(value="/finalizar/{reparacionId}")
 	public String initFinalizarReparacion(@PathVariable("reparacionId") int id, ModelMap model) {
-		Reparacion reparacion = reparacionService.findReparacionById(id).get();
-		model.addAttribute("reparacion", reparacion);
+		Optional<Reparacion> reparacion = reparacionService.findReparacionById(id);
+		if(reparacion.isPresent()) {
+			if(reparacion.get().getLineaFactura().isEmpty()) {
+				model.addAttribute("message", "No se puede finalizar la reparacion, debes añadir recambios");
+				model.addAttribute("messageType", "warning");
+				return verReparacion(id, model);
+			}
+			model.put("reparacion", reparacion.get());
+			model.addAttribute("empleados", reparacion.get().getHorasTrabajadas().stream()
+					.map(x->x.getEmpleado()).distinct().collect(Collectors.toList()));
+			model.addAttribute("reparacion", reparacion.get());
+		}else {
+			model.put("message", "Reparación no encontrada");
+			model.put("messageType", "warning");
+			return listadoReparaciones(model);
+		}
 		return FORMULARIO_REPARACION_FINALIZADA;
 	}
 	

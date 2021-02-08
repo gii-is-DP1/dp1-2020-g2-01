@@ -28,7 +28,9 @@
     <label class="col-sm-4">Precio final: </label><p>${factura.precioConDescuento}€</p>
   </div>
 </div>
+<c:if test="${not empty factura.fechaPago}">
 <a href="/facturas/generarPDF/${factura.id}" class="btn btn-success col-sm-5" target="_blank"><span class="glyphicon glyphicon-save-file"></span> Descargar factura en PDF</a>
+</c:if>
 </div>
 <div class="col-sm-6">
 <div class="panel panel-success">

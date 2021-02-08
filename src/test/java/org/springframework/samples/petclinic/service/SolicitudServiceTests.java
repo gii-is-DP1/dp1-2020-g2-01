@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedProveedorNifException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
+import org.springframework.samples.petclinic.service.exceptions.FechasFuturaException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
@@ -79,7 +80,7 @@ public class SolicitudServiceTests {
 
 
 	@BeforeEach
-	void setup() throws DataAccessException, DuplicatedProveedorNifException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
+	void setup() throws DataAccessException, DuplicatedProveedorNifException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException, FechasFuturaException {
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion");
 		r.setFechaEntrega(LocalDate.now().plusDays(7));

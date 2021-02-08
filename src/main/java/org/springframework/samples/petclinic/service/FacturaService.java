@@ -196,4 +196,8 @@ public class FacturaService {
 		return res;
 	}
 
+	public Iterable<Factura> findFacturaByCliente(Cliente cliente) {
+		return facturaRepository.findFacturaByCliente(cliente);
+	}
+
 }

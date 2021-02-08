@@ -35,6 +35,7 @@ import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
+import org.springframework.samples.petclinic.service.exceptions.FechasFuturaException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
@@ -93,7 +94,7 @@ class FacturaServiceTest {
 	
 	
 	@BeforeEach
-	void insertFactura() throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, NoMayorEdadEmpleadoException, InvalidPasswordException {
+	void insertFactura() throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, NoMayorEdadEmpleadoException, InvalidPasswordException, FechasFuturaException {
 		Factura f = new Factura();
 		f.setFechaPago(LocalDate.now().minusDays(10));
 		List<LineaFactura> lineas = new ArrayList<>();

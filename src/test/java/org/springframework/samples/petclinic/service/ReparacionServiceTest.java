@@ -40,6 +40,7 @@ import org.springframework.samples.petclinic.repository.ReparacionRepository;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
+import org.springframework.samples.petclinic.service.exceptions.FechasFuturaException;
 import org.springframework.samples.petclinic.service.exceptions.FechasReparacionException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.Max3ReparacionesSimultaneasPorEmpleadoException;
@@ -115,7 +116,7 @@ class ReparacionServiceTest {
 	public Empleado e1;
 	
 	@BeforeEach
-	void insertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException {
+	void insertReparacion() throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, NoMayorEdadEmpleadoException, InvalidPasswordException, FechasFuturaException {
 		Reparacion r = new Reparacion();
 		r.setDescripcion("Una descripcion");
 		r.setFechaEntrega(LocalDate.now());
@@ -234,7 +235,7 @@ class ReparacionServiceTest {
 	
 	
 	@Test
-	void shouldNotInsertReparacionConEmpleadoCon3ReparacionesSimultaneas() throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException{
+	void shouldNotInsertReparacionConEmpleadoCon3ReparacionesSimultaneas() throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, FechasFuturaException{
 		//Setup inicial de reparacion (faltan cosas)
 		Reparacion r4 = new Reparacion();
 		r4.setDescripcion("Descripción de prueba"); 
