@@ -41,10 +41,7 @@ public class EmpleadoServiceTest {
 	
 	@BeforeEach
 	void insertEmpleado() throws DataAccessException, NoMayorEdadEmpleadoException, InvalidPasswordException, DuplicatedUsernameException {
-		User userP = new User();
-		userP.setUsername("nombreusuario");
-		userP.setPassword("passdeprueba1");
-		userP.setEnabled(true);
+
 		Empleado e = new Empleado();
 		
 		e.setApellidos("Ramirez Perez");
@@ -57,12 +54,11 @@ public class EmpleadoServiceTest {
 		e.setNum_seg_social("123456789074");
 		e.setSueldo(1098);
 		e.setTelefono("678456736");
-		e.setUsuario(userP);
 		
 		User u = new User();
 		u.setUsername("Laurita");
 		u.setPassword("laura123");
-		
+		u.setEnabled(true);
 		e.setUsuario(u);
 		
 		Taller t = new Taller();
@@ -143,7 +139,7 @@ public class EmpleadoServiceTest {
 	
 	@Test 
 	@Transactional
-	void shoulDeleteEmplead() {
+	void shoulDeleteEmpleado() {
 		assertEquals(e, empleadoService.findEmpleadoDni("36283951R").get());
 		
 		empleadoService.delete(e);
