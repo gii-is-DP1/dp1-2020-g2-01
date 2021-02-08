@@ -29,11 +29,6 @@ public class PedidoRecambioService {
 			return pedidoRecambioRepository.findAll();
 		}
 
-		@Transactional(readOnly = true)
-		public Optional<PedidoRecambio> findLineaFacturaById(int id) throws DataAccessException {
-			return pedidoRecambioRepository.findById(id);
-		}
-
 		@Transactional
 		public void delete(PedidoRecambio pedidoRecambio) {
 			pedidoRecambioRepository.delete(pedidoRecambio);

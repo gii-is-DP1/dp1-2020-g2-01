@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.FacturaRecambio;
 import org.springframework.samples.petclinic.model.PedidoRecambio;
 import org.springframework.samples.petclinic.model.Proveedor;
+import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Solicitud;
 import org.springframework.samples.petclinic.service.FacturaRecambioService;
 import org.springframework.samples.petclinic.service.FacturaService;
@@ -48,6 +49,10 @@ public class PedidoRecambioController {
 		return (List<Proveedor>) proveedorService.findAll();
 	}
 	
+	@ModelAttribute("recambios")
+	public List<Recambio> listaRecambios(){
+		return (List<Recambio>) recambioService.findAll();
+	}
 	
 	@GetMapping(value = { "/listadoPedidosRecambio" })
 	public String listadoPedidoRecambio(ModelMap model) {
@@ -62,7 +67,6 @@ public class PedidoRecambioController {
 	public String crearPedidoRecambio(ModelMap model) {
 		String vista = "pedidosRecambio/newPedidosRecambio";
 		model.addAttribute("pedidosRecambio", new PedidoRecambio());
-		model.addAttribute("nombres", recambioService.findAll()); 
 		return vista;
 	}
 	

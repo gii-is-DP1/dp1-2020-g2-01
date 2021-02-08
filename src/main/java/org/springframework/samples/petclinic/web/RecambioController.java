@@ -190,7 +190,7 @@ public class RecambioController {
 		Optional<PedidoRecambio> opt = pedidoRecambioService.findById(id);
 		if(opt.isPresent()) {
 			PedidoRecambio s = opt.get();
-			String nombre = s.getName();
+			String nombre = s.getRecambio().getName();
 			int cantidad = s.getCantidad();
 			s.setSeHaRecibido(true);
 			Optional<Recambio> opt1 = recambioService.findRecambioByNombre(nombre);
