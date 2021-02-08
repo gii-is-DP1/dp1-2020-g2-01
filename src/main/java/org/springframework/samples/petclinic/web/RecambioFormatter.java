@@ -17,8 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 public class RecambioFormatter implements Formatter<Recambio> {
 	
 	
-	@Autowired
+	
 	private RecambioService recambioService;
+	
+	@Autowired
+	public RecambioFormatter(RecambioService recambioService) {
+		this.recambioService = recambioService;
+	}
 
 	@Override
 	public String print(Recambio object, Locale locale) {
