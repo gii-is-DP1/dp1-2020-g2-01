@@ -4,14 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.any;
 
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
@@ -30,7 +29,6 @@ import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Factura;
 import org.springframework.samples.petclinic.model.HoraTrabajada;
 import org.springframework.samples.petclinic.model.LineaFactura;
-import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Recambio;
 import org.springframework.samples.petclinic.model.Reparacion;
 import org.springframework.samples.petclinic.model.Taller;
@@ -427,8 +425,7 @@ class ReparacionServiceTest {
 		rec.setName("Neumáticos Pirelli");
 		rec.setCantidadActual(100);
 		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
-		Optional<Proveedor> p = proveedorService.findProveedorById(201);
-		rec.setProveedor(p.get());
+
 		
 		recambioService.saveRecambio(rec);
 		
@@ -474,8 +471,7 @@ class ReparacionServiceTest {
 		rec.setName("Neumáticos Pirelli");
 		rec.setCantidadActual(100);
 		rec.setTipoVehiculo(tipoVehiculoService.findByTipo("COCHE").get());
-		Optional<Proveedor> p = proveedorService.findProveedorById(201);
-		rec.setProveedor(p.get());
+
 		
 		recambioService.saveRecambio(rec);
 		

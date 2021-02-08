@@ -158,7 +158,7 @@ public class SolicitudServiceTests {
 		r1.setCantidadActual(5);
 		TipoVehiculo tipo = tipoVehiculoService.findByTipo("COCHE").get();
 		r1.setTipoVehiculo(tipo);
-		r1.setProveedor(p);
+
 		
 		
 		recambioService.saveRecambio(r1);
