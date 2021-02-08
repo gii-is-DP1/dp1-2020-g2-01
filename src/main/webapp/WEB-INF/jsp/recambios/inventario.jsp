@@ -24,7 +24,6 @@
             <th>Proveedor</th>
             <th></th>
 
-
         </tr>
         </thead>
         <tbody>
