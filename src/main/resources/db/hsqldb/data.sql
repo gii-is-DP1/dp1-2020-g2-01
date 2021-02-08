@@ -238,7 +238,10 @@ INSERT INTO pedidos(id, name, cantidad, precio_unidad, recibido, proveedor_id) V
 
 INSERT INTO pedidos(id, cantidad, precio_unidad, recibido, proveedor_id, recambio) VALUES (1, 3, 214.32, false, 201, 100);
 INSERT INTO pedidos(id, cantidad, precio_unidad, recibido, proveedor_id, recambio) VALUES (2, 3, 214.32, true, 201, 101);
+<<<<<<< HEAD
 >>>>>>> a33de81 Arreglado relacion pedidoRecambio-Recambio
+=======
+>>>>>>> branch 'alemorgar4' of https://github.com/gii-is-DP1/dp1-2020-g2-01
 
 
 -- Pruebas con solicitudes
