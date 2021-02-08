@@ -33,6 +33,7 @@ import org.springframework.samples.petclinic.repository.CitaRepository;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedMatriculaException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
+import org.springframework.samples.petclinic.service.exceptions.FechasFuturaException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
@@ -92,7 +93,7 @@ class CitaServiceTest {
 	public Cita c;
 	
 	@BeforeEach
-	void insertCita() throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException {
+	void insertCita() throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, FechasFuturaException {
 		Cita c = new Cita();
 		TipoCita tipo = tipoCitaService.findById(1).get();
 		c.setFecha(LocalDate.now().plusDays(1));
@@ -131,7 +132,7 @@ class CitaServiceTest {
 		c1.setTiposCita(tipos);
 		
 		c1.setVehiculo(vehiculoService.findVehiculoByMatricula("1234ABC").get());
-		assertThrows(ConstraintViolationException.class, () -> this.citaService.saveCita(c1, "jesfunrud"));
+		assertThrows(FechasFuturaException.class, () -> this.citaService.saveCita(c1, "jesfunrud"));
 	}
 	
 	@Test
@@ -200,7 +201,7 @@ class CitaServiceTest {
 	@Test
 	@Transactional
 	void shouldUpdateCita() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotAllowedException, 
-		CitaSinPresentarseException{
+		CitaSinPresentarseException, FechasFuturaException{
 		
 		Cita c1 = citaService.findCitaByFechaAndHora(LocalDate.now().plusDays(1), 10);
 		
@@ -243,7 +244,7 @@ class CitaServiceTest {
 	
 	@Test
 	void shouldCancelarCitasCovid() throws DataAccessException, DuplicatedMatriculaException, EmpleadoYCitaDistintoTallerException, NotFoundException, 
-	NotAllowedException, CitaSinPresentarseException, InvalidPasswordException {
+	NotAllowedException, CitaSinPresentarseException, InvalidPasswordException, FechasFuturaException {
 			
 		Cliente cliente = new Cliente();
 		

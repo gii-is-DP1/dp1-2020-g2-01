@@ -44,7 +44,6 @@ public class Cita extends BaseEntity{
 	private Vehiculo vehiculo;
 	
 	@NotNull
-	@Future
 	@JoinColumn(name = "fecha")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate fecha;

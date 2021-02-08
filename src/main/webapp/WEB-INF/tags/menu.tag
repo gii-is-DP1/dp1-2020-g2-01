@@ -28,26 +28,54 @@
 					<span>Inicio</span>
 				</petclinic:menuItem>
 
+				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'clientes'}" url="/clientes/listadoClientes"
 					title="find clientes">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Buscar Clientes</span>
 				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAuthority('empleado')">
+				<petclinic:menuItem active="${name eq 'clientes'}" url="/clientes/listadoClientes"
+					title="find clientes">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					<span>Buscar Clientes</span>
+				</petclinic:menuItem>
+				</sec:authorize>
 				
 				<!-- Vehiculos -->
-				<sec:authorize access="isAuthenticated()">
+				<sec:authorize access="hasAuthority('cliente')">
 					<petclinic:menuItem active="${name eq 'vehiculos'}" url="/vehiculos/listadoVehiculos"
 						title="vehiculos">
 						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-						<span>Vehículos</span>
+						<span>Mis Vehículos</span>
 					</petclinic:menuItem>
 				</sec:authorize>
 				
+				<sec:authorize access="hasAuthority('empleado')">
+					<petclinic:menuItem active="${name eq 'reparaciones'}" url="/reparaciones/listadoReparaciones"
+						title="reparaciones">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>Reparaciones</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'proveedores'}" url="/proveedores/listadoProveedores"
 					title="proveedores">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Proveedores</span>
 				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAuthority('empleado')">
+					<petclinic:menuItem active="${name eq 'recambios'}" url="/recambios/listadoRecambios"
+						title="recambios">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>Recambios</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 
 				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'citas'}" url="/citas/listadoCitas"
