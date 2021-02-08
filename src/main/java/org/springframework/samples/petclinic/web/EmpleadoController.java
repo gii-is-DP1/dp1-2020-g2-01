@@ -9,6 +9,7 @@ import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.service.EmpleadoService;
 import org.springframework.samples.petclinic.service.ReparacionService;
 import org.springframework.samples.petclinic.service.TallerService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedUsernameException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
 import org.springframework.samples.petclinic.service.exceptions.NoMayorEdadEmpleadoException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,7 +58,6 @@ public class EmpleadoController {
 	public String guardarEmpleado(@Valid Empleado empleado, BindingResult result, ModelMap model) {
 		String vista;
 		if(result.hasErrors()) {
-			System.out.println(result.toString());
 			model.addAttribute("empleado", empleado);
 			model.addAttribute("talleres", tallerService.findAll());
 			vista = "empleados/editEmpleado";
@@ -69,7 +69,7 @@ public class EmpleadoController {
 				vista = mostrarDetalles(username, model);
 			} catch (NoMayorEdadEmpleadoException e) {
 				log.warn("Excepción: el empleado debe ser mayor de edad");
-				result.rejectValue("fecha_nacimiento", "El empleado debe ser mayor de edad", "El empleado debe ser mayor de edad");
+				result.rejectValue("fechaNacimiento", "El empleado debe ser mayor de edad", "El empleado debe ser mayor de edad");
 				model.addAttribute("empleado", empleado);
 				model.addAttribute("talleres", tallerService.findAll());
 				vista = "empleados/editEmpleado";
@@ -79,6 +79,11 @@ public class EmpleadoController {
 						"La contraseña debe tener entre 6 y 20 caracteres, al menos un número y una letra");
 				model.addAttribute("empleado", empleado);
 				model.addAttribute("talleres", tallerService.findAll());
+				vista = "empleados/editEmpleado";
+			} catch (DuplicatedUsernameException e) {
+				log.warn("Excepción: Nombres de usuarios duplicados");
+				result.rejectValue("usuario.username", "El nombre de usuario ya existe", 
+						"El nombre de usuario ya existe");
 				vista = "empleados/editEmpleado";
 			}
 		}

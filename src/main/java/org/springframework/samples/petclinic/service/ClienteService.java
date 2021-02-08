@@ -7,8 +7,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedUsernameException;
 import org.springframework.samples.petclinic.service.exceptions.InvalidPasswordException;
+import org.springframework.samples.petclinic.util.UtilUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +56,9 @@ public class ClienteService {
 	}
 	
 	@Transactional
-	public void saveCliente(Cliente cliente) throws DataAccessException, InvalidPasswordException {
+	public void saveCliente(Cliente cliente) throws DataAccessException, InvalidPasswordException, DuplicatedUsernameException {
+		Optional<User> user = userService.findUser(cliente.getUser().getUsername());
+		UtilUser.compruebaRestricciones(user, cliente, cliente.getUser().getPassword());
 		cliente.getUser().setAuthorities(new ArrayList<>());
 		clienteRepository.save(cliente);
 		userService.saveUser(cliente.getUser());		
