@@ -50,4 +50,12 @@ public class RecambioControllerSecurityTest {
 		.andExpect(status().is(HttpStatus.FORBIDDEN.value()));
 	}
 	
+	@WithMockUser(username = "empleado1", authorities = {"empleado"})
+	@Test
+	void DenegerAccesoEmpleadoSolicitudes() throws Exception {
+		mockMvc
+		.perform(get("/pedidosRecambio"))
+		.andExpect(status().is(HttpStatus.FORBIDDEN.value()));
+	}
+	
 }
