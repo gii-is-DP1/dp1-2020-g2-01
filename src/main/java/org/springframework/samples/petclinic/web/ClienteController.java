@@ -59,7 +59,7 @@ public class ClienteController {
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
-		dataBinder.setDisallowedFields("user.password");
+//		dataBinder.setDisallowedFields("user.password");
 	}
 	
 	@GetMapping(value = { "/listadoClientes" })
@@ -112,8 +112,9 @@ public class ClienteController {
 	}
 
 	@PostMapping(value = "/new")
-	public String processNuevoCliente(@Valid Cliente cliente, BindingResult result) {
+	public String processNuevoCliente(@Valid Cliente cliente, BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
+			model.addAttribute("cliente", cliente);
 			return FORMULARIO_ADD_UPDATE_CLIENTES;
 		}
 		else {

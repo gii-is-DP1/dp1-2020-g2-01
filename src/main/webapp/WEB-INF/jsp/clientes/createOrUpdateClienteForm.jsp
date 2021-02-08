@@ -26,20 +26,19 @@
             <petclinic:inputField label="Apellidos" name="apellidos"/>
             <petclinic:inputField label="DNI" name="dni"/>
             <petclinic:inputField label="E-mail" name="email"/>
-            <petclinic:inputField label="Fecha de nacimiento" name="fechaNacimiento"/>
+            <petclinic:inputField label="Fecha de nacimiento" name="fechaNacimiento" autocomplete="off"/>
             <petclinic:inputField label="Teléfono" name="telefono"/>
             <br>
             <c:choose>
                     <c:when test="${cliente['new']}">
                        <petclinic:inputField label="Usuario" name="user.username"/>
+                       <petclinic:inputField label="Contraseña" name="user.password" type="password"/>
                     </c:when>
                     <c:otherwise>
                     	<petclinic:inputField label="Usuario" name="user.username" type="text" readonly="true"/>
                     </c:otherwise>
              </c:choose>
-             <sec:authorize access="hasAuthority('user')">
-             <petclinic:inputField label="Contraseña" name="user.password" type="password"/>
-             </sec:authorize>
+
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

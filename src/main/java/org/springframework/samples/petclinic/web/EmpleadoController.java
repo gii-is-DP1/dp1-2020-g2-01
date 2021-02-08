@@ -57,6 +57,7 @@ public class EmpleadoController {
 	public String guardarEmpleado(@Valid Empleado empleado, BindingResult result, ModelMap model) {
 		String vista;
 		if(result.hasErrors()) {
+			System.out.println(result.toString());
 			model.addAttribute("empleado", empleado);
 			model.addAttribute("talleres", tallerService.findAll());
 			vista = "empleados/editEmpleado";
@@ -133,7 +134,9 @@ public class EmpleadoController {
 		if(username.equals(username2) || auth.equals("admin")) {
 			empleado.get().getUsuario().setPassword("");
 			model.addAttribute("talleres", tallerService.findAll());
+			model.addAttribute("taller", empleado.get().getTaller());
 			model.addAttribute("empleado", empleado.get());
+			model.addAttribute("password", empleado.get().getUsuario().getPassword());
 		}else {
 			vista="/";
 		}

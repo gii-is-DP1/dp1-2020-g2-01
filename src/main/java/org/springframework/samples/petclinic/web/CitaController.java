@@ -275,6 +275,15 @@ public class CitaController {
 		String vista = "";
 		try {
 			citaService.deleteCOVID(taller);
+	
+			model.addAttribute("citas", citaService.findCitasFuturas());
+
+			List<Cita> citasPasadas = citaService.findCitasPasadas();
+			
+			model.addAttribute("citasPasadas", citasPasadas.subList(0, Math.min(10, citasPasadas.size())));
+
+			model.addAttribute("citasHoy", citaService.findCitasHoy());
+
 			model.addAttribute("message", "Citas canceladas correctamente");
 
 		}catch(Exception e){
