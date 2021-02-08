@@ -235,7 +235,10 @@ INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación
 
 INSERT INTO pedidos(id, cantidad, precio_unidad, recibido, proveedor_id, recambio) VALUES (1, 3, 214.32, false, 201, 100);
 INSERT INTO pedidos(id, cantidad, precio_unidad, recibido, proveedor_id, recambio) VALUES (2, 3, 214.32, true, 201, 101);
+<<<<<<< Upstream, based on origin/master
 
+=======
+>>>>>>> 01b9659 merge
 
 
 -- Pruebas con solicitudes
