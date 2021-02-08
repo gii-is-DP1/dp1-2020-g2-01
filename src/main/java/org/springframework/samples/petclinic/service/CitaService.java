@@ -113,9 +113,10 @@ public class CitaService {
 	
 	@Transactional(readOnly = true)
 	public List<Cita> findCitaByTallerUbicacionFuturasYHoy(String ubicacion) throws DataAccessException {
-		return citaRepository.findCitaByTallerUbicacionAndFechaAfterOrFechaEquals(ubicacion, LocalDate.now(), LocalDate.now());
+		return citaRepository.findCitaByTallerUbicacionAndFechaAfterOrFechaEquals(ubicacion, LocalDate.now(), LocalDate.now());	
 	}
-	
+
+
 	@Transactional
 	public void delete(Cita cita) {
 		citaRepository.delete(cita);

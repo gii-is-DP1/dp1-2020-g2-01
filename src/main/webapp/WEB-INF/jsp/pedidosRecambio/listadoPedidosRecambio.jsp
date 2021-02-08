@@ -19,6 +19,7 @@
             <th>Cantidad</th>
             <th>Precio Total</th>
             <th>¿Ha llegado?</th>
+            <th>Factura</th>
             <th></th>
         </tr>
         </thead>
@@ -59,6 +60,15 @@
                     <c:if test="${pedidoRecambio.seHaRecibido == true}">
                     	<p> Entregado </p>
                     </c:if>
+                </td>
+                
+                
+                 <td>
+                	<spring:url value="/pedidosRecambio/factura/${pedidoRecambio.facturaRecambio.id}" var="pedidoRecambioUrl">
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(pedidoRecambioUrl)}">
+	                    	<span class="glyphicon glyphicon-eye-open"></span>
+	                    </a>
                 </td>
                 
                 <td>

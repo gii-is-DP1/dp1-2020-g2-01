@@ -88,7 +88,7 @@
 		        	</td>		        	
 		        	
 		        	<td>
-						<spring:url value="/pedidosRecambio/listadoPedidosRecambio" var="facturaRecambioUrl">
+						<spring:url value="/pedidosRecambio/factura/${factura.id}" var="facturaRecambioUrl">
 	                    </spring:url>
 	                    <a href="${fn:escapeXml(facturaRecambioUrl)}">
 	                    	<span class="glyphicon glyphicon-eye-open"></span>
