@@ -22,6 +22,7 @@ import org.springframework.samples.petclinic.service.TipoCitaService;
 import org.springframework.samples.petclinic.service.VehiculoService;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
+import org.springframework.samples.petclinic.service.exceptions.FechasFuturaException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
 import org.springframework.samples.petclinic.util.LoggedUser;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -113,20 +114,20 @@ public class CitaController {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
 		if(cliente.isPresent()) {
-			model.put("citas", citaService.findByCliente(cliente.get())); 
+			model.put("citas", citaService.findCitasFuturasByCliente(cliente.get()));
+			List<Cita> citasPasadas = citaService.findCitasPasadasByVehiculoCliente(cliente.get());
+			model.put("citasPasadas", citasPasadas.subList(0, Math.min(10, citasPasadas.size())));
+			model.put("citasHoy", citaService.findCitaHoyByVehiculoCliente(cliente.get()));
 			
 		}else {
-			String ubicacion = "";
 			Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
 			if(empleado.isPresent()) {
-				ubicacion = empleado.get().getTaller().getUbicacion();
-				model.put("citas", citaService.findCitaByTallerUbicacion(ubicacion)); 
-			}
-			else {
+				String ubicacion = empleado.get().getTaller().getUbicacion();
+				model.put("citas", citaService.findCitaFuturasByTallerUbicacion(ubicacion));
 
-				model.addAttribute(citasHoy());
-				model.addAttribute(citas());
-
+				List<Cita> citasPasadas = citaService.findCitasPasadasByTallerUbicacion(ubicacion);
+				model.put("citasPasadas", citasPasadas.subList(0, Math.min(10, citasPasadas.size())));
+				model.put("citasHoy", citaService.findCitaHoyByTallerUbicacion(ubicacion));
 			}
 		}
 		return vista;
@@ -165,9 +166,18 @@ public class CitaController {
 				model.addAttribute("message", "El vehículo seleccionado no se encuentra");
 				model.addAttribute("messageType", "danger");
 				model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(c));
+				model.addAttribute("cita", cita);
+				return CREATE_OR_UPDATE_FORM;
 			}catch(CitaSinPresentarseException e) {
 				log.warn("Excepción: el usuario con username " + LoggedUser.getUsername() +"ha sobrepasado el límite de citas sin asistir");
 				model.addAttribute("message", "Ha sobrepasado el límite de citas sin asistir, por lo que no puede pedir más citas hasta dentro de 1 semana");
+			} catch (FechasFuturaException e) {
+				String username = LoggedUser.getUsername();
+				Cliente c = clienteService.findClientesByUsername(username).get();
+				model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(c));
+				model.addAttribute("cita", cita);
+				result.rejectValue("fecha", "Debe de ser una cita en el futuro", "Debe de ser una cita en el futuro");
+				return CREATE_OR_UPDATE_FORM;
 			}
 			
 			vista = listadoCitas(model);
@@ -340,7 +350,7 @@ public class CitaController {
 	
 	@GetMapping(value="/noAtender/{citaId}")
 	public String eliminarEmpleadoDeCita(@PathVariable("citaId") int id, ModelMap model) throws DataAccessException, EmpleadoYCitaDistintoTallerException, 
-	NotAllowedException, CitaSinPresentarseException {
+	NotAllowedException, CitaSinPresentarseException, FechasFuturaException {
 		String vista = listadoCitas(model);
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);

@@ -18,11 +18,21 @@
         <form:form action="/recambios/solicitud/save" modelAttribute="solicitud" class="form-horizontal">
             <div class="form-group has-feedback">
             	
-            	<petclinic:radioBoolField label="¿Está terminada?" name="terminada" />
-           		<petclinic:select label="Recambio que se solicita" name="recambio" items="${recambios}"/>
+            	<input type="hidden" name="terminada" value="false">
+           		
+           		<c:set var="readOnlyRecambio" value="${empty readOnlyRecambio ? 'false' : readOnlyRecambio}"></c:set>
+               	<c:if test="${readOnlyRecambio}"><petclinic:inputField label="Recambio que se solicita" name="recambio" readonly="true" /></c:if>
+               	<c:if test="${not readOnlyRecambio}"><petclinic:select label="Recambio que se solicita" name="recambio" items="${recambios}"/></c:if>
+               	
                 <petclinic:inputField label="Cantidad" name="cantidad"/>
-               	<petclinic:inputField label="Empleado que realiza la petición" name="empleado" readonly="true" />
-               	<petclinic:select label="Reparación para que se solicita" name="reparacion" items="${reparaciones}"/>
+                
+                <c:set var="readOnlyEmpleado" value="${empty readOnlyEmpleado ? 'false' : readOnlyEmpleado}"></c:set>
+               	<c:if test="${readOnlyEmpleado}"><petclinic:inputField label="Empleado que realiza la petición" name="empleado" readonly="true" /></c:if>
+               	<c:if test="${not readOnlyEmpleado}"><petclinic:select label="Empleado que realiza la petición" name="empleado" items="${empleados}"/></c:if>
+               	
+               	<c:set var="readOnlyReparacion" value="${empty readOnlyReparacion ? 'false' : readOnlyReparacion}"></c:set>
+               	<c:if test="${readOnlyReparacion}"><petclinic:inputField label="Reparación para que se solicita" name="reparacion" readonly="true" /></c:if>
+               	<c:if test="${not readOnlyReparacion}"><petclinic:select label="Reparación para que se solicita" name="reparacion" items="${reparaciones}"/></c:if>
                	
                	
                	

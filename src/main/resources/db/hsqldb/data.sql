@@ -199,12 +199,12 @@ INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, em
 
 INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido, tiene_reparacion) VALUES (200,CURDATE()-1, 20, 200, 1, true, true);
 INSERT INTO citas_tipocita VALUES (200, 1);
-INSERT INTO citas_empleados VALUES (200, 100);
 INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido, tiene_reparacion) VALUES (201,CURDATE()-2, 20, 200, 2, true, true);
 INSERT INTO citas_tipocita VALUES (201, 1);
 
 INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido, tiene_reparacion) VALUES (202,CURDATE()+2, 20, 200, 1, true, false);
-INSERT INTO citas_tipocita VALUES (201, 1);
+INSERT INTO citas_tipocita VALUES (202, 1);
+INSERT INTO citas_empleados VALUES (202, 100);
 
 INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
 		VALUES (1,'Descripción', CURDATE()-1, null, CURDATE()-3, null, 200);
@@ -231,8 +231,11 @@ INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');
 
 
-INSERT INTO pedidos(id, name, cantidad, precio_unidad, recibido, proveedor_id) VALUES (1, 'Batería INNPO Lcpower 74Ah 640A', 2, 175.02, true, 201);
-INSERT INTO pedidos(id, name, cantidad, precio_unidad, recibido, proveedor_id) VALUES (2, 'Tubo de escape H83LS', 1, 214.32, true, 201);
+
+
+INSERT INTO pedidos(id, cantidad, precio_unidad, recibido, proveedor_id, recambio) VALUES (1, 3, 214.32, false, 201, 100);
+INSERT INTO pedidos(id, cantidad, precio_unidad, recibido, proveedor_id, recambio) VALUES (2, 3, 214.32, true, 201, 101);
+
 
 
 -- Pruebas con solicitudes

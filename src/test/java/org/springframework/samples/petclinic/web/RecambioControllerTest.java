@@ -96,7 +96,7 @@ class RecambioControllerTest {
     @Test
     void testInitRecambioForm() throws Exception {
 		mockMvc.perform(get("/recambios/solicitud/new")).andExpect(status().isOk()).andExpect(model().attributeExists("solicitud"))
-			.andExpect(view().name("recambios/editSolicitud"));
+			.andExpect(view().name("recambios/addSolicitud"));
 }
 	
 	@WithMockUser(value = "spring")

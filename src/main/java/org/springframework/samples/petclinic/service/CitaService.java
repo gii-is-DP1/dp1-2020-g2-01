@@ -17,6 +17,7 @@ import org.springframework.samples.petclinic.model.Vehiculo;
 import org.springframework.samples.petclinic.repository.CitaRepository;
 import org.springframework.samples.petclinic.service.exceptions.CitaSinPresentarseException;
 import org.springframework.samples.petclinic.service.exceptions.EmpleadoYCitaDistintoTallerException;
+import org.springframework.samples.petclinic.service.exceptions.FechasFuturaException;
 import org.springframework.samples.petclinic.service.exceptions.NotAllowedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +47,7 @@ public class CitaService {
 	
 	
 	@Transactional
-	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException
+	public void saveCita(Cita cita, String username) throws DataAccessException, EmpleadoYCitaDistintoTallerException, NotAllowedException, CitaSinPresentarseException, FechasFuturaException
 	{	
 		List<Empleado> empleados = cita.getEmpleados();
 		List<Cita> citasNoReparacion = this.findByUsername(username)
@@ -59,7 +60,7 @@ public class CitaService {
 				}
 			}
 		}
-		if(citasNoReparacion.size()>=3) {
+		if(citasNoReparacion.size()>=3 && cita.getId() == null) {
 			Boolean masDeUnaSemana = true;
 				for(Cita citaR:citasNoReparacion) {
 					
@@ -71,6 +72,10 @@ public class CitaService {
 					throw new CitaSinPresentarseException();
 				}
 			}
+		
+		if(cita.getId() == null && cita.getFecha().isBefore(LocalDate.now().plusDays(1))) {
+			throw new FechasFuturaException();
+		}
 		
 		Optional<Cliente> c = clienteService.findClientesByUsername(username);
 		if(c.isPresent()) {
@@ -103,7 +108,7 @@ public class CitaService {
 	
 	@Transactional(readOnly = true)
 	public List<Cita> findCitaByTallerUbicacion(String ubicacion) throws DataAccessException {
-		return citaRepository.findCitaByTallerUbicacionAndFechaAfter(ubicacion, Sort.by(Sort.Direction.ASC, "fecha", "hora"), LocalDate.now());
+		return citaRepository.findCitaByTallerUbicacionAndFechaAfter(ubicacion, LocalDate.now(), Sort.by(Sort.Direction.ASC, "fecha", "hora"));
 	}
 	
 	@Transactional(readOnly = true)
@@ -167,7 +172,7 @@ public class CitaService {
 	}
 
 	@Transactional(readOnly=true)
-	public List<Cita> findByCliente(Cliente cliente) throws DataAccessException{
+	public List<Cita> findCitasFuturasByCliente(Cliente cliente) throws DataAccessException{
 		return citaRepository.findCitaByClienteAndFechaAfter(cliente, LocalDate.now(), Sort.by(Sort.Direction.ASC, "fecha", "hora"));
 	}
 	
@@ -190,6 +195,31 @@ public class CitaService {
 	@Transactional(readOnly=true)
 	public List<Cita> findCitasPasadas() {
 		return citaRepository.findCitasByFechaBefore(LocalDate.now(), Sort.by(Sort.Direction.DESC, "fecha", "hora"));
+	}
+
+
+	public List<Cita> findCitaHoyByTallerUbicacion(String ubicacion) {
+		return citaRepository.findCitaByTallerUbicacionAndFechaEquals(ubicacion, LocalDate.now(), Sort.by(Sort.Direction.DESC, "fecha"));
+	}
+
+
+	public List<Cita> findCitasPasadasByTallerUbicacion(String ubicacion) {
+		return citaRepository.findCitaByTallerUbicacionAndFechaBefore(ubicacion, LocalDate.now(), Sort.by(Sort.Direction.DESC, "fecha"));
+	}
+
+
+	public List<Cita> findCitaFuturasByTallerUbicacion(String ubicacion) {
+		return citaRepository.findCitaByTallerUbicacionAndFechaAfter(ubicacion, LocalDate.now(), Sort.by(Sort.Direction.DESC, "fecha"));
+	}
+
+
+	public List<Cita> findCitasPasadasByVehiculoCliente(Cliente cliente) {
+		return citaRepository.findCitaByVehiculoClienteAndFechaBefore(cliente, LocalDate.now(), Sort.by(Sort.Direction.DESC, "fecha"));
+	}
+
+
+	public List<Cita> findCitaHoyByVehiculoCliente(Cliente cliente) {
+		return citaRepository.findCitaByVehiculoClienteAndFechaEquals(cliente, LocalDate.now(), Sort.by(Sort.Direction.DESC, "fecha"));
 	}
 	
 }

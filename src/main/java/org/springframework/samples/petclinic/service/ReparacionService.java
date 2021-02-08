@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Empleado;
 import org.springframework.samples.petclinic.model.Factura;
@@ -173,12 +174,12 @@ public class ReparacionService {
 	public void recoger(Reparacion rep) throws DataAccessException, FechasReparacionException, Max3ReparacionesSimultaneasPorEmpleadoException, NoRecogidaSinPagoException{
 		//PUEDE QUE HAYA QUE MODIFICAR
 		
-//		if (!rep.getLineaFactura().isEmpty()) {
-//			Factura f = rep.getLineaFactura().get(0).getFactura();
-//			if(f.getFechaPago()==null) {
-//				throw new NoRecogidaSinPagoException();
-//			}
-//		}
+		if (!rep.getLineaFactura().isEmpty()) {
+			Factura f = rep.getLineaFactura().get(0).getFactura();
+			if(f.getFechaPago()==null) {
+				throw new NoRecogidaSinPagoException();
+			}
+		}
 		
 		//
 		
@@ -189,6 +190,18 @@ public class ReparacionService {
 
 	public List<Reparacion> findReparacionByEmpleadoAndReparacionActiva(Empleado empleado) {
 		return reparacionRepository.findReparacionByEmpleadoAndReparacionActiva(empleado);
+	}
+
+
+
+	public List<Reparacion> findAllSorted() {
+		return reparacionRepository.findAll(Sort.by(Sort.Direction.ASC, "cita.fecha"));
+	}
+
+
+
+	public List<Reparacion> findReparacionByUbicacion(String ubicacion) {
+		return reparacionRepository.findReparacionByCitaTallerUbicacion(ubicacion);
 	}
 	
 

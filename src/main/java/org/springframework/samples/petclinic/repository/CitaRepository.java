@@ -28,7 +28,7 @@ public interface CitaRepository extends CrudRepository<Cita, Integer> {
 	@Query("SELECT cita FROM Cita cita WHERE (cita.vehiculo.cliente LIKE :cliente) AND (cita.fecha > :today)")
 	List<Cita> findCitaByClienteAndFechaAfter(@Param("cliente") Cliente cliente, @Param("today") LocalDate today, Sort sort);
 
-	List<Cita> findCitaByTallerUbicacionAndFechaAfter(String ubicacion, Sort sort, LocalDate today) throws DataAccessException;
+	List<Cita> findCitaByTallerUbicacionAndFechaAfter(String ubicacion, LocalDate today, Sort sort) throws DataAccessException;
 	
 	@Query("SELECT cita FROM Cita cita WHERE cita.vehiculo.cliente.user.username LIKE :username")
 	List<Cita> findByUsername(@Param("username") String username, Sort sort);
@@ -40,5 +40,14 @@ public interface CitaRepository extends CrudRepository<Cita, Integer> {
 	List<Cita> findCitasByFechaEquals(LocalDate now, Sort by);
 
 	List<Cita> findCitaByTallerUbicacionAndFechaAfterOrFechaEquals(String ubicacion, LocalDate now, LocalDate now2);
+
+	List<Cita> findCitaByTallerUbicacionAndFechaEquals(String ubicacion, LocalDate now, Sort sort);
+
+	List<Cita> findCitaByTallerUbicacionAndFechaBefore(String ubicacion, LocalDate now, Sort by);
+
+	List<Cita> findCitaByVehiculoClienteAndFechaBefore(Cliente cliente, LocalDate now, Sort by);
+
+	List<Cita> findCitaByVehiculoClienteAndFechaEquals(Cliente cliente, LocalDate now, Sort by);
+
 	
 }

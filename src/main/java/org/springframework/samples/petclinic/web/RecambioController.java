@@ -153,20 +153,43 @@ public class RecambioController {
 	}
 	
 	@GetMapping("/solicitud/new")
-	public String crearSolicitud(ModelMap model) {
-		String vista;
+	public String crearSolicitud(ModelMap model, Integer recambioId, Integer reparacionId) {
+		String vista =  "recambios/addSolicitud";
 		Solicitud s = new Solicitud();
 		String username = LoggedUser.getUsername();
 		Optional<Empleado> empleado = empleadoService.findEmpleadoByUsuarioUsername(username);
-		if(!empleado.isPresent()) { //si es un admin debe introducir el empleado
-			vista = "recambios/editSolicitud";
-		} else { //si es un empleado pone su nombre automáticamente 
+		if(empleado.isPresent()) { 
 			s.setEmpleado(empleado.get());
-			vista = "recambios/addSolicitud";
+			model.addAttribute("readOnlyEmpleado", "true");
+		}
+		
+		if(recambioId != null) {
+			Optional<Recambio> recambio = recambioService.findRecambioById(recambioId);
+			if(recambio.isPresent()) {
+				s.setRecambio(recambio.get());
+				model.addAttribute("readOnlyRecambio", "true");
+			}
+		}
+		
+		if(reparacionId != null) {
+			Optional<Reparacion> reparacion = reparacionService.findReparacionById(reparacionId);
+			if(reparacion.isPresent()) {
+				s.setReparacion(reparacion.get());
+				model.addAttribute("readOnlyReparacion", "true");
+			}
 		}
 		model.addAttribute("solicitud", s);
 		return vista;
-		
+	}
+	
+	@GetMapping("/solicitud/new/{recambioId}")
+	public String crearSolicitudDeRecambio(@PathVariable("recambioId") int id, ModelMap model) {
+		return crearSolicitud(model, id, null);
+	}
+	
+	@GetMapping("/solicitud/new/{recambioId}/{reparacionId}")
+	public String crearSolicitudDeRecambioYReparacion(@PathVariable("recambioId") int idRec, @PathVariable("reparacionId") int idRep, ModelMap model) {
+		return crearSolicitud(model, idRec, idRep);
 	}
 	
 	
@@ -190,7 +213,7 @@ public class RecambioController {
 		Optional<PedidoRecambio> opt = pedidoRecambioService.findById(id);
 		if(opt.isPresent()) {
 			PedidoRecambio s = opt.get();
-			String nombre = s.getName();
+			String nombre = s.getRecambio().getName();
 			int cantidad = s.getCantidad();
 			s.setSeHaRecibido(true);
 			Optional<Recambio> opt1 = recambioService.findRecambioByNombre(nombre);

@@ -53,7 +53,6 @@
             <sec:authorize access="hasAuthority('empleado')">
 	            <th>Cliente</th>
 	            <th></th>
-	            <th></th>
             </sec:authorize>
             
         </tr>
@@ -132,16 +131,6 @@
 	                    </spring:url>
 	                    <a href="${fn:escapeXml(reparacionUrl)}">
 	                    	<span class="helper glyphicon glyphicon-eye-open"></span>
-	                    </a>
-	                
-	                </td>
-	                
-	                <td>
-	                	<spring:url value="/reparaciones/delete/{reparacionId}" var="reparacionUrl">
-	                        <spring:param name="reparacionId" value="${reparacion.id}"/>
-	                    </spring:url>
-	                    <a href="${fn:escapeXml(reparacionUrl)}">
-	                    	<span class="helper glyphicon glyphicon-trash"></span>
 	                    </a>
 	                
 	                </td>

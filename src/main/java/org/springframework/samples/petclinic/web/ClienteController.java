@@ -91,7 +91,7 @@ public class ClienteController {
 			model.addAttribute("vehiculos", vehiculoService.findVehiculosCliente(cliente.get()));
 			model.addAttribute("sinNombre", "sinNombre");
 			
-			List<Cita> citas = citaService.findByCliente(cliente.get());
+			List<Cita> citas = citaService.findCitasFuturasByCliente(cliente.get());
 			Comparator<Cita> ordenarPorFechaYHora = Comparator.comparing(Cita::getFecha)
 					.thenComparing(Comparator.comparing(Cita::getHora));
 			citas = citas.stream().sorted(ordenarPorFechaYHora).collect(Collectors.toList());
