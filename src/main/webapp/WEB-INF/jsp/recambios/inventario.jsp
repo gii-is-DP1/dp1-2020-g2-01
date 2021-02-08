@@ -18,7 +18,7 @@
         	<th>Nombre</th>
             <th>Tipo de vehículo</th>
             <th>Cantidad actual</th>
-            <th>Proveedor</th>
+
 
         </tr>
         </thead>
@@ -36,9 +36,7 @@
                 <td>
                    <c:out value="${recambio.cantidadActual}"/>
                 </td>
-                <td>
-                   <c:out value="${recambio.proveedor.name}"/>
-                </td>
+     
                 
 
               

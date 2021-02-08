@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.service;
 
-
 import java.util.Properties;
 import javax.mail.internet.MimeMessage;
 
@@ -12,7 +11,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-
 
 @Slf4j
 @Service
@@ -64,6 +62,4 @@ public class SendEmailService{
 	       
 	     return mailSender;
 	 }
-
-
 }
