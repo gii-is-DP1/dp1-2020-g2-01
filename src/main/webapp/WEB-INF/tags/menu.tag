@@ -227,6 +227,13 @@
 					</sec:authorize>
 					
 				</sec:authorize>
+				<sec:authorize access="hasAuthority('cliente') or !isAuthenticated()">
+					<petclinic:menuItem active="${name eq 'contacto'}" url="/talleres/contacto"
+						title="contacto">
+						<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+						<span>contacto</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 			</ul>
 		</div>
 

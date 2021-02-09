@@ -226,6 +226,22 @@ INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajada
 INSERT INTO horas_reparacion VALUES (2, 10);
 INSERT INTO horas_reparacion VALUES (2, 11);
 
+INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido, tiene_reparacion) VALUES (203,CURDATE()-20, 20, 200, 1, true, true);
+INSERT INTO citas_tipocita VALUES (203, 1);
+INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
+		VALUES (3,'Reparacion con descuento, por cada 10 dias que pasen de la fecha estimada se va añadiendo un 10% hasta 50%', CURDATE()-15, null, CURDATE()-20, null, 203);
+		
+INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (12, 'Cambio de rueda', 10.5, 3, 100);
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad) VALUES (90, 15, 3, 'Cambio 4 ruedas', 100, 4);
+
+INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido, tiene_reparacion) VALUES (204,CURDATE()-20, 19, 200, 1, true, true);
+INSERT INTO citas_tipocita VALUES (204, 1);
+INSERT INTO reparaciones(id, descripcion, tiempo_estimado, fecha_finalizacion, fecha_entrega, fecha_recogida, cita_id) 
+		VALUES (4,'Reparacion con cobro extra, por cada 10 dias que pasen de la fecha de finalizacion sin que el cliente recoja su vehiculo', CURDATE()-15, CURDATE()-15, CURDATE()-20, null, 204);
+		
+INSERT INTO horas_trabajadas(id, trabajo_realizado, precio_hora, horas_trabajadas, empleado) VALUES (13, 'Cambio de rueda', 10.5, 4, 100);
+INSERT INTO linea_factura(precio_base, descuento, reparacion, descripcion, recambio_id, cantidad) VALUES (90, 15, 4, 'Cambio 4 ruedas', 100, 4);
+
 
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (1, 'Reparación espejo retrovisor izquierdo', 'Po lo hase así y asá');
 INSERT INTO reparacionescomunes(id, nombre, descripcion) VALUES (2, 'Reparación luneta térmica', 'Po lo hase así y con la mano asá');

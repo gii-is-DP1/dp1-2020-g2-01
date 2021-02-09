@@ -21,7 +21,6 @@
         	<th>Nombre</th>
             <th>Tipo de vehículo</th>
             <th>Cantidad actual</th>
-            <th>Proveedor</th>
             <th></th>
 
         </tr>
@@ -39,9 +38,6 @@
                 
                 <td>
                    <c:out value="${recambio.cantidadActual}"/>
-                </td>
-                <td>
-                   <c:out value="${recambio.proveedor.name}"/>
                 </td>
                 <td><a href="/recambios/solicitud/new/${recambio.id}" class="btn btn-success">
 	                    	<span class="helper glyphicon glyphicon-plus"></span> Solicitar</a></td>
