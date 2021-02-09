@@ -20,8 +20,17 @@
 		}	
 		
 		@keyframes animacion2 {
-			from{top:-200%;bottom:200%}
-			to {top:0%;bottom:0%}
+			0%{top:-200%;bottom:200%; left:-20%}
+			50%{top:-200%;bottom:200%; left:-20%}
+			75% {top:0%;bottom:0%; left:-20%}
+			100%{left:0%}
+		}
+		
+		@keyframes animacion3 {
+			0%{top:-200%;bottom:200%; right:-20%}
+			50%{top:-200%;bottom:200%; right:-20%}
+			75% {top:0%;bottom:0%; right:-20%}
+			100%{right:0%}
 		}
 		
 		.animation {
@@ -31,7 +40,12 @@
 		
 		.animation2 {
 			animation-name: animacion2;		
-	  		animation-duration: 3s;
+	  		animation-duration: 4s;
+		}
+		
+		.animation3 {
+			animation-name: animacion3;		
+	  		animation-duration: 4s;
 		}
 	
 	</style>
@@ -104,7 +118,7 @@
     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
     <span class="sr-only">Previous</span>
   </a>
-  <a class="right carousel-control animation2" href="#carousel-example-generic" role="button" data-slide="next">
+  <a class="right carousel-control animation3" href="#carousel-example-generic" role="button" data-slide="next">
     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
