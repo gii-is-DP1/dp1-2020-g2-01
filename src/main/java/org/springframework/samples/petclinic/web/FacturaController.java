@@ -22,7 +22,7 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Factura;
 import org.springframework.samples.petclinic.model.LineaFactura;
 import org.springframework.samples.petclinic.model.Reparacion;
-import org.springframework.samples.petclinic.repository.ClienteRepository;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.FacturaService;
 import org.springframework.samples.petclinic.service.LineaFacturaService;
 import org.springframework.samples.petclinic.service.ReparacionService;
@@ -55,14 +55,14 @@ public class FacturaController {
 	private ReparacionController reparacionController;
 	
 	@Autowired
-	private ClienteRepository clienteRepository;
+	private ClienteService clienteService;
 
 
 	@GetMapping(value = { "/listadoFacturas" })
 	public String listadoFacturas(ModelMap model) {
 		String vista = "facturas/listadoFacturas";
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Optional<Cliente> cliente = clienteRepository.findByUsername(username);
+		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
 		Iterable<Factura> facturas = null;
 		if(cliente.isPresent()) {
 			facturas = facturaService.findFacturaByCliente(cliente.get());
