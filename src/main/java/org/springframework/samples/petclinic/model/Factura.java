@@ -60,12 +60,16 @@ public class Factura extends BaseEntity{
 	}
 
 	public Integer calcularDiasPasadasFechaEsperada() {
-		int i = (int) ((int) lineaFactura.get(0).getReparacion().getFechaFinalizacion().toEpochDay() - lineaFactura.get(0).getReparacion().getTiempoEstimado().toEpochDay());
+		int i = (int) ((int) lineaFactura.get(0).getReparacion()
+				.getFechaFinalizacion().toEpochDay() - lineaFactura.get(0).getReparacion().getTiempoEstimado().toEpochDay());
 		return i/10;
 	}
 	
 	public Integer calcularDiasPasadasFechaRecogida() {
-		int fecha = lineaFactura.get(0).getReparacion().getFechaRecogida() != null ? (int) lineaFactura.get(0).getReparacion().getFechaRecogida().toEpochDay() : (int) LocalDate.now().toEpochDay();
+		int fecha = lineaFactura.get(0).getReparacion()
+				.getFechaRecogida() != null ? (int) lineaFactura.get(0).getReparacion().getFechaRecogida().toEpochDay() 
+						: (int) LocalDate.now().toEpochDay();
+				
 		int i = (int) (fecha - lineaFactura.get(0).getReparacion().getFechaFinalizacion().toEpochDay());
 		return i;
 	}
