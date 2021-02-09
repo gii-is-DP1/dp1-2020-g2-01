@@ -89,24 +89,25 @@ public class VehiculoController {
 	@PostMapping(value = "/save")
 	public String guardarVehiculo(@Valid Vehiculo vehiculo, BindingResult result, ModelMap model) {
 		String vista;
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
+		String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		if(!cliente.isPresent() && auth.equals("cliente")) {  
+			model.addAttribute("message", "Ha habido un error con el cliente");
+			vista = listadoVehiculos(model);
+			return vista;
+		} 
+		
+		if(cliente.isPresent()) {
+			vehiculo.setCliente(cliente.get());
+		}
 		if(result.hasErrors()) {
 			model.addAttribute("vehiculo", vehiculo);
 			model.addAttribute("nombreUsuario", vehiculo.getCliente().getUser().getUsername());	
 			vista = "vehiculos/editVehiculo";
 		} else {
 
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Optional<Cliente> cliente = clienteService.findClientesByUsername(username);
-			String auth = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
-			if(!cliente.isPresent() && auth.equals("cliente")) {  
-				model.addAttribute("message", "Ha habido un error con el cliente");
-				vista = listadoVehiculos(model);
-				return vista;
-			} 
 			
-			if(cliente.isPresent()) {
-				vehiculo.setCliente(cliente.get());
-			}
 			
 			
 			try { //comprobar que la matrícula no está duplicada

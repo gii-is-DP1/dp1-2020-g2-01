@@ -88,7 +88,7 @@ INSERT INTO tipovehiculo(id,tipo) VALUES (1, 'COCHE');
 INSERT INTO tipovehiculo(id,tipo) VALUES (2, 'MOTO');
 INSERT INTO tipovehiculo(id,tipo) VALUES (3, 'TODOTERRENO');
 INSERT INTO tipovehiculo(id,tipo) VALUES (4, 'QUAD');
-INSERT INTO tipovehiculo(id,tipo) VALUES (5, 'CAMIÓN');
+INSERT INTO tipovehiculo(id,tipo) VALUES (5, 'CAMION');
 INSERT INTO tipovehiculo(id,tipo) VALUES (6, 'FURGONETA');
 
 INSERT INTO tipocita(id,tipo,icono) VALUES (1, 'REVISIÓN', 'revision.png');
@@ -124,10 +124,10 @@ INSERT INTO authorities(username, authority) VALUES ('jesfunrud', 'cliente');
 INSERT INTO clientes(id, dni, nombre, apellidos, fecha_nacimiento, telefono, email, username) VALUES (1, '11223344M', 'Jesus', 'Funes Ruda', '2000-02-20', '666339933', 'tallersevillacustoms@gmail.com', 'jesfunrud');
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (100, '1234ABC', 'VSSZZZ6KZ1R149943', 'Ford Kuga', 1,1);
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (101, '1234FBC', 'VSSZZZ6KZ1R149943', 'Kawasaki Ninja ZX-6R', 2,1);
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (102, '5678ABC', 'VSSZZZ6KZ1R149943', 'Citroen C3', 1, 1);
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (103, '5679ABC', 'VSSZZZ6KZ1R149943', 'Citroen C4', 1, 1);
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (103, '5688ABC', 'VSSZZZ6KZ1R149943', 'Pegaso Tecno', 5, 1);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (101, '1234FBC', 'VSSZZZ6KZ1R149941', 'Kawasaki Ninja ZX-6R', 2,1);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (102, '5678ABC', 'VSSZZZ6KZ1R149945', 'Citroen C3', 1, 1);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (103, '5679ABC', 'VSSZZZ6KZ1R149946', 'Citroen C4', 1, 1);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (104, '5688ABC', 'VSSZZZ6KZ1R149947', 'Pegaso Tecno', 5, 1);
 
 
 INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (100,CURDATE(), 19, 100, 1, true);
@@ -152,8 +152,8 @@ INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, em
 				fecha_ini_contrato, num_seg_social, sueldo, username, taller_id) VALUES (1, 'Páez García', '77838103F', 
 					'1982-09-13', 'Candela', 638184619, 'correodeempleado@gmail.com', '2024-01-09', '2018-11-16', '111111111118', 1050, 'empleado', 1);
 
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (201, '2111AAB', 'VSSZZZ6KZ1R149944', 'Renault Clio', 1, 99);
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (202, '2123AAB', 'VSSZZZ6KZ1R149944', 'Yamaha YZF', 2, 99);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (201, '2111AAB', 'VSSZZZ6KZ1R549944', 'Renault Clio', 1, 99);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (202, '2123AAB', 'VSSZZZ6KZ1R349946', 'Yamaha YZF', 2, 99);
 
 
 INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (104, 201, CURDATE()-3, 17, 2, false);
@@ -180,16 +180,33 @@ INSERT INTO clientes(id, dni, nombre, apellidos, telefono, fecha_nacimiento, ema
 INSERT INTO proveedores(id, name, nif, telefono, email) VALUES (201, 'Pablo', '12345678H', '665112233', 'gumersindo@gmail.com');
 
 
-INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (100, 'Neumático Michelin', 1, 45);
-INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (101, 'Tubo de escape H83LS', 1, 10);
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (100, 'Neumático Michelin PILOT SPORT 225/45', 1, 45);
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (101, 'Tubo de escape AKRAPOVIC S-PI4SO3-HRSSBL', 2, 10);
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (102, 'Batería para coche Tudor Technica TB740 12V 74Ah', 1, 67);
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (103, 'Neumáticos YOKOHAMA GEOLANDER M/T G003', 3, 46);
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (104, 'Correa de distribución CONTITECH dentada ', 4, 78);
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (105, 'Faros HalogenH3 12/24V', 5, 58);
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (106, 'Cerradura de seguridad CF-19 FURGOFAC-1 CIERRE', 6, 173);
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (107, 'Espejo Retrovisor Craftride LS4', 2, 46);
+INSERT INTO recambios(id, name, tipo_vehiculo_id, cantidad_actual) VALUES (108, 'Asiento espuma de vinilo negro Quad', 4, 28);
 
 INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 100);
+INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (200, 101);
+INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 102);
+INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (200, 103);
+INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 104);
+INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (200, 105);
+INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 106);
+INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (200, 107);
+INSERT INTO proveedores_recambios(proveedor_id, recambios_id) VALUES (201, 108);
 
 
 --
 
 
-INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1111AAB', 'VSSZZZ6KZ1R149943', 'Opel Corsa', 1, 100);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (200, '1111AAC', 'VSSZZZ6KZ1R129943', 'Opel Corsa', 1, 100);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (203, '1111ABB', 'VSSZZZ6KZ1R142943', 'Quad Hero', 4, 100);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (204, '1111AAB', 'VSSZZZ6KZ1R141943', 'Furgoneta Volkswagen', 6, 100);
 
 
 INSERT INTO users(username,password,enabled) VALUES ('empleado1', @CONTRASENA,true);

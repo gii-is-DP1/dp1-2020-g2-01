@@ -19,7 +19,7 @@
 
     <h2 class="col-sm-2">Vehículos</h2>
     
-	<sec:authorize access="hasAuthority('cliente')"><a class="btn btn-success col-sm-offset-8 col-sm-2" href="/vehiculos/new/c"><span class="glyphicon glyphicon-plus"></span> Añadir vehículo</a>
+	<sec:authorize access="hasAuthority('cliente')"><a class="btn btn-success col-sm-offset-8 col-sm-2" href="/vehiculos/new/"><span class="glyphicon glyphicon-plus"></span> Añadir vehículo</a>
     </sec:authorize>
     <div class="col-sm-12" style="height:5px"></div>
     <petclinic:tablaVehiculos/>
