@@ -26,12 +26,6 @@ public class TallerServiceTests {
 	@Autowired
 	protected EntityManager em;
 	
-	/* Caso positivo: encuentra un taller que existe en la base de datos
-	 * Caso negativo: aunque no hay en la documentación, es probar que no encuentra un taller que no existe 
-	 */
-	
-	
-	//Taller que se inserta antes de cada test
 	public Taller t;
 	
 	
@@ -46,8 +40,6 @@ public class TallerServiceTests {
 		this.t = t;
 	}
 	
-	
-	
 	@Test
 	void shouldFindTaller() {
 		assertEquals(t, tallerService.findById(t.getId()).get());
@@ -60,7 +52,6 @@ public class TallerServiceTests {
 		assertThrows(NoSuchElementException.class, () -> tallerService.findById(t.getId()).get());
 		
 	}
-	
 	
 	@Test 
 	void shouldUpdateTaller() {
@@ -94,8 +85,6 @@ public class TallerServiceTests {
 		});
 		
 	}
-	
-	
 	
 	@Test
 	void shouldDeleteTaller() throws DataAccessException {
