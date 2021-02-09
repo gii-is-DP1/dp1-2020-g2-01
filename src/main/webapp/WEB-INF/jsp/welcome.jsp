@@ -15,15 +15,81 @@
 		}		
 	
 	</style>
-	
-    
-   <div class="col-md-12">
+	    
         <spring:url value="/resources/images/logoCompletoSinFondo.png" htmlEscape="true" var="logo"/>
          <img class="img-responsive" src="${logo}"/>
-   </div>
-        
+   <div>
+  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="5"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+    <spring:url value="/resources/images/coche1_antes.jpg" htmlEscape="true" var="coche"/>
+      <img src="${coche}" alt="...">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+    <div class="item">
+    <spring:url value="/resources/images/coche1_despues.jpg" htmlEscape="true" var="coche1"/>
+      <img src="${coche1}" alt="...">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+    <div class="item">
+    <spring:url value="/resources/images/coche2_antes.jpg" htmlEscape="true" var="coche2"/>
+      <img src="${coche2}" alt="...">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+    <div class="item">
+    <spring:url value="/resources/images/coche2_despues.jpg" htmlEscape="true" var="coche3"/>
+      <img src="${coche3}" alt="...">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+    <div class="item">
+    <spring:url value="/resources/images/coche3_antes.jpg" htmlEscape="true" var="coche4"/>
+      <img src="${coche4}" alt="...">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+    <div class="item">
+    <spring:url value="/resources/images/coche3_despues.jpg" htmlEscape="true" var="coche5"/>
+      <img src="${coche5}" alt="...">
+      <div class="carousel-caption">
+        ...
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+     </div>   
    
-   	<div>
+   	<!-- <div>
         <spring:url value="/resources/images/contacto.jpg" htmlEscape="true" var="contacto"/>
         <a href="/talleres/contacto">
          	<img class="img-responsive imagen1" src="${contacto}"/>
@@ -88,7 +154,7 @@
         <a href="/facturas/listadoFacturas">
         	<img class="img-responsive imagen1" src="${factura}"/>
         </a>
-   	</div>
+   	</div> -->
    	
 
 
