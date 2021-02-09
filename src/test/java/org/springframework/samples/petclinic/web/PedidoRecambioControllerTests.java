@@ -28,9 +28,6 @@ includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classe
 excludeAutoConfiguration= SecurityConfiguration.class)
 class PedidoRecambioControllerTests {
 
-	@Autowired
-	private PedidoRecambioController pedidoRecambioController;
-
 	@MockBean
 	private PedidoRecambioService pedidoRecambioService;
 	
