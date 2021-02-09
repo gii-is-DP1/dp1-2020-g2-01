@@ -46,6 +46,22 @@ public class RecambioControllerSecurityTest {
 		.andExpect(status().is(HttpStatus.FORBIDDEN.value()));
 	}
 	
+	@WithMockUser(username = "admin", authorities = {"admin"})
+	@Test
+	void AccesoAdminRecambios() throws Exception {
+		mockMvc
+		.perform(get("/recambios/listadoRecambios"))
+		.andExpect(status().is(HttpStatus.OK.value()));
+	}
+	
+	@WithMockUser(username = "empleado1", authorities = {"empleado"})
+	@Test
+	void AccesoEmpleadoRecambios() throws Exception {
+		mockMvc
+		.perform(get("/recambios/listadoRecambios"))
+		.andExpect(status().is(HttpStatus.OK.value()));
+	}
+	
 	@WithMockUser(username = "jesfunrud", authorities = {"cliente"})
 	@Test
 	void DenegerAccesoClienteSolicitudes() throws Exception {
@@ -60,6 +76,7 @@ public class RecambioControllerSecurityTest {
 		mockMvc
 		.perform(get("/pedidosRecambio"))
 		.andExpect(status().is(HttpStatus.FORBIDDEN.value()));
-	}
+	}	
+	
 	
 }
