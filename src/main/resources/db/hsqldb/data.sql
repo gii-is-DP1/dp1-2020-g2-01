@@ -86,7 +86,10 @@ SET @CONTRASENA = '$2a$10$JX6kTLbKV/FXUc11PwCl.e7nn6W9USLzZ1TKgIMXSdmTWGouRoaR6'
 
 INSERT INTO tipovehiculo(id,tipo) VALUES (1, 'COCHE');
 INSERT INTO tipovehiculo(id,tipo) VALUES (2, 'MOTO');
-INSERT INTO tipovehiculo(id,tipo) VALUES (3, 'BARCO');
+INSERT INTO tipovehiculo(id,tipo) VALUES (3, 'TODOTERRENO');
+INSERT INTO tipovehiculo(id,tipo) VALUES (4, 'QUAD');
+INSERT INTO tipovehiculo(id,tipo) VALUES (5, 'CAMIÓN');
+INSERT INTO tipovehiculo(id,tipo) VALUES (6, 'FURGONETA');
 
 INSERT INTO tipocita(id,tipo,icono) VALUES (1, 'REVISIÓN', 'revision.png');
 INSERT INTO tipocita(id,tipo,icono) VALUES (2, 'DISTRIBUCIÓN', 'distribucion.png');
@@ -124,6 +127,8 @@ INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cli
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (101, '1234FBC', 'VSSZZZ6KZ1R149943', 'Kawasaki Ninja ZX-6R', 2,1);
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (102, '5678ABC', 'VSSZZZ6KZ1R149943', 'Citroen C3', 1, 1);
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (103, '5679ABC', 'VSSZZZ6KZ1R149943', 'Citroen C4', 1, 1);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (103, '5688ABC', 'VSSZZZ6KZ1R149943', 'Pegaso Tecno', 5, 1);
+
 
 INSERT INTO citas(id, fecha, hora, vehiculo_id, taller_id, asistido) VALUES (100,CURDATE(), 19, 100, 1, true);
 INSERT INTO citas_tipocita VALUES (100, 1);
@@ -148,6 +153,8 @@ INSERT INTO empleados(id, apellidos, dni, fecha_nacimiento, nombre, telefono, em
 					'1982-09-13', 'Candela', 638184619, 'correodeempleado@gmail.com', '2024-01-09', '2018-11-16', '111111111118', 1050, 'empleado', 1);
 
 INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (201, '2111AAB', 'VSSZZZ6KZ1R149944', 'Renault Clio', 1, 99);
+INSERT INTO vehiculos(id, matricula, num_bastidor, modelo, tipo_vehiculo_id, cliente_id) VALUES (202, '2123AAB', 'VSSZZZ6KZ1R149944', 'Yamaha YZF', 2, 99);
+
 
 INSERT INTO citas(id, vehiculo_id, fecha, hora, taller_id, asistido) VALUES (104, 201, CURDATE()-3, 17, 2, false);
 INSERT INTO citas_tipocita VALUES (104, 1);
