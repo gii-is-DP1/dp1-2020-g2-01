@@ -16,7 +16,7 @@
     <h3 class="panel-title">Datos de la reparación<c:if test="${not empty reparacion.fechaFinalizacion}"> - Finalizada</c:if></h3>
   </div>
   <div class="panel-body">
-    <label class="col-sm-4">Descripcion: </label>${reparacion.descripcion}
+    <label class="col-sm-4">Descripcion: </label><p class="col-sm-8" style="padding-left:0">${reparacion.descripcion}</p>
   </div>
   <div class="panel-body">
     <label class="col-sm-4">Cliente: </label><p>${reparacion.cita.vehiculo.cliente.nombre} </p>
