@@ -12,13 +12,36 @@
 		    height:300px;
 		    float:left;
 		    margin:10px 10px 0 0;
-		}		
+		}	
+		
+		@keyframes animacion {
+		  from {left:-200%;}
+		  to {left:0%;}
+		}	
+		
+		@keyframes animacion2 {
+			from{top:-200%;bottom:200%}
+			to {top:0%;bottom:0%}
+		}
+		
+		.animation {
+			animation-name: animacion;
+	  		animation-duration: 3s;
+		}
+		
+		.animation2 {
+			animation-name: animacion2;		
+	  		animation-duration: 3s;
+		}
 	
 	</style>
-	    
+	    <div class="col-sm-12"><div class="col-sm-offset-10 col-sm-2"></div></div>
         <spring:url value="/resources/images/logoCompletoSinFondo.png" htmlEscape="true" var="logo"/>
          <img class="img-responsive" src="${logo}"/>
+         <h1>TU TALLER DE CONFIANZA</h1>
    <div>
+   
+<img src="/resources/images/coche.jpg" style="top:50%;left:30%;position:absolute;">
   <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
@@ -31,45 +54,45 @@
   </ol>
 
   <!-- Wrapper for slides -->
-  <div class="carousel-inner" role="listbox">
+  <div class="carousel-inner animation" role="listbox">
     <div class="item active">
     <spring:url value="/resources/images/coche1_antes.jpg" htmlEscape="true" var="coche"/>
-      <img src="${coche}" alt="...">
+      <img class="col-sm-12" src="${coche}" alt="antes">
       <div class="carousel-caption">
         ...
       </div>
     </div>
     <div class="item">
     <spring:url value="/resources/images/coche1_despues.jpg" htmlEscape="true" var="coche1"/>
-      <img src="${coche1}" alt="...">
+      <img class="col-sm-12" src="${coche1}" alt="despues">
       <div class="carousel-caption">
         ...
       </div>
     </div>
     <div class="item">
     <spring:url value="/resources/images/coche2_antes.jpg" htmlEscape="true" var="coche2"/>
-      <img src="${coche2}" alt="...">
+      <img class="col-sm-12" src="${coche2}" alt="antes">
       <div class="carousel-caption">
         ...
       </div>
     </div>
     <div class="item">
     <spring:url value="/resources/images/coche2_despues.jpg" htmlEscape="true" var="coche3"/>
-      <img src="${coche3}" alt="...">
+      <img class="col-sm-12" src="${coche3}" alt="despues">
       <div class="carousel-caption">
         ...
       </div>
     </div>
     <div class="item">
     <spring:url value="/resources/images/coche3_antes.jpg" htmlEscape="true" var="coche4"/>
-      <img src="${coche4}" alt="...">
+      <img class="col-sm-12" src="${coche4}" alt="antes">
       <div class="carousel-caption">
         ...
       </div>
     </div>
     <div class="item">
     <spring:url value="/resources/images/coche3_despues.jpg" htmlEscape="true" var="coche5"/>
-      <img src="${coche5}" alt="...">
+      <img class="col-sm-12" src="${coche5}" alt="despues">
       <div class="carousel-caption">
         ...
       </div>
@@ -77,16 +100,15 @@
   </div>
 
   <!-- Controls -->
-  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+  <a class="left carousel-control animation2" href="#carousel-example-generic" role="button" data-slide="prev">
     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
     <span class="sr-only">Previous</span>
   </a>
-  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+  <a class="right carousel-control animation2" href="#carousel-example-generic" role="button" data-slide="next">
     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
 </div>
-
      </div>   
    
    	<!-- <div>
