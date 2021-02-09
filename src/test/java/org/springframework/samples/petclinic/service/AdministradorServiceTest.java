@@ -127,7 +127,7 @@ public class AdministradorServiceTest{
 		admin.setUsuario(u);
 	
 		assertThrows(ConstraintViolationException.class, () -> adminService.saveAdministrador(admin));
-
+		
 	}
 	
 	@Test
