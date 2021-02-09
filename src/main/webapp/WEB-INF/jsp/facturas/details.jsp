@@ -24,6 +24,11 @@
   <div class="panel-body">
     <label class="col-sm-4">Descuento: </label><p>${factura.descuento}%</p>
   </div>
+  <c:if test="${factura.cargaExtraMonetaria != 0}">
+  <div class="panel-body">
+  	<label class="col-sm-4">Carga monetaria: </label><p>${factura.cargaExtraMonetaria}€</p>
+  </div>
+  </c:if>
   <div class="panel-body">
     <label class="col-sm-4">Precio final: </label><p>${factura.precioConDescuento}€</p>
   </div>
