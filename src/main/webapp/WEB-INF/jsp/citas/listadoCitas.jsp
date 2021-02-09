@@ -31,11 +31,6 @@
     </spring:url>
     <a class="btn btn-success col-sm-offset-7 col-sm-3" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-asterisk"></span> Cancelar citas por COVID</a>
 	</sec:authorize>
-	    <sec:authorize access="hasAuthority('empleado')">
-    <spring:url value="/citas/covid" var="citaUrl">
-    </spring:url>
-    <a class="btn btn-success col-sm-offset-7 col-sm-3" href="${fn:escapeXml(citaUrl)}"><span class="glyphicon glyphicon-asterisk"></span> Cancelar citas por COVID</a>
-	</sec:authorize>
 	<sec:authorize access="hasAuthority('cliente')">
     <spring:url value="/citas/new" var="citaUrl">
     </spring:url>

@@ -365,7 +365,7 @@ public class ReparacionController {
 	}
 	
 	@PostMapping("/addRecambio/{reparacionId}/{lnId}")
-	public String actualizarLineaFactura(@PathVariable("reparacionId") int id, @PathVariable("lnId") int lnId, @Valid LineaFactura ln, ModelMap model
+	public String actualizarLineaFactura(@Valid LineaFactura ln, @PathVariable("reparacionId") int id, @PathVariable("lnId") int lnId, ModelMap model
 			, BindingResult result) {
 		String vista = "redirect:/reparaciones/addRecambio/" + String.valueOf(id);
 		Optional<Reparacion> reparacion = reparacionService.findReparacionById(id);
@@ -378,6 +378,7 @@ public class ReparacionController {
 		if(result.hasErrors()) {
 			model.put("message", "Introduce datos válidos");
 			model.put("messageType", "warning");
+			model.addAttribute("edit", lnId);
 			return mostrarRecambios(id, model, "");
 		}
 

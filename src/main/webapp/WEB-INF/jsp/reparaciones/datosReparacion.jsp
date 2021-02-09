@@ -92,19 +92,21 @@
     ${fecha}
   </div>
 </div>
+<c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/info/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-4">Ver factura</a></c:if>
+<sec:authorize access="hasAuthority('empleado') or hasAuthority('admin')">
 <c:if test="${empty reparacion.fechaFinalizacion}"><a href="/reparaciones/update/${reparacion.id}" class="btn btn-success col-sm-4">Editar reparación</a>
 <a href="/reparaciones/finalizar/${reparacion.id}" class="btn btn-success col-sm-offset-6 col-sm-2">Finalizar</a></c:if>
 
 
 
 
-<c:if test="${not empty reparacion.fechaFinalizacion and not empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/info/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-4">Ver factura</a></c:if>
+
 <c:if test="${not empty reparacion.fechaFinalizacion and empty reparacion.lineaFactura[0].factura.id}"><a href="/facturas/generar/${reparacion.id}" class="btn btn-success col-sm-4">Generar Factura</a></c:if>
 <c:if test="${empty reparacion.fechaRecogida and not empty reparacion.fechaFinalizacion and empty reparacion.lineaFactura[0].factura.fechaPago and not empty reparacion.lineaFactura[0].factura.id}">
 <a href="/facturas/marcarPagado/${reparacion.lineaFactura[0].factura.id}" class="btn btn-success col-sm-offset-4 col-sm-4">Marcar como pagado</a></c:if>
 <c:if test="${empty reparacion.fechaRecogida and not empty reparacion.fechaFinalizacion and not empty reparacion.lineaFactura[0].factura.fechaPago }">
 <a href="/reparaciones/recoger/${reparacion.id}" class="btn btn-success col-sm-offset-4 col-sm-4">Marcar como recogido</a></c:if>
-
+</sec:authorize>
 </div>
 <div class="col-sm-6">
 <div class="panel panel-success">
@@ -174,8 +176,10 @@
 	</tbody>
 	</table>
 </div>
+<sec:authorize access="hasAuthority('empleado') or hasAuthority('admin')">
 <c:if test="${empty reparacion.fechaFinalizacion}"><a href="/reparaciones/addRecambio/${reparacion.id}" class="btn btn-success col-sm-4">Modificar recambios</a></c:if>
 <c:if test="${empty reparacion.fechaFinalizacion}"><a href="/horas/addHora/${reparacion.id}" class="btn btn-success col-sm-offset-4 col-sm-4">Añadir hora</a></c:if>
+</sec:authorize>
 </div>
 </div>
 </petclinic:layout>

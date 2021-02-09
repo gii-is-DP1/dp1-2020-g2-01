@@ -9,7 +9,7 @@
 
 
 
-<petclinic:layout pageName="balanceEconomico">
+<petclinic:layout pageName="balance">
 	<style>
 		.helper {
 			display: inline-block;
