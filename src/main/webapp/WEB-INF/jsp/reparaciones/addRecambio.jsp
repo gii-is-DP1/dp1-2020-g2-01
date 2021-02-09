@@ -79,9 +79,9 @@
 		<form:form action="/reparaciones/addRecambio/${reparacion.id}/${ln.id}" modelAttribute="lineaFactura" class="form-horizontal">
 			<td>${ln.recambio.name}</td>
 			<td><input type="text" name="descripcion" value="${ln.descripcion}"/></td>
-			<td><input class="col-sm-12" type="text" name="cantidad" value="${ln.cantidad}"/>/${ln.recambio.cantidadActual+ln.cantidad}</td>
-			<td><input class="col-sm-12" type="text" name="precioBase" value="${ln.precioBase}"/>€</td>
-			<td><input class="col-sm-12" type="text" name="descuento" value="${ln.descuento}"/>%</td>
+			<td><input class="col-sm-12" type="number" min="0" max="${ln.recambio.cantidadActual+ln.cantidad}" name="cantidad" value="${ln.cantidad}"/>/${ln.recambio.cantidadActual+ln.cantidad}</td>
+			<td><input class="col-sm-12" type="number" step="0.01" min="0" name="precioBase" value="${ln.precioBase}"/>€</td>
+			<td><input class="col-sm-12" type="number" step="0.01" min="0" max=100 name="descuento" value="${ln.descuento}"/>%</td>
 			<td>${ln.precio}€</td>
 			
 			<td><button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-ok"></span></button></td>
@@ -94,7 +94,7 @@
 		</form:form>
 		</c:when>
 		<c:otherwise>
-			<td>${ln.recambio.name}</br><a target="_blank" href="/recambios/solicitud/new/${recambio.id}/${reparacion.id}">Solicitar</a></td>
+			<td>${ln.recambio.name}</br><a target="_blank" href="/recambios/solicitud/new/${ln.recambio.id}/${reparacion.id}">Solicitar</a></td>
 			<td>${ln.descripcion}</td>
 			<td>${ln.cantidad}/${ln.recambio.cantidadActual+ln.cantidad}</td>
 			<td>${ln.precioBase}€</td>

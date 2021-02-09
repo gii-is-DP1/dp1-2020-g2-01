@@ -6,7 +6,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<petclinic:layout pageName="recambios">
+<petclinic:layout pageName="inventario">
     <h2 class="col-sm-2">Inventario</h2>
         	
 		<!-- <a href="/solicitud/new" class="btn btn-success">Nueva solicitud de producto</a> -->
