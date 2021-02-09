@@ -11,7 +11,7 @@
 
 
 
-<petclinic:layout pageName="ingresos">
+<petclinic:layout pageName="balance">
 	<style>
 		.helper {
 			display: inline-block;

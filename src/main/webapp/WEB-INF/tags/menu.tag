@@ -27,14 +27,6 @@
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Inicio</span>
 				</petclinic:menuItem>
-
-				<sec:authorize access="hasAuthority('admin')">
-				<petclinic:menuItem active="${name eq 'clientes'}" url="/clientes/listadoClientes"
-					title="find clientes">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Buscar Clientes</span>
-				</petclinic:menuItem>
-				</sec:authorize>
 				
 				<sec:authorize access="hasAuthority('empleado')">
 				<petclinic:menuItem active="${name eq 'clientes'}" url="/clientes/listadoClientes"
@@ -48,23 +40,25 @@
 				<sec:authorize access="hasAuthority('cliente')">
 					<petclinic:menuItem active="${name eq 'vehiculos'}" url="/vehiculos/listadoVehiculos"
 						title="vehiculos">
-						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-bed" aria-hidden="true"></span>
 						<span>Mis Vehículos</span>
 					</petclinic:menuItem>
 				</sec:authorize>
 				
-				<sec:authorize access="hasAuthority('empleado')">
+				<sec:authorize access="hasAuthority('empleado') or hasAuthority('cliente')">
 					<petclinic:menuItem active="${name eq 'reparaciones'}" url="/reparaciones/listadoReparaciones"
 						title="reparaciones">
-						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
 						<span>Reparaciones</span>
 					</petclinic:menuItem>
 				</sec:authorize>
 				
+				
+				
 				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'proveedores'}" url="/proveedores/listadoProveedores"
 					title="proveedores">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					<span>Proveedores</span>
 				</petclinic:menuItem>
 				</sec:authorize>
@@ -80,15 +74,23 @@
 				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'citas'}" url="/citas/listadoCitas"
 					title="citas">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 					<span>Citas</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAuthority('admin')">
+				<petclinic:menuItem active="${name eq 'inventario'}" url="/recambios/listadoRecambios"
+					title="stock">
+					<span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
+					<span>Stock</span>
 				</petclinic:menuItem>
 				</sec:authorize>
 				
 				<sec:authorize access="hasAuthority('empleado')">
 				<petclinic:menuItem active="${name eq 'citas'}" url="/citas/listadoCitas"
 					title="citas">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 					<span>Citas</span>
 				</petclinic:menuItem>
 				</sec:authorize>
@@ -97,8 +99,16 @@
 				<sec:authorize access="hasAuthority('cliente')">
 					<petclinic:menuItem active="${name eq 'citas'}" url="/citas/listadoCitas"
 						title="citas">
-						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 						<span>Mis citas</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAuthority('admin')">
+					<petclinic:menuItem active="${name eq 'balance'}" url="/balanceEconomico"
+						title="balance">
+						<span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
+						<span>Balance</span>
 					</petclinic:menuItem>
 				</sec:authorize>
 

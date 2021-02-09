@@ -28,7 +28,6 @@
             <th>DNI</th>
             <th>E-mail</th>
             <th>Teléfono</th>
-            <th>Facturas</th>
             <th>Detalles</th>
             <sec:authorize access="hasAuthority('cliente')">
             <th></th>
@@ -55,12 +54,6 @@
                 </td>
                 <td>
                    <c:out value="${cliente.telefono}"/>
-                </td>
-       			<td><spring:url value="/facturas/listadoFacturas/{username}" var="clienteUrl">
-                        <spring:param name="username" value="${cliente.user.username}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(clienteUrl)}">
-                    <span class="glyphicon glyphicon-list-alt"></span></a>
                 </td>
                 
                 <td>

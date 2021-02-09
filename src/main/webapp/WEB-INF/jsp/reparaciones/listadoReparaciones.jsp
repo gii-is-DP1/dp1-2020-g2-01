@@ -44,16 +44,10 @@
             <th>Vehiculo</th>
             <th>Fecha de finalización</th>
             <th>Fecha de recogida</th>
-            <sec:authorize access="hasAuthority('admin')">
+            <sec:authorize access="hasAuthority('admin') or hasAuthority('empleado')">
 	            <th>Cliente</th>
-	            <th></th>
-	            <th></th>
             </sec:authorize>
-            
-            <sec:authorize access="hasAuthority('empleado')">
-	            <th>Cliente</th>
-	            <th></th>
-            </sec:authorize>
+            <th></th>
             
         </tr>
         </thead>
@@ -92,38 +86,13 @@
                 	<p class="text-center"  style="margin: 0"><strong>${reparacion.fechaRecogida.dayOfMonth}</strong></p>
                 </td>
                 
-                <sec:authorize access="hasAuthority('admin')">
+                <sec:authorize access="hasAuthority('admin') or hasAuthority('empleado')">
 	                <td class="textoTabla">
 	               		<p><c:out value="${reparacion.cita.vehiculo.cliente.nombre}"/></p>
                     	<p><small><c:out value="${reparacion.cita.vehiculo.cliente.apellidos}"/></small></p>
 	                </td>
 					            
-	                <td>
-	                	<spring:url value="/reparaciones/getReparacion/{reparacionId}" var="reparacionUrl">
-	                        <spring:param name="reparacionId" value="${reparacion.id}"/>
-	                    </spring:url>
-	                    <a href="${fn:escapeXml(reparacionUrl)}">
-	                    	<span class="helper glyphicon glyphicon-eye-open"></span>
-	                    </a>
-	                
-	                </td>
-	                
-	                <td>
-	                	<spring:url value="/reparaciones/delete/{reparacionId}" var="reparacionUrl">
-	                        <spring:param name="reparacionId" value="${reparacion.id}"/>
-	                    </spring:url>
-	                    <a href="${fn:escapeXml(reparacionUrl)}">
-	                    	<span class="helper glyphicon glyphicon-trash"></span>
-	                    </a>
-	                
-	                </td>
-					
-                </sec:authorize>
-                                <sec:authorize access="hasAuthority('empleado')">
-	                <td class="textoTabla">
-	               		<p><c:out value="${reparacion.cita.vehiculo.cliente.nombre}"/></p>
-                    	<p><small><c:out value="${reparacion.cita.vehiculo.cliente.apellidos}"/></small></p>
-	                </td>
+	            </sec:authorize>
 					            
 	                <td>
 	                	<spring:url value="/reparaciones/getReparacion/{reparacionId}" var="reparacionUrl">
@@ -135,7 +104,7 @@
 	                
 	                </td>
 					
-                </sec:authorize>
+                
                 
            
             </tr>
