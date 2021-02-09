@@ -14,8 +14,6 @@ import org.springframework.samples.petclinic.model.Vehiculo;
 
 public interface VehiculoRepository extends CrudRepository<Vehiculo, Integer>  {
 	
-	Vehiculo save(Vehiculo vehiculo) throws DataAccessException;
-	
 	List<Vehiculo> findAll() throws DataAccessException;
 
 	Optional<Vehiculo> findDistinctVehiculoByMatricula(@Param("matricula") String matricula) throws DataAccessException;

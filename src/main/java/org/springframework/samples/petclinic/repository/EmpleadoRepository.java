@@ -11,8 +11,6 @@ import org.springframework.samples.petclinic.model.Empleado;
 
 public interface EmpleadoRepository extends CrudRepository<Empleado, Integer> {
 	
-	Empleado save(Empleado empleado) throws DataAccessException;
-	
 	@Query("SELECT DISTINCT empleado FROM Empleado empleado WHERE empleado.dni LIKE :dni")
 	Optional<Empleado> findEmpleadoDNI(@Param("dni") String dni) throws DataAccessException;
 	
