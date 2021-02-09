@@ -55,12 +55,8 @@ public class Factura extends BaseEntity{
 	
 	@Transient
 	public Integer getCargaExtraMonetaria() {
-		Integer res=0;
-		if(calcularDiasPasadasFechaRecogida()>10) {
-			Integer dias = calcularDiasPasadasFechaRecogida()-10;
-			res=dias*20; //RN4
-		}
-		return res;
+		Integer dias = Math.max(10, calcularDiasPasadasFechaRecogida()) - 10;
+		return dias*20;
 	}
 
 	public Integer calcularDiasPasadasFechaEsperada() {
